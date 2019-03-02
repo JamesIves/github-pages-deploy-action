@@ -1,4 +1,4 @@
-# Github Pages Deploy Action :github:
+# Github Pages Deploy Action :octocat:
 
 This Github action will handle the building and deploying process of your project to Github pages. It can be configured to upload your production ready code into any branch you'd like, including `gh-pages` and `docs`.
 
