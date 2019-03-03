@@ -23,7 +23,7 @@ action "Deploy to Github Pages" {
     BUILD_SCRIPT = "npm install && npm run-script build"
     BRANCH = "gh-pages"
     FOLDER = "build"
-    COMMIT_EMAIL = "example@jives.dev"
+    COMMIT_EMAIL = "github-pages-deployer@jamesives.dev"
     COMMIT_NAME = "James Ives"
   }
   secrets = ["GITHUB_TOKEN"]
