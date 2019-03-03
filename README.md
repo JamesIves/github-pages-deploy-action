@@ -30,6 +30,31 @@ action "Deploy to GitHub Pages" {
 }
 ```
 
+If you'd like to filter the action so it only triggers on a specific branch you can combine it with the filter action. You can find an example of this below.
+
+```
+workflow "Deploy to Github Pages" {
+  on = "push"
+  resolves = ["Deploy to gh-pages"]
+}
+
+action "master branch only" {
+  uses = "actions/bin/filter@master"
+  args = "branch master"
+}
+
+action "Deploy to gh-pages" {
+  uses = "JamesIves/github-pages-deploy-action@access"
+  env = {
+    BRANCH = "gh-pages"
+    BUILD_SCRIPT = "npm install && npm run-script build"
+    FOLDER = "build"
+  }
+  secrets = ["ACCESS_TOKEN"]
+  needs = ["master branch only"]
+}
+```
+
 ## Configuration 📁
 
 The `secrets` and `env` portion of the workflow **must** be configured before the action will work. Below you'll find a description of what each one does.
