@@ -17,6 +17,10 @@ then
   exit 1
 fi
 
+if [[ "$FOLDER" == "/" ]]; then
+  FOLDER=$GITHUB_WORKSPACE
+else
+
 
 ## Initializes Variables
 REPOSITORY_PATH="https://${ACCESS_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" && \
