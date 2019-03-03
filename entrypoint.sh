@@ -27,7 +27,6 @@ git push $GITHUB_REPOSITORY $BRANCH:$BRANCH && \
 if [ -z "$BUILD_SCRIPT" ]
 then
   $BUILD_SCRIPT && \
-fi
 
 # Commits the data to Github.
 git add -f $FOLDER && 
