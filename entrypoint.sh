@@ -22,10 +22,9 @@ cd $GITHUB_WORKSPACE && \
 git config --global user.email "${COMMIT_EMAIL:-gh-pages-deploy@jives.dev}" && \
 git config --global user.name "${COMMIT_NAME:-Github Pages Deploy}" && \
 git checkout "${BASE_BRANCH:-master}" && \
-git push $GITHUB_REPOSITORY $BRANCH:$BRANCH && \
 
 # Builds the project if applicable.
-echo "This is now running $BUILD_SCRIPT"
+echo "Running build scripts... $BUILD_SCRIPT"
 eval "$BUILD_SCRIPT"
 
 # Commits the data to Github.
