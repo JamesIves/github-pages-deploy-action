@@ -25,7 +25,11 @@ git checkout master && \
 git push $GITHUB_REPOSITORY $BRANCH:$BRANCH && \
 
 # Builds the project if applicable.
-eval $BUILD_SCRIPT && \
+if [ -z "$BUILD_SCRIPT" ]
+then
+  echo "This is now running $BUILD_SCRIPT"
+  eval "$BUILD_SCRIPT"
+fi
 
 # Commits the data to Github.
 git add -f $FOLDER && \
