@@ -1,4 +1,4 @@
-# Github Pages Deploy Action :github:
+# Github Pages Deploy Action :rocket: 
 
 This Github action will handle the building and deploying process of your project to Github pages. It can be configured to upload your production ready code into any branch you'd like, including `gh-pages` and `docs`.
 
@@ -17,13 +17,13 @@ git push origin gh-pages
 Once setup you can then include the action in your workflow to trigger on any built in event that Github supports.
 
 ```
-action "Deploy to gh-pages" {
-  uses = "./action"
+action "Deploy to Github Pages" {
+  uses = "JamesIves/github-pages-deploy-action@master"
   env = {
     BUILD_SCRIPT = "npm install && npm run-script build"
     BRANCH = "gh-pages"
     FOLDER = "build"
-    COMMIT_EMAIL = "iam@jamesiv.es"
+    COMMIT_EMAIL = "example@jives.dev"
     COMMIT_NAME = "James Ives"
   }
   secrets = ["GITHUB_TOKEN"]
