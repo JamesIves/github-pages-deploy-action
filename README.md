@@ -36,7 +36,7 @@ The `env` portion of the workflow must be configured before the action will work
 
 | Key  | Value Information | Required |
 | ------------- | ------------- | ------------- |
-| `BUILD_SCRIPT`  | If you require a build script to compile your code prior to pushing it you can add the script here. The Docker container which powers the action runs Node.  | **No** |
+| `BUILD_SCRIPT`  | If you require a build script to compile your code prior to pushing it you can add the script here. The Docker container which powers the action runs Node which means `npm` commands are valid.  | **No** |
 | `BRANCH`  | This is the branch you wish to deploy to, for example `gh-pages` or `docs`.  | **Yes** |
 | `FOLDER`  | The folder in your repository that you want to deploy. If your build script compiles into a directory named `build` you'd put it in here.  | **Yes** |
 | `COMMIT_NAME`  | Used to sign the commit, this should be your name.   | **No** |
