@@ -30,7 +30,7 @@ then
 fi
 
 # Commits the data to Github.
-git add -f $FOLDER && 
+git add -f $FOLDER && \
 git commit -m "Deploying $(date +"%T")" && \
 git push origin `git subtree split --prefix $FOLDER master`:$BRANCH --force
 
