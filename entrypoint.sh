@@ -1,13 +1,13 @@
 #!/bin/sh -l
 if [ -z "$BRANCH" ]
 then
-  echo "Which branch should this push to?"
+  echo "You must provide the action with a branch name."
   exit 1
 fi
 
 if [ -z "$FOLDER" ]
 then
-  echo "Which folder should this push to?"
+  echo "You must provide the action with the folder name in the repository where your compiled page lives."
 fi
 
 # Installs Git.
@@ -21,11 +21,10 @@ cd $GITHUB_WORKSPACE && \
 git config --global user.email "${COMMIT_EMAIL:-gh-pages-deploy@jives.dev}" && \
 git config --global user.name "${COMMIT_NAME:-Github Pages Deploy}" && \
 git checkout master && \
-git push $GITHUB_REPOSITORY $BRANCH:$BRANCH
+git push $GITHUB_REPOSITORY $BRANCH:$BRANCH && \
 
 # Builds the project.
-npm install && \
-npm run-script build && \
+$BUILD_SCRIPT && \
 
 # Commits the data to Github.
 git add -f $FOLDER && 
