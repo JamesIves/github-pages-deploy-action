@@ -32,7 +32,7 @@ action "Deploy to Github Pages" {
 
 ## Configuration 📁
 
-The `env` portion of the workflow must be configured before the action will work. Below you'll find a description of each one does.
+The `env` portion of the workflow must be configured before the action will work. Below you'll find a description of what each one does.
 
 | Key  | Value Information | Required |
 | ------------- | ------------- | ------------- |
