@@ -1,5 +1,7 @@
 # Github Pages Deploy Action :rocket: 
 
+[![View Action](https://img.shields.io/badge/view-action-blue.svg)](https://github.com/marketplace/actions/deploy-to-github-pages) [![Issues](https://img.shields.io/github/issues/JamesIves/github-pages-deploy-action.svg)](https://github.com/JamesIves/github-pages-deploy-action/issues)
+
 This [Github action](https://github.com/features/actions) will handle the building and deploying process of your project to [Github Pages](https://pages.github.com/). It can be configured to upload your production ready code into any branch you'd like, including `gh-pages` and `docs`.
 
 ## Getting Started :airplane:
