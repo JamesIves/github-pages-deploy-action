@@ -13,7 +13,7 @@ git push origin
 Once setup you can then include the script in your workflow to trigger on any built in event that Github supports.
 
 ```
-action "Deploy to gh-pages" {
+action "Deploy to Github Pages" {
   uses = "JamesIves/github-pages-deploy-action@master"
   env = {
     BUILD_SCRIPT = "npm install && npm run-script build"
