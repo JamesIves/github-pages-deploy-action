@@ -3,7 +3,7 @@
 This Github action will handle the building and deploying process of your project to Github pages. It can be configured to upload your production ready code into any branch you'd like, including `gh-pages` and `docs`.
 
 ## Getting Started :airplane:
-Before you get started you must first create a fresh branch where the action will deploy the files to. You can replace `gh-pages` with whatever branch you'd like to use below. This will create a new orphaned branch which the deployer action can then push files to.
+Before you get started you must first create a fresh branch where the action will deploy the files to. You can replace `gh-pages` with whatever branch you'd like to use below. This will create a new orphaned branch which is what Github Pages require.
 
 ```git
 git checkout --orphan gh-pages
