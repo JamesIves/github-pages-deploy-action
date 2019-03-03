@@ -1,7 +1,7 @@
 #!/bin/sh -l
 if [ -z "$BRANCH" ]
 then
-  echo "You must provide the action with a branch name."
+  echo "You must provide the action with a branch name it should deploy to, for example gh-pages or docs."
   exit 1
 fi
 
