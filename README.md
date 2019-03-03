@@ -3,14 +3,18 @@
 This Github action will handle the building and deploying process of your project to Github pages. It can be configured to upload your production ready code into any branch you'd like, including `gh-pages` and `docs`.
 
 ## Getting Started :airplane:
-Before you get started you must first create a fresh branch where the action will deploy the files to.
+Before you get started you must first create a fresh branch where the action will deploy the files to. You can replace `gh-pages` with whatever branch you'd like to use below. This will create a new orphaned branch which the deployer action can then push files to.
 
 ```git
 git checkout --orphan gh-pages
-git push origin
+git rm -rf .
+touch README.md
+git add README.md
+git commit -m 'Initial gh-pages commit'
+git push origin gh-pages
 ```
 
-Once setup you can then include the script in your workflow to trigger on any built in event that Github supports.
+Once setup you can then include the action in your workflow to trigger on any built in event that Github supports.
 
 ```
 action "Deploy to gh-pages" {
