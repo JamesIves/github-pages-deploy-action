@@ -42,3 +42,5 @@ The `env` portion of the workflow must be configured before the action will work
 | `FOLDER`  | The folder in your repository that you want to deploy. If your build script compiles into a directory named `build` you'd put it in here.  | **Yes** |
 | `COMMIT_NAME`  | Used to sign the commit, this should be your name.   | **No** |
 | `COMMIT_EMAIL`  | Used to sign the commit, this should be your email. | **No** |
+
+![Example](screenshot.png)
