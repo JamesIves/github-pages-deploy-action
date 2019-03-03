@@ -24,7 +24,7 @@ action "Deploy to Github Pages" {
     BRANCH = "gh-pages"
     FOLDER = "build"
     COMMIT_EMAIL = "github-pages-deployer@jamesives.dev"
-    COMMIT_NAME = "James Ives"
+    COMMIT_NAME = "Github Pages Deployer"
   }
   secrets = ["GITHUB_TOKEN"]
 }
