@@ -38,11 +38,13 @@ The `env` portion of the workflow **must** be configured before the action will 
 
 | Key  | Value Information | Required |
 | ------------- | ------------- | ------------- |
-| `BUILD_SCRIPT`  | If you require a build script to compile your code prior to pushing it you can add the script here. The Docker container which powers the action runs Node which means `npm` commands are valid. If you're using a static site generator such as Jekyll I'd suggest building the code prior to pushing it to your base branch.  | **No** |
+| `BUILD_SCRIPT`  | If you require a build script to compile your code prior to pushing it you can add the script here. The Docker container which powers the action runs Node which means `npm` commands are valid. If you're using a static site generator such as Jekyll I'd suggest compiling the code prior to pushing it to your base branch.  | **No** |
 | `BRANCH`  | This is the branch you wish to deploy to, for example `gh-pages` or `docs`.  | **Yes** |
 | `BASE_BRANCH`  | The base branch of your repository which you'd like to checkout prior to deploying. This defaults to `master`.  | **No** |
 | `FOLDER`  | The folder in your repository that you want to deploy. If your build script compiles into a directory named `build` you'd put it here.  | **Yes** |
 | `COMMIT_NAME`  | Used to sign the commit, this should be your name. Defaults to `gh-pages-deploy@jives.dev`  | **No** |
 | `COMMIT_EMAIL`  | Used to sign the commit, this should be your email. Defaults to `GitHub Pages Deployer` | **No** |
+
+With the action correctly configured you should see something similar to this in your GitHub action workflow editor.
 
 ![Example](screenshot.png)
