@@ -8,6 +8,7 @@ fi
 if [ -z "$FOLDER" ]
 then
   echo "You must provide the action with the folder name in the repository where your compiled page lives."
+  exit 1
 fi
 
 # Installs Git.
