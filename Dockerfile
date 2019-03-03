@@ -1,8 +1,8 @@
 FROM node:10
 
 LABEL "com.github.actions.name"="Deploy to Github Pages"
-LABEL "com.github.actions.description"="Runs an optional build command and then pushes the branch to gh-pages."
-LABEL "com.github.actions.icon"="github"
+LABEL "com.github.actions.description"="This action will handle the building and deploying process of your project to Github pages."
+LABEL "com.github.actions.icon"="git-commit"
 LABEL "com.github.actions.color"="#192022"
 
 LABEL "repository"="http://github.com/JamesIves/gh-pages-github-action"
