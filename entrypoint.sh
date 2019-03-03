@@ -17,6 +17,10 @@ then
   exit 1
 fi
 
+if [[ "$FOLDER" == "/" ]]; then
+  FOLDER=":/"
+fi
+
 ## Initializes Variables
 REPOSITORY_PATH="https://${ACCESS_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" && \
 
@@ -40,5 +44,6 @@ eval "$BUILD_SCRIPT"
 # Commits the data to Github.
 git add -f $FOLDER && \
 git commit -m "Deploying to ${FOLDER} - $(date +"%T")" && \
-git push $REPOSITORY_PATH `git subtree split --prefix $FOLDER master`:$BRANCH --force 
+git push $REPOSITORY_PATH `git subtree split --prefix $FOLDER master`:$BRANCH --force && \
+echo "Deployment Succesful!"
 
