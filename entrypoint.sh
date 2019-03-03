@@ -24,7 +24,7 @@ cd $GITHUB_WORKSPACE && \
 # Configures Git and checks out the base branch.
 git init && \
 git config --global user.email "${COMMIT_EMAIL:-gh-pages-deploy@jives.dev}" && \
-git config --global user.name "${COMMIT_NAME:-Github Pages Deploy}" && \
+git config --global user.name "${COMMIT_NAME:-Github Pages Deployer}" && \
 git checkout "${BASE_BRANCH:-master}" && \
 
 # Builds the project if applicable.
