@@ -26,16 +26,17 @@ action "Deploy to Github Pages" {
     COMMIT_EMAIL = "github-pages-deployer@jamesives.dev"
     COMMIT_NAME = "Github Pages Deployer"
   }
-  secrets = ["GITHUB_TOKEN"]
+  secrets = ["ACCESS_TOKEN"]
 }
 ```
 
 ## Configuration 📁
 
-The `env` portion of the workflow must be configured before the action will work. Below you'll find a description of each one does.
+The `secrets` and `env` portion of the workflow must be configured before the action will work. Below you'll find a description of each one does.
 
 | Key  | Value Information | Required |
 | ------------- | ------------- | ------------- |
+| `ACCESS_TOKEN`  | You must provide the action with a GitHub personal access token in order to trigger GitHub pages to rebuild your page. This is set in the `secrets` area of the workflow editor.  | **No** |
 | `BUILD_SCRIPT`  | If you require a build script to compile your code prior to pushing it you can add the script here. The Docker container which powers the action runs Node which means `npm` commands are valid. If you're using a static site generator I'd suggest building the code prior to pushing it.  | **No** |
 | `BRANCH`  | This is the branch you wish to deploy to, for example `gh-pages` or `docs`.  | **Yes** |
 | `BASE_BRANCH`  | The base branch of your repository which you'd like to checkout prior to deploying. This defaults to `master`.  | **No** |

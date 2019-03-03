@@ -11,6 +11,9 @@ then
   exit 1
 fi
 
+## Initializes Variables
+REPOSITORY_PATH="https://${ACCESS_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" && \
+
 # Installs Git.
 apt-get update && \
 apt-get install -y git && \
@@ -19,6 +22,7 @@ apt-get install -y git && \
 cd $GITHUB_WORKSPACE && \
 
 # Configures Git and checks out the base branch.
+git init && \
 git config --global user.email "${COMMIT_EMAIL:-gh-pages-deploy@jives.dev}" && \
 git config --global user.name "${COMMIT_NAME:-Github Pages Deploy}" && \
 git checkout "${BASE_BRANCH:-master}" && \
@@ -30,5 +34,5 @@ eval "$BUILD_SCRIPT"
 # Commits the data to Github.
 git add -f $FOLDER && \
 git commit -m "Deploying $(date +"%T")" && \
-git push origin `git subtree split --prefix $FOLDER master`:$BRANCH --force
+git push --force $REPOSITORY_PATH `git subtree split --prefix $FOLDER master`:$BRANCH
 
