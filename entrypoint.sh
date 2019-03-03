@@ -31,7 +31,6 @@ fi
 ## Initializes the repository path using the access token.
 REPOSITORY_PATH="https://${ACCESS_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" && \
 
-
 # Installs Git.
 apt-get update && \
 apt-get install -y git && \
