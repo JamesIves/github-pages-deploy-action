@@ -14,7 +14,7 @@ Once setup you can then include the script in your workflow to trigger on any bu
 
 ```
 action "Deploy to gh-pages" {
-  uses = "./action"
+  uses = "JamesIves/github-pages-deploy-action@master"
   env = {
     BUILD_SCRIPT = "npm install && npm run-script build"
     BRANCH = "gh-pages"
