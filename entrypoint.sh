@@ -26,7 +26,8 @@ git push $GITHUB_REPOSITORY $BRANCH:$BRANCH && \
 # Builds the project if applicable.
 if [ -z "$BUILD_SCRIPT" ]
 then
-  $BUILD_SCRIPT && \
+  $BUILD_SCRIPT
+fi
 
 # Commits the data to Github.
 git add -f $FOLDER && 
