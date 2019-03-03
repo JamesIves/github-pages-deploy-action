@@ -23,8 +23,11 @@ git config --global user.name "${COMMIT_NAME:-Github Pages Deploy}" && \
 git checkout master && \
 git push $GITHUB_REPOSITORY $BRANCH:$BRANCH && \
 
-# Builds the project.
-$BUILD_SCRIPT && \
+# Builds the project if applicable.
+if [ -z "$BUILD_SCRIPT" ]
+then
+  $BUILD_SCRIPT && \
+fi
 
 # Commits the data to Github.
 git add -f $FOLDER && 
