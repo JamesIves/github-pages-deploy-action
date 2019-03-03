@@ -18,8 +18,8 @@ then
 fi
 
 if [[ "$FOLDER" == "/" ]]; then
-  FOLDER=$GITHUB_WORKSPACE
-else
+  FOLDER=":/"
+fi
 
 
 ## Initializes Variables
