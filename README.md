@@ -5,18 +5,7 @@
 This [GitHub action](https://github.com/features/actions) will handle the building and deploying process of your project to [GitHub Pages](https://pages.github.com/). It can be configured to upload your production ready code into any branch you'd like, including `gh-pages` and `docs`.
 
 ## Getting Started :airplane:
-Before you get started you must first create a fresh branch where the action will deploy the files to. You can replace `gh-pages` with whatever branch you'd like to use in the example below.
-
-```git
-git checkout --orphan gh-pages
-git rm -rf .
-touch README.md
-git add README.md
-git commit -m 'Initial gh-pages commit'
-git push origin gh-pages
-```
-
-Once setup you can then include the action in your workflow to trigger on any event that [GitHub actions](https://github.com/features/actions) supports.
+You can include the action in your workflow to trigger on any event that [GitHub actions](https://github.com/features/actions) supports. If the remote branch that you wish to deploy to doesn't already exist the action will create it for you.
 
 ```workflow
 action "Deploy to GitHub Pages" {
@@ -30,7 +19,7 @@ action "Deploy to GitHub Pages" {
 }
 ```
 
-If you'd like to filter the action so it only triggers on a specific branch you can combine it with the filter action. You can find an example of this below.
+If you'd like you can combine it with the filter action so it only triggers deploys on a specific branch. You can find an example of this below.
 
 ```workflow
 workflow "Deploy to Github Pages" {
