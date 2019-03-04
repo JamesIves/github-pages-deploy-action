@@ -28,9 +28,6 @@ then
   COMMIT_NAME="${GITHUB_ACTOR}"
 fi
 
-## Initializes the repository path using the access token.
-REPOSITORY_PATH="https://${ACCESS_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" && \
-
 # Installs Git.
 apt-get update && \
 apt-get install -y git && \
@@ -38,11 +35,31 @@ apt-get install -y git && \
 # Directs the action to the the Github workspace.
 cd $GITHUB_WORKSPACE && \
 
-# Configures Git and checks out the base branch.
+# Configures Git.
 git init && \
 git config --global user.email "${COMMIT_EMAIL}" && \
 git config --global user.name "${COMMIT_NAME}" && \
+
+## Checks to see if the remote exists prior to deploying
+REMOTE_BRANCH = `git ls-remote --heads "https://${ACCESS_TOKEN}@github.com:JamesIves/reddit-viewer.git" docs`
+
+# If the branch doesn't exist it gets created here as an orphan.
+if [[ -z $REMOTE_BRANCH ]] 
+then
+  git checkout --orphan $BRANCH && \
+  git rm -rf . && \
+  touch README.md && \
+  git add README.md && \
+  git commit -m "Initial ${BRANCH} commit" && \
+  git push origin $BRANCH
+fi
+
+# Checks out the base branch to begin the deploy process.
 git checkout "${BASE_BRANCH:-master}" && \
+
+## Initializes the repository path using the access token.
+REPOSITORY_PATH="https://${ACCESS_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" && \
+
 
 # Builds the project if a build script is provided.
 echo "Running build scripts... $BUILD_SCRIPT"
