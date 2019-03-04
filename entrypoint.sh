@@ -40,11 +40,9 @@ git init && \
 git config --global user.email "${COMMIT_EMAIL}" && \
 git config --global user.name "${COMMIT_NAME}" && \
 
-## Checks to see if the remote exists prior to deploying
-REMOTE_BRANCH = eval `git ls-remote --heads "https://${ACCESS_TOKEN}@github.com:JamesIves/reddit-viewer.git" docs`
-
+# Checks to see if the remote exists prior to deploying.
 # If the branch doesn't exist it gets created here as an orphan.
-if [[ -z $REMOTE_BRANCH ]] 
+if [ `git ls-remote --heads "https://${ACCESS_TOKEN}@github.com:JamesIves/reddit-viewer.git" $BRANCH` ]
 then
   echo "Creating remote branch ${BRANCH} as it doesn't exist..."
   git checkout --orphan $BRANCH && \
