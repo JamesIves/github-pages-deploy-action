@@ -46,6 +46,7 @@ REMOTE_BRANCH = `git ls-remote --heads "https://${ACCESS_TOKEN}@github.com:James
 # If the branch doesn't exist it gets created here as an orphan.
 if [[ -z $REMOTE_BRANCH ]] 
 then
+  echo "Creating remote branch ${BRANCH} as it doesn't exist..."
   git checkout --orphan $BRANCH && \
   git rm -rf . && \
   touch README.md && \
@@ -70,4 +71,4 @@ echo "Deploying to GitHub..." && \
 git add -f $FOLDER && \
 git commit -m "Deploying to ${BRANCH} - $(date +"%T")" && \
 git push $REPOSITORY_PATH `git subtree split --prefix $FOLDER master`:$BRANCH --force && \
-echo "Deployment Succesful!"
+echo "Deployment succesful!"
