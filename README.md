@@ -44,7 +44,7 @@ action "master branch only" {
 }
 
 action "Deploy to gh-pages" {
-  uses = "JamesIves/github-pages-deploy-action@access"
+  uses = "JamesIves/github-pages-deploy-action@master"
   env = {
     BRANCH = "gh-pages"
     BUILD_SCRIPT = "npm install && npm run-script build"
