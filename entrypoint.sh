@@ -40,6 +40,9 @@ git init && \
 git config --global user.email "${COMMIT_EMAIL}" && \
 git config --global user.name "${COMMIT_NAME}" && \
 
+## Initializes the repository path using the access token.
+REPOSITORY_PATH="https://${ACCESS_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" && \
+
 # Checks to see if the remote exists prior to deploying.
 # If the branch doesn't exist it gets created here as an orphan.
 if [ `git ls-remote --heads "https://${ACCESS_TOKEN}@github.com:JamesIves/reddit-viewer.git" $BRANCH | wc -l` ]
@@ -50,15 +53,11 @@ then
   touch README.md && \
   git add README.md && \
   git commit -m "Initial ${BRANCH} commit" && \
-  git push origin $BRANCH
+  git push $REPOSITORY_PATH $BRANCH
 fi
 
 # Checks out the base branch to begin the deploy process.
 git checkout "${BASE_BRANCH:-master}" && \
-
-## Initializes the repository path using the access token.
-REPOSITORY_PATH="https://${ACCESS_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" && \
-
 
 # Builds the project if a build script is provided.
 echo "Running build scripts... $BUILD_SCRIPT" && \
