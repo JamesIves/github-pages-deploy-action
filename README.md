@@ -18,7 +18,7 @@ git push origin gh-pages
 
 Once setup you can then include the action in your workflow to trigger on any event that [GitHub actions](https://github.com/features/actions) supports.
 
-```
+```workflow
 action "Deploy to GitHub Pages" {
   uses = "JamesIves/github-pages-deploy-action@master"
   env = {
@@ -32,7 +32,7 @@ action "Deploy to GitHub Pages" {
 
 If you'd like to filter the action so it only triggers on a specific branch you can combine it with the filter action. You can find an example of this below.
 
-```
+```workflow
 workflow "Deploy to Github Pages" {
   on = "push"
   resolves = ["Deploy to gh-pages"]
