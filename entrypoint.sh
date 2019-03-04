@@ -62,8 +62,8 @@ REPOSITORY_PATH="https://${ACCESS_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" &&
 
 
 # Builds the project if a build script is provided.
-echo "Running build scripts... $BUILD_SCRIPT"
-eval "$BUILD_SCRIPT"
+echo "Running build scripts... $BUILD_SCRIPT" && \
+eval "$BUILD_SCRIPT" && \
 
 # Commits the data to Github.
 echo "Deploying to GitHub..." && \
