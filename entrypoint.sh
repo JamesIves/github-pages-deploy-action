@@ -64,9 +64,15 @@ git checkout "${BASE_BRANCH:-master}" && \
 echo "Running build scripts... $BUILD_SCRIPT" && \
 eval "$BUILD_SCRIPT" && \
 
+if [ "$CNAME" ]; then
+  echo "Generating a CNAME file in in the $FOLDER directory."
+  echo $CNAME > $FOLDER/CNAME
+fi
+
 # Commits the data to Github.
 echo "Deploying to GitHub..." && \
 git add -f $FOLDER && \
+
 git commit -m "Deploying to ${BRANCH} - $(date +"%T")" && \
 git push $REPOSITORY_PATH `git subtree split --prefix $FOLDER master`:$BRANCH --force && \
 echo "Deployment succesful!"
