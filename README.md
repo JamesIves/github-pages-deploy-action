@@ -57,6 +57,7 @@ The `secrets` and `env` portion of the workflow **must** be configured before th
 | `BUILD_SCRIPT`  | If you require a build script to compile your code prior to pushing it you can add the script here. The Docker container which powers the action runs Node which means `npm` commands are valid. If you're using a static site generator such as Jekyll I'd suggest compiling the code prior to pushing it to your base branch.  | `env` | **No** |
 | `COMMIT_NAME`  | Used to sign the commit, this should be your name. If not provided it will default to `username@users.noreply.github.com`  | `env` | **No** |
 | `COMMIT_EMAIL`  | Used to sign the commit, this should be your email. If not provided it will default to your username. | `env` | **No** |
+| `CNAME`  | If you're using a custom domain, you will need to add the domain name to the `CNAME` environment variable. If you don't do this GitHub will wipe out your domain configuration after each deploy. This value will look something like this: `jamesives.dev`.  | `env` | **No** |
 
 With the action correctly configured you should see something similar to this in your GitHub actions workflow editor.
 
