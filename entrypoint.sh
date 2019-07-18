@@ -1,5 +1,7 @@
 #!/bin/sh -l
 
+set -e
+
 if [ -z "$ACCESS_TOKEN" ]
 then
   echo "You must provide the action with a GitHub Personal Access Token secret in order to deploy."
