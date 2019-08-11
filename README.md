@@ -39,7 +39,7 @@ action "Deploy to gh-pages" {
     BUILD_SCRIPT = "npm install && npm run-script build"
     FOLDER = "build"
   }
-  secrets = ["ACCESS_TOKEN"]
+  secrets = ["GITHUB_TOKEN"]
   needs = ["master branch only"]
 }
 ```
@@ -50,7 +50,7 @@ The `secrets` and `env` portion of the workflow **must** be configured before th
 
 | Key  | Value Information | Type | Required |
 | ------------- | ------------- | ------------- | ------------- |
-| `ACCESS_TOKEN`  | In order for GitHub to trigger the rebuild of your page you must provide the action with a GitHub personal access token. You can [learn more about how to generate one here](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line). This **should be stored as a secret.**  | `secrets` | **Yes** |
+| `GITHUB_TOKEN`  | In order for GitHub to trigger the rebuild of your page you must grant permission for the action to access the GitHub token provided in the actions interface.  | `secrets` | **Yes** |
 | `BRANCH`  | This is the branch you wish to deploy to, for example `gh-pages` or `docs`.  | `env` | **Yes** |
 | `FOLDER`  | The folder in your repository that you want to deploy. If your build script compiles into a directory named `build` you'd put it here. | `env` | **Yes** |
 | `BASE_BRANCH`  | The base branch of your repository which you'd like to checkout prior to deploying. This defaults to `master`.  | `env` | **No** |
