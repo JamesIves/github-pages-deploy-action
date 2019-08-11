@@ -4,7 +4,7 @@ set -e
 
 if [ -z "$ACCESS_TOKEN" ] && [ -z "$GITHUB_TOKEN" ]
 then
-  echo "You must provide the action with either a Personal Access Token or the GitHub token secret in order to deploy."
+  echo "You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy."
   exit 1
 fi
 
