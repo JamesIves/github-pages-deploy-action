@@ -4,49 +4,61 @@
 
 This [GitHub action](https://github.com/features/actions) will handle the building and deploying process of your project to [GitHub Pages](https://pages.github.com/). It can be configured to upload your production ready code into any branch you'd like, including `gh-pages` and `docs`. This action is built on [Node](https://nodejs.org/en/), which means that you can call any optional build scripts your project requires prior to deploying.
 
-## Getting Started :airplane:
-You can include the action in your workflow to trigger on any event that [GitHub actions](https://github.com/features/actions) supports. If the remote branch that you wish to deploy to doesn't already exist the action will create it for you.
+❗️**You can find instructions for using version 1 of the GitHub Actions workflow format [here](https://github.com/JamesIves/github-pages-deploy-action/tree/1.1.3).**
 
-```workflow
-action "Deploy to GitHub Pages" {
-  uses = "JamesIves/github-pages-deploy-action@master"
-  env = {
-    BUILD_SCRIPT = "npm install && npm run-script build"
-    BRANCH = "gh-pages"
-    FOLDER = "build"
-  }
-  secrets = ["ACCESS_TOKEN"]
-}
+## Getting Started :airplane:
+You can include the action in your workflow to trigger on any event that [GitHub actions](https://github.com/features/actions) supports. If the remote branch that you wish to deploy to doesn't already exist the action will create it for you. 
+
+Your workflow will also need to include the `actions/checkout` step before this workflow runs in order for the deployment to work. You can view an example of this below.
+
+```yml
+name: Build and Deploy
+on: [push]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+
+    - name: Build and Deploy
+      uses: JamesIves/github-pages-deploy-action@master
+      env:
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        BRANCH: gh-pages
+        FOLDER: build
+        BUILD_SCRIPT: npm install && npm run-script build
 ```
 
-If you'd like you can combine it with the filter action so it only triggers deploys on a specific branch. You can find an example of this below.
+You can combine it with the filter action so it only triggers deploys on a specific branch.
 
-```workflow
-workflow "Deploy to Github Pages" {
-  on = "push"
-  resolves = ["Deploy to gh-pages"]
-}
+```yml
+name: Build and Deploy
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
 
-action "master branch only" {
-  uses = "actions/bin/filter@master"
-  args = "branch master"
-}
-
-action "Deploy to gh-pages" {
-  uses = "JamesIves/github-pages-deploy-action@master"
-  env = {
-    BRANCH = "gh-pages"
-    BUILD_SCRIPT = "npm install && npm run-script build"
-    FOLDER = "build"
-  }
-  secrets = ["ACCESS_TOKEN"]
-  needs = ["master branch only"]
-}
+    - name: Build and Deploy
+      uses: JamesIves/github-pages-deploy-action@master
+      env:
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        BRANCH: gh-pages
+        FOLDER: build
+        BUILD_SCRIPT: npm install && npm run-script build
 ```
 
 ## Configuration 📁
 
-The `secrets` and `env` portion of the workflow **must** be configured before the action will work. Below you'll find a description of what each one does.
+The `env` portion of the workflow **must** be configured before the action will work. You can add these in the `env` section found in the examples above. Any `secrets` must be referenced using the bracket syntax and stored in the GitHub repositories `Settings/Secrets` menu. You can learn more about setting environment variables with GitHub actions [here](https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idstepsenv).
+
+Below you'll find a description of what each option does.
 
 | Key  | Value Information | Type | Required |
 | ------------- | ------------- | ------------- | ------------- |
@@ -59,6 +71,6 @@ The `secrets` and `env` portion of the workflow **must** be configured before th
 | `COMMIT_EMAIL`  | Used to sign the commit, this should be your email. If not provided it will default to your username. | `env` | **No** |
 | `COMMIT_NAME`  | Used to sign the commit, this should be your name. If not provided it will default to `username@users.noreply.github.com`  | `env` | **No** |
 
-With the action correctly configured you should see something similar to this in your GitHub actions workflow editor.
+With the action correctly configured you should see the workflow trigger the deployment under the configured conditions.
 
 ![Example](screenshot.png)
