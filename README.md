@@ -71,8 +71,6 @@ Below you'll find a description of what each option does.
 | `COMMIT_EMAIL`  | Used to sign the commit, this should be your email. If not provided it will default to your username. | `env` | **No** |
 | `COMMIT_NAME`  | Used to sign the commit, this should be your name. If not provided it will default to `username@users.noreply.github.com`  | `env` | **No** |
 
-
 With the action correctly configured you should see the workflow trigger the deployment under the set conditions.
-=
 
 ![Example](screenshot.png)
