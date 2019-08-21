@@ -4,7 +4,7 @@
 
 This [GitHub action](https://github.com/features/actions) will handle the building and deploying process of your project to [GitHub Pages](https://pages.github.com/). It can be configured to upload your production ready code into any branch you'd like, including `gh-pages` and `docs`. This action is built on [Node](https://nodejs.org/en/), which means that you can call any optional build scripts your project requires prior to deploying.
 
-❗️**You can find instructions using the old GitHub Actions workflow format [here](https://github.com/JamesIves/github-pages-deploy-action/tree/1.1.3).**
+❗️**You can find instructions for using version 1 of the GitHub Actions workflow format [here](https://github.com/JamesIves/github-pages-deploy-action/tree/1.1.3).**
 
 ## Getting Started :airplane:
 You can include the action in your workflow to trigger on any event that [GitHub actions](https://github.com/features/actions) supports. If the remote branch that you wish to deploy to doesn't already exist the action will create it for you. 
