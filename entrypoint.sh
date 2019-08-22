@@ -23,7 +23,7 @@ fi
 # Installs Git.
 apt-get update && \
 apt-get install -y git && \
-apt-get install jq -y && \
+apt-get install -y jq && \
 
 # Gets the commit email/name if it exists in the push event payload.
 COMMIT_EMAIL=`jq '.pusher.email' ${GITHUB_EVENT_PATH}`
