@@ -42,9 +42,6 @@ fi
 # Directs the action to the the Github workspace.
 cd $GITHUB_WORKSPACE && \
 
-# Get the correct commit email/name from the push event.
-echo "the commit email ${COMMIT_EMAIL}"
-
 # Configures Git.
 git init && \
 git config --global user.email "${COMMIT_EMAIL}" && \
@@ -85,4 +82,7 @@ git add -f $FOLDER && \
 
 git commit -m "Deploying to ${BRANCH} - $(date +"%T")" && \
 git push $REPOSITORY_PATH `git subtree split --prefix $FOLDER ${BASE_BRANCH:-master}`:$BRANCH --force && \
+
+curl -XPOST -H"Authorization: token ${GITHUB_TOKEN}" -H"Accept: application/vnd.github.mister-fantastic-preview+json" https://api.github.com/repos/${GITHUB_REPOSITORY}/pages/builds && \
+
 echo "Deployment succesful!"
