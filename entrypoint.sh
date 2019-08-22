@@ -83,6 +83,4 @@ git add -f $FOLDER && \
 git commit -m "Deploying to ${BRANCH} - $(date +"%T")" && \
 git push $REPOSITORY_PATH `git subtree split --prefix $FOLDER ${BASE_BRANCH:-master}`:$BRANCH --force && \
 
-curl -XPOST -H"Authorization: token ${GITHUB_TOKEN}" -H"Accept: application/vnd.github.mister-fantastic-preview+json" https://api.github.com/repos/${GITHUB_REPOSITORY}/pages/builds && \
-
 echo "Deployment succesful!"
