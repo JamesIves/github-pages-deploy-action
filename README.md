@@ -41,7 +41,7 @@ Below you'll find a description of what each option does.
 
 | Key  | Value Information | Type | Required |
 | ------------- | ------------- | ------------- | ------------- |
-| `GITHUB_TOKEN`  | In order for GitHub to trigger the rebuild of your page you must grant permission for the action to access the repositories provided GitHub token. This can be referenced in the workflow `yml` file by using `${{ secrets.GITHUB_TOKEN }}`. The value of this can also be a GitHub access token. You can [learn more about how to generate an access token here](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line). | `secrets` | **Yes** |
+| `GITHUB_TOKEN`  | In order for GitHub to trigger the rebuild of your page you must grant permission for the action to access the repositories provided GitHub token. This can be referenced in the workflow `yml` file by using `${{ secrets.GITHUB_TOKEN }}`. The value of this can also be a GitHub personal access token. You can [learn more about how to generate an access token here](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line). | `secrets` | **Yes** |
 | `BRANCH`  | This is the branch you wish to deploy to, for example `gh-pages` or `docs`.  | `env` | **Yes** |
 | `FOLDER`  | The folder in your repository that you want to deploy. If your build script compiles into a directory named `build` you'd put it here. | `env` | **Yes** |
 | `BASE_BRANCH`  | The base branch of your repository which you'd like to checkout prior to deploying. This defaults to `master`.  | `env` | **No** |
