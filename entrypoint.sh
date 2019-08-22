@@ -22,7 +22,7 @@ fi
 
 if [ -z "$COMMIT_EMAIL" ]
 then
-  COMMIT_EMAIL="${GITHUB_ACTOR}@users.noreply.github.com"
+  COMMIT_EMAIL=$(node email.js ${GITHUB_EVENT_PATH})
 fi
 
 if [ -z "$COMMIT_NAME" ]
@@ -36,6 +36,9 @@ apt-get install -y git && \
 
 # Directs the action to the the Github workspace.
 cd $GITHUB_WORKSPACE && \
+
+# Get the correct commit email/name from the push event.
+echo "the commit email ${COMMIT_EMAIL}"
 
 # Configures Git.
 git init && \
