@@ -26,16 +26,22 @@ apt-get install -y git && \
 apt-get install jq -y && \
 
 
-# Gets the commit email/name if it exists.
+# Gets the commit email/name if it exists in the pusher object.
 COMMIT_EMAIL=`jq '.pusher.email' ${GITHUB_EVENT_PATH}`
-COMMIT_NAME="${GITHUB_ACTOR}"
+COMMIT_NAME=`jq '.pusher.name' ${GITHUB_EVENT_PATH}`
 
 if [ -z "$COMMIT_EMAIL" ]
 then
   COMMIT_EMAIL="${GITHUB_ACTOR}@users.noreply.github.com"
 fi
 
+if [ -z "$COMMIT_NAME" ]
+then
+  COMMIT_NAME="${GITHUB_ACTOR}"
+fi
+
 echo "commit email ${COMMIT_EMAIL}"
+echo "commit name ${COMMIT_NAME}"
 
 # Directs the action to the the Github workspace.
 cd $GITHUB_WORKSPACE && \
