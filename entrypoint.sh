@@ -21,7 +21,7 @@ then
 fi
 
 # Gets the commit email/name if it exists.
-COMMIT_EMAIL=$(node commit.js ${GITHUB_EVENT_PATH})
+COMMIT_EMAIL=$(node ./commit.js ${GITHUB_EVENT_PATH})
 COMMIT_NAME="${GITHUB_ACTOR}"
 
 if [ -z "$COMMIT_EMAIL" ]
