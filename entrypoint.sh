@@ -20,8 +20,14 @@ then
   exit 1
 fi
 
+# Installs Git.
+apt-get update && \
+apt-get install -y git && \
+apt-get install jq -y && \
+
+
 # Gets the commit email/name if it exists.
-COMMIT_EMAIL=$(node ./commit.js ${GITHUB_EVENT_PATH})
+COMMIT_EMAIL=`jq '.pusher.email' ${GITHUB_EVENT_PATH}`
 COMMIT_NAME="${GITHUB_ACTOR}"
 
 if [ -z "$COMMIT_EMAIL" ]
@@ -29,9 +35,7 @@ then
   COMMIT_EMAIL="${GITHUB_ACTOR}@users.noreply.github.com"
 fi
 
-# Installs Git.
-apt-get update && \
-apt-get install -y git && \
+echo "commit email ${COMMIT_EMAIL}"
 
 # Directs the action to the the Github workspace.
 cd $GITHUB_WORKSPACE && \
