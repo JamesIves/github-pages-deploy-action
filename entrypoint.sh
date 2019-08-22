@@ -20,14 +20,13 @@ then
   exit 1
 fi
 
+# Gets the commit email/name if it exists.
+COMMIT_EMAIL=$(node commit.js ${GITHUB_EVENT_PATH})
+COMMIT_NAME="${GITHUB_ACTOR}"
+
 if [ -z "$COMMIT_EMAIL" ]
 then
-  COMMIT_EMAIL=$(node email.js ${GITHUB_EVENT_PATH})
-fi
-
-if [ -z "$COMMIT_NAME" ]
-then
-  COMMIT_NAME="${GITHUB_ACTOR}"
+  COMMIT_EMAIL="${GITHUB_ACTOR}@users.noreply.github.com"
 fi
 
 # Installs Git.
