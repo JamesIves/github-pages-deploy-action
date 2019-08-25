@@ -30,7 +30,7 @@ then
   COMMIT_NAME="${GITHUB_ACTOR}"
 fi
 
-if [[ $FOLDER == /* ]] || [[ $FOLDER == ./* ]]
+if [[ $FOLDER == "/"* ]] || [[ $FOLDER == "./"* ]]
   then
   echo "The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly."
   exit 1
