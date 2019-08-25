@@ -21,7 +21,7 @@ then
 fi
 
 case "$FOLDER" in /*|./*)
-  echo "matched"
+  echo "The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly."
   exit 1
 esac
 
