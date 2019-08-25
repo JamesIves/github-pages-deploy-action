@@ -20,6 +20,11 @@ then
   exit 1
 fi
 
+case "$FOLDER" in /*|./*)
+  echo "The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly."
+  exit 1
+esac
+
 if [ -z "$COMMIT_EMAIL" ]
 then
   COMMIT_EMAIL="${GITHUB_ACTOR}@users.noreply.github.com"
