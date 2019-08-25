@@ -20,6 +20,11 @@ then
   exit 1
 fi
 
+case "$FOLDER" in /*|./*)
+  echo "The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly."
+  exit 1
+esac
+
 # Installs Git.
 apt-get update && \
 apt-get install -y git && \
