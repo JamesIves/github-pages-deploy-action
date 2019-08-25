@@ -30,6 +30,12 @@ then
   COMMIT_NAME="${GITHUB_ACTOR}"
 fi
 
+if [[ $FOLDER == /* ]] || [[ $FOLDER == ./* ]]
+  then
+  echo "The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly."
+  exit 1
+fi
+
 # Installs Git.
 apt-get update && \
 apt-get install -y git && \
