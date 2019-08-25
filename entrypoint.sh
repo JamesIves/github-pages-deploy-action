@@ -20,6 +20,11 @@ then
   exit 1
 fi
 
+case "$FOLDER" in /*|./*)
+  echo "matched"
+  exit 1
+esac
+
 if [ -z "$COMMIT_EMAIL" ]
 then
   COMMIT_EMAIL="${GITHUB_ACTOR}@users.noreply.github.com"
@@ -28,11 +33,6 @@ fi
 if [ -z "$COMMIT_NAME" ]
 then
   COMMIT_NAME="${GITHUB_ACTOR}"
-fi
-
-if [ "${FOLDER:0:1}" = "/" -o "${FOLDER:0:2}" = "./" ]; then
-  echo "The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly."
-  exit 1
 fi
 
 # Installs Git.
