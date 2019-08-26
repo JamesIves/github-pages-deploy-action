@@ -16,4 +16,4 @@ jobs:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         BRANCH: gh-pages
         FOLDER: 'test/build'
-        BUILD_SCRIPT: npm run-script build
+        BUILD_SCRIPT: npm run-script integrationTest
