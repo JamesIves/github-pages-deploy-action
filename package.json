@@ -1,0 +1,9 @@
+{
+  "name": "github-pages-deploy-action",
+  "description": "GitHub action for building a project and deploying it to GitHub pages.",
+  "license": "MIT",
+  "repository": "https://github.com/JamesIves/github-pages-deploy-action",
+  "scripts": {
+    "integrationTest": "mkdir test/build && cp test/image.jpg test/build/image.jpg && cp test/index.html test/build/index.html"
+  }
+}
