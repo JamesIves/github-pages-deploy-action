@@ -41,7 +41,7 @@ Below you'll find a description of what each option does.
 
 | Key  | Value Information | Type | Required |
 | ------------- | ------------- | ------------- | ------------- |
-| `ACCESS_TOKEN`  | In order for GitHub to trigger the rebuild of your page you must provide the action with a GitHub personal access token. You can [learn more about how to generate one here](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line). This **should be stored as a secret.**  | `secrets` | **Yes** |
+| `ACCESS_TOKEN`  | In order for GitHub to trigger the rebuild of your page you must provide the action with a GitHub personal access token with read/write permissions. You can [learn more about how to generate one here](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line). This **should be stored as a secret.**  | `secrets` | **Yes** |
 | `BRANCH`  | This is the branch you wish to deploy to, for example `gh-pages` or `docs`.  | `env` | **Yes** |
 | `FOLDER`  | The folder in your repository that you want to deploy. If your build script compiles into a directory named `build` you'd put it here. **Folder paths cannot have a leading `/` or `./`**. | `env` | **Yes** |
 | `BASE_BRANCH`  | The base branch of your repository which you'd like to checkout prior to deploying. This defaults to `master`.  | `env` | **No** |
