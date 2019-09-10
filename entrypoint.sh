@@ -78,8 +78,8 @@ fi
 
 # Commits the data to Github.
 echo "Deploying to GitHub..." && \
-git add -f $FOLDER && \
+git add -f --quiet $FOLDER && \
 
 git commit -m "Deploying to ${BRANCH} - $(date +"%T")" && \
-git push $REPOSITORY_PATH `git subtree split --prefix $FOLDER ${BASE_BRANCH:-master}`:$BRANCH --force --quiet && \
+git push $REPOSITORY_PATH `git subtree split --prefix $FOLDER ${BASE_BRANCH:-master}`:$BRANCH --force && \
 echo "Deployment succesful!"
