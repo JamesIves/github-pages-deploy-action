@@ -1,5 +1,7 @@
 #!/bin/sh -l
 
+set -e
+
 if [ -z "$ACCESS_TOKEN" ]
 then
   echo "You must provide the action with a GitHub Personal Access Token secret in order to deploy."
@@ -79,5 +81,5 @@ echo "Deploying to GitHub..." && \
 git add -f $FOLDER && \
 
 git commit -m "Deploying to ${BRANCH} - $(date +"%T")" && \
-git push $REPOSITORY_PATH `git subtree split --prefix $FOLDER ${BASE_BRANCH:-master}`:$BRANCH --force && \
+git push $REPOSITORY_PATH `git subtree split --prefix $FOLDER ${BASE_BRANCH:-master}`:$BRANCH --force --quiet && \
 echo "Deployment succesful!"
