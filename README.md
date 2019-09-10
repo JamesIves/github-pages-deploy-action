@@ -13,10 +13,7 @@ You can view an example of this below.
 
 ```yml
 name: Build and Deploy
-on:
-  push:
-    branches:
-      - master
+on: [push]
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -28,9 +25,10 @@ jobs:
       uses: JamesIves/github-pages-deploy-action@master
       env:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        BRANCH: gh-pages
-        FOLDER: build
-        BUILD_SCRIPT: npm install && npm run-script build
+        BASE_BRANCH: master # The branch the action should deploy from.
+        BRANCH: gh-pages # The branch the action should deploy to.
+        FOLDER: build # The folder the action should deploy.
+        BUILD_SCRIPT: npm install && npm run-script build # The build script the action should run prior to deploying.
 ```
 
 ## Configuration 📁
