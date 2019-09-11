@@ -36,12 +36,12 @@ COMMIT_NAME=`jq '.pusher.name' ${GITHUB_EVENT_PATH}`
 
 if [ -z "$COMMIT_EMAIL" ]
 then
-  COMMIT_EMAIL="${GITHUB_ACTOR}@users.noreply.github.com"
+  COMMIT_EMAIL="${GITHUB_ACTOR:-github-pages-deploy-action}@users.noreply.github.com"
 fi
 
 if [ -z "$COMMIT_NAME" ]
 then
-  COMMIT_NAME="${GITHUB_ACTOR}"
+  COMMIT_NAME="${GITHUB_ACTOR:-GitHub Pages Deploy Action}"
 fi
 
 # Directs the action to the the Github workspace.
