@@ -34,6 +34,7 @@ apt-get install -y jq && \
 COMMIT_EMAIL=`jq '.pusher.email' ${GITHUB_EVENT_PATH}`
 COMMIT_NAME=`jq '.pusher.name' ${GITHUB_EVENT_PATH}`
 
+# If the commit email/name is not found in the event payload then it falls back to the actor.
 if [ -z "$COMMIT_EMAIL" ]
 then
   COMMIT_EMAIL="${GITHUB_ACTOR:-github-pages-deploy-action}@users.noreply.github.com"
