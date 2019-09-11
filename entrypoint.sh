@@ -25,7 +25,7 @@ case "$FOLDER" in /*|./*)
   exit 1
 esac
 
-# Installs Git.
+# Installs Git and jq.
 apt-get update && \
 apt-get install -y git && \
 apt-get install -y jq && \
