@@ -31,7 +31,7 @@ jobs:
         BUILD_SCRIPT: npm install && npm run-script build # The build script the action should run prior to deploying.
 ```
 
-If you'd like to make it so the workflow only triggers on push events to specific branches then you can modify the `on` section. You'll still need to specify the `BASE_BRANCH` if you're deploying from a branch other than `master`.
+If you'd like to make it so the workflow only triggers on push events to specific branches then you can modify the `on` section. You'll still need to specify a `BASE_BRANCH` if you're deploying from a branch other than `master`.
 
 ```yml
 on:
