@@ -7,16 +7,13 @@ This [GitHub action](https://github.com/features/actions) will handle the buildi
 ❗️**You can find instructions for using version 1 of the GitHub Actions workflow format [here](https://github.com/JamesIves/github-pages-deploy-action/tree/1.1.3).**
 
 ## Getting Started :airplane:
-You can include the action in your workflow to trigger on any event that [GitHub actions](https://github.com/features/actions) supports. If the remote branch that you wish to deploy to doesn't already exist the action will create it for you. Your workflow will also need to include the `actions/checkout` step before this workflow runs in order for the deployment to work. 
+You can include the action in your workflow to trigger on any event that [GitHub actions supports](https://help.github.com/en/articles/events-that-trigger-workflows). If the remote branch that you wish to deploy to doesn't already exist the action will create it for you. Your workflow will also need to include the `actions/checkout` step before this workflow runs in order for the deployment to work. 
 
 You can view an example of this below.
 
 ```yml
 name: Build and Deploy
-on:
-  push:
-    branches:
-      - master
+on: [push]
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -28,9 +25,19 @@ jobs:
       uses: JamesIves/github-pages-deploy-action@master
       env:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        BRANCH: gh-pages
-        FOLDER: build
-        BUILD_SCRIPT: npm install && npm run-script build
+        BASE_BRANCH: master # The branch the action should deploy from.
+        BRANCH: gh-pages # The branch the action should deploy to.
+        FOLDER: build # The folder the action should deploy.
+        BUILD_SCRIPT: npm install && npm run-script build # The build script the action should run prior to deploying.
+```
+
+If you'd like to make it so the workflow only triggers on push events to specific branches then you can modify the `on` section. You'll still need to specify a `BASE_BRANCH` if you're deploying from a branch other than `master`.
+
+```yml
+on:
+  push:	
+    branches:	
+      - master
 ```
 
 ## Configuration 📁
