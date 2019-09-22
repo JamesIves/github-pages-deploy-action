@@ -54,8 +54,6 @@ Below you'll find a description of what each option does.
 | `BASE_BRANCH`  | The base branch of your repository which you'd like to checkout prior to deploying. This defaults to `master`.  | `env` | **No** |
 | `BUILD_SCRIPT`  | If you require a build script to compile your code prior to pushing it you can add the script here. The Docker container which powers the action runs Node which means `npm` commands are valid. If you're using a static site generator such as Jekyll I'd suggest compiling the code prior to pushing it to your base branch.  | `env` | **No** |
 | `CNAME`  | If you're using a [custom domain](https://help.github.com/en/articles/using-a-custom-domain-with-github-pages), you will need to add the domain name to the `CNAME` environment variable. If you don't do this GitHub will wipe out your domain configuration after each deploy. This value will look something like this: `jives.dev`.  | `env` | **No** |
-| `COMMIT_EMAIL`  | Used to sign the commit, this should be your email. If not provided it will default to `username@users.noreply.github.com`. | `env` | **No** |
-| `COMMIT_NAME`  | Used to sign the commit, this should be your name. If not provided it will default to your username. | `env` | **No** |
 
 With the action correctly configured you should see the workflow trigger the deployment under the configured conditions.
 
