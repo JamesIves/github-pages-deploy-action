@@ -63,10 +63,8 @@ then
   echo "Creating remote branch ${BRANCH} as it doesn't exist..."
   git checkout "${BASE_BRANCH:-master}" && \
   git checkout --orphan $BRANCH && \
-  git rm -rf . && \
-  touch README.md && \
-  git add README.md && \
-  git commit -m "Initial ${BRANCH} commit" && \
+  git reset --hard && \
+  git commit --allow-empty -m "Initial ${BRANCH} commit" && \
   git push $REPOSITORY_PATH $BRANCH
 fi
 
@@ -83,10 +81,25 @@ if [ "$CNAME" ]; then
 fi
 
 # Commits the data to Github.
-echo "Deploying to GitHub..." && \
-git add -f $FOLDER && \
-
-git commit -m "Deploying to ${BRANCH} from ${BASE_BRANCH:-master} ${GITHUB_SHA}" --quiet && \
-git push $REPOSITORY_PATH `git subtree split --prefix $FOLDER ${BASE_BRANCH:-master}`:$BRANCH --force && \
+ 
+echo "Deploying to GitHub..."
+git fetch origin
+echo "Prepare"
+rm -rf folder_for_deployment
+echo "Create new worktree"
+## For a weird reason you cannot do $BRANCH directly git says the branch does not exist ...
+git worktree add --checkout folder_for_deployment origin/$BRANCH 
+echo "Move folder into new worktree"
+cp -rf $FOLDER/* folder_for_deployment
+echo "Go into worktree"
+cd folder_for_deployment
+echo "Add everything"
+git add --all .
+## You are on a detached HEAD so you have to name your branch
+git checkout -b new-deploy-changes
+echo "Commit"
+git commit -m "Deploying to ${BRANCH} from ${BASE_BRANCH:-master} ${GITHUB_SHA}"
+echo "Push"
+git push $REPOSITORY_PATH new-deploy-changes:$BRANCH
 
 echo "Deployment succesful!"
