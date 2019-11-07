@@ -1,25 +1,25 @@
-import * as core from '@actions/core';
-import {cp} from '@actions/io';
-import {execute} from './util';
-import {workspace, build, action, repositoryPath} from './constants';
+import * as core from "@actions/core";
+import { cp } from "@actions/io";
+import { execute } from "./util";
+import { workspace, build, action, repositoryPath } from "./constants";
 
 /** Generates the branch if it doesn't exist on the remote.
  * @returns {Promise}
  */
 export async function init(): Promise<any> {
   try {
-    const accessToken = core.getInput('ACCESS_TOKEN');
-    const gitHubToken = core.getInput('GITHUB_TOKEN');
+    const accessToken = core.getInput("ACCESS_TOKEN");
+    const gitHubToken = core.getInput("GITHUB_TOKEN");
 
     if (!accessToken && !gitHubToken) {
       core.setFailed(
-        'You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy.',
+        "You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy."
       );
     }
 
-    if (build.startsWith('/') || build.startsWith('./')) {
+    if (build.startsWith("/") || build.startsWith("./")) {
       core.setFailed(
-        `The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly.`,
+        `The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly.`
       );
     }
 
@@ -29,7 +29,7 @@ export async function init(): Promise<any> {
   } catch (error) {
     core.setFailed(`There was an error initializing the repository: ${error}`);
   } finally {
-    Promise.resolve('Initializion step complete...');
+    Promise.resolve("Initializion step complete...");
   }
 }
 
@@ -39,20 +39,20 @@ export async function init(): Promise<any> {
 export async function generateBranch(): Promise<any> {
   try {
     console.log(`Creating ${action.branch} branch...`);
-    await execute(`git checkout ${action.baseBranch || 'master'}`, workspace);
+    await execute(`git checkout ${action.baseBranch || "master"}`, workspace);
     await execute(`git checkout --orphan ${action.branch}`, workspace);
     await execute(`git reset --hard`, workspace);
     await execute(
       `git commit --allow-empty -m "Initial ${action.branch} commit."`,
-      workspace,
+      workspace
     );
     await execute(`git push ${repositoryPath} ${action.branch}`, workspace);
   } catch (error) {
     core.setFailed(
-      `There was an error creating the deployment branch: ${error}`,
+      `There was an error creating the deployment branch: ${error}`
     );
   } finally {
-    Promise.resolve('Deployment branch creation step complete...');
+    Promise.resolve("Deployment branch creation step complete...");
   }
 }
 
@@ -60,8 +60,8 @@ export async function generateBranch(): Promise<any> {
  * @returns {Promise}
  */
 export async function deploy(): Promise<any> {
-  const temporaryDeploymentDirectory = 'temp-deployment-folder';
-  const temporaryDeploymentBranch = 'temp-deployment-branch';
+  const temporaryDeploymentDirectory = "temp-deployment-folder";
+  const temporaryDeploymentBranch = "temp-deployment-branch";
 
   /*
       Checks to see if the remote exists prior to deploying.
@@ -69,19 +69,19 @@ export async function deploy(): Promise<any> {
     */
   const branchExists = await execute(
     `git ls-remote --heads ${repositoryPath} ${action.branch} | wc -l`,
-    workspace,
+    workspace
   );
   if (!branchExists) {
-    console.log('Deployment branch does not exist. Creating....');
+    console.log("Deployment branch does not exist. Creating....");
     await generateBranch();
   }
 
   // Checks out the base branch to begin the deployment process.
-  await execute(`git checkout ${action.baseBranch || 'master'}`, workspace);
+  await execute(`git checkout ${action.baseBranch || "master"}`, workspace);
   await execute(`git fetch origin`, workspace);
   await execute(
     `git worktree add --checkout ${temporaryDeploymentDirectory} origin/${action.branch}`,
-    workspace,
+    workspace
   );
 
   /*
@@ -89,23 +89,23 @@ export async function deploy(): Promise<any> {
       Allows the user to specify the root if '.' is provided. */
   await cp(`${build}/.`, temporaryDeploymentDirectory, {
     recursive: true,
-    force: true,
+    force: true
   });
 
   // Commits to GitHub.
   await execute(`git add --all .`, temporaryDeploymentDirectory);
   await execute(
     `git checkout -b ${temporaryDeploymentBranch}`,
-    temporaryDeploymentDirectory,
+    temporaryDeploymentDirectory
   );
   await execute(
     `git commit -m "Deploying to ${action.branch} from ${action.baseBranch} ${process.env.GITHUB_SHA}" --quiet`,
-    temporaryDeploymentDirectory,
+    temporaryDeploymentDirectory
   );
   await execute(
     `git push ${repositoryPath} ${temporaryDeploymentBranch}:${action.branch}`,
-    temporaryDeploymentDirectory,
+    temporaryDeploymentDirectory
   );
 
-  Promise.resolve('Commit step complete...');
+  Promise.resolve("Commit step complete...");
 }
