@@ -58,4 +58,8 @@ Below you'll find a description of what each option does.
 
 With the action correctly configured you should see the workflow trigger the deployment under the configured conditions.
 
+### `CNAME` and `.nojekyll`
+
+This action maintains the full Git history of the deployment branch. Therefore if you're using a custom domain, or require the use of a `.nojekyll` file, you can safely commit these files directly into deployment branch without them being overridden after each deployment.
+
 ![Example](screenshot.png)
