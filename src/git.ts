@@ -53,7 +53,7 @@ export async function generateBranch(): Promise<any> {
   }
 }
 
-/** Runs the neccersary steps to make the deployment.
+/** Runs the necessary steps to make the deployment.
  * @returns {Promise}
  */
 export async function deploy(): Promise<any> {
@@ -82,8 +82,8 @@ export async function deploy(): Promise<any> {
   );
 
   /*
-      Pushes all of the action.build files into the deployment directory.
-      Allows the user to specify the root if '.' is provided. */
+    Pushes all of the build files into the deployment directory.
+    Allows the user to specify the root if '.' is provided. */
   await cp(`${action.build}/.`, temporaryDeploymentDirectory, {
     recursive: true,
     force: true

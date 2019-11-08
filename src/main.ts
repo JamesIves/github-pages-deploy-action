@@ -4,7 +4,6 @@ import { init, deploy } from "./git";
 /** Initializes and runs the action. */
 (async function() {
   try {
-    // Initializes the action.
     await init();
     await deploy();
   } catch (error) {
