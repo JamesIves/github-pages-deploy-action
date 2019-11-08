@@ -8,10 +8,7 @@ import { workspace, build, action, repositoryPath } from "./constants";
  */
 export async function init(): Promise<any> {
   try {
-    const accessToken = core.getInput("ACCESS_TOKEN");
-    const gitHubToken = core.getInput("GITHUB_TOKEN");
-
-    if (!accessToken && !gitHubToken) {
+    if (!action.accessToken && !action.gitHubToken) {
       core.setFailed(
         "You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy."
       );
