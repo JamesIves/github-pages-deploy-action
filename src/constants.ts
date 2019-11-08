@@ -5,11 +5,9 @@ const { pusher, repository } = github.context.payload;
 
 export const workspace: any = process.env.GITHUB_WORKSPACE;
 
-// The build folder that stores the deployment data.
-export const build = core.getInput("FOLDER", { required: true });
-
 // Required action data.
 export const action = {
+  build: core.getInput("FOLDER", { required: true }),
   gitHubRepository: repository ? repository.full_name : "",
   gitHubToken: core.getInput("GITHUB_TOKEN"),
   accessToken: core.getInput("ACCESS_TOKEN"),

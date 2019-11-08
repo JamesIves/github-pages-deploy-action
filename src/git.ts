@@ -1,7 +1,7 @@
 import * as core from "@actions/core";
 import { cp } from "@actions/io";
 import { execute } from "./util";
-import { workspace, build, action, repositoryPath } from "./constants";
+import { workspace, action, repositoryPath } from "./constants";
 
 /** Generates the branch if it doesn't exist on the remote.
  * @returns {Promise}
@@ -9,13 +9,13 @@ import { workspace, build, action, repositoryPath } from "./constants";
 export async function init(): Promise<any> {
   try {
     if (!action.accessToken && !action.gitHubToken) {
-      core.setFailed(
+      return core.setFailed(
         "You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy."
       );
     }
 
-    if (build.startsWith("/") || build.startsWith("./")) {
-      core.setFailed(
+    if (action.build.startsWith("/") || action.build.startsWith("./")) {
+      return core.setFailed(
         `The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly.`
       );
     }
@@ -26,7 +26,7 @@ export async function init(): Promise<any> {
   } catch (error) {
     core.setFailed(`There was an error initializing the repository: ${error}`);
   } finally {
-    Promise.resolve("Initializion step complete...");
+    return Promise.resolve("Initialization step complete...");
   }
 }
 
@@ -49,7 +49,7 @@ export async function generateBranch(): Promise<any> {
       `There was an error creating the deployment branch: ${error}`
     );
   } finally {
-    Promise.resolve("Deployment branch creation step complete...");
+    return Promise.resolve("Deployment branch creation step complete...");
   }
 }
 
@@ -82,9 +82,9 @@ export async function deploy(): Promise<any> {
   );
 
   /*
-      Pushes all of the build files into the deployment directory.
+      Pushes all of the action.build files into the deployment directory.
       Allows the user to specify the root if '.' is provided. */
-  await cp(`${build}/.`, temporaryDeploymentDirectory, {
+  await cp(`${action.build}/.`, temporaryDeploymentDirectory, {
     recursive: true,
     force: true
   });
@@ -104,5 +104,5 @@ export async function deploy(): Promise<any> {
     temporaryDeploymentDirectory
   );
 
-  Promise.resolve("Commit step complete...");
+  return Promise.resolve("Commit step complete...");
 }
