@@ -1,18 +1,6 @@
 name: 'Deploy to GitHub Pages'
 description: 'This action will handle the deployment process of your project to GitHub Pages.'
 author: 'James Ives <iam@jamesiv.es>'
-inputs:
-  FOLDER:
-    description: The folder in your repository that you want to deploy. If your build script compiles into a directory named `build` you'd put it here. Folder paths cannot have a leading `/` or `./`.
-  GITHUB_TOKEN:
-    description: In order for GitHub to trigger the rebuild of your page you must provide the action with the repositories provided GitHub token. This can be referenced in the workflow `yml` file by using `${{ secrets.GITHUB_TOKEN }}`. Only required if an access token is not provided.
-  ACCESS_TOKEN:
-    description: Depending on the repository permissions you may need to provide the action with a GitHub personal access token instead of the provided GitHub token in order to deploy.
-  BRANCH:
-    description: This is the branch you wish to deploy to, for example `gh-pages` or `docs`.
-  BASE_BRANCH:
-    description: The base branch of your repository which you'd like to checkout prior to deploying. This defaults to `master`.
-    default: master
 runs:
   using: 'node12'
   main: 'lib/main.js'
