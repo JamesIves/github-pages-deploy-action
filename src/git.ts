@@ -100,7 +100,7 @@ export async function deploy(): Promise<any> {
     temporaryDeploymentDirectory
   );
   await execute(
-    `git push ${repositoryPath} ${temporaryDeploymentBranch}:${action.branch}`,
+    `git push --force ${repositoryPath} ${temporaryDeploymentBranch}:${action.branch}`,
     temporaryDeploymentDirectory
   );
 
