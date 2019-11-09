@@ -36,8 +36,8 @@ export async function init(): Promise<any> {
 export async function generateBranch(): Promise<any> {
   try {
     console.log(`Creating ${action.branch} branch...`);
-    await execute(`git checkout ${action.baseBranch || "master"}`, workspace);
-    await execute(`git checkout --orphan ${action.branch}`, workspace);
+    await execute(`git checkout ${action.baseBranch || "master"} ---`, workspace);
+    await execute(`git checkout --orphan ${action.branch} ---`, workspace);
     await execute(`git reset --hard`, workspace);
     await execute(
       `git commit --allow-empty -m "Initial ${action.branch} commit."`,
@@ -74,7 +74,7 @@ export async function deploy(): Promise<any> {
   }
 
   // Checks out the base branch to begin the deployment process.
-  await execute(`git checkout ${action.baseBranch || "master"}`, workspace);
+  await execute(`git checkout ${action.baseBranch || "master"} ---`, workspace);
   await execute(`git fetch origin`, workspace);
   await execute(
     `git worktree add --checkout ${temporaryDeploymentDirectory} origin/${action.branch}`,
@@ -92,7 +92,7 @@ export async function deploy(): Promise<any> {
   // Commits to GitHub.
   await execute(`git add --all .`, temporaryDeploymentDirectory);
   await execute(
-    `git checkout -b ${temporaryDeploymentBranch}`,
+    `git checkout -b ${temporaryDeploymentBranch} ---`,
     temporaryDeploymentDirectory
   );
   await execute(
