@@ -76,7 +76,7 @@ export async function deploy(): Promise<any> {
 
   console.log('list', await execute(`ls`, action.build))
 
-  await execute(`git add --all`, action.build);
+  await execute(`git add .`, action.build);
   await execute(
     `git commit -m "Deploying to ${action.branch} from ${action.baseBranch} ${process.env.GITHUB_SHA}" --quiet`,
     action.build
