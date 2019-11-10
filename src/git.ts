@@ -86,12 +86,17 @@ export async function deploy(): Promise<any> {
   /*
     Pushes all of the build files into the deployment directory.
     Allows the user to specify the root if '.' is provided. */
-  /*await cp(`${action.build}/.`, temporaryDeploymentDirectory, {
-    recursive: true,
-    force: true
   });*/
 
-  await execute(`rsync -av --progress ${action.build}/. ${temporaryDeploymentDirectory} --exclude .git ${action.build === '.' && `--exclude ${temporaryDeploymentDirectory}`}`, workspace)
+  if (action.build === '.') {
+    await execute(`rsync -av --progress ${action.build}/. ${temporaryDeploymentDirectory} --exclude .git --exclude ${temporaryDeploymentDirectory}`, workspace)
+  } else {
+    await cp(`${action.build}/.`, temporaryDeploymentDirectory, {
+      recursive: true,
+      force: true
+    });
+  
+  }
 
   // Commits to GitHub.
   await execute(`git add --all .`, temporaryDeploymentDirectory);
