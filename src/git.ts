@@ -63,22 +63,18 @@ export async function deploy(): Promise<any> {
   /*
       Checks to see if the remote exists prior to deploying.
       If the branch doesn't exist it gets created here as an orphan.
-    */
+  
   const branchExists = await execute(
     `git ls-remote --heads ${repositoryPath} ${action.branch} | wc -l`,
     workspace
   );
   if (!branchExists) {
     console.log("Deployment branch does not exist. Creating....");
-    await generateBranch();
-  }
+    //await generateBranch();
+  }*/
 
 
   console.log('list', await execute(`ls`, action.build))
-
-  await execute(`git checkout --orphan ${action.branch}`, action.build)
-  await execute(`git remote rm origin`, action.build)
-  await execute(`git remote add origin ${repositoryPath}`, action.build)
 
   await execute(`git add --all`, action.build);
   await execute(
@@ -87,39 +83,9 @@ export async function deploy(): Promise<any> {
   );
 
   await execute(
-    `git push --force origin ${action.branch}`,
+    `git push --force ${repositoryPath} ${action.baseBranch}:${action.branch}`,
     action.build
   );
-
-  /*
-  await execute(
-    `git worktree add --checkout ${temporaryDeploymentDirectory} origin/${action.branch}`,
-    workspace
-  ); */
-
-  /*
-    Pushes all of the build files into the deployment directory.
-    Allows the user to specify the root if '.' is provided. 
-  await cp(`${action.build}/.`, temporaryDeploymentDirectory, {
-    recursive: true,
-    force: true
-  });
-
-  // Commits to GitHub.
-  await execute(`git add --all .`, temporaryDeploymentDirectory);
-  await execute(
-    `git switch -c ${temporaryDeploymentBranch}`,
-    temporaryDeploymentDirectory
-  );
-  await execute(
-    `git commit -m "Deploying to ${action.branch} from ${action.baseBranch} ${process.env.GITHUB_SHA}" --quiet`,
-    temporaryDeploymentDirectory
-  );
-  await execute(
-    `git push --force ${repositoryPath} ${temporaryDeploymentBranch}:${action.branch}`,
-    temporaryDeploymentDirectory
-  );*/
-  
 
   return Promise.resolve("Commit step complete...");
 }
