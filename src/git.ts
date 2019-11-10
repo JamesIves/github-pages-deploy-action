@@ -60,9 +60,6 @@ export async function generateBranch(): Promise<any> {
  * @returns {Promise}
  */
 export async function deploy(): Promise<any> {
-  const temporaryDeploymentDirectory = "temp-deployment-folder";
-  const temporaryDeploymentBranch = "temp-deployment-branch";
-
   /*
       Checks to see if the remote exists prior to deploying.
       If the branch doesn't exist it gets created here as an orphan.
@@ -76,7 +73,7 @@ export async function deploy(): Promise<any> {
     await generateBranch();
   }
 
-  await execute(`git add --all .`, action.build);
+  await execute(`git add .`, action.build);
   await execute(
     `git commit -m "Deploying to ${action.branch} from ${action.baseBranch} ${process.env.GITHUB_SHA}" --quiet`,
     action.build

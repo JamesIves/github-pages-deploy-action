@@ -4,10 +4,11 @@ import * as github from "@actions/github";
 const { pusher, repository } = github.context.payload;
 
 export const workspace: any = process.env.GITHUB_WORKSPACE;
+export const folder = core.getInput("FOLDER", { required: true });
 
 // Required action data.
 export const action = {
-  build: core.getInput("FOLDER", { required: true }),
+  build: folder === '.' ? workspace : folder,
   gitHubRepository: repository ? repository.full_name : "",
   gitHubToken: core.getInput("GITHUB_TOKEN"),
   accessToken: core.getInput("ACCESS_TOKEN"),
