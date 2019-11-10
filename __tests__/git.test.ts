@@ -98,23 +98,63 @@ describe("git", () => {
         expect(execute).toBeCalledTimes(0);
         expect(call).toBe('Initialization step complete...')
     })
+
+    it("should not fail if root is used", async () => {
+      Object.assign(action, {
+        accessToken: '123',
+        build: '.',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        }})
+
+        const call = await init()
+
+        expect(execute).toBeCalledTimes(3);
+        expect(call).toBe('Initialization step complete...')
+    })
   });
 
   describe('generateBranch', () => {
     it('should execute five commands', async () => {
       const call = await generateBranch();
-      expect(execute).toBeCalledTimes(5);
+      expect(execute).toBeCalledTimes(6);
       expect(call).toBe('Deployment branch creation step complete...')
     })
   })
 
   describe('deploy', () => {
     it('should execute five commands', async () => {
+      Object.assign(action, {
+        build: 'build',
+        gitHubToken: '123',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        }})
+  
       const call = await deploy();
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(13);
+      expect(execute).toBeCalledTimes(14);
       expect(cp).toBeCalledTimes(1)
+      expect(call).toBe('Commit step complete...')
+    })
+
+    it('should execute six commands if root is used', async () => {
+      Object.assign(action, {
+        build: '.',
+        gitHubToken: '123',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        }})
+  
+      const call = await deploy();
+
+      // Includes the call to generateBranch
+      expect(execute).toBeCalledTimes(15);
+      expect(cp).toBeCalledTimes(0)
       expect(call).toBe('Commit step complete...')
     })
   })

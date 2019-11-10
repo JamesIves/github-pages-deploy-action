@@ -1,7 +1,7 @@
 import * as core from "@actions/core";
-import { cp, rmRF } from "@actions/io";
+import { cp } from "@actions/io";
 import { execute } from "./util";
-import { workspace, action, repositoryPath } from "./constants";
+import { workspace, action, root, repositoryPath } from "./constants";
 
 /** Generates the branch if it doesn't exist on the remote.
  * @returns {Promise}
@@ -14,11 +14,11 @@ export async function init(): Promise<any> {
       );
     }
 
-    /*if (action.build.startsWith("/") || action.build.startsWith("./")) {
+    if (action.build.startsWith("/") || action.build.startsWith("./")) {
       return core.setFailed(
         `The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly.`
       );
-    }*/
+    }
 
     await execute(`git init`, workspace);
     await execute(`git config user.name ${action.pusher.name}`, workspace);
@@ -60,8 +60,8 @@ export async function generateBranch(): Promise<any> {
  * @returns {Promise}
  */
 export async function deploy(): Promise<any> {
-  const temporaryDeploymentDirectory = 'gh-action-temp-deployment-folder'
-  const temporaryDeploymentBranch = 'gh-action-temp-deployment-branch'
+  const temporaryDeploymentDirectory = "gh-action-temp-deployment-folder";
+  const temporaryDeploymentBranch = "gh-action-temp-deployment-branch";
   /*
       Checks to see if the remote exists prior to deploying.
       If the branch doesn't exist it gets created here as an orphan.
@@ -86,15 +86,17 @@ export async function deploy(): Promise<any> {
   /*
     Pushes all of the build files into the deployment directory.
     Allows the user to specify the root if '.' is provided. */
-
-  if (action.build === '.') {
-    await execute(`rsync -av --progress ${action.build}/. ${temporaryDeploymentDirectory} --exclude .git --exclude ${temporaryDeploymentDirectory}`, workspace)
+  if (action.build === root) {
+    // rsync is executed here so the .git and temporary deployment directories don't get duplicated.
+    await execute(
+      `rsync -av --progress ${action.build}/. ${temporaryDeploymentDirectory} --exclude .git --exclude ${temporaryDeploymentDirectory}`,
+      workspace
+    );
   } else {
     await cp(`${action.build}/.`, temporaryDeploymentDirectory, {
       recursive: true,
       force: true
     });
-  
   }
 
   // Commits to GitHub.
@@ -111,7 +113,6 @@ export async function deploy(): Promise<any> {
     `git push --force ${repositoryPath} ${temporaryDeploymentBranch}:${action.branch}`,
     temporaryDeploymentDirectory
   );
-  
 
   return Promise.resolve("Commit step complete...");
 }
