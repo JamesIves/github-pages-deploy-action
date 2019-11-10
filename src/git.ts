@@ -60,32 +60,52 @@ export async function generateBranch(): Promise<any> {
  * @returns {Promise}
  */
 export async function deploy(): Promise<any> {
+  const temporaryDeploymentDirectory = 'gh-action-temp-deployment-folder'
+  const temporaryDeploymentBranch = 'gh-action-temp-deployment-branch'
   /*
       Checks to see if the remote exists prior to deploying.
       If the branch doesn't exist it gets created here as an orphan.
-  
+    */
   const branchExists = await execute(
     `git ls-remote --heads ${repositoryPath} ${action.branch} | wc -l`,
     workspace
   );
   if (!branchExists) {
     console.log("Deployment branch does not exist. Creating....");
-    //await generateBranch();
-  }*/
+    await generateBranch();
+  }
 
 
   console.log('list', await execute(`ls`, action.build))
 
-  await execute(`git add .`, action.build);
   await execute(
-    `git commit -m "Deploying to ${action.branch} from ${action.baseBranch} ${process.env.GITHUB_SHA}" --quiet`,
-    action.build
+    `git worktree add --checkout ${temporaryDeploymentDirectory} origin/${action.branch}`,
+    workspace
   );
 
+  /*
+    Pushes all of the build files into the deployment directory.
+    Allows the user to specify the root if '.' is provided. */
+  await cp(`${action.build}/.`, temporaryDeploymentDirectory, {
+    recursive: true,
+    force: true
+  });
+
+  // Commits to GitHub.
+  await execute(`git add --all .`, temporaryDeploymentDirectory);
   await execute(
-    `git push --force ${repositoryPath} ${action.baseBranch}:${action.branch}`,
-    action.build
+    `git switch -c ${temporaryDeploymentBranch}`,
+    temporaryDeploymentDirectory
   );
+  await execute(
+    `git commit -m "Deploying to ${action.branch} from ${action.baseBranch} ${process.env.GITHUB_SHA}" --quiet`,
+    temporaryDeploymentDirectory
+  );
+  await execute(
+    `git push --force ${repositoryPath} ${temporaryDeploymentBranch}:${action.branch}`,
+    temporaryDeploymentDirectory
+  );
+  
 
   return Promise.resolve("Commit step complete...");
 }
