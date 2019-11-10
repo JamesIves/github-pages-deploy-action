@@ -14,11 +14,11 @@ export async function init(): Promise<any> {
       );
     }
 
-    if (action.build.startsWith("/") || action.build.startsWith("./")) {
+    /*if (action.build.startsWith("/") || action.build.startsWith("./")) {
       return core.setFailed(
         `The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly.`
       );
-    }
+    }*/
 
     await execute(`git init`, action.build);
     await execute(`git config user.name ${action.pusher.name}`, action.build);
