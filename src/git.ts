@@ -73,11 +73,14 @@ export async function deploy(): Promise<any> {
     await generateBranch();
   }
 
-  await execute(`git switch -t origin/${action.baseBranch}`, action.build)
 
   console.log('list', await execute(`ls`, action.build))
 
-  await execute(`git add .`, action.build);
+  await execute(`git checkout --orphan ${repositoryPath}`, action.branch)
+  await execute(`git remote rm origin`, action.build)
+  await execute(`git remote add origin ${repositoryPath}`, action.build)
+
+  await execute(`git add --all`, action.build);
   await execute(
     `git commit -m "Deploying to ${action.branch} from ${action.baseBranch} ${process.env.GITHUB_SHA}" --quiet`,
     action.build
