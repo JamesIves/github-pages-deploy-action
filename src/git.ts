@@ -75,9 +75,9 @@ export async function deploy(): Promise<any> {
     await generateBranch();
   }
 
-
-  console.log('list', await execute(`ls`, action.build))
-
+  // Checks out the base branch to begin the deployment process.
+  await execute(`git checkout ${action.baseBranch || "master"} ---`, workspace);
+  await execute(`git fetch origin`, workspace);
   await execute(
     `git worktree add --checkout ${temporaryDeploymentDirectory} origin/${action.branch}`,
     workspace
