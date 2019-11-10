@@ -1,5 +1,5 @@
 import * as core from "@actions/core";
-import { cp } from "@actions/io";
+import { cp, rmRF } from "@actions/io";
 import { execute } from "./util";
 import { workspace, action, repositoryPath } from "./constants";
 
@@ -80,6 +80,9 @@ export async function deploy(): Promise<any> {
     `git worktree add --checkout ${temporaryDeploymentDirectory} origin/${action.branch}`,
     workspace
   );
+
+  // Removes the git folder prior to moving.
+  await rmRF(`${action.build}/.git`)
 
   /*
     Pushes all of the build files into the deployment directory.
