@@ -86,7 +86,6 @@ export async function deploy(): Promise<any> {
   /*
     Pushes all of the build files into the deployment directory.
     Allows the user to specify the root if '.' is provided. */
-  });*/
 
   if (action.build === '.') {
     await execute(`rsync -av --progress ${action.build}/. ${temporaryDeploymentDirectory} --exclude .git --exclude ${temporaryDeploymentDirectory}`, workspace)
