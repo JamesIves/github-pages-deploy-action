@@ -20,9 +20,9 @@ export async function init(): Promise<any> {
       );
     }*/
 
-    await execute(`git init`, action.build);
-    await execute(`git config user.name ${action.pusher.name}`, action.build);
-    await execute(`git config user.email ${action.pusher.email}`, action.build);
+    await execute(`git init`, workspace);
+    await execute(`git config user.name ${action.pusher.name}`, workspace);
+    await execute(`git config user.email ${action.pusher.email}`, workspace);
   } catch (error) {
     core.setFailed(`There was an error initializing the repository: ${error}`);
   } finally {
