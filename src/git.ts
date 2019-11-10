@@ -44,6 +44,9 @@ export async function generateBranch(): Promise<any> {
       workspace
     );
     await execute(`git push ${repositoryPath} ${action.branch}`, workspace);
+
+    // Switches back to the base branch.
+    await execute(`git switch ${action.baseBranch || "master"}`, workspace);
   } catch (error) {
     core.setFailed(
       `There was an error creating the deployment branch: ${error}`
@@ -72,10 +75,6 @@ export async function deploy(): Promise<any> {
     console.log("Deployment branch does not exist. Creating....");
     await generateBranch();
   }
-
-  // Checks out the base branch to begin the deployment process.
-  await execute(`git switch ${action.baseBranch || "master"}`, workspace);
-  await execute(`git fetch origin`, workspace);
 
   await execute(`git add --all .`, action.build);
   await execute(
