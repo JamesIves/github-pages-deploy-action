@@ -20,9 +20,9 @@ export async function init(): Promise<any> {
       );
     }
 
-    await execute(`git init`, workspace);
-    await execute(`git config user.name ${action.pusher.name}`, workspace);
-    await execute(`git config user.email ${action.pusher.email}`, workspace);
+    await execute(`git init`, action.build);
+    await execute(`git config user.name ${action.pusher.name}`, action.build);
+    await execute(`git config user.email ${action.pusher.email}`, action.build);
   } catch (error) {
     core.setFailed(`There was an error initializing the repository: ${error}`);
   } finally {
@@ -76,17 +76,26 @@ export async function deploy(): Promise<any> {
   // Checks out the base branch to begin the deployment process.
   await execute(`git switch ${action.baseBranch || "master"}`, workspace);
   await execute(`git fetch origin`, workspace);
+
+  await execute(`git add --all .`, action.build);
   await execute(
-    `git worktree add --checkout ${temporaryDeploymentDirectory} origin/${action.branch}`,
-    workspace
+    `git commit -m "Deploying to ${action.branch} from ${action.baseBranch} ${process.env.GITHUB_SHA}" --quiet`,
+    action.build
   );
 
-  // Removes the git folder prior to moving.
-  await rmRF(`${action.build}/.git`)
+  await execute(
+    `git push --force ${repositoryPath} ${action.baseBranch}:${action.branch}`,
+    action.build
+  );
+
+  /*
+  await execute(
+    workspace
+  ); */
 
   /*
     Pushes all of the build files into the deployment directory.
-    Allows the user to specify the root if '.' is provided. */
+    Allows the user to specify the root if '.' is provided. 
   await cp(`${action.build}/.`, temporaryDeploymentDirectory, {
     recursive: true,
     force: true
@@ -105,7 +114,8 @@ export async function deploy(): Promise<any> {
   await execute(
     `git push --force ${repositoryPath} ${temporaryDeploymentBranch}:${action.branch}`,
     temporaryDeploymentDirectory
-  );
+  );*/
+  
 
   return Promise.resolve("Commit step complete...");
 }
