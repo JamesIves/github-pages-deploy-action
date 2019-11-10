@@ -76,7 +76,7 @@ export async function deploy(): Promise<any> {
 
   console.log('list', await execute(`ls`, action.build))
 
-  await execute(`git checkout --orphan ${repositoryPath}`, action.build)
+  await execute(`git checkout --orphan ${action.branch}`, action.build)
   await execute(`git remote rm origin`, action.build)
   await execute(`git remote add origin ${repositoryPath}`, action.build)
 
