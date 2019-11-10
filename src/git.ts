@@ -87,7 +87,7 @@ export async function deploy(): Promise<any> {
   );
 
   await execute(
-    `git push origin ${action.branch}`,
+    `git push --force origin ${action.branch}`,
     action.build
   );
 
