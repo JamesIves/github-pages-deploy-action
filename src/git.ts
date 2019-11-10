@@ -90,6 +90,7 @@ export async function deploy(): Promise<any> {
 
   /*
   await execute(
+    `git worktree add --checkout ${temporaryDeploymentDirectory} origin/${action.branch}`,
     workspace
   ); */
 
