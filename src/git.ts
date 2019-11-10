@@ -73,7 +73,7 @@ export async function deploy(): Promise<any> {
     await generateBranch();
   }
 
-  console.log(await execute(`ls`, action.build))
+  console.log('list', await execute(`ls`, action.build))
 
   await execute(`git add .`, action.build);
   await execute(
