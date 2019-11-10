@@ -89,7 +89,7 @@ export async function deploy(): Promise<any> {
   if (action.build === root) {
     // rsync is executed here so the .git and temporary deployment directories don't get duplicated.
     await execute(
-      `rsync -av --progress ${action.build}/. ${temporaryDeploymentDirectory} --exclude .git --exclude ${temporaryDeploymentDirectory}`,
+      `rsync -q -av --progress ${action.build}/. ${temporaryDeploymentDirectory} --exclude .git --exclude ${temporaryDeploymentDirectory}`,
       workspace
     );
   } else {
