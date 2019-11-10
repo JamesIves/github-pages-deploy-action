@@ -8,7 +8,7 @@ export const folder = core.getInput("FOLDER", { required: true });
 
 // Required action data.
 export const action = {
-  build: folder === '.' ? workspace : folder,
+  build: folder,
   gitHubRepository: repository ? repository.full_name : "",
   gitHubToken: core.getInput("GITHUB_TOKEN"),
   accessToken: core.getInput("ACCESS_TOKEN"),

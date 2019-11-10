@@ -91,7 +91,7 @@ export async function deploy(): Promise<any> {
     force: true
   });*/
 
-  await execute(`rsync -av --progress ${action.build}/. ${temporaryDeploymentDirectory} --exclude .git`, workspace)
+  await execute(`rsync -av --progress ${action.build}/. ${temporaryDeploymentDirectory} --exclude .git ${action.build === '.' && `--exclude ${temporaryDeploymentDirectory}`}`, workspace)
 
   // Commits to GitHub.
   await execute(`git add --all .`, temporaryDeploymentDirectory);
