@@ -1,8 +1,8 @@
-name: unit
+name: unit-tests
 on:   
   push:	
     branches:	
-      - master
+      - dev
 jobs:
   unit-test:
     runs-on: ubuntu-latest
