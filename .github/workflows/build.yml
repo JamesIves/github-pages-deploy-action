@@ -1,4 +1,4 @@
-name: Unit Tests
+name: unit-tests
 on:   
   push:	
     branches:	
