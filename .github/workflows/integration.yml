@@ -1,4 +1,4 @@
-name: integration
+name: Integration Tests
 on:
   schedule:
   - cron: 0 2 * * 0-6
