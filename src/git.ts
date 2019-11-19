@@ -99,6 +99,13 @@ export async function deploy(): Promise<any> {
     });
   }
 
+  const hasFilesToCommit = await execute(`git status --porcelain`, temporaryDeploymentDirectory);
+
+  if (!hasFilesToCommit) {
+    console.log('There is nothing to commit. Exiting...')
+    return Promise.resolve()
+  }
+
   // Commits to GitHub.
   await execute(`git add --all .`, temporaryDeploymentDirectory);
   await execute(
