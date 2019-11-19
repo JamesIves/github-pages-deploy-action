@@ -1,9 +1,9 @@
 name: 'Deploy to GitHub Pages'
-description: 'This action will handle the building and deploying process of your project to GitHub Pages.'
+description: 'This action will handle the deployment process of your project to GitHub Pages.'
 author: 'James Ives <iam@jamesiv.es>'
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: 'node12'
+  main: 'lib/main.js'
 branding:
   icon: 'git-commit'
   color: 'orange'
