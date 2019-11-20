@@ -104,7 +104,7 @@ export async function deploy(): Promise<any> {
     temporaryDeploymentDirectory
   );
 
-  if (!hasFilesToCommit) {
+  if (!hasFilesToCommit && workspace) {
     console.log("There is nothing to commit. Exiting...");
     return Promise.resolve();
   }
