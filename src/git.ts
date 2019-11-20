@@ -1,7 +1,7 @@
 import * as core from "@actions/core";
 import { cp } from "@actions/io";
 import { execute } from "./util";
-import { workspace, action, root, repositoryPath } from "./constants";
+import { workspace, action, root, repositoryPath, isTest } from "./constants";
 
 /** Generates the branch if it doesn't exist on the remote.
  * @returns {Promise}
@@ -104,7 +104,7 @@ export async function deploy(): Promise<any> {
     temporaryDeploymentDirectory
   );
 
-  if (!hasFilesToCommit && workspace) {
+  if (!hasFilesToCommit && !isTest) {
     console.log("There is nothing to commit. Exiting...");
     return Promise.resolve();
   }

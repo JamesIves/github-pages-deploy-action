@@ -6,6 +6,7 @@ const { pusher, repository } = github.context.payload;
 export const workspace: any = process.env.GITHUB_WORKSPACE;
 export const folder = core.getInput("FOLDER", { required: true });
 export const root = ".";
+export const isTest = process.env.UNIT_TEST;
 
 // Required action data.
 export const action = {
