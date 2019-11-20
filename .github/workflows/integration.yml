@@ -14,4 +14,5 @@ jobs:
       with:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         BRANCH: gh-pages
-        FOLDER: 'integration'
+        FOLDER: integration
+        BASE_BRANCH: dev
