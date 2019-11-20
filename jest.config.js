@@ -7,5 +7,6 @@ module.exports = {
   transform: {
     '^.+\\.ts$': 'ts-jest'
   },
-  verbose: true
+  verbose: true,
+  setupFiles: ["<rootDir>/__tests__/env.js"]
 }

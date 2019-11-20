@@ -1,17 +1,18 @@
 name: integration-tests
 on:
   schedule:
-  - cron: 0 2 * * 0-6
+    - cron: 0 2 * * 0-6
 jobs:
   integration-test:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@master
+      uses: actions/checkout@v1
 
     - name: Build and Deploy
-      uses: JamesIves/github-pages-deploy-action@master
-      env:
+      uses: JamesIves/github-pages-deploy-action@releases/v3
+      with:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         BRANCH: gh-pages
-        FOLDER: 'integration'
+        FOLDER: integration
+        BASE_BRANCH: dev

@@ -1,14 +1,11 @@
 name: unit-tests
-on:   
-  push:	
-    branches:	
-      - dev
+on: [pull_request, push]
 jobs:
   unit-test:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@master
+      uses: actions/checkout@v1
 
     - name: Install and Test
       run: |

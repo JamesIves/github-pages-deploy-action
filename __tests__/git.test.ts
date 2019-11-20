@@ -136,7 +136,7 @@ describe("git", () => {
       const call = await deploy();
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(14);
+      expect(execute).toBeCalledTimes(15);
       expect(cp).toBeCalledTimes(1)
       expect(call).toBe('Commit step complete...')
     })
@@ -153,7 +153,7 @@ describe("git", () => {
       const call = await deploy();
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(15);
+      expect(execute).toBeCalledTimes(16);
       expect(cp).toBeCalledTimes(0)
       expect(call).toBe('Commit step complete...')
     })
