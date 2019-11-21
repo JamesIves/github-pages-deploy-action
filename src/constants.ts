@@ -11,7 +11,10 @@ export const isTest = process.env.UNIT_TEST;
 // Required action data.
 export const action = {
   build: folder,
-  gitHubRepository: repository ? repository.full_name : "",
+  gitHubRepository:
+    repository && repository.full_name
+      ? repository.full_name
+      : process.env.GITHUB_REPOSITORY,
   gitHubToken: core.getInput("GITHUB_TOKEN"),
   accessToken: core.getInput("ACCESS_TOKEN"),
   branch: core.getInput("BRANCH"),
