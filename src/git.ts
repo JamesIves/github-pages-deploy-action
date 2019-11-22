@@ -85,19 +85,12 @@ export async function deploy(): Promise<any> {
 
   /*
     Pushes all of the build files into the deployment directory.
-    Allows the user to specify the root if '.' is provided. */
-  if (action.build === root) {
-    // rsync is executed here so the .git and temporary deployment directories don't get duplicated.
+    Allows the user to specify the root if '.' is provided.
+    rysync is used to prevent file duplication. */
     await execute(
-      `rsync -q -av --progress ${action.build}/. ${temporaryDeploymentDirectory} --exclude .git --exclude .github --exclude ${temporaryDeploymentDirectory}`,
+      `rsync -q -av --progress ${action.build}/. ${temporaryDeploymentDirectory} ${action.clean && `--delete`} --exclude .git --exclude .github ${action.build === root && `--exclude ${temporaryDeploymentDirectory}`}`,
       workspace
     );
-  } else {
-    await cp(`${action.build}/.`, temporaryDeploymentDirectory, {
-      recursive: true,
-      force: true
-    });
-  }
 
   const hasFilesToCommit = await execute(
     `git status --porcelain`,
