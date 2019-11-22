@@ -4,17 +4,12 @@ process.env["INPUT_FOLDER"] = "build";
 import { execute } from "../src/util";
 import { init, generateBranch, deploy } from "../src/git";
 import {action} from '../src/constants'
-import {cp} from '@actions/io';
 import _ from 'lodash';
 
 const originalAction = _.cloneDeep(action);
 
 jest.mock("../src/util", () => ({
   execute: jest.fn()
-}));
-
-jest.mock("@actions/io", () => ({
-  cp: jest.fn()
 }));
 
 describe("git", () => {
@@ -136,25 +131,7 @@ describe("git", () => {
       const call = await deploy();
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(15);
-      expect(cp).toBeCalledTimes(1)
-      expect(call).toBe('Commit step complete...')
-    })
-
-    it('should execute six commands if root is used', async () => {
-      Object.assign(action, {
-        build: '.',
-        gitHubToken: '123',
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }})
-  
-      const call = await deploy();
-
-      // Includes the call to generateBranch
       expect(execute).toBeCalledTimes(16);
-      expect(cp).toBeCalledTimes(0)
       expect(call).toBe('Commit step complete...')
     })
   })

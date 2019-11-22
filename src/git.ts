@@ -1,5 +1,4 @@
 import * as core from "@actions/core";
-import { cp } from "@actions/io";
 import { execute } from "./util";
 import { workspace, action, root, repositoryPath, isTest } from "./constants";
 
@@ -21,8 +20,8 @@ export async function init(): Promise<any> {
     }
 
     await execute(`git init`, workspace);
-    await execute(`git config user.name ${action.pusher.name}`, workspace);
-    await execute(`git config user.email ${action.pusher.email}`, workspace);
+    await execute(`git config user.name ${action.name}`, workspace);
+    await execute(`git config user.email ${action.email}`, workspace);
   } catch (error) {
     core.setFailed(`There was an error initializing the repository: ${error}`);
   } finally {
@@ -85,19 +84,18 @@ export async function deploy(): Promise<any> {
 
   /*
     Pushes all of the build files into the deployment directory.
-    Allows the user to specify the root if '.' is provided. */
-  if (action.build === root) {
-    // rsync is executed here so the .git and temporary deployment directories don't get duplicated.
-    await execute(
-      `rsync -q -av --progress ${action.build}/. ${temporaryDeploymentDirectory} --exclude .git --exclude .github --exclude ${temporaryDeploymentDirectory}`,
-      workspace
-    );
-  } else {
-    await cp(`${action.build}/.`, temporaryDeploymentDirectory, {
-      recursive: true,
-      force: true
-    });
-  }
+    Allows the user to specify the root if '.' is provided.
+    rysync is used to prevent file duplication. */
+  await execute(
+    `rsync -q -av --progress ${
+      action.build
+    }/. ${temporaryDeploymentDirectory} ${
+      action.clean ? `--delete --exclude CNAME --exclude .nojekyll` : ""
+    }  --exclude .git --exclude .github ${
+      action.build === root ? `--exclude ${temporaryDeploymentDirectory}` : ""
+    }`,
+    workspace
+  );
 
   const hasFilesToCommit = await execute(
     `git status --porcelain`,
