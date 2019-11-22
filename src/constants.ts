@@ -24,6 +24,7 @@ export const action = {
       ? pusher.name
       : process.env.GITHUB_ACTOR
       ? process.env.GITHUB_ACTOR
+      : "GitHub Pages Deploy Action",
   email:
     pusher && pusher.email
       ? pusher.email
