@@ -87,10 +87,16 @@ export async function deploy(): Promise<any> {
     Pushes all of the build files into the deployment directory.
     Allows the user to specify the root if '.' is provided.
     rysync is used to prevent file duplication. */
-    await execute(
-      `rsync -q -av --progress ${action.build}/. ${temporaryDeploymentDirectory} ${action.clean && `--delete`} --exclude .git --exclude .github ${action.build === root && `--exclude ${temporaryDeploymentDirectory}`}`,
-      workspace
-    );
+  await execute(
+    `rsync -q -av --progress ${
+      action.build
+    }/. ${temporaryDeploymentDirectory} ${
+      action.clean ? `--delete` : ""
+    } --exclude .git --exclude .github ${
+      action.build === root ? `--exclude ${temporaryDeploymentDirectory}` : ""
+    }`,
+    workspace
+  );
 
   const hasFilesToCommit = await execute(
     `git status --porcelain`,
