@@ -1,5 +1,4 @@
 import * as core from "@actions/core";
-import { cp } from "@actions/io";
 import { execute } from "./util";
 import { workspace, action, root, repositoryPath, isTest } from "./constants";
 
