@@ -1,7 +1,7 @@
 name: integration-tests
 on:
   schedule:
-    - cron: 0 10 * * 0-6
+    - cron: 10 15 * * 0-6
 jobs:
   integration-test:
     runs-on: ubuntu-latest
