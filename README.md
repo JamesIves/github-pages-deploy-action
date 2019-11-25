@@ -39,7 +39,7 @@ on:
 
 #### Operating System Support 💿
 
-This action is primarily developed using [Ubuntu](https://ubuntu.com/). [In your workflow job configuration](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#jobsjob_idruns-on) it's reccomended to set the `runs-on` property to `ubuntu-latest`. Operating systems such as [Windows](https://www.microsoft.com/en-us/windows/) are not currently supported.
+This action is primarily developed using [Ubuntu](https://ubuntu.com/). [In your workflow job configuration](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#jobsjob_idruns-on) it's reccomended to set the `runs-on` property to `ubuntu-latest`.
 
 ```
 jobs:
@@ -47,6 +47,53 @@ jobs:
     runs-on: ubuntu-latest
 ```
 
+Operating systems such as [Windows](https://www.microsoft.com/en-us/windows/) are not currently supported, however you can workaround this using [artifacts](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/persisting-workflow-data-using-artifacts). In your workflow configuration you can utilize the `actions/upload-artifact` and `actions/download-artifact` actions to move your project built on a Windows to a secondary job that will handle the deployment. 
+
+<details><summary>You can view an example of this pattern here.</summary>
+<p>
+
+```python
+name: Build and Deploy
+on: [push]
+jobs:
+  build:
+    runs-on: windows-latest # The first job utilizes windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+        
+      - name: Install # The project is built using npm and placefd in the 'build' folder.
+        run: |
+          npm install
+          npm run-script build
+          
+      - name: Upload Artifacts # The project is then uploaded as an artifact named 'site'.
+        uses: actions/upload-artifact@v1
+        with:
+          name: site
+          path: build
+          
+  deploy:
+    needs: [build] # The second job must depend on the first one to complete before running, and uses ubtuntu-latest instead of windows.
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+ 
+      - name: Download Artifacts # The built project is downloaded into the 'site' folder.
+        uses: actions/download-artifact@v1
+        with:
+          name: site
+
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: 'site' # The deployment folder should match the name of the artifact. Even though our project builds into the 'build' folder the artifact name of 'site' must be placed here.
+```
+</p>
+</details>
 
 ## Configuration 📁
 
