@@ -52,7 +52,7 @@ Operating systems such as [Windows](https://www.microsoft.com/en-us/windows/) ar
 <details><summary>You can view an example of this pattern here.</summary>
 <p>
 
-```python
+```yml
 name: Build and Deploy
 on: [push]
 jobs:
@@ -62,7 +62,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
         
-      - name: Install # The project is built using npm and placefd in the 'build' folder.
+      - name: Install # The project is built using npm and placed in the 'build' folder.
         run: |
           npm install
           npm run-script build
@@ -74,7 +74,7 @@ jobs:
           path: build
           
   deploy:
-    needs: [build] # The second job must depend on the first one to complete before running, and uses ubtuntu-latest instead of windows.
+    needs: [build] # The second job must depend on the first one to complete before running, and uses ubuntu-latest instead of windows.
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
