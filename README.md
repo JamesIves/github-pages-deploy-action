@@ -41,7 +41,7 @@ on:
 
 This action is primarily developed using [Ubuntu](https://ubuntu.com/). [In your workflow job configuration](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#jobsjob_idruns-on) it's reccomended to set the `runs-on` property to `ubuntu-latest`.
 
-```
+```yml
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
