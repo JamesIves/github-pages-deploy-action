@@ -47,7 +47,7 @@ jobs:
     runs-on: ubuntu-latest
 ```
 
-Operating systems such as [Windows](https://www.microsoft.com/en-us/windows/) are not currently supported, however you can workaround this using [artifacts](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/persisting-workflow-data-using-artifacts). In your workflow configuration you can utilize the `actions/upload-artifact` and `actions/download-artifact` actions to move your project built on a Windows machine to a secondary job that will handle the deployment. 
+Operating systems such as [Windows](https://www.microsoft.com/en-us/windows/) are not currently supported, however you can workaround this using [artifacts](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/persisting-workflow-data-using-artifacts). In your workflow configuration you can utilize the `actions/upload-artifact` and `actions/download-artifact` actions to move your project built on a Windows job to a secondary job that will handle the deployment. 
 
 <details><summary>You can view an example of this pattern here.</summary>
 <p>
