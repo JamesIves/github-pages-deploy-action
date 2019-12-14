@@ -108,6 +108,7 @@ Below you'll find a description of what each option does.
 | `BRANCH`  | This is the branch you wish to deploy to, for example `gh-pages` or `docs`.  | `with` | **Yes** |
 | `FOLDER`  | The folder in your repository that you want to deploy. If your build script compiles into a directory named `build` you'd put it here. **Folder paths cannot have a leading `/` or `./`**. If you wish to deploy the root directory you can place a `.` here. | `with` | **Yes** |
 | `BASE_BRANCH`  | The base branch of your repository which you'd like to checkout prior to deploying. This defaults to `master`.  | `with` | **No** |
+| `TARGET_FOLDER`  | If you'd like to push the contents of the deployment folder into a specific directory on the deployment branch you can specify it here.  | `with` | **No** |
 | `CLEAN`  | If your project generates hashed files on build you can use this option to automatically delete them from the deployment branch with each deploy. This option can be toggled on by setting it to `true`.  | `with` | **No** |
 
 With the action correctly configured you should see the workflow trigger the deployment under the configured conditions.
