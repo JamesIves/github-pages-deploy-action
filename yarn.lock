@@ -6,9 +6,11 @@
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@actions/core/-/core-1.2.0.tgz#aa5f52b26c362c821d41557e599371a42f6c0b3d"
 
-"@actions/exec@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@actions/exec/-/exec-1.0.1.tgz#1624b541165697e7008d7c87bc1f69f191263c6c"
+"@actions/exec@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@actions/exec/-/exec-1.0.2.tgz#80ae9c2ea0bf5d0046a9f73d2a1b15bddfff0311"
+  dependencies:
+    "@actions/io" "^1.0.1"
 
 "@actions/github@^2.0.0":
   version "2.0.0"
@@ -16,6 +18,10 @@
   dependencies:
     "@octokit/graphql" "^4.3.1"
     "@octokit/rest" "^16.15.0"
+
+"@actions/io@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@actions/io/-/io-1.0.1.tgz#81a9418fe2bbdef2d2717a8e9f85188b9c565aca"
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.5.5":
   version "7.5.5"
