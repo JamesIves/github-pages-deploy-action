@@ -18,6 +18,7 @@ export const action = {
   gitHubToken: core.getInput("GITHUB_TOKEN"),
   accessToken: core.getInput("ACCESS_TOKEN"),
   branch: core.getInput("BRANCH"),
+  targetFolder: core.getInput("TARGET_FOLDER"),
   baseBranch: core.getInput("BASE_BRANCH") || "master",
   name:
     pusher && pusher.name
