@@ -87,9 +87,11 @@ export async function deploy(): Promise<any> {
     Allows the user to specify the root if '.' is provided.
     rysync is used to prevent file duplication. */
   await execute(
-    `rsync -q -av --progress ${
-      action.build
-    }/. ${temporaryDeploymentDirectory} ${
+    `rsync -q -av --progress ${action.build}/. ${
+      action.targetFolder
+        ? `${temporaryDeploymentDirectory}/${action.targetFolder}`
+        : temporaryDeploymentDirectory
+    } ${
       action.clean ? `--delete --exclude CNAME --exclude .nojekyll` : ""
     }  --exclude .git --exclude .github ${
       action.build === root ? `--exclude ${temporaryDeploymentDirectory}` : ""
