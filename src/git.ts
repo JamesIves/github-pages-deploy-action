@@ -82,6 +82,21 @@ export async function deploy(): Promise<any> {
     workspace
   );
 
+  // Ensures that items that need to be excluded from the clean job get parsed.
+  let excludes = "";
+  if (action.clean && action.cleanExclude) {
+    try {
+      const excludedItems = JSON.parse(action.cleanExclude);
+      excludedItems.forEach(
+        (item: string) => (excludes += `--exclude ${item} `)
+      );
+    } catch {
+      console.log(
+        "There was an error parsing your CLEAN_EXCLUDE items. Please refer to the README for more details."
+      );
+    }
+  }
+
   /*
     Pushes all of the build files into the deployment directory.
     Allows the user to specify the root if '.' is provided.
@@ -92,7 +107,9 @@ export async function deploy(): Promise<any> {
         ? `${temporaryDeploymentDirectory}/${action.targetFolder}`
         : temporaryDeploymentDirectory
     } ${
-      action.clean ? `--delete --exclude CNAME --exclude .nojekyll` : ""
+      action.clean
+        ? `--delete ${excludes} --exclude CNAME --exclude .nojekyll`
+        : ""
     }  --exclude .git --exclude .github ${
       action.build === root ? `--exclude ${temporaryDeploymentDirectory}` : ""
     }`,
