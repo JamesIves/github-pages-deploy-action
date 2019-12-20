@@ -31,7 +31,8 @@ export const action = {
       ? pusher.email
       : `${process.env.GITHUB_ACTOR ||
           "github-pages-deploy-action"}@users.noreply.github.com`,
-  clean: core.getInput("CLEAN")
+  clean: core.getInput("CLEAN"),
+  cleanExclude: core.getInput("CLEAN_EXCLUDE")
 };
 
 // Repository path used for commits/pushes.

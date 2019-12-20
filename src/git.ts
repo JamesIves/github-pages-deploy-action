@@ -92,7 +92,9 @@ export async function deploy(): Promise<any> {
         ? `${temporaryDeploymentDirectory}/${action.targetFolder}`
         : temporaryDeploymentDirectory
     } ${
-      action.clean ? `--delete --exclude CNAME --exclude .nojekyll` : ""
+      action.clean
+        ? `--delete ${excludes} --exclude CNAME --exclude .nojekyll`
+        : ""
     }  --exclude .git --exclude .github ${
       action.build === root ? `--exclude ${temporaryDeploymentDirectory}` : ""
     }`,
