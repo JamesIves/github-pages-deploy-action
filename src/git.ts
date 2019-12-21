@@ -141,5 +141,9 @@ export async function deploy(): Promise<any> {
     temporaryDeploymentDirectory
   );
 
+  console.log("Post Deployment Cleanup...");
+  await execute(`git switch ${action.baseBranch || "master"}`, workspace);
+  await execute(`rm -rf ${temporaryDeploymentDirectory}`, workspace);
+
   return Promise.resolve("Commit step complete...");
 }
