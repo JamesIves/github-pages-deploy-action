@@ -36,7 +36,7 @@ export async function switchToBaseBranch() {
   await execute(
     action.baseBranch
       ? `git switch ${action.baseBranch}`
-      : `git checkout --progress --force ${process.env.GITHUB_SHA || "master"}`,
+      : `git checkout --progress --force ${action.defaultBranch}`,
     workspace
   );
 
