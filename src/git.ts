@@ -29,13 +29,27 @@ export async function init(): Promise<any> {
   }
 }
 
+/** Switches to the base branch.
+ * @returns {Promise}
+ */
+export async function switchToBaseBranch() {
+  await execute(
+    action.baseBranch
+      ? `git switch ${action.baseBranch}`
+      : `git checkout --progress --force ${process.env.GITHUB_SHA || "master"}`,
+    workspace
+  );
+
+  return Promise.resolve("Switched to the base branch...");
+}
+
 /** Generates the branch if it doesn't exist on the remote.
  * @returns {Promise}
  */
 export async function generateBranch(): Promise<any> {
   try {
     console.log(`Creating ${action.branch} branch... 🔧`);
-    await execute(`git switch ${action.baseBranch || "master"}`, workspace);
+    await switchToBaseBranch();
     await execute(`git switch --orphan ${action.branch}`, workspace);
     await execute(`git reset --hard`, workspace);
     await execute(
@@ -45,7 +59,7 @@ export async function generateBranch(): Promise<any> {
     await execute(`git push ${repositoryPath} ${action.branch}`, workspace);
 
     // Switches back to the base branch.
-    await execute(`git switch ${action.baseBranch || "master"}`, workspace);
+    await switchToBaseBranch();
   } catch (error) {
     core.setFailed(
       `There was an error creating the deployment branch: ${error} ❌`
@@ -75,7 +89,7 @@ export async function deploy(): Promise<any> {
   }
 
   // Checks out the base branch to begin the deployment process.
-  await execute(`git checkout ${action.baseBranch || "master"}`, workspace);
+  await switchToBaseBranch();
   await execute(`git fetch ${repositoryPath}`, workspace);
   await execute(
     `git worktree add --checkout ${temporaryDeploymentDirectory} origin/${action.branch}`,
@@ -145,10 +159,7 @@ export async function deploy(): Promise<any> {
   if (process.env.GITHUB_SHA) {
     console.log("Running post deployment cleanup jobs... 🔧");
     await execute(`rm -rf ${temporaryDeploymentDirectory}`, workspace);
-    await execute(
-      `git checkout --progress --force ${process.env.GITHUB_SHA}`,
-      workspace
-    );
+    await switchToBaseBranch();
   }
 
   return Promise.resolve("Commit step complete...");
