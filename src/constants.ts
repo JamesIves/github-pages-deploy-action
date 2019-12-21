@@ -19,7 +19,8 @@ export const action = {
   accessToken: core.getInput("ACCESS_TOKEN"),
   branch: core.getInput("BRANCH"),
   targetFolder: core.getInput("TARGET_FOLDER"),
-  baseBranch: core.getInput("BASE_BRANCH") || "master",
+  baseBranch: core.getInput("BASE_BRANCH"),
+  defaultBranch: process.env.GITHUB_SHA ? process.env.GITHUB_SHA : "master",
   name:
     pusher && pusher.name
       ? pusher.name
