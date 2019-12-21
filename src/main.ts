@@ -7,8 +7,9 @@ import { init, deploy } from "./git";
     await init();
     await deploy();
   } catch (error) {
+    console.log("The deployment encountered an error. ❌");
     core.setFailed(error.message);
   } finally {
-    console.log("Completed Deployment");
+    console.log("Completed Deployment ✅");
   }
 })();
