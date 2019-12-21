@@ -141,9 +141,12 @@ export async function deploy(): Promise<any> {
     temporaryDeploymentDirectory
   );
 
-  console.log("Post Deployment Cleanup...");
-  await execute(`git switch ${action.baseBranch || "master"}`, workspace);
-  await execute(`rm -rf ${temporaryDeploymentDirectory}`, workspace);
+  // Cleans up temporary files/folders.
+  if (process.env.GITHUB_SHA) {
+    console.log("Post deployment cleanup...");
+    await execute(`rm -rf ${temporaryDeploymentDirectory}`, workspace);
+    await execute(`git switch ${process.env.GITHUB_SHA}`, workspace);
+  }
 
   return Promise.resolve("Commit step complete...");
 }
