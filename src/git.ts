@@ -145,7 +145,10 @@ export async function deploy(): Promise<any> {
   if (process.env.GITHUB_SHA) {
     console.log("Post deployment cleanup...");
     await execute(`rm -rf ${temporaryDeploymentDirectory}`, workspace);
-    await execute(`git switch ${process.env.GITHUB_SHA}`, workspace);
+    await execute(
+      `git checkout --progress --force ${process.env.GITHUB_SHA}`,
+      workspace
+    );
   }
 
   return Promise.resolve("Commit step complete...");
