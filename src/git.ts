@@ -57,8 +57,6 @@ export async function generateBranch(): Promise<any> {
       workspace
     );
     await execute(`git push ${repositoryPath} ${action.branch}`, workspace);
-
-    // Switches back to the base branch.
     await switchToBaseBranch();
   } catch (error) {
     core.setFailed(
@@ -156,11 +154,9 @@ export async function deploy(): Promise<any> {
   );
 
   // Cleans up temporary files/folders and restores the git state.
-  if (process.env.GITHUB_SHA) {
-    console.log("Running post deployment cleanup jobs... 🔧");
-    await execute(`rm -rf ${temporaryDeploymentDirectory}`, workspace);
-    await switchToBaseBranch();
-  }
+  console.log("Running post deployment cleanup jobs... 🔧");
+  await execute(`rm -rf ${temporaryDeploymentDirectory}`, workspace);
+  await execute(`git checkout --progress --force ${action.defaultBranch}`, workspace)
 
   return Promise.resolve("Commit step complete...");
 }
