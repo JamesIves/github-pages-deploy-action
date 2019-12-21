@@ -1,5 +1,6 @@
 // Initial env variable setup for tests.
 process.env["INPUT_FOLDER"] = "build";
+process.env["GITHUB_SHA"] = "123"
 
 import { execute } from "../src/util";
 import { init, generateBranch, deploy } from "../src/git";
@@ -114,7 +115,7 @@ describe("git", () => {
     it('should execute five commands', async () => {
       const call = await generateBranch();
       expect(execute).toBeCalledTimes(6);
-      expect(call).toBe('Deployment branch creation step complete...')
+      expect(call).toBe('Deployment branch creation step complete... ✅')
     })
   })
 
@@ -131,7 +132,7 @@ describe("git", () => {
       const call = await deploy();
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(16);
+      expect(execute).toBeCalledTimes(18);
       expect(call).toBe('Commit step complete...')
     })
   })
