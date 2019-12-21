@@ -114,7 +114,7 @@ describe("git", () => {
     it('should execute five commands', async () => {
       const call = await generateBranch();
       expect(execute).toBeCalledTimes(6);
-      expect(call).toBe('Deployment branch creation step complete...')
+      expect(call).toBe('Deployment branch creation step complete... ✅')
     })
   })
 

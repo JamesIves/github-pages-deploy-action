@@ -34,7 +34,7 @@ export async function init(): Promise<any> {
  */
 export async function generateBranch(): Promise<any> {
   try {
-    console.log(`Creating ${action.branch} branch...`);
+    console.log(`Creating ${action.branch} branch... 🔧`);
     await execute(`git switch ${action.baseBranch || "master"}`, workspace);
     await execute(`git switch --orphan ${action.branch}`, workspace);
     await execute(`git reset --hard`, workspace);
@@ -48,10 +48,10 @@ export async function generateBranch(): Promise<any> {
     await execute(`git switch ${action.baseBranch || "master"}`, workspace);
   } catch (error) {
     core.setFailed(
-      `There was an error creating the deployment branch: ${error}`
+      `There was an error creating the deployment branch: ${error} ❌`
     );
   } finally {
-    return Promise.resolve("Deployment branch creation step complete...");
+    return Promise.resolve("Deployment branch creation step complete... ✅");
   }
 }
 
@@ -92,7 +92,7 @@ export async function deploy(): Promise<any> {
       );
     } catch {
       console.log(
-        "There was an error parsing your CLEAN_EXCLUDE items. Please refer to the README for more details."
+        "There was an error parsing your CLEAN_EXCLUDE items. Please refer to the README for more details. ❌"
       );
     }
   }
@@ -122,7 +122,7 @@ export async function deploy(): Promise<any> {
   );
 
   if (!hasFilesToCommit && !isTest) {
-    console.log("There is nothing to commit. Exiting...");
+    console.log("There is nothing to commit. Exiting... ✅");
     return Promise.resolve();
   }
 
@@ -141,9 +141,9 @@ export async function deploy(): Promise<any> {
     temporaryDeploymentDirectory
   );
 
-  // Cleans up temporary files/folders.
+  // Cleans up temporary files/folders and restores the git state.
   if (process.env.GITHUB_SHA) {
-    console.log("Post deployment cleanup...");
+    console.log("Running post deployment cleanup jobs... 🔧");
     await execute(`rm -rf ${temporaryDeploymentDirectory}`, workspace);
     await execute(
       `git checkout --progress --force ${process.env.GITHUB_SHA}`,
