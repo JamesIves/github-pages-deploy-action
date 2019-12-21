@@ -156,7 +156,10 @@ export async function deploy(): Promise<any> {
   // Cleans up temporary files/folders and restores the git state.
   console.log("Running post deployment cleanup jobs... 🔧");
   await execute(`rm -rf ${temporaryDeploymentDirectory}`, workspace);
-  await execute(`git checkout --progress --force ${action.defaultBranch}`, workspace)
+  await execute(
+    `git checkout --progress --force ${action.defaultBranch}`,
+    workspace
+  );
 
   return Promise.resolve("Commit step complete...");
 }
