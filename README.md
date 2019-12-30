@@ -5,7 +5,7 @@
 This [GitHub action](https://github.com/features/actions) will handle the  deploy process of your project to [GitHub Pages](https://pages.github.com/). It can be configured to upload your production-ready code into any branch you'd like, including `gh-pages` and `docs`.
 
 ## Getting Started :airplane:
-You can include the action in your workflow to trigger on any event that [GitHub actions supports](https://help.github.com/en/articles/events-that-trigger-workflows). If the remote branch that you wish to deploy to doesn't already exist the action will create it for you. Your workflow will also need to include the `actions/checkout@v1` step before this workflow runs in order for the deployment to work.
+You can include the action in your workflow to trigger on any event that [GitHub actions supports](https://help.github.com/en/articles/events-that-trigger-workflows). If the remote branch that you wish to deploy to doesn't already exist the action will create it for you. Your workflow will also need to include the `actions/checkout@v2` step before this workflow runs in order for the deployment to work.
 
 You can view an example of this below.
 
@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
 
     - name: Build and Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3
@@ -59,7 +59,7 @@ jobs:
     runs-on: windows-latest # The first job utilizes windows-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
         
       - name: Install # The project is built using npm and placed in the 'build' folder.
         run: |
@@ -77,7 +77,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
  
       - name: Download Artifacts # The built project is downloaded into the 'site' folder.
         uses: actions/download-artifact@v1
