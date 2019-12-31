@@ -394,9 +394,9 @@
   dependencies:
     jest-diff "^24.3.0"
 
-"@types/node@>= 8", "@types/node@^13.1.1":
-  version "13.1.1"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.1.1.tgz#6d11a8c2d58405b3db9388ab740106cbfa64c3c9"
+"@types/node@>= 8", "@types/node@^13.1.2":
+  version "13.1.2"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.1.2.tgz#fe94285bf5e0782e1a9e5a8c482b1c34465fa385"
 
 "@types/stack-utils@^1.0.1":
   version "1.0.1"
