@@ -1,7 +1,7 @@
 {
   "name": "github-pages-deploy-action",
   "description": "GitHub action for building a project and deploying it to GitHub pages.",
-  "private": true,
+  "version": "3.1.1",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
