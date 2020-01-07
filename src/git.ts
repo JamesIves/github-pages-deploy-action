@@ -89,6 +89,7 @@ export async function deploy(): Promise<any> {
   // Checks out the base branch to begin the deployment process.
   await switchToBaseBranch();
   await execute(`git fetch ${repositoryPath}`, workspace);
+  await execute(`git pull`, workspace);
   await execute(
     `git worktree add --checkout ${temporaryDeploymentDirectory} origin/${action.branch}`,
     workspace
