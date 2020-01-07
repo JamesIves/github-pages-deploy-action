@@ -6,7 +6,7 @@ about: If you'd like to make a suggestion please fill out the form below.
 
 **Is your feature request related to a problem? Please describe.**
 
-> Please provide a clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+> Please provide a clear and concise description of what the problem is.
 
 **Describe the solution you'd like**
 
@@ -14,4 +14,4 @@ about: If you'd like to make a suggestion please fill out the form below.
 
 **Additional Comments**
 
-> Add any other context or screenshots about the feature request here.
+> Add any other context about the feature request here.
