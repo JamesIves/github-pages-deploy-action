@@ -30,7 +30,7 @@ describe("git", () => {
       });
 
       const call = await init();
-      expect(execute).toBeCalledTimes(3);
+      expect(execute).toBeCalledTimes(4);
       expect(call).toBe("Initialization step complete...");
     });
 
@@ -46,7 +46,7 @@ describe("git", () => {
 
       const call = await init();
 
-      expect(execute).toBeCalledTimes(3);
+      expect(execute).toBeCalledTimes(4);
       expect(call).toBe("Initialization step complete...");
     });
 
@@ -109,7 +109,7 @@ describe("git", () => {
 
       const call = await init();
 
-      expect(execute).toBeCalledTimes(3);
+      expect(execute).toBeCalledTimes(4);
       expect(call).toBe("Initialization step complete...");
     });
   });
