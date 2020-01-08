@@ -57,7 +57,7 @@ export async function generateBranch(): Promise<any> {
       workspace
     );
     await execute(`git push ${repositoryPath} ${action.branch}`, workspace);
-    await switchToBaseBranch();
+    await execute(`git fetch`, workspace);
   } catch (error) {
     core.setFailed(
       `There was an error creating the deployment branch: ${error} ❌`
@@ -90,7 +90,7 @@ export async function deploy(): Promise<any> {
   await switchToBaseBranch();
   await execute(`git fetch ${repositoryPath}`, workspace);
   await execute(
-    `git worktree add --checkout ${temporaryDeploymentDirectory} ${action.branch}`,
+    `git worktree add --checkout ${temporaryDeploymentDirectory} origin/${action.branch}`,
     workspace
   );
 
