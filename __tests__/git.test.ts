@@ -144,7 +144,7 @@ describe("git", () => {
       const call = await deploy();
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(19);
+      expect(execute).toBeCalledTimes(18);
       expect(call).toBe("Commit step complete...");
     });
   });
