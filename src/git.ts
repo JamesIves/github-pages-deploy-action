@@ -22,7 +22,6 @@ export async function init(): Promise<any> {
     await execute(`git init`, workspace);
     await execute(`git config user.name ${action.name}`, workspace);
     await execute(`git config user.email ${action.email}`, workspace);
-    await execute(`git pull ${repositoryPath}`, workspace);
   } catch (error) {
     core.setFailed(`There was an error initializing the repository: ${error}`);
   } finally {
@@ -91,7 +90,7 @@ export async function deploy(): Promise<any> {
   await switchToBaseBranch();
   await execute(`git fetch ${repositoryPath}`, workspace);
   await execute(
-    `git worktree add --checkout ${temporaryDeploymentDirectory} origin/${action.branch}`,
+    `git worktree add --checkout ${temporaryDeploymentDirectory} ${action.branch}`,
     workspace
   );
 
