@@ -395,8 +395,8 @@
     jest-diff "^24.3.0"
 
 "@types/node@>= 8", "@types/node@^13.1.2":
-  version "13.1.5"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.1.5.tgz#4d5efc52a1d3e45d13e5ec9f911cbc5b089ccaec"
+  version "13.1.6"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.1.6.tgz#076028d0b0400be8105b89a0a55550c86684ffec"
 
 "@types/stack-utils@^1.0.1":
   version "1.0.1"
