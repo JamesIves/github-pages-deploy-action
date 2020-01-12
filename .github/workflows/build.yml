@@ -3,6 +3,7 @@ on:
   pull_request:
     branches:
       - dev
+      - releases/v3
   push:
     branches:
       - dev

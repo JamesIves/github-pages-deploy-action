@@ -1,10 +1,15 @@
 name: integration-tests
 on:
   schedule:
-      - cron: 10 15 * * 0-6
+    - cron: 10 15 * * 0-6
   push:
     branches:
       - dev
+
+  pull_request:
+    branches:
+      - releases/v3
+
 jobs:
   checkout-v1:
     runs-on: ubuntu-latest
