@@ -75,5 +75,5 @@ jobs:
           CLEAN: true
 
       - name: Cleanup Generated Branch
-          run: |
-            git push origin --delete integration-test-delete-test
+        run: |
+          git push origin --delete integration-test-delete-test
