@@ -11,7 +11,7 @@ on:
       - releases/v3
 
 jobs:
-  checkout-v1:
+  integration-checkout-v1:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,34 +26,34 @@ jobs:
           BASE_BRANCH: dev
           TARGET_FOLDER: montezuma
 
-        checkout-v2:
-          needs: checkout-v1
-          runs-on: ubuntu-latest
-          steps:
-            - name: Checkout
-              uses: actions/checkout@v2
+  integration-checkout-v2:
+    needs: checkout-v1
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
 
-            - name: Build and Deploy
-              uses: JamesIves/github-pages-deploy-action@releases/v3
-              with:
-                ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-                BRANCH: gh-pages
-                FOLDER: integration
-                BASE_BRANCH: dev
-                TARGET_FOLDER: montezuma2
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: integration
+          BASE_BRANCH: dev
+          TARGET_FOLDER: montezuma2
 
-          clean:
-            needs: [checkout-v1, checkout-v2]
-            runs-on: ubuntu-latest
-            steps:
-              - name: Checkout
-                uses: actions/checkout@v1
+  integration-clean:
+    needs: [checkout-v1, checkout-v2]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
 
-              - name: Build and Deploy
-                uses: JamesIves/github-pages-deploy-action@releases/v3
-                with:
-                  ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-                  BRANCH: gh-pages
-                  FOLDER: integration
-                  BASE_BRANCH: dev
-                  CLEAN: true
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: integration
+          BASE_BRANCH: dev
+          CLEAN: true
