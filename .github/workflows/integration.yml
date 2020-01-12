@@ -27,7 +27,7 @@ jobs:
           TARGET_FOLDER: montezuma
 
   integration-checkout-v2:
-    needs: checkout-v1
+    needs: integration-checkout-v1
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -43,7 +43,7 @@ jobs:
           TARGET_FOLDER: montezuma2
 
   integration-clean:
-    needs: [checkout-v1, checkout-v2]
+    needs: [integration-checkout-v1, integration-checkout-v2]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
