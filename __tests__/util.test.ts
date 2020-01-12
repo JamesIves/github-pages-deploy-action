@@ -6,6 +6,7 @@ describe('util', () => {
     it('should return true if the value is null', async() => {
       const value = null;
       expect(isNullOrUndefined(value)).toBeTruthy()
+    });
 
     it('should return true if the value is undefined', async() => {
       const value = undefined;
