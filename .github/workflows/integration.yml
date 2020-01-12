@@ -1,8 +1,8 @@
 name: integration-tests
 on:
-  schedule:
-    - cron: 10 15 * * 0-6
-  push:
+  - schedule:
+      - cron: 10 15 * * 0-6
+  - push:
     branches:
       - dev
 jobs:
