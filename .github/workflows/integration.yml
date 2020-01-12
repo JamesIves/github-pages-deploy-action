@@ -2,17 +2,58 @@ name: integration-tests
 on:
   schedule:
     - cron: 10 15 * * 0-6
+  push:
+    branches:
+      - dev
+
+  pull_request:
+    branches:
+      - releases/v3
+
 jobs:
-  integration-test:
+  integration-checkout-v1:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v1
+      - name: Checkout
+        uses: actions/checkout@v1
 
-    - name: Build and Deploy
-      uses: JamesIves/github-pages-deploy-action@releases/v3
-      with:
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        BRANCH: gh-pages
-        FOLDER: integration
-        BASE_BRANCH: dev
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: integration
+          BASE_BRANCH: dev
+          TARGET_FOLDER: montezuma
+
+  integration-checkout-v2:
+    needs: checkout-v1
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: integration
+          BASE_BRANCH: dev
+          TARGET_FOLDER: montezuma2
+
+  integration-clean:
+    needs: [checkout-v1, checkout-v2]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: integration
+          BASE_BRANCH: dev
+          CLEAN: true
