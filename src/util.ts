@@ -1,22 +1,7 @@
-import { exec } from "@actions/exec";
-
-/** Wrapper around the GitHub toolkit exec command which returns the output.
- * Also allows you to easily toggle the current working directory.
- * @param {String} cmd = The command to execute.
- * @param {String} cwd - The current working directory.
- * @returns {Promise} - The output from the command.
+/** Utility function that checks to see if a value is undefined or not.
+ * @param {*} value = The value to check.
+ * @returns {boolean}
  */
-export async function execute(cmd: string, cwd: string): Promise<any> {
-  let output = "";
-
-  await exec(cmd, [], {
-    cwd,
-    listeners: {
-      stdout: (data: Buffer) => {
-        output += data.toString().trim();
-      }
-    }
-  });
-
-  return Promise.resolve(output);
+export function isNullOrUndefined(value: any): boolean {
+  return typeof value === "undefined" || value === null || value === "";
 }

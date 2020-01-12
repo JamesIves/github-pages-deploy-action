@@ -1,5 +1,6 @@
 import * as core from "@actions/core";
-import { execute } from "./util";
+import { execute } from "./execute";
+import { isNullOrUndefined } from "./util";
 import { workspace, action, root, repositoryPath, isTest } from "./constants";
 
 /** Generates the branch if it doesn't exist on the remote.
@@ -7,13 +8,17 @@ import { workspace, action, root, repositoryPath, isTest } from "./constants";
  */
 export async function init(): Promise<any> {
   try {
-    if (!action.accessToken && !action.gitHubToken) {
+    if (
+      isNullOrUndefined(action.accessToken) &&
+      isNullOrUndefined(action.gitHubToken)
+    ) {
       return core.setFailed(
         "You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy."
       );
     }
 
     if (action.build.startsWith("/") || action.build.startsWith("./")) {
+      console.log("2");
       return core.setFailed(
         `The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly.`
       );
