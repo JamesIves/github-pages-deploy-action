@@ -2,8 +2,11 @@ name: integration-tests
 on:
   schedule:
     - cron: 10 15 * * 0-6
+  push:
+    branches:
+      - dev
 jobs:
-  integration-test:
+  checkout-v1:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -16,3 +19,38 @@ jobs:
         BRANCH: gh-pages
         FOLDER: integration
         BASE_BRANCH: dev
+        TARGET_FOLDER: montezuma
+
+      checkout-v2:
+        needs: checkout-v1
+        runs-on: ubuntu-latest
+        steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+      
+        - name: Build and Deploy
+          uses: JamesIves/github-pages-deploy-action@releases/v3
+          with:
+            ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+            BRANCH: gh-pages
+            FOLDER: integration
+            BASE_BRANCH: dev
+            TARGET_FOLDER: montezuma2
+
+        clean:
+          needs: [checkout-v1, checkout-v2]
+          runs-on: ubuntu-latest
+          steps:
+          - name: Checkout
+            uses: actions/checkout@v1
+            
+          - name: Build and Deploy
+            uses: JamesIves/github-pages-deploy-action@releases/v3
+            with:
+              ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+              BRANCH: gh-pages
+              FOLDER: integration
+              BASE_BRANCH: dev
+              CLEAN: true
+      
+      
