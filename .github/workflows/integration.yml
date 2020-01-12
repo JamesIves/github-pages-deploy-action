@@ -5,10 +5,8 @@ on:
   push:
     branches:
       - dev
-
-  pull_request:
-    branches:
       - releases/v3
+      - releases/v3-test
 
 jobs:
   # Deploys using checkout@v1 with an ACCESS_TOKEN.
