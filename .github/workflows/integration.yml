@@ -57,3 +57,23 @@ jobs:
           FOLDER: integration
           BASE_BRANCH: dev
           CLEAN: true
+
+  integration-branch-creation:
+    needs: [integration-checkout-v1, integration-checkout-v2]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: integration-test-delete-test
+          FOLDER: integration
+          BASE_BRANCH: dev
+          CLEAN: true
+
+      - name: Cleanup Generated Branch
+          run: |
+            git push origin --delete integration-test-delete-test
