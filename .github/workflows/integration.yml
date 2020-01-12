@@ -36,7 +36,7 @@ jobs:
       - name: Build and Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3-test
         with:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
           FOLDER: integration
           BASE_BRANCH: dev
@@ -77,5 +77,7 @@ jobs:
           CLEAN: true
 
       - name: Cleanup Generated Branch
-        run: |
-          git push origin --delete integration-test-delete-test
+        uses: dawidd6/action-delete-branch@v2.0.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branches: integration-test-delete-test
