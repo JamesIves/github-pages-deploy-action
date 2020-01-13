@@ -3,8 +3,8 @@
 
 
 "@actions/core@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@actions/core/-/core-1.2.0.tgz#aa5f52b26c362c821d41557e599371a42f6c0b3d"
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@actions/core/-/core-1.2.1.tgz#867e92da94d80f743e6e0503c668af832465080a"
 
 "@actions/exec@^1.0.2":
   version "1.0.3"
