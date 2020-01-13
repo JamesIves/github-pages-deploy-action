@@ -7,8 +7,8 @@
   resolved "https://registry.yarnpkg.com/@actions/core/-/core-1.2.0.tgz#aa5f52b26c362c821d41557e599371a42f6c0b3d"
 
 "@actions/exec@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@actions/exec/-/exec-1.0.2.tgz#80ae9c2ea0bf5d0046a9f73d2a1b15bddfff0311"
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@actions/exec/-/exec-1.0.3.tgz#b967f8700d6ff011dcc91243b58bafc1bb9ab95f"
   dependencies:
     "@actions/io" "^1.0.1"
 
