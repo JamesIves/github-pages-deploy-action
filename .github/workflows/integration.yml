@@ -2,17 +2,108 @@ name: integration-tests
 on:
   schedule:
     - cron: 10 15 * * 0-6
+  push:
+    branches:
+      - dev
+      - releases/v3
+      - releases/v3-test
+
 jobs:
-  integration-test:
+  # Deploys using checkout@v1 with an ACCESS_TOKEN.
+  integration-checkout-v1:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v1
+      - name: Checkout
+        uses: actions/checkout@v1
 
-    - name: Build and Deploy
-      uses: JamesIves/github-pages-deploy-action@releases/v3
-      with:
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        BRANCH: gh-pages
-        FOLDER: integration
-        BASE_BRANCH: dev
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3-test
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: integration
+          BASE_BRANCH: dev
+          TARGET_FOLDER: montezuma
+
+  # Deploys using checkout@v2 with a GITHUB_TOKEN.
+  integration-checkout-v2:
+    needs: integration-checkout-v1
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3-test
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: integration
+          BASE_BRANCH: dev
+          TARGET_FOLDER: montezuma2
+
+
+  # Deploys using a container that requires you to install rsync.
+  integration-container:
+    needs: integration-checkout-v2
+    runs-on: ubuntu-latest
+    container:
+      image: ruby:2.6
+      env:
+        LANG: C.UTF-8
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install rsync
+        run: |
+          apt-get update && apt-get install -y rsync
+
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3-test
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: integration
+          BASE_BRANCH: dev
+          TARGET_FOLDER: montezuma2
+
+  # Deploys using the CLEAN option.
+  integration-clean:
+    needs: [integration-checkout-v1, integration-checkout-v2, integration-container]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3-test
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: integration
+          BASE_BRANCH: dev
+          CLEAN: true
+
+  # Deploys to a branch that doesn't exist.
+  integration-branch-creation:
+    needs: [integration-checkout-v1, integration-checkout-v2]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3-test
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: integration-test-delete-test
+          FOLDER: integration
+          BASE_BRANCH: dev
+          CLEAN: true
+
+      - name: Cleanup Generated Branch
+        uses: dawidd6/action-delete-branch@v2.0.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branches: integration-test-delete-test

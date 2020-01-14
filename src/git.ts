@@ -1,5 +1,6 @@
 import * as core from "@actions/core";
-import { execute } from "./util";
+import { execute } from "./execute";
+import { isNullOrUndefined } from "./util";
 import { workspace, action, root, repositoryPath, isTest } from "./constants";
 
 /** Generates the branch if it doesn't exist on the remote.
@@ -7,7 +8,10 @@ import { workspace, action, root, repositoryPath, isTest } from "./constants";
  */
 export async function init(): Promise<any> {
   try {
-    if (!action.accessToken && !action.gitHubToken) {
+    if (
+      isNullOrUndefined(action.accessToken) &&
+      isNullOrUndefined(action.gitHubToken)
+    ) {
       return core.setFailed(
         "You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy."
       );
@@ -22,6 +26,7 @@ export async function init(): Promise<any> {
     await execute(`git init`, workspace);
     await execute(`git config user.name ${action.name}`, workspace);
     await execute(`git config user.email ${action.email}`, workspace);
+    await execute(`git fetch`, workspace);
   } catch (error) {
     core.setFailed(`There was an error initializing the repository: ${error}`);
   } finally {
@@ -32,11 +37,11 @@ export async function init(): Promise<any> {
 /** Switches to the base branch.
  * @returns {Promise}
  */
-export async function switchToBaseBranch() {
+export async function switchToBaseBranch(): Promise<any> {
   await execute(
-    action.baseBranch
-      ? `git switch ${action.baseBranch}`
-      : `git checkout --progress --force ${action.defaultBranch}`,
+    `git checkout --progress --force ${
+      action.baseBranch ? action.baseBranch : action.defaultBranch
+    }`,
     workspace
   );
 
@@ -50,7 +55,7 @@ export async function generateBranch(): Promise<any> {
   try {
     console.log(`Creating ${action.branch} branch... 🔧`);
     await switchToBaseBranch();
-    await execute(`git switch --orphan ${action.branch}`, workspace);
+    await execute(`git checkout --orphan ${action.branch}`, workspace);
     await execute(`git reset --hard`, workspace);
     await execute(
       `git commit --allow-empty -m "Initial ${action.branch} commit."`,
@@ -141,7 +146,7 @@ export async function deploy(): Promise<any> {
   // Commits to GitHub.
   await execute(`git add --all .`, temporaryDeploymentDirectory);
   await execute(
-    `git switch -c ${temporaryDeploymentBranch}`,
+    `git checkout -b ${temporaryDeploymentBranch}`,
     temporaryDeploymentDirectory
   );
   await execute(

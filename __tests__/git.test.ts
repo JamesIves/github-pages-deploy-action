@@ -5,11 +5,11 @@ process.env["GITHUB_SHA"] = "123";
 import _ from "lodash";
 import { action } from "../src/constants";
 import { deploy, generateBranch, init, switchToBaseBranch } from "../src/git";
-import { execute } from "../src/util";
+import { execute } from "../src/execute";
 
 const originalAction = _.cloneDeep(action);
 
-jest.mock("../src/util", () => ({
+jest.mock("../src/execute", () => ({
   execute: jest.fn()
 }));
 
@@ -30,7 +30,7 @@ describe("git", () => {
       });
 
       const call = await init();
-      expect(execute).toBeCalledTimes(3);
+      expect(execute).toBeCalledTimes(4);
       expect(call).toBe("Initialization step complete...");
     });
 
@@ -46,7 +46,7 @@ describe("git", () => {
 
       const call = await init();
 
-      expect(execute).toBeCalledTimes(3);
+      expect(execute).toBeCalledTimes(4);
       expect(call).toBe("Initialization step complete...");
     });
 
@@ -109,7 +109,7 @@ describe("git", () => {
 
       const call = await init();
 
-      expect(execute).toBeCalledTimes(3);
+      expect(execute).toBeCalledTimes(4);
       expect(call).toBe("Initialization step complete...");
     });
   });

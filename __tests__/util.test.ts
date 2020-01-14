@@ -1,23 +1,21 @@
-import {execute} from '../src/util';
-import {exec} from '@actions/exec';
+import {isNullOrUndefined} from '../src/util';
 
-jest.mock('@actions/exec', () => ({
-  exec: jest.fn()
-}))
 
 describe('util', () => {
-  describe('execute', () => {
-    it('should be called with the correct arguements', async() => {
-      await execute('echo Montezuma', './')
-    
-      expect(exec).toBeCalledWith(
-        "echo Montezuma", [], {
-          cwd: "./",
-          listeners: {
-            stdout: expect.any(Function)
-          }
-        }
-      )
+  describe('isNullOrUndefined', () => {
+    it('should return true if the value is null', async() => {
+      const value = null;
+      expect(isNullOrUndefined(value)).toBeTruthy()
+    });
+
+    it('should return true if the value is undefined', async() => {
+      const value = undefined;
+      expect(isNullOrUndefined(value)).toBeTruthy()
+    });
+
+    it('should return false if the value is defined', async() => {
+      const value = 'montezuma';
+      expect(isNullOrUndefined(value)).toBeFalsy()
     });
   })
 })
