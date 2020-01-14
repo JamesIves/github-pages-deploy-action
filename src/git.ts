@@ -37,11 +37,11 @@ export async function init(): Promise<any> {
 /** Switches to the base branch.
  * @returns {Promise}
  */
-export async function switchToBaseBranch() {
+export async function switchToBaseBranch(): Promise<any> {
   await execute(
-    action.baseBranch
-      ? `git checkout --progress --force ${action.baseBranch}`
-      : `git checkout --progress --force ${action.defaultBranch}`,
+    `git checkout --progress --force ${
+      action.baseBranch ? action.baseBranch : action.defaultBranch
+    }`,
     workspace
   );
 
