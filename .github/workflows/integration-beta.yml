@@ -1,4 +1,4 @@
-name: integration-tests
+name: integration-tests-beta
 on:
   schedule:
     - cron: 10 15 * * 0-6
@@ -6,6 +6,7 @@ on:
     branches:
       - dev
       - releases/v3
+      - releases/v3-test
 
 jobs:
   # Deploys using checkout@v1 with an ACCESS_TOKEN.
@@ -16,7 +17,7 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@releases/v3
+        uses: JamesIves/github-pages-deploy-action@releases/v3-test
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages
@@ -33,7 +34,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@releases/v3
+        uses: JamesIves/github-pages-deploy-action@releases/v3-test
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
@@ -59,7 +60,7 @@ jobs:
           apt-get update && apt-get install -y rsync
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@releases/v3
+        uses: JamesIves/github-pages-deploy-action@releases/v3-test
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
@@ -76,7 +77,7 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@releases/v3
+        uses: JamesIves/github-pages-deploy-action@releases/v3-test
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages
@@ -93,10 +94,10 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@releases/v3
+        uses: JamesIves/github-pages-deploy-action@releases/v3-test
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BRANCH: integration-test-delete-prod
+          BRANCH: integration-test-delete-test
           FOLDER: integration
           BASE_BRANCH: dev
           CLEAN: true
@@ -105,4 +106,4 @@ jobs:
         uses: dawidd6/action-delete-branch@v2.0.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branches: integration-test-delete-prod
+          branches: integration-test-delete-test
