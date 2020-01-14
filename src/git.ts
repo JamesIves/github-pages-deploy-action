@@ -18,7 +18,6 @@ export async function init(): Promise<any> {
     }
 
     if (action.build.startsWith("/") || action.build.startsWith("./")) {
-      console.log("2");
       return core.setFailed(
         `The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly.`
       );
@@ -38,11 +37,11 @@ export async function init(): Promise<any> {
 /** Switches to the base branch.
  * @returns {Promise}
  */
-export async function switchToBaseBranch() {
+export async function switchToBaseBranch(): Promise<any> {
   await execute(
-    action.baseBranch
-      ? `git switch ${action.baseBranch}`
-      : `git checkout --progress --force ${action.defaultBranch}`,
+    `git checkout --progress --force ${
+      action.baseBranch ? action.baseBranch : action.defaultBranch
+    }`,
     workspace
   );
 
@@ -56,7 +55,7 @@ export async function generateBranch(): Promise<any> {
   try {
     console.log(`Creating ${action.branch} branch... 🔧`);
     await switchToBaseBranch();
-    await execute(`git switch --orphan ${action.branch}`, workspace);
+    await execute(`git checkout --orphan ${action.branch}`, workspace);
     await execute(`git reset --hard`, workspace);
     await execute(
       `git commit --allow-empty -m "Initial ${action.branch} commit."`,
@@ -147,7 +146,7 @@ export async function deploy(): Promise<any> {
   // Commits to GitHub.
   await execute(`git add --all .`, temporaryDeploymentDirectory);
   await execute(
-    `git switch -c ${temporaryDeploymentBranch}`,
+    `git checkout -b ${temporaryDeploymentBranch}`,
     temporaryDeploymentDirectory
   );
   await execute(
