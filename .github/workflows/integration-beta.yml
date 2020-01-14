@@ -20,7 +20,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@releases/v3-test
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BRANCH: gh-pages
+          BRANCH: gh-pages-beta
           FOLDER: integration
           BASE_BRANCH: dev
           TARGET_FOLDER: montezuma
@@ -37,7 +37,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@releases/v3-test
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
+          BRANCH: gh-pages-beta
           FOLDER: integration
           BASE_BRANCH: dev
           TARGET_FOLDER: montezuma2
@@ -63,7 +63,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@releases/v3-test
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
+          BRANCH: gh-pages-beta
           FOLDER: integration
           BASE_BRANCH: dev
           TARGET_FOLDER: montezuma2
@@ -80,7 +80,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@releases/v3-test
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BRANCH: gh-pages
+          BRANCH: gh-pages-beta
           FOLDER: integration
           BASE_BRANCH: dev
           CLEAN: true
