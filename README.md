@@ -98,16 +98,18 @@ jobs:
 
 #### Using a Container 📦
 
-If you use a container in your workflow you may need to install `rsync. This can be achieved by adding the following step to your workflow. This step should run _before_ this action.
+If you use a [container](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#jobsjob_idcontainer) in your workflow you may need to run an additional step to install `rsync`.
 
 ```yml
-- name: install, build, test
+- name: Install rsync
   run: |
     apt-get update && apt-get install -y rsync
     
-- name: Build and Deploy
+- name: Deploy
   uses: JamesIves/github-pages-deploy-action@releases/v3
 ```
+
+The 
 
 ## Configuration 📁
 
