@@ -26,6 +26,8 @@ export async function init(): Promise<any> {
     await execute(`git init`, workspace);
     await execute(`git config user.name ${action.name}`, workspace);
     await execute(`git config user.email ${action.email}`, workspace);
+    await execute(`git remote rm origin`, workspace);
+    await execute(`git remote add origin ${repositoryPath}`, workspace);
     await execute(`git fetch`, workspace);
   } catch (error) {
     core.setFailed(`There was an error initializing the repository: ${error}`);
