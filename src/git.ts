@@ -147,6 +147,7 @@ export async function deploy(): Promise<any> {
   // Commits to GitHub.
   await execute(`git add --all .`, temporaryDeploymentDirectory);
   await execute(
+    `git checkout -b ${temporaryDeploymentBranch}`,
     temporaryDeploymentDirectory
   );
   await execute(
