@@ -18,7 +18,6 @@ export async function init(): Promise<any> {
     }
 
     if (action.build.startsWith("/") || action.build.startsWith("./")) {
-      console.log("2");
       return core.setFailed(
         `The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly.`
       );
