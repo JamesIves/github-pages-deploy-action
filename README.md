@@ -96,6 +96,19 @@ jobs:
 </p>
 </details>
 
+#### Using a Container 📦
+
+If you use a container in your workflow you may need to install `rsync. This can be achieved by adding the following step to your workflow. This step should run _before_ this action.
+
+```yml
+- name: install, build, test
+  run: |
+    apt-get update && apt-get install -y rsync
+    
+- name: Build and Deploy
+  uses: JamesIves/github-pages-deploy-action@releases/v3
+```
+
 ## Configuration 📁
 
 The `with` portion of the workflow **must** be configured before the action will work. You can add these in the `with` section found in the examples above. Any `secrets` must be referenced using the bracket syntax and stored in the GitHub repositories `Settings/Secrets` menu. You can learn more about setting environment variables with GitHub actions [here](https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idstepsenv).
