@@ -24,8 +24,6 @@ export async function init(): Promise<any> {
       );
     }
 
-    // Ensures that rsync is installed as it's used in a later step.
-    await execute(`apt-get update && apt-get install -y rsync`, workspace)
     await execute(`git init`, workspace);
     await execute(`git config user.name ${action.name}`, workspace);
     await execute(`git config user.email ${action.email}`, workspace);
