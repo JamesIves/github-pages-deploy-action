@@ -7,7 +7,7 @@ jest.mock('@actions/exec', () => ({
 
 describe('execute', () => {
   describe('execute', () => {
-    it('should be called with the correct arguements', async() => {
+    it('should be called with the correct arguments', async() => {
       await execute('echo Montezuma', './')
     
       expect(exec).toBeCalledWith(
