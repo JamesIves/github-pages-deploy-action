@@ -98,7 +98,7 @@ jobs:
 
 #### Using a Container 📦
 
-If you use a [container](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#jobsjob_idcontainer) in your workflow you may need to run an additional step to install `rsync`.
+If you use a [container](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#jobsjob_idcontainer) in your workflow you may need to run an additional step to install `rsync` as it's not always included.
 
 ```yml
 - name: Install rsync
@@ -108,8 +108,6 @@ If you use a [container](https://help.github.com/en/actions/automating-your-work
 - name: Deploy
   uses: JamesIves/github-pages-deploy-action@releases/v3
 ```
-
-The 
 
 ## Configuration 📁
 
