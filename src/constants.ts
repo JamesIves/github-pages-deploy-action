@@ -1,12 +1,13 @@
 import * as core from "@actions/core";
 import * as github from "@actions/github";
+import { isNullOrUndefined } from "./util";
 
 const { pusher, repository } = github.context.payload;
 
 export const workspace: any = process.env.GITHUB_WORKSPACE;
+export const isTest: any = isNullOrUndefined(process.env.GITHUB_ACTIONS);
 export const folder = core.getInput("FOLDER", { required: true });
 export const root = ".";
-export const isTest = process.env.UNIT_TEST;
 
 // Required action data.
 export const action = {
