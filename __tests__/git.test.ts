@@ -2,12 +2,11 @@
 process.env["INPUT_FOLDER"] = "build";
 process.env["GITHUB_SHA"] = "123";
 
-import _ from "lodash";
 import { action } from "../src/constants";
 import { deploy, generateBranch, init, switchToBaseBranch } from "../src/git";
 import { execute } from "../src/execute";
 
-const originalAction = _.cloneDeep(action);
+const originalAction = JSON.stringify(action);
 
 jest.mock("../src/execute", () => ({
   execute: jest.fn()
@@ -15,7 +14,7 @@ jest.mock("../src/execute", () => ({
 
 describe("git", () => {
   afterEach(() => {
-    _.assignIn(action, originalAction);
+    Object.assign(action, JSON.parse(originalAction));
   });
 
   describe("init", () => {
