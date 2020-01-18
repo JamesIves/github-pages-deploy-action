@@ -7,7 +7,7 @@ This [GitHub action](https://github.com/features/actions) will handle the  deplo
 ![Example Screenshot](screenshot.png)
 
 ## Getting Started :airplane:
-You can include the action in your workflow to trigger on any event that [GitHub actions supports](https://help.github.com/en/articles/events-that-trigger-workflows). If the remote branch that you wish to deploy to doesn't already exist the action will create it for you. Your workflow will also need to include the `actions/checkout@v1` step before this workflow runs in order for the deployment to work.
+You can include the action in your workflow to trigger on any event that [GitHub actions supports](https://help.github.com/en/articles/events-that-trigger-workflows). If the remote branch that you wish to deploy to doesn't already exist the action will create it for you. Your workflow will also need to include the `actions/checkout` step before this workflow runs in order for the deployment to work.
 
 You can view an example of this below.
 
@@ -19,7 +19,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2 # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
+      with:
+        persist-credentials: false
 
     - name: Build and Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3
@@ -61,7 +63,9 @@ jobs:
     runs-on: windows-latest # The first job utilizes windows-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
         
       - name: Install # The project is built using npm and placed in the 'build' folder.
         run: |
@@ -79,7 +83,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
  
       - name: Download Artifacts # The built project is downloaded into the 'site' folder.
         uses: actions/download-artifact@v1
