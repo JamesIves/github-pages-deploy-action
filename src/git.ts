@@ -19,7 +19,11 @@ export async function init(): Promise<any> {
     }
 
     if (!isNullOrUndefined(action.deployKey)) {
-      await execute(`mkdir ${ssh}`, workspace);
+      await execute(`mkdir -p ${ssh}`, workspace);
+      await execute(
+        `ssh-keyscan github.com >> known_hosts`,
+        ssh
+      );
       await execute(
         `echo "${action.deployKey}" > "id_rsa"`,
         ssh
