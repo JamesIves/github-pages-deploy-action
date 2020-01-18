@@ -39,7 +39,9 @@ export const action = {
 };
 
 // Repository path used for commits/pushes.
-export const repositoryPath = action.deployKey ? `git@github.com:${action.gitHubRepository}` : `https://${action.accessToken ||
-  `x-access-token:${action.gitHubToken}`}@github.com/${
-  action.gitHubRepository
-}.git`;
+export const repositoryPath = action.deployKey
+  ? `git@github.com:${action.gitHubRepository}`
+  : `https://${action.accessToken ||
+      `x-access-token:${action.gitHubToken}`}@github.com/${
+      action.gitHubRepository
+    }.git`;
