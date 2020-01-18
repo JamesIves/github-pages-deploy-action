@@ -152,7 +152,11 @@ export async function deploy(): Promise<any> {
     temporaryDeploymentDirectory
   );
   await execute(
-    `git commit -m "Deploying to ${action.branch} from ${action.baseBranch} ${process.env.GITHUB_SHA}" --quiet`,
+    `git commit -m "${
+      action.commitMessage
+        ? action.commitMessage
+        : `Deploying to ${action.branch} from ${action.baseBranch}`
+    } ${process.env.GITHUB_SHA} 🚀" --quiet`,
     temporaryDeploymentDirectory
   );
   await execute(

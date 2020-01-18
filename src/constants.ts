@@ -10,30 +10,31 @@ export const isTest = process.env.UNIT_TEST;
 
 // Required action data.
 export const action = {
+  accessToken: core.getInput("ACCESS_TOKEN"),
+  baseBranch: core.getInput("BASE_BRANCH"),
   build: folder,
+  branch: core.getInput("BRANCH"),
+  commitMessage: core.getInput("COMMIT_MESSAGE"),
+  clean: core.getInput("CLEAN"),
+  cleanExclude: core.getInput("CLEAN_EXCLUDE"),
+  defaultBranch: process.env.GITHUB_SHA ? process.env.GITHUB_SHA : "master",
+  email:
+    pusher && pusher.email
+      ? pusher.email
+      : `${process.env.GITHUB_ACTOR ||
+          "github-pages-deploy-action"}@users.noreply.github.com`,
   gitHubRepository:
     repository && repository.full_name
       ? repository.full_name
       : process.env.GITHUB_REPOSITORY,
   gitHubToken: core.getInput("GITHUB_TOKEN"),
-  accessToken: core.getInput("ACCESS_TOKEN"),
-  branch: core.getInput("BRANCH"),
-  targetFolder: core.getInput("TARGET_FOLDER"),
-  baseBranch: core.getInput("BASE_BRANCH"),
-  defaultBranch: process.env.GITHUB_SHA ? process.env.GITHUB_SHA : "master",
   name:
     pusher && pusher.name
       ? pusher.name
       : process.env.GITHUB_ACTOR
       ? process.env.GITHUB_ACTOR
       : "GitHub Pages Deploy Action",
-  email:
-    pusher && pusher.email
-      ? pusher.email
-      : `${process.env.GITHUB_ACTOR ||
-          "github-pages-deploy-action"}@users.noreply.github.com`,
-  clean: core.getInput("CLEAN"),
-  cleanExclude: core.getInput("CLEAN_EXCLUDE")
+  targetFolder: core.getInput("TARGET_FOLDER")
 };
 
 // Repository path used for commits/pushes.
