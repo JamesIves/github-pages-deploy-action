@@ -1,7 +1,7 @@
 import * as core from "@actions/core";
 import { execute } from "./execute";
 import { isNullOrUndefined } from "./util";
-import { workspace, action, root, repositoryPath, isTest } from "./constants";
+import { workspace, action, root, ssh, repositoryPath, isTest } from "./constants";
 
 /** Generates the branch if it doesn't exist on the remote.
  * @returns {Promise}
@@ -19,11 +19,10 @@ export async function init(): Promise<any> {
     }
 
     if (!isNullOrUndefined(action.deployKey)) {
-      const sshDirectory = `${workspace}/.ssh`;
-      await execute(`mkdir ${sshDirectory}`, workspace);
+      await execute(`mkdir ${ssh}`, workspace);
       await execute(
-        `echo "${action.deployKey}" > "${sshDirectory}/id_rsa"`,
-        workspace
+        `echo "${action.deployKey}" > "id_rsa"`,
+        ssh
       );
     }
 
