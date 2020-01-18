@@ -21,7 +21,6 @@ export async function init(): Promise<any> {
 
     if (!isNullOrUndefined(action.deployKey)) {
       await execute(`mkdir -p ${ssh}`, workspace);
-      await execute(
       appendFile(`${ssh}/id_rsa`, action.deployKey, async () => {
         await execute(`ssh -T git@github.com`, workspace);
       });
