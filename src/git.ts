@@ -1,7 +1,6 @@
 import * as core from "@actions/core";
 import { execute } from "./execute";
-import { isNullOrUndefined } from "./util";
-import { appendFile } from 'fs';
+import { isNullOrUndefined, createFiole } from "./util";
 import { workspace, action, root, ssh, repositoryPath, isTest } from "./constants";
 
 /** Generates the branch if it doesn't exist on the remote.
@@ -21,9 +20,8 @@ export async function init(): Promise<any> {
 
     if (!isNullOrUndefined(action.deployKey)) {
       await execute(`mkdir -p ${ssh}`, workspace);
-      appendFile(`${ssh}/id_rsa`, action.deployKey, async () => {
-        await execute(`ssh -T git@github.com`, workspace);
-      });
+      await createFile(`${ssh}/id_rsa`, action.deployKey)
+      await execute(`chmod 400 id_rsa`, ssh)
     }
 
     if (action.build.startsWith("/") || action.build.startsWith("./")) {
