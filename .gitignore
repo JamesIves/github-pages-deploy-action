@@ -10,3 +10,7 @@ node_modules
 ## Registry
 package-lock.json
 yarn-error.log
+
+## SSH
+.ssh
+*.pub
