@@ -156,7 +156,7 @@ export async function deploy(): Promise<any> {
       !isNullOrUndefined(action.commitMessage)
         ? action.commitMessage
         : `Deploying to ${action.branch} from ${action.baseBranch}`
-    } ${process.env.GITHUB_SHA} 🚀" --quiet`,
+    } - ${process.env.GITHUB_SHA} 🚀" --quiet`,
     temporaryDeploymentDirectory
   );
   await execute(
