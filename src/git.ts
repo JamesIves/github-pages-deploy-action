@@ -153,7 +153,7 @@ export async function deploy(): Promise<any> {
   );
   await execute(
     `git commit -m "${
-      action.commitMessage
+      !isNullOrUndefined(action.commitMessage)
         ? action.commitMessage
         : `Deploying to ${action.branch} from ${action.baseBranch}`
     } ${process.env.GITHUB_SHA} 🚀" --quiet`,
