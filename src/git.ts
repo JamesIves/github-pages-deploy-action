@@ -10,11 +10,17 @@ export async function init(): Promise<any> {
   try {
     if (
       isNullOrUndefined(action.accessToken) &&
-      isNullOrUndefined(action.gitHubToken)
+      isNullOrUndefined(action.gitHubToken) &&
+      isNullOrUndefined(action.deployKey)
     ) {
       return core.setFailed(
         "You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy."
       );
+    }
+
+    if (!isNullOrUndefined(action.deployKey)) {
+      await execute(`mkdir .ssh`, workspace)
+      await execute(`echo "${action.deployKey}" > ".ssh/id_rsa"`, workspace)
     }
 
     if (action.build.startsWith("/") || action.build.startsWith("./")) {
@@ -129,7 +135,7 @@ export async function deploy(): Promise<any> {
       action.clean
         ? `--delete ${excludes} --exclude CNAME --exclude .nojekyll`
         : ""
-    }  --exclude .git --exclude .github ${
+    }  --exclude .ssh --exclude .git --exclude .github ${
       action.build === root ? `--exclude ${temporaryDeploymentDirectory}` : ""
     }`,
     workspace
