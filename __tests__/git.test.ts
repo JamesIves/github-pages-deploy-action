@@ -24,7 +24,7 @@ describe("git", () => {
   });
 
   describe("init", () => {
-    it("should execute three commands if a GitHub token is provided", async () => {
+    it("should execute commands if a GitHub token is provided", async () => {
       Object.assign(action, {
         build: "build",
         branch: "branch",
@@ -40,7 +40,7 @@ describe("git", () => {
       expect(call).toBe("Initialization step complete...");
     });
 
-    it("should execute three commands if a Access token is provided", async () => {
+    it("should execute commands if an Access Token is provided", async () => {
       Object.assign(action, {
         build: "build",
         branch: "branch",
@@ -57,7 +57,24 @@ describe("git", () => {
       expect(call).toBe("Initialization step complete...");
     });
 
-    it("should fail if there is no provided GitHub Token or Access Token", async () => {
+    it("should execute commands if SSH is true", async () => {
+      Object.assign(action, {
+        build: "build",
+        branch: "branch",
+        ssh: true,
+        pusher: {
+          name: "asd",
+          email: "as@cat"
+        }
+      });
+
+      const call = await init();
+
+      expect(execute).toBeCalledTimes(6);
+      expect(call).toBe("Initialization step complete...");
+    });
+
+    it("should fail if there is no provided GitHub Token, Access Token or SSH bool", async () => {
       Object.assign(action, {
         build: "build",
         branch: "branch",
