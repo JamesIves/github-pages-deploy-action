@@ -40,6 +40,8 @@ on:
       - master
 ```
 
+---
+
 ### Using an SSH Deploy Key 🔑
 
 If you'd prefer to use an SSH deploy key you must first generate a new SSH key by running the following terminal command, replacing the email with one connected to your GitHub account.
