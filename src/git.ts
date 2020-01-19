@@ -1,7 +1,6 @@
-import * as core from "@actions/core";
+import { setFailed } from "@actions/core";
 import {
   action,
-  isTest,
   repositoryPath,
   root,
   tokenType,
@@ -20,15 +19,19 @@ export async function init(): Promise<any> {
       isNullOrUndefined(action.gitHubToken) &&
       isNullOrUndefined(action.ssh)
     ) {
-      return core.setFailed(
+      setFailed(
         "You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true."
       );
+
+      throw "No deployment token/method was provided.";
     }
 
     if (action.build.startsWith("/") || action.build.startsWith("./")) {
-      return core.setFailed(
+      setFailed(
         `The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly.`
       );
+
+      throw "Incorrectly formatted build folder.";
     }
 
     console.log(`Deploying using ${tokenType}... 🔑`);
@@ -39,7 +42,7 @@ export async function init(): Promise<any> {
     await execute(`git remote add origin ${repositoryPath}`, workspace);
     await execute(`git fetch`, workspace);
   } catch (error) {
-    core.setFailed(`There was an error initializing the repository: ${error}`);
+    console.log(`There was an error initializing the repository: ${error}`);
   } finally {
     return Promise.resolve("Initialization step complete...");
   }
@@ -64,6 +67,10 @@ export async function switchToBaseBranch(): Promise<any> {
  */
 export async function generateBranch(): Promise<any> {
   try {
+    if (isNullOrUndefined(action.branch)) {
+      throw "Branch is required.";
+    }
+
     console.log(`Creating ${action.branch} branch... 🔧`);
     await switchToBaseBranch();
     await execute(`git checkout --orphan ${action.branch}`, workspace);
@@ -75,9 +82,7 @@ export async function generateBranch(): Promise<any> {
     await execute(`git push ${repositoryPath} ${action.branch}`, workspace);
     await execute(`git fetch`, workspace);
   } catch (error) {
-    core.setFailed(
-      `There was an error creating the deployment branch: ${error} ❌`
-    );
+    setFailed(`There was an error creating the deployment branch: ${error} ❌`);
   } finally {
     return Promise.resolve("Deployment branch creation step complete... ✅");
   }
@@ -149,7 +154,7 @@ export async function deploy(): Promise<any> {
     temporaryDeploymentDirectory
   );
 
-  if (!hasFilesToCommit && !isTest) {
+  if (!hasFilesToCommit && !action.isTest) {
     console.log("There is nothing to commit. Exiting... ✅");
     return Promise.resolve();
   }
