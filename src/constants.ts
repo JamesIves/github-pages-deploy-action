@@ -38,6 +38,15 @@ export const action = {
   targetFolder: core.getInput("TARGET_FOLDER")
 };
 
+// Token Types
+export const tokenType = action.ssh
+  ? "SSH"
+  : action.accessToken
+  ? "Access Token"
+  : action.gitHubToken
+  ? "GitHub Token"
+  : "...";
+
 // Repository path used for commits/pushes.
 export const repositoryPath = action.ssh
   ? `git@github.com:${action.gitHubRepository}`
