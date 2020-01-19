@@ -1,1 +1,1 @@
-process.env.UNIT_TEST = "true";
+process.env.UNIT_TEST = 'true'

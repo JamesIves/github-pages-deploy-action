@@ -1,4 +1,4 @@
-import { execute } from "../src/execute";
+import { execute, stdout } from "../src/execute";
 import { exec } from "@actions/exec";
 
 jest.mock("@actions/exec", () => ({
@@ -7,6 +7,7 @@ jest.mock("@actions/exec", () => ({
 
 describe("execute", () => {
   it("should be called with the correct arguments", async () => {
+    await stdout("hello");
     await execute("echo Montezuma", "./");
 
     expect(exec).toBeCalledWith("echo Montezuma", [], {
