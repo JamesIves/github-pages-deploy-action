@@ -42,7 +42,7 @@ on:
 
 ------
 
-### Using an SSH Deploy Key 🔑
+#### Using an SSH Deploy Key 🔑
 
 If you'd prefer to use an SSH deploy key you must first generate a new SSH key by running the following terminal command, replacing the email with one connected to your GitHub account.
 
@@ -108,8 +108,9 @@ jobs:
 </p>
 </details>
 
+------
 
-### Operating System Support 💿
+#### Operating System Support 💿
 
 This action is primarily developed using [Ubuntu](https://ubuntu.com/). [In your workflow job configuration](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#jobsjob_idruns-on) it's recommended to set the `runs-on` property to `ubuntu-latest`.
 
@@ -171,9 +172,9 @@ jobs:
 </p>
 </details>
 
-------
+---
 
-### Using a Container 📦
+#### Using a Container 📦
 
 If you use a [container](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#jobsjob_idcontainer) in your workflow you may need to run an additional step to install `rsync` as this action depends on it. You can view an example of this below.
 
