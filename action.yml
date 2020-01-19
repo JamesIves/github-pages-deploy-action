@@ -17,7 +17,7 @@ inputs:
     required: false
 
   GITHUB_TOKEN:
-    description: 'In order for GitHub to trigger the rebuild of your page you must provide the action with the repositories provided GitHub token. This can be referenced in the workflow yml file by using ${{ secrets.GITHUB_TOKEN }}.'
+    description: 'In order for GitHub to trigger the rebuild of your page you must provide the action with the repositories provided GitHub token.'
     required: false
 
   BRANCH:
