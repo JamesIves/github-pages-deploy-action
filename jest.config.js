@@ -9,5 +9,6 @@ module.exports = {
   },
   verbose: true,
   setupFiles: ["<rootDir>/__tests__/env.js"],
-  collectCoverage: true
+  collectCoverage: true,
+  collectCoverageFrom: ['src/*.ts','!src/constants.ts']
 }

@@ -23,7 +23,7 @@ export async function init(): Promise<any> {
         "You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true."
       );
 
-      throw "No deployment token/method was provided.";
+      throw Error("No deployment token/method was provided.");
     }
 
     if (action.build.startsWith("/") || action.build.startsWith("./")) {
@@ -31,7 +31,7 @@ export async function init(): Promise<any> {
         `The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly.`
       );
 
-      throw "Incorrectly formatted build folder.";
+      throw Error("Incorrectly formatted build folder.");
     }
 
     console.log(`Deploying using ${tokenType}... 🔑`);
@@ -68,7 +68,7 @@ export async function switchToBaseBranch(): Promise<any> {
 export async function generateBranch(): Promise<any> {
   try {
     if (isNullOrUndefined(action.branch)) {
-      throw "Branch is required.";
+      throw Error("Branch is required.");
     }
 
     console.log(`Creating ${action.branch} branch... 🔧`);
@@ -102,7 +102,7 @@ export async function deploy(): Promise<any> {
     `git ls-remote --heads ${repositoryPath} ${action.branch} | wc -l`,
     workspace
   );
-  if (!branchExists) {
+  if (!branchExists && !action.isTest) {
     console.log("Deployment branch does not exist. Creating....");
     await generateBranch();
   }

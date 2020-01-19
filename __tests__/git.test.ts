@@ -183,7 +183,7 @@ describe("git", () => {
   });
 
   describe("deploy", () => {
-    it("should execute five commands", async () => {
+    it("should execute commands", async () => {
       Object.assign(action, {
         build: "build",
         branch: "branch",
@@ -197,11 +197,11 @@ describe("git", () => {
       const call = await deploy();
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(18);
+      expect(execute).toBeCalledTimes(12);
       expect(call).toBe("Commit step complete...");
     });
 
-    it("should execute five commands with clean options", async () => {
+    it("should execute commands with clean options", async () => {
       Object.assign(action, {
         build: "build",
         branch: "branch",
@@ -217,27 +217,26 @@ describe("git", () => {
       const call = await deploy();
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(18);
+      expect(execute).toBeCalledTimes(12);
       expect(call).toBe("Commit step complete...");
     });
 
     it("should gracefully handle incorrectly formatted clean exclude items", async () => {
       Object.assign(action, {
-        build: "build",
+        build: ".",
         branch: "branch",
         gitHubToken: "123",
-        pusher: {
-          name: "asd",
-          email: "as@cat"
-        },
+        pusher: {},
         clean: true,
+        targetFolder: "new_folder",
+        commitMessage: "Hello!",
+        isTest: true,
         cleanExclude: '["cat, "montezuma"]' // There is a syntax errror in the string.
       });
 
       const call = await deploy();
 
-      // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(18);
+      expect(execute).toBeCalledTimes(12);
       expect(call).toBe("Commit step complete...");
     });
 

@@ -40,7 +40,7 @@ export const action = {
 
 // Token Types
 export const tokenType = action.ssh
-  ? "SSH"
+  ? "SSH Deploy Key"
   : action.accessToken
   ? "Access Token"
   : action.gitHubToken

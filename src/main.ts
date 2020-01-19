@@ -1,15 +1,20 @@
-import * as core from "@actions/core";
+import { setFailed } from "@actions/core";
 import { init, deploy } from "./git";
 
 /** Initializes and runs the action. */
-(async function() {
+export default async function main() {
   try {
     await init();
     await deploy();
   } catch (error) {
+    /* istanbul ignore next */
     console.log("The deployment encountered an error. ❌");
-    core.setFailed(error.message);
+    /* istanbul ignore next */
+    setFailed(error);
   } finally {
     console.log("Completed Deployment ✅");
   }
-})();
+}
+
+// Init
+main();
