@@ -7,3 +7,43 @@ runs:
 branding:
   icon: 'git-commit'
   color: 'orange'
+inputs:
+  SSH:
+    description: 'You can configure the action to deploy using SSH by setting this option to true. More more information on how to add your ssh key pair please refer to the Using a Deploy Key section of this README.'
+    required: false
+
+  ACCESS_TOKEN:
+    description: 'Depending on the repository permissions you may need to provide the action with a GitHub personal access token instead of the provided GitHub token in order to deploy. This should be stored as a secret.'
+    required: false
+
+  GITHUB_TOKEN:
+    description: 'In order for GitHub to trigger the rebuild of your page you must provide the action with the repositories provided GitHub token. This can be referenced in the workflow yml file by using ${{ secrets.GITHUB_TOKEN }}.'
+    required: false
+
+  BRANCH:
+    description: 'This is the branch you wish to deploy to, for example gh-pages or docs.'
+    required: true
+
+  FOLDER: 
+    description: 'The folder in your repository that you want to deploy. If your build script compiles into a directory named build you would put it here. Folder paths cannot have a leading / or ./. If you wish to deploy the root directory you can place a . here.'
+    required: true
+
+  TARGET_FOLDER:
+    description: 'If you would like to push the contents of the deployment folder into a specific directory on the deployment branch you can specify it here.'
+    required: false
+
+  BASE_BRANCH:
+    description: 'The base branch of your repository which you would like to checkout prior to deploying. This defaults to the current commit SHA that triggered the build followed by master if it does not exist. This is useful for making deployments from another branch, and also may be necessary when using a scheduled job.'
+    required: false
+
+  COMMIT_MESSAGE:
+    description: 'If you need to customize the commit message for an integration you can do so.'
+    required: false
+
+  CLEAN:
+    description: 'If your project generates hashed files on build you can use this option to automatically delete them from the deployment branch with each deploy. This option can be toggled on by setting it to true.'
+    required: false
+
+  CLEAN_EXCLUDE:
+    description: "If you need to use CLEAN but you would like to preserve certain files or folders you can use this option. This should be formatted as an array but stored as a string."
+    required: false
