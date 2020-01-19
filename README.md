@@ -192,7 +192,7 @@ If you use a [container](https://help.github.com/en/actions/automating-your-work
 
 The `with` portion of the workflow **must** be configured before the action will work. You can add these in the `with` section found in the examples above. Any `secrets` must be referenced using the bracket syntax and stored in the GitHub repositories `Settings/Secrets` menu. You can learn more about setting environment variables with GitHub actions [here](https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idstepsenv).
 
-### Required Setup
+#### Required Setup
 
 One of the following deployment options must be configured.
 
@@ -202,7 +202,6 @@ One of the following deployment options must be configured.
 | `GITHUB_TOKEN`  | In order for GitHub to trigger the rebuild of your page you must provide the action with the repositories provided GitHub token. This can be referenced in the workflow `yml` file by using `${{ secrets.GITHUB_TOKEN }}`. Only required if an access token is **not** provided. **Please note there is currently an issue affecting the use of this token which makes it so it only works with private repositories, [you can learn more here](https://github.com/JamesIves/github-pages-deploy-action/issues/5)**. | `secrets / with` | **Yes** |
 | `SSH`  | You can configure the action to deploy using ssh by setting this option to `true`. More more information on how to add your ssh key pair please refer to the [Using a Deploy Key section of this README](). | `with` | **Yes** |
 
-
 In addition to the deployment options you must also configure the following.
 
 | Key  | Value Information | Type | Required |
@@ -210,9 +209,7 @@ In addition to the deployment options you must also configure the following.
 | `BRANCH`  | This is the branch you wish to deploy to, for example `gh-pages` or `docs`.  | `with` | **Yes** |
 | `FOLDER`  | The folder in your repository that you want to deploy. If your build script compiles into a directory named `build` you'd put it here. **Folder paths cannot have a leading `/` or `./`**. If you wish to deploy the root directory you can place a `.` here. | `with` | **Yes** |
 
-### Optional
-
-The following choices are completely optional.
+#### Optional Choices
 
 | Key  | Value Information | Type | Required |
 | ------------- | ------------- | ------------- | ------------- |
