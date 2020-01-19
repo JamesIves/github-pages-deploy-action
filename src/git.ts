@@ -1,9 +1,16 @@
 import * as core from "@actions/core";
 import { execute } from "./execute";
-import {appendFile} from 'fs';
-import {promisify} from 'util';
+import { appendFileSync } from "fs";
+import { promisify } from "util";
 import { isNullOrUndefined } from "./util";
-import { workspace, action, root, ssh, repositoryPath, isTest } from "./constants";
+import {
+  workspace,
+  action,
+  root,
+  ssh,
+  repositoryPath,
+  isTest
+} from "./constants";
 
 /** Generates the branch if it doesn't exist on the remote.
  * @returns {Promise}
@@ -21,13 +28,12 @@ export async function init(): Promise<any> {
     }
 
     if (!isNullOrUndefined(action.deployKey)) {
-      const createFile = promisify(appendFile)
+      const appendFile = promisify(appendFileSync);
       await execute(`mkdir -p ${ssh}`, workspace);
-      await execute(`ssh-keyscan -t rsa github.com 3> /dev/nulll >> "known_hosts"`, ssh)
-      await createFile(`${ssh}/id_rsa`, 'hello')
-      await execute(`ls`, ssh)
-      await execute(`cat id_rsa`, ssh)
-      await execute(`chmod 400 id_rsa`, ssh)
+      action.deployKey.split(/(?=-----BEGIN)/).forEach(async function(key) {
+        await execute(`ssh-add -${key.trim() + "\n"}`, ssh);
+    });
+      await execute(`chmod 400 id_rsa`, ssh);
     }
 
     if (action.build.startsWith("/") || action.build.startsWith("./")) {
