@@ -1,7 +1,14 @@
 import * as core from "@actions/core";
+import {
+  action,
+  isTest,
+  repositoryPath,
+  root,
+  tokenType,
+  workspace
+} from "./constants";
 import { execute } from "./execute";
 import { isNullOrUndefined } from "./util";
-import { workspace, action, root, repositoryPath, isTest } from "./constants";
 
 /** Generates the branch if it doesn't exist on the remote.
  * @returns {Promise}
@@ -18,25 +25,13 @@ export async function init(): Promise<any> {
       );
     }
 
-    const sshAuthenticated = await execute(
-      `ssh -T git@github.com | wc -l`,
-      workspace
-    );
-
-    if (action.ssh && !sshAuthenticated) {
-      return core.setFailed(
-        `You're not authenticated with SSH. Please double check your deploy token configuration and try again.`
-      );
-    } else if (action.ssh && sshAuthenticated) {
-      console.log("SSH is correctly authenticated, proceeding... 🔑");
-    }
-
     if (action.build.startsWith("/") || action.build.startsWith("./")) {
       return core.setFailed(
         `The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly.`
       );
     }
 
+    console.log(`Deploying using ${tokenType}... 🔑`);
     await execute(`git init`, workspace);
     await execute(`git config user.name ${action.name}`, workspace);
     await execute(`git config user.email ${action.email}`, workspace);
