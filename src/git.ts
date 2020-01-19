@@ -23,7 +23,9 @@ export async function init(): Promise<any> {
         "You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true."
       );
 
-      throw Error("No deployment token/method was provided.");
+      throw Error(
+        "No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true."
+      );
     }
 
     if (action.build.startsWith("/") || action.build.startsWith("./")) {
@@ -31,7 +33,9 @@ export async function init(): Promise<any> {
         `The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly.`
       );
 
-      throw Error("Incorrectly formatted build folder.");
+      throw Error(
+        "Incorrectly formatted build folder. The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly."
+      );
     }
 
     console.log(`Deploying using ${tokenType}... 🔑`);
