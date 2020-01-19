@@ -1,7 +1,14 @@
 import * as core from "@actions/core";
+import {
+  action,
+  isTest,
+  repositoryPath,
+  root,
+  tokenType,
+  workspace
+} from "./constants";
 import { execute } from "./execute";
 import { isNullOrUndefined } from "./util";
-import { workspace, action, root, repositoryPath, isTest } from "./constants";
 
 /** Generates the branch if it doesn't exist on the remote.
  * @returns {Promise}
@@ -10,10 +17,11 @@ export async function init(): Promise<any> {
   try {
     if (
       isNullOrUndefined(action.accessToken) &&
-      isNullOrUndefined(action.gitHubToken)
+      isNullOrUndefined(action.gitHubToken) &&
+      isNullOrUndefined(action.ssh)
     ) {
       return core.setFailed(
-        "You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy."
+        "You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true."
       );
     }
 
@@ -23,6 +31,7 @@ export async function init(): Promise<any> {
       );
     }
 
+    console.log(`Deploying using ${tokenType}... 🔑`);
     await execute(`git init`, workspace);
     await execute(`git config user.name ${action.name}`, workspace);
     await execute(`git config user.email ${action.email}`, workspace);
@@ -129,7 +138,7 @@ export async function deploy(): Promise<any> {
       action.clean
         ? `--delete ${excludes} --exclude CNAME --exclude .nojekyll`
         : ""
-    }  --exclude .git --exclude .github ${
+    }  --exclude .ssh --exclude .git --exclude .github ${
       action.build === root ? `--exclude ${temporaryDeploymentDirectory}` : ""
     }`,
     workspace

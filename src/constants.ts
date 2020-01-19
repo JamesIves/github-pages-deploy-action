@@ -5,8 +5,8 @@ const { pusher, repository } = github.context.payload;
 
 export const workspace: any = process.env.GITHUB_WORKSPACE;
 export const folder = core.getInput("FOLDER", { required: true });
-export const root = ".";
 export const isTest = process.env.UNIT_TEST;
+export const root = ".";
 
 // Required action data.
 export const action = {
@@ -18,6 +18,7 @@ export const action = {
   clean: core.getInput("CLEAN"),
   cleanExclude: core.getInput("CLEAN_EXCLUDE"),
   defaultBranch: process.env.GITHUB_SHA ? process.env.GITHUB_SHA : "master",
+  ssh: core.getInput("SSH"),
   email:
     pusher && pusher.email
       ? pusher.email
@@ -37,8 +38,19 @@ export const action = {
   targetFolder: core.getInput("TARGET_FOLDER")
 };
 
+// Token Types
+export const tokenType = action.ssh
+  ? "SSH"
+  : action.accessToken
+  ? "Access Token"
+  : action.gitHubToken
+  ? "GitHub Token"
+  : "...";
+
 // Repository path used for commits/pushes.
-export const repositoryPath = `https://${action.accessToken ||
-  `x-access-token:${action.gitHubToken}`}@github.com/${
-  action.gitHubRepository
-}.git`;
+export const repositoryPath = action.ssh
+  ? `git@github.com:${action.gitHubRepository}`
+  : `https://${action.accessToken ||
+      `x-access-token:${action.gitHubToken}`}@github.com/${
+      action.gitHubRepository
+    }.git`;

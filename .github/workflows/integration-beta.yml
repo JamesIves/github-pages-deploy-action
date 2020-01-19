@@ -72,9 +72,61 @@ jobs:
           BASE_BRANCH: dev
           TARGET_FOLDER: montezuma2
 
+  # Deploys using an SSH key
+  integration-ssh:
+    needs: integration-container
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Install SSH Client
+        uses: webfactory/ssh-agent@v0.2.0
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3-test
+        with:
+          SSH: true
+          BRANCH: gh-pages-beta
+          FOLDER: integration
+          BASE_BRANCH: dev
+          TARGET_FOLDER: montezuma3
+
+  # Deploys using a custom env.
+  integration-env:
+    needs: integration-ssh
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Install SSH Client
+        uses: webfactory/ssh-agent@v0.2.0
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3-test
+        with:
+          SSH: true
+          BRANCH: gh-pages-beta
+          FOLDER: integration
+          BASE_BRANCH: dev
+          TARGET_FOLDER: montezuma4
+
   # Deploys using the CLEAN option.
   integration-clean:
-    needs: [integration-checkout-v1, integration-checkout-v2, integration-container]
+    needs: [integration-checkout-v1, integration-checkout-v2, integration-container, integration-ssh, integration-env]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -93,7 +145,6 @@ jobs:
 
   # Deploys to a branch that doesn't exist.
   integration-branch-creation:
-    needs: [integration-checkout-v1, integration-checkout-v2]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
