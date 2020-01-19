@@ -1,7 +1,13 @@
-import * as core from "@actions/core";
+import { setFailed } from "@actions/core";
+import {
+  action,
+  repositoryPath,
+  root,
+  tokenType,
+  workspace
+} from "./constants";
 import { execute } from "./execute";
 import { isNullOrUndefined } from "./util";
-import { workspace, action, root, repositoryPath, isTest } from "./constants";
 
 /** Generates the branch if it doesn't exist on the remote.
  * @returns {Promise}
@@ -10,19 +16,29 @@ export async function init(): Promise<any> {
   try {
     if (
       isNullOrUndefined(action.accessToken) &&
-      isNullOrUndefined(action.gitHubToken)
+      isNullOrUndefined(action.gitHubToken) &&
+      isNullOrUndefined(action.ssh)
     ) {
-      return core.setFailed(
-        "You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy."
+      setFailed(
+        "You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true."
+      );
+
+      throw Error(
+        "No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true."
       );
     }
 
     if (action.build.startsWith("/") || action.build.startsWith("./")) {
-      return core.setFailed(
+      setFailed(
         `The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly.`
+      );
+
+      throw Error(
+        "Incorrectly formatted build folder. The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly."
       );
     }
 
+    console.log(`Deploying using ${tokenType}... 🔑`);
     await execute(`git init`, workspace);
     await execute(`git config user.name ${action.name}`, workspace);
     await execute(`git config user.email ${action.email}`, workspace);
@@ -30,7 +46,7 @@ export async function init(): Promise<any> {
     await execute(`git remote add origin ${repositoryPath}`, workspace);
     await execute(`git fetch`, workspace);
   } catch (error) {
-    core.setFailed(`There was an error initializing the repository: ${error}`);
+    console.log(`There was an error initializing the repository: ${error}`);
   } finally {
     return Promise.resolve("Initialization step complete...");
   }
@@ -55,6 +71,10 @@ export async function switchToBaseBranch(): Promise<any> {
  */
 export async function generateBranch(): Promise<any> {
   try {
+    if (isNullOrUndefined(action.branch)) {
+      throw Error("Branch is required.");
+    }
+
     console.log(`Creating ${action.branch} branch... 🔧`);
     await switchToBaseBranch();
     await execute(`git checkout --orphan ${action.branch}`, workspace);
@@ -66,9 +86,7 @@ export async function generateBranch(): Promise<any> {
     await execute(`git push ${repositoryPath} ${action.branch}`, workspace);
     await execute(`git fetch`, workspace);
   } catch (error) {
-    core.setFailed(
-      `There was an error creating the deployment branch: ${error} ❌`
-    );
+    setFailed(`There was an error creating the deployment branch: ${error} ❌`);
   } finally {
     return Promise.resolve("Deployment branch creation step complete... ✅");
   }
@@ -88,7 +106,7 @@ export async function deploy(): Promise<any> {
     `git ls-remote --heads ${repositoryPath} ${action.branch} | wc -l`,
     workspace
   );
-  if (!branchExists) {
+  if (!branchExists && !action.isTest) {
     console.log("Deployment branch does not exist. Creating....");
     await generateBranch();
   }
@@ -129,7 +147,7 @@ export async function deploy(): Promise<any> {
       action.clean
         ? `--delete ${excludes} --exclude CNAME --exclude .nojekyll`
         : ""
-    }  --exclude .git --exclude .github ${
+    }  --exclude .ssh --exclude .git --exclude .github ${
       action.build === root ? `--exclude ${temporaryDeploymentDirectory}` : ""
     }`,
     workspace
@@ -140,7 +158,7 @@ export async function deploy(): Promise<any> {
     temporaryDeploymentDirectory
   );
 
-  if (!hasFilesToCommit && !isTest) {
+  if (!hasFilesToCommit && !action.isTest) {
     console.log("There is nothing to commit. Exiting... ✅");
     return Promise.resolve();
   }
@@ -152,7 +170,11 @@ export async function deploy(): Promise<any> {
     temporaryDeploymentDirectory
   );
   await execute(
-    `git commit -m "Deploying to ${action.branch} from ${action.baseBranch} ${process.env.GITHUB_SHA}" --quiet`,
+    `git commit -m "${
+      !isNullOrUndefined(action.commitMessage)
+        ? action.commitMessage
+        : `Deploying to ${action.branch} from ${action.baseBranch}`
+    } - ${process.env.GITHUB_SHA} 🚀" --quiet`,
     temporaryDeploymentDirectory
   );
   await execute(
