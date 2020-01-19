@@ -44,9 +44,9 @@ on:
 
 ### Using an SSH Deploy Key 🔑
 
-If you'd prefer to use an SSH deploy key you must first generate a new SSH key by running the following terminal command, replacing the email with one connected to your GitHub account.
+If you'd prefer to use an SSH deploy key as opposed to a token you must first generate a new SSH key by running the following terminal command, replacing the email with one connected to your GitHub account.
 
-```
+```bash
 ssh-keygen -t rsa -b 4096 -C "youremailhere@example.com" -N ""
 ```
 
