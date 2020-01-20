@@ -75,12 +75,6 @@ With the action correctly configured you should see the workflow trigger the dep
 
 ---
 
-### Additional Build Files 📁
-
-This action maintains the full Git history of the deployment branch. Therefore if you're using a custom domain and require a `CNAME` file, or if you require the use of a `.nojekyll` file, you can safely commit these files directly into deployment branch without them being overridden after each deployment.
-
----
-
 ### Using an SSH Deploy Key 🔑
 
 If you'd prefer to use an SSH deploy key as opposed to a token you must first generate a new SSH key by running the following terminal command, replacing the email with one connected to your GitHub account.
@@ -226,3 +220,9 @@ If you use a [container](https://help.github.com/en/actions/automating-your-work
 - name: Deploy
   uses: JamesIves/github-pages-deploy-action@releases/v3
 ```
+
+---
+
+### Additional Build Files 📁
+
+This action maintains the full Git history of the deployment branch. Therefore if you're using a custom domain and require a `CNAME` file, or if you require the use of a `.nojekyll` file, you can safely commit these files directly into deployment branch without them being overridden after each deployment.
