@@ -98,7 +98,7 @@ With this configured you must add the `ssh-agent` step to your workflow and set 
   with:
     SSH: true
     BRANCH: gh-pages
-    FOLDER: 'site'
+    FOLDER: site
 ```
 
 <details><summary>You can view a full example of this here.</summary>
@@ -135,7 +135,7 @@ jobs:
         with:
           BASE_BRANCH: master   
           BRANCH: gh-pages
-          FOLDER: 'build'
+          FOLDER: build
           CLEAN: true
           SSH: true # SSH must be set to true so the deploy action knows which protocol to deploy with.
 ```
