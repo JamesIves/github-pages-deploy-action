@@ -13,11 +13,18 @@
     "@actions/io" "^1.0.1"
 
 "@actions/github@^2.0.0":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@actions/github/-/github-2.0.1.tgz#2870f56c28f042effc04e9ebf0df1f1af23715f7"
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@actions/github/-/github-2.1.0.tgz#ca36cfb146b4c8955f3d5f88d8dde5f89194de21"
   dependencies:
+    "@actions/http-client" "^1.0.3"
     "@octokit/graphql" "^4.3.1"
     "@octokit/rest" "^16.15.0"
+
+"@actions/http-client@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@actions/http-client/-/http-client-1.0.3.tgz#b5239d3d8c72378bdcef4d26bb15fa2a01d537fd"
+  dependencies:
+    tunnel "0.0.6"
 
 "@actions/io@^1.0.1":
   version "1.0.1"
@@ -3069,6 +3076,10 @@ tunnel-agent@^0.6.0:
   resolved "https://registry.yarnpkg.com/tunnel-agent/-/tunnel-agent-0.6.0.tgz#27a5dea06b36b04a0a9966774b290868f0fc40fd"
   dependencies:
     safe-buffer "^5.0.1"
+
+tunnel@0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/tunnel/-/tunnel-0.0.6.tgz#72f1314b34a5b192db012324df2cc587ca47f92c"
 
 tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"
