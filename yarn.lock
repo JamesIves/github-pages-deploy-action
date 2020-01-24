@@ -502,8 +502,8 @@
     "@types/istanbul-lib-report" "*"
 
 "@types/jest@^24.0.25":
-  version "24.9.0"
-  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-24.9.0.tgz#78c6991cd1734cf0d390be24875e310bb0a9fb74"
+  version "24.9.1"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-24.9.1.tgz#02baf9573c78f1b9974a5f36778b366aa77bd534"
   dependencies:
     jest-diff "^24.3.0"
 
