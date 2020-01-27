@@ -1,5 +1,6 @@
 import { getInput } from "@actions/core";
 import * as github from "@actions/github";
+import { isNullOrUndefined } from "./util";
 
 const { pusher, repository } = github.context.payload;
 
@@ -19,22 +20,24 @@ export const action = {
   defaultBranch: process.env.GITHUB_SHA ? process.env.GITHUB_SHA : "master",
   isTest: process.env.UNIT_TEST,
   ssh: getInput("SSH"),
-  email:
-    pusher && pusher.email
-      ? pusher.email
-      : `${process.env.GITHUB_ACTOR ||
-          "github-pages-deploy-action"}@users.noreply.github.com`,
+  email: !isNullOrUndefined(getInput("GIT_CONFIG_EMAIL"))
+    ? getInput("GIT_CONFIG_EMAIL")
+    : pusher && pusher.email
+    ? pusher.email
+    : `${process.env.GITHUB_ACTOR ||
+        "github-pages-deploy-action"}@users.noreply.github.com`,
   gitHubRepository:
     repository && repository.full_name
       ? repository.full_name
       : process.env.GITHUB_REPOSITORY,
   gitHubToken: getInput("GITHUB_TOKEN"),
-  name:
-    pusher && pusher.name
-      ? pusher.name
-      : process.env.GITHUB_ACTOR
-      ? process.env.GITHUB_ACTOR
-      : "GitHub Pages Deploy Action",
+  name: !isNullOrUndefined(getInput("GIT_CONFIG_NAME"))
+    ? getInput("GIT_CONFIG_NAME")
+    : pusher && pusher.name
+    ? pusher.name
+    : process.env.GITHUB_ACTOR
+    ? process.env.GITHUB_ACTOR
+    : "GitHub Pages Deploy Action",
   targetFolder: getInput("TARGET_FOLDER")
 };
 
