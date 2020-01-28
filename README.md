@@ -1,6 +1,6 @@
 # GitHub Pages Deploy Action :rocket: 
 
-[![Build Status](https://github.com/JamesIves/github-pages-deploy-action/workflows/unit-tests/badge.svg)](https://github.com/JamesIves/github-pages-deploy-action/actions)  [![Actions Status](https://github.com/JamesIves/github-pages-deploy-action/workflows/integration-tests/badge.svg)](https://github.com/JamesIves/github-pages-deploy-action/actions) [![Codecov Coverage](https://codecov.io/gh/JamesIves/github-pages-deploy-action/branch/dev/graph/badge.svg)](https://codecov.io/gh/JamesIves/github-pages-deploy-action/) [![View Action](https://img.shields.io/badge/action-marketplace-blue.svg?logo=github&color=orange)](https://github.com/marketplace/actions/deploy-to-github-pages) [![Version](https://img.shields.io/github/v/release/JamesIves/github-pages-deploy-action.svg?logo=github)](https://github.com/JamesIves/github-pages-deploy-action/releases) 
+[![Build Status](https://github.com/JamesIves/github-pages-deploy-action/workflows/unit-tests/badge.svg)](https://github.com/JamesIves/github-pages-deploy-action/actions)  [![Actions Status](https://github.com/JamesIves/github-pages-deploy-action/workflows/integration-tests/badge.svg)](https://github.com/JamesIves/github-pages-deploy-action/actions) [![View Action](https://img.shields.io/badge/action-marketplace-blue.svg?logo=github&color=orange)](https://github.com/marketplace/actions/deploy-to-github-pages) [![Version](https://img.shields.io/github/v/release/JamesIves/github-pages-deploy-action.svg?logo=github)](https://github.com/JamesIves/github-pages-deploy-action/releases) [![Codecov Coverage](https://codecov.io/gh/JamesIves/github-pages-deploy-action/branch/dev/graph/badge.svg)](https://codecov.io/gh/JamesIves/github-pages-deploy-action/branch/dev)
 
 This [GitHub action](https://github.com/features/actions) will handle the  deploy process of your project to [GitHub Pages](https://pages.github.com/). It can be configured to upload your production-ready code into any branch you'd like, including `gh-pages` and `docs`.
 
@@ -50,7 +50,7 @@ One of the following deployment options must be configured.
 
 | Key  | Value Information | Type | Required |
 | ------------- | ------------- | ------------- | ------------- |
-| `SSH`  | You can configure the action to deploy using SSH by setting this option to `true`. More more information on how to add your ssh key pair please refer to the [Using a Deploy Key section of this README](https://github.com/JamesIves/github-pages-deploy-action/tree/dev#using-an-ssh-deploy-key-). | `with` | **Yes** |
+| `SSH`  | You can configure the action to deploy using SSH by setting this option to `true`. For more information on how to add your ssh key pair please refer to the [Using a Deploy Key section of this README](https://github.com/JamesIves/github-pages-deploy-action/tree/dev#using-an-ssh-deploy-key-). | `with` | **Yes** |
 | `ACCESS_TOKEN`  | Depending on the repository permissions you may need to provide the action with a GitHub personal access token instead of the provided GitHub token in order to deploy. You can [learn more about how to generate one here](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line). **This should be stored as a secret**. | `secrets / with` | **Yes** |
 | `GITHUB_TOKEN`  | In order for GitHub to trigger the rebuild of your page you must provide the action with the repositories provided GitHub token. This can be referenced in the workflow `yml` file by using `${{ secrets.GITHUB_TOKEN }}`. **Please note there is currently an issue affecting the use of this token which makes it so it only works with private repositories, [you can learn more here](https://github.com/JamesIves/github-pages-deploy-action/issues/5)**. | `secrets / with` | **Yes** |
 
@@ -65,6 +65,8 @@ In addition to the deployment options you must also configure the following.
 
 | Key  | Value Information | Type | Required |
 | ------------- | ------------- | ------------- | ------------- |
+| `GIT_CONFIG_NAME`  | Allows you to customize the name that is attached to the GitHub config which is used when pushing the deployment commits. If this is not included it will use the name in the GitHub context, followed by the name of the action.  | `with` | **No** |
+| `GIT_CONFIG_EMAIL`  | Allows you to customize the email that is attached to the GitHub config which is used when pushing the deployment commits. If this is not included it will use the email in the GitHub context, followed by a generic noreply GitHub email.  | `with` | **No** |
 | `TARGET_FOLDER`  | If you'd like to push the contents of the deployment folder into a specific directory on the deployment branch you can specify it here.  | `with` | **No** |
 | `BASE_BRANCH`  | The base branch of your repository which you'd like to checkout prior to deploying. This defaults to the current commit [SHA](http://en.wikipedia.org/wiki/SHA-1) that triggered the build followed by `master` if it doesn't exist. This is useful for making deployments from another branch, and also may be necessary when using a scheduled job.  | `with` | **No** |
 | `COMMIT_MESSAGE`  | If you need to customize the commit message for an integration you can do so.  | `with` | **No** |
@@ -72,12 +74,6 @@ In addition to the deployment options you must also configure the following.
 | `CLEAN_EXCLUDE`  | If you need to use `CLEAN` but you'd like to preserve certain files or folders you can use this option. This should be formatted as an array but stored as a string. For example: `'["filename.js", "folder"]'`  | `with` | **No** |
 
 With the action correctly configured you should see the workflow trigger the deployment under the configured conditions.
-
----
-
-### Additional Build Files 📁
-
-This action maintains the full Git history of the deployment branch. Therefore if you're using a custom domain and require a `CNAME` file, or if you require the use of a `.nojekyll` file, you can safely commit these files directly into deployment branch without them being overridden after each deployment.
 
 ---
 
@@ -104,7 +100,7 @@ With this configured you must add the `ssh-agent` step to your workflow and set 
   with:
     SSH: true
     BRANCH: gh-pages
-    FOLDER: 'site'
+    FOLDER: site
 ```
 
 <details><summary>You can view a full example of this here.</summary>
@@ -141,7 +137,7 @@ jobs:
         with:
           BASE_BRANCH: master   
           BRANCH: gh-pages
-          FOLDER: 'build'
+          FOLDER: build
           CLEAN: true
           SSH: true # SSH must be set to true so the deploy action knows which protocol to deploy with.
 ```
@@ -226,3 +222,9 @@ If you use a [container](https://help.github.com/en/actions/automating-your-work
 - name: Deploy
   uses: JamesIves/github-pages-deploy-action@releases/v3
 ```
+
+---
+
+### Additional Build Files 📁
+
+This action maintains the full Git history of the deployment branch. Therefore if you're using a custom domain and require a `CNAME` file, or if you require the use of a `.nojekyll` file, you can safely commit these files directly into deployment branch without them being overridden after each deployment.
