@@ -24,6 +24,8 @@ jobs:
           FOLDER: integration
           BASE_BRANCH: dev
           TARGET_FOLDER: montezuma
+          GIT_CONFIG_NAME: Montezuma
+          GIT_CONFIG_EMAIL: montezuma@jamesiv.es
 
   # Deploys using checkout@v2 with a GITHUB_TOKEN.
   integration-checkout-v2:

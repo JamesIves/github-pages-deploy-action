@@ -47,3 +47,11 @@ inputs:
   CLEAN_EXCLUDE:
     description: "If you need to use CLEAN but you would like to preserve certain files or folders you can use this option. This should be formatted as an array but stored as a string."
     required: false
+
+  GIT_CONFIG_NAME:
+    description: "Allows you to customize the name that is attached to the GitHub config which is used when pushing the deployment commits. If this is not included it will use the name in the GitHub context, followed by the name of the action."
+    required: false
+
+  GIT_CONFIG_EMAIL:
+    description: "Allows you to customize the email that is attached to the GitHub config which is used when pushing the deployment commits. If this is not included it will use the email in the GitHub context, followed by a generic noreply GitHub email."
+    required: false
