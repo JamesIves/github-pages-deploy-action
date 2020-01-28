@@ -1,0 +1,45 @@
+{
+    "name": "@types/babel__core",
+    "version": "7.1.3",
+    "description": "TypeScript definitions for @babel/core",
+    "license": "MIT",
+    "contributors": [
+        {
+            "name": "Troy Gerwien",
+            "url": "https://github.com/yortus",
+            "githubUsername": "yortus"
+        },
+        {
+            "name": "Marvin Hagemeister",
+            "url": "https://github.com/marvinhagemeister",
+            "githubUsername": "marvinhagemeister"
+        },
+        {
+            "name": "Melvin Groenhoff",
+            "url": "https://github.com/mgroenhoff",
+            "githubUsername": "mgroenhoff"
+        },
+        {
+            "name": "Jessica Franco",
+            "url": "https://github.com/Jessidhia",
+            "githubUsername": "Jessidhia"
+        }
+    ],
+    "main": "",
+    "types": "index",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+        "directory": "types/babel__core"
+    },
+    "scripts": {},
+    "dependencies": {
+        "@babel/parser": "^7.1.0",
+        "@babel/types": "^7.0.0",
+        "@types/babel__generator": "*",
+        "@types/babel__template": "*",
+        "@types/babel__traverse": "*"
+    },
+    "typesPublisherContentHash": "478fc636b3b91d2d8148bbc98176f96231386926f4af91893dbe95d3812775a5",
+    "typeScriptVersion": "2.9"
+}
