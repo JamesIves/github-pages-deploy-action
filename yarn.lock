@@ -507,8 +507,8 @@
     jest-diff "^25.1.0"
 
 "@types/node@>= 8", "@types/node@^13.1.2":
-  version "13.5.0"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.5.0.tgz#4e498dbf355795a611a87ae5ef811a8660d42662"
+  version "13.5.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.5.1.tgz#6fae50892d1841f4b38b298e2f78fb68c5960cb9"
 
 "@types/stack-utils@^1.0.1":
   version "1.0.1"
