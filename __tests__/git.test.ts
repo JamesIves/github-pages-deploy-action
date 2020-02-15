@@ -35,9 +35,8 @@ describe("git", () => {
         }
       });
 
-      const call = await init();
+      await init();
       expect(execute).toBeCalledTimes(6);
-      expect(call).toBe("Initialization step complete...");
     });
 
     it("should execute commands if an Access Token is provided", async () => {
@@ -51,10 +50,8 @@ describe("git", () => {
         }
       });
 
-      const call = await init();
-
+      await init();
       expect(execute).toBeCalledTimes(6);
-      expect(call).toBe("Initialization step complete...");
     });
 
     it("should execute commands if SSH is true", async () => {
@@ -68,10 +65,9 @@ describe("git", () => {
         }
       });
 
-      const call = await init();
+      await init();
 
       expect(execute).toBeCalledTimes(6);
-      expect(call).toBe("Initialization step complete...");
     });
 
     it("should fail if there is no provided GitHub Token, Access Token or SSH bool", async () => {
@@ -87,10 +83,9 @@ describe("git", () => {
         ssh: null
       });
 
-      const call = await init();
+      await init();
       expect(setFailed).toBeCalledTimes(1);
       expect(execute).toBeCalledTimes(0);
-      expect(call).toBe("Initialization step complete...");
     });
 
     it("should fail if the build folder begins with a /", async () => {
@@ -104,11 +99,10 @@ describe("git", () => {
         }
       });
 
-      const call = await init();
+      await init();
 
       expect(setFailed).toBeCalledTimes(1);
       expect(execute).toBeCalledTimes(0);
-      expect(call).toBe("Initialization step complete...");
     });
 
     it("should fail if the build folder begins with a ./", async () => {
@@ -122,10 +116,9 @@ describe("git", () => {
         }
       });
 
-      const call = await init();
+      await init();
       expect(setFailed).toBeCalledTimes(1);
       expect(execute).toBeCalledTimes(0);
-      expect(call).toBe("Initialization step complete...");
     });
 
     it("should not fail if root is used", async () => {
@@ -139,10 +132,9 @@ describe("git", () => {
         }
       });
 
-      const call = await init();
+      await init();
 
       expect(execute).toBeCalledTimes(6);
-      expect(call).toBe("Initialization step complete...");
     });
   });
 
@@ -158,9 +150,8 @@ describe("git", () => {
         }
       });
 
-      const call = await generateBranch();
+      await generateBranch();
       expect(execute).toBeCalledTimes(6);
-      expect(call).toBe("Deployment branch creation step complete... ✅");
     });
 
     it("should fail if there is no branch", async () => {
@@ -174,10 +165,9 @@ describe("git", () => {
         }
       });
 
-      const call = await generateBranch();
+      await generateBranch();
       expect(execute).toBeCalledTimes(0);
       expect(setFailed).toBeCalledTimes(1);
-      expect(call).toBe("Deployment branch creation step complete... ✅");
     });
   });
 

@@ -18,7 +18,7 @@
     "no-implicit-dependencies": true,
     "no-invalid-this": true,
     "no-string-throw": true,
-    "no-unsafe-finally": false,
+    "no-unsafe-finally": true,
     "no-use-before-declare": true,
     "no-void-expression": [true, "ignore-arrow-function-shorthand"],
     "no-duplicate-imports": true,

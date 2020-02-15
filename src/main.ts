@@ -2,7 +2,7 @@ import { setFailed } from "@actions/core";
 import { init, deploy } from "./git";
 
 /** Initializes and runs the action. */
-export default async function main() {
+export default async function main(): Promise<void> {
   try {
     await init();
     await deploy();

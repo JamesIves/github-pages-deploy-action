@@ -12,7 +12,7 @@ import { isNullOrUndefined } from "./util";
 /** Generates the branch if it doesn't exist on the remote.
  * @returns {Promise}
  */
-export async function init(): Promise<any> {
+export async function init(): Promise<void> {
   try {
     if (
       isNullOrUndefined(action.accessToken) &&
@@ -48,14 +48,14 @@ export async function init(): Promise<any> {
   } catch (error) {
     console.log(`There was an error initializing the repository: ${error}`);
   } finally {
-    return Promise.resolve("Initialization step complete...");
+    console.log("Initialization step complete...");
   }
 }
 
 /** Switches to the base branch.
  * @returns {Promise}
  */
-export async function switchToBaseBranch(): Promise<any> {
+export async function switchToBaseBranch(): Promise<string> {
   await execute(
     `git checkout --progress --force ${
       action.baseBranch ? action.baseBranch : action.defaultBranch
@@ -69,7 +69,7 @@ export async function switchToBaseBranch(): Promise<any> {
 /** Generates the branch if it doesn't exist on the remote.
  * @returns {Promise}
  */
-export async function generateBranch(): Promise<any> {
+export async function generateBranch(): Promise<void> {
   try {
     if (isNullOrUndefined(action.branch)) {
       throw Error("Branch is required.");
@@ -88,14 +88,14 @@ export async function generateBranch(): Promise<any> {
   } catch (error) {
     setFailed(`There was an error creating the deployment branch: ${error} ❌`);
   } finally {
-    return Promise.resolve("Deployment branch creation step complete... ✅");
+    console.log("Deployment branch creation step complete... ✅");
   }
 }
 
 /** Runs the necessary steps to make the deployment.
  * @returns {Promise}
  */
-export async function deploy(): Promise<any> {
+export async function deploy(): Promise<string> {
   const temporaryDeploymentDirectory = "gh-action-temp-deployment-folder";
   const temporaryDeploymentBranch = "gh-action-temp-deployment-branch";
   /*
@@ -160,7 +160,7 @@ export async function deploy(): Promise<any> {
 
   if (!hasFilesToCommit && !action.isTest) {
     console.log("There is nothing to commit. Exiting... ✅");
-    return Promise.resolve();
+    return Promise.resolve("Exiting early...");
   }
 
   // Commits to GitHub.
