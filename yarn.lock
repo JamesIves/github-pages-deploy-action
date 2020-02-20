@@ -508,8 +508,8 @@
     pretty-format "^25.1.0"
 
 "@types/node@>= 8", "@types/node@^13.1.2":
-  version "13.7.2"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.7.2.tgz#50375b95b5845a34efda2ffb3a087c7becbc46c6"
+  version "13.7.4"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.7.4.tgz#76c3cb3a12909510f52e5dc04a6298cdf9504ffd"
 
 "@types/stack-utils@^1.0.1":
   version "1.0.1"
