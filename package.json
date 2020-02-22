@@ -2,7 +2,7 @@
   "name": "github-pages-deploy-action",
   "description": "GitHub action for building a project and deploying it to GitHub pages.",
   "version": "3.2.4",
-  "main": "lib/main.js",
+  "main": "lib/lib.ts",
   "scripts": {
     "build": "tsc",
     "test": "jest",

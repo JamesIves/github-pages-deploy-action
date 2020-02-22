@@ -2,6 +2,24 @@ import { getInput } from "@actions/core";
 import * as github from "@actions/github";
 import { isNullOrUndefined } from "./util";
 
+export interface actionInterface {
+  accessToken?: string;
+  baseBranch?: string;
+  branch: string;
+  build: string;
+  clean: string;
+  cleanExclude: string;
+  commitMessage?: string;
+  defaultBranch: string;
+  email: string;
+  gitHubRepository: string | undefined;
+  gitHubToken: string;
+  isTest: string | undefined;
+  name: string;
+  ssh: string;
+  targetFolder: string;
+}
+
 const { pusher, repository } = github.context.payload;
 
 export const workspace: any = process.env.GITHUB_WORKSPACE;
@@ -9,7 +27,7 @@ export const folder = getInput("FOLDER", { required: true });
 export const root = ".";
 
 // Required action data.
-export const action = {
+export const action: actionInterface = {
   accessToken: getInput("ACCESS_TOKEN"),
   baseBranch: getInput("BASE_BRANCH"),
   build: folder,

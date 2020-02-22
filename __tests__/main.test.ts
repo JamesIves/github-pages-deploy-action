@@ -2,8 +2,9 @@
 process.env["INPUT_FOLDER"] = "build";
 process.env["GITHUB_SHA"] = "123";
 
+import "../src/main";
 import { action } from "../src/constants";
-import main from "../src/main";
+import run from "../src/lib";
 import { execute } from "../src/execute";
 import { setFailed } from "@actions/core";
 
@@ -34,7 +35,7 @@ describe("main", () => {
       },
       isTest: true
     });
-    await main();
+    await run();
     expect(execute).toBeCalledTimes(30);
   });
 
@@ -52,7 +53,7 @@ describe("main", () => {
       },
       isTest: true
     });
-    await main();
+    await run();
     expect(execute).toBeCalledTimes(12);
     expect(setFailed).toBeCalledTimes(1);
   });
