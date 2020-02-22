@@ -41,7 +41,7 @@ on:
       - master
 ```
 
-#### Importing the Package
+#### Importing 📦
 
 If you'd like to use the functionality provided by this action in your own action you can install it using `yarn` by running the following command.
 
@@ -226,7 +226,7 @@ jobs:
 
 ---
 
-### Using a Container 📦
+### Using a Container 🚢
 
 If you use a [container](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#jobsjob_idcontainer) in your workflow you may need to run an additional step to install `rsync` as this action depends on it. You can view an example of this below.
 
