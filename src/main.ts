@@ -1,4 +1,5 @@
 import run from "./lib";
+import { action } from "./constants";
 
 // Init
-run();
+run(action);

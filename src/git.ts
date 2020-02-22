@@ -1,10 +1,10 @@
 import { setFailed } from "@actions/core";
 import {
-  action,
   repositoryPath,
   root,
   tokenType,
-  workspace
+  workspace,
+  actionInterface
 } from "./constants";
 import { execute } from "./execute";
 import { isNullOrUndefined } from "./util";
@@ -12,7 +12,7 @@ import { isNullOrUndefined } from "./util";
 /** Generates the branch if it doesn't exist on the remote.
  * @returns {Promise}
  */
-export async function init(): Promise<void> {
+export async function init(action: actionInterface): Promise<void> {
   try {
     if (
       isNullOrUndefined(action.accessToken) &&
@@ -55,7 +55,9 @@ export async function init(): Promise<void> {
 /** Switches to the base branch.
  * @returns {Promise}
  */
-export async function switchToBaseBranch(): Promise<string> {
+export async function switchToBaseBranch(
+  action: actionInterface
+): Promise<string> {
   await execute(
     `git checkout --progress --force ${
       action.baseBranch ? action.baseBranch : action.defaultBranch
@@ -69,14 +71,14 @@ export async function switchToBaseBranch(): Promise<string> {
 /** Generates the branch if it doesn't exist on the remote.
  * @returns {Promise}
  */
-export async function generateBranch(): Promise<void> {
+export async function generateBranch(action: actionInterface): Promise<void> {
   try {
     if (isNullOrUndefined(action.branch)) {
       throw Error("Branch is required.");
     }
 
     console.log(`Creating ${action.branch} branch... 🔧`);
-    await switchToBaseBranch();
+    await switchToBaseBranch(action);
     await execute(`git checkout --orphan ${action.branch}`, workspace);
     await execute(`git reset --hard`, workspace);
     await execute(
@@ -95,7 +97,7 @@ export async function generateBranch(): Promise<void> {
 /** Runs the necessary steps to make the deployment.
  * @returns {Promise}
  */
-export async function deploy(): Promise<string> {
+export async function deploy(action: actionInterface): Promise<string> {
   const temporaryDeploymentDirectory = "gh-action-temp-deployment-folder";
   const temporaryDeploymentBranch = "gh-action-temp-deployment-branch";
   /*
@@ -108,11 +110,11 @@ export async function deploy(): Promise<string> {
   );
   if (!branchExists && !action.isTest) {
     console.log("Deployment branch does not exist. Creating....");
-    await generateBranch();
+    await generateBranch(action);
   }
 
   // Checks out the base branch to begin the deployment process.
-  await switchToBaseBranch();
+  await switchToBaseBranch(action);
   await execute(`git fetch ${repositoryPath}`, workspace);
   await execute(
     `git worktree add --checkout ${temporaryDeploymentDirectory} origin/${action.branch}`,

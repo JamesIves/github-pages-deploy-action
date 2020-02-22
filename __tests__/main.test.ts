@@ -35,7 +35,7 @@ describe("main", () => {
       },
       isTest: true
     });
-    await run();
+    await run(action);
     expect(execute).toBeCalledTimes(30);
   });
 
@@ -53,7 +53,7 @@ describe("main", () => {
       },
       isTest: true
     });
-    await run();
+    await run(action);
     expect(execute).toBeCalledTimes(12);
     expect(setFailed).toBeCalledTimes(1);
   });

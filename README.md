@@ -47,7 +47,7 @@ If you'd like to use the functionality of this action in your own action it can 
 yarn add github-pages-deploy-action
 ```
 
-It can then be imported into your project like so:
+It can then be imported into your project like so. Calling the functions directly will require you to pass in an object containing the variables found in the configuration section. Required secrets must be stored as an environment variable.
 
 ```javascript
 import run, { init, deploy, generateBranch } from "github-pages-deploy-action";

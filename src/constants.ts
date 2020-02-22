@@ -7,17 +7,17 @@ export interface actionInterface {
   baseBranch?: string;
   branch: string;
   build: string;
-  clean: string;
-  cleanExclude: string;
+  clean?: string;
+  cleanExclude?: string;
   commitMessage?: string;
-  defaultBranch: string;
-  email: string;
+  defaultBranch?: string;
+  email?: string;
   gitHubRepository: string | undefined;
   gitHubToken: string;
-  isTest: string | undefined;
-  name: string;
-  ssh: string;
-  targetFolder: string;
+  isTest?: string | undefined;
+  name?: string;
+  ssh?: string;
+  targetFolder?: string;
 }
 
 const { pusher, repository } = github.context.payload;

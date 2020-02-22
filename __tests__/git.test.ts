@@ -35,7 +35,7 @@ describe("git", () => {
         }
       });
 
-      await init();
+      await init(action);
       expect(execute).toBeCalledTimes(6);
     });
 
@@ -50,7 +50,7 @@ describe("git", () => {
         }
       });
 
-      await init();
+      await init(action);
       expect(execute).toBeCalledTimes(6);
     });
 
@@ -65,7 +65,7 @@ describe("git", () => {
         }
       });
 
-      await init();
+      await init(action);
 
       expect(execute).toBeCalledTimes(6);
     });
@@ -83,7 +83,7 @@ describe("git", () => {
         ssh: null
       });
 
-      await init();
+      await init(action);
       expect(setFailed).toBeCalledTimes(1);
       expect(execute).toBeCalledTimes(0);
     });
@@ -99,7 +99,7 @@ describe("git", () => {
         }
       });
 
-      await init();
+      await init(action);
 
       expect(setFailed).toBeCalledTimes(1);
       expect(execute).toBeCalledTimes(0);
@@ -116,7 +116,7 @@ describe("git", () => {
         }
       });
 
-      await init();
+      await init(action);
       expect(setFailed).toBeCalledTimes(1);
       expect(execute).toBeCalledTimes(0);
     });
@@ -132,7 +132,7 @@ describe("git", () => {
         }
       });
 
-      await init();
+      await init(action);
 
       expect(execute).toBeCalledTimes(6);
     });
@@ -150,7 +150,7 @@ describe("git", () => {
         }
       });
 
-      await generateBranch();
+      await generateBranch(action);
       expect(execute).toBeCalledTimes(6);
     });
 
@@ -165,7 +165,7 @@ describe("git", () => {
         }
       });
 
-      await generateBranch();
+      await generateBranch(action);
       expect(execute).toBeCalledTimes(0);
       expect(setFailed).toBeCalledTimes(1);
     });
@@ -183,7 +183,7 @@ describe("git", () => {
         }
       });
 
-      const call = await switchToBaseBranch();
+      const call = await switchToBaseBranch(action);
       expect(execute).toBeCalledTimes(1);
       expect(call).toBe("Switched to the base branch...");
     });
@@ -201,7 +201,7 @@ describe("git", () => {
         }
       });
 
-      const call = await deploy();
+      const call = await deploy(action);
 
       // Includes the call to generateBranch
       expect(execute).toBeCalledTimes(12);
@@ -221,7 +221,7 @@ describe("git", () => {
         cleanExclude: '["cat", "montezuma"]'
       });
 
-      const call = await deploy();
+      const call = await deploy(action);
 
       // Includes the call to generateBranch
       expect(execute).toBeCalledTimes(12);
@@ -241,7 +241,7 @@ describe("git", () => {
         cleanExclude: '["cat, "montezuma"]' // There is a syntax errror in the string.
       });
 
-      const call = await deploy();
+      const call = await deploy(action);
 
       expect(execute).toBeCalledTimes(12);
       expect(call).toBe("Commit step complete...");
@@ -259,7 +259,7 @@ describe("git", () => {
         isTest: false // Setting this env variable to false means there will never be anything to commit and the action will exit early.
       });
 
-      await deploy();
+      await deploy(action);
       expect(execute).toBeCalledTimes(12);
     });
   });
