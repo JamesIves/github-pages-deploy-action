@@ -26,7 +26,7 @@ describe("git", () => {
   describe("init", () => {
     it("should execute commands if a GitHub token is provided", async () => {
       Object.assign(action, {
-        build: "build",
+        folder: "build",
         branch: "branch",
         gitHubToken: "123",
         pusher: {
@@ -41,7 +41,7 @@ describe("git", () => {
 
     it("should execute commands if an Access Token is provided", async () => {
       Object.assign(action, {
-        build: "build",
+        folder: "build",
         branch: "branch",
         accessToken: "123",
         pusher: {
@@ -56,7 +56,7 @@ describe("git", () => {
 
     it("should execute commands if SSH is true", async () => {
       Object.assign(action, {
-        build: "build",
+        folder: "build",
         branch: "branch",
         ssh: true,
         pusher: {
@@ -72,7 +72,7 @@ describe("git", () => {
 
     it("should fail if there is no provided GitHub Token, Access Token or SSH bool", async () => {
       Object.assign(action, {
-        build: "build",
+        folder: "build",
         branch: "branch",
         pusher: {
           name: "asd",
@@ -92,7 +92,7 @@ describe("git", () => {
       Object.assign(action, {
         accessToken: "123",
         branch: "branch",
-        build: "/",
+        folder: "/",
         pusher: {
           name: "asd",
           email: "as@cat"
@@ -109,7 +109,7 @@ describe("git", () => {
       Object.assign(action, {
         accessToken: "123",
         branch: "branch",
-        build: "./",
+        folder: "./",
         pusher: {
           name: "asd",
           email: "as@cat"
@@ -125,7 +125,7 @@ describe("git", () => {
       Object.assign(action, {
         accessToken: "123",
         branch: "branch",
-        build: ".",
+        folder: ".",
         pusher: {
           name: "asd",
           email: "as@cat"
@@ -143,7 +143,7 @@ describe("git", () => {
       Object.assign(action, {
         accessToken: "123",
         branch: "branch",
-        build: ".",
+        folder: ".",
         pusher: {
           name: "asd",
           email: "as@cat"
@@ -158,7 +158,7 @@ describe("git", () => {
       Object.assign(action, {
         accessToken: "123",
         branch: null,
-        build: ".",
+        folder: ".",
         pusher: {
           name: "asd",
           email: "as@cat"
@@ -176,7 +176,7 @@ describe("git", () => {
       Object.assign(action, {
         accessToken: "123",
         branch: "branch",
-        build: ".",
+        folder: ".",
         pusher: {
           name: "asd",
           email: "as@cat"
@@ -192,7 +192,7 @@ describe("git", () => {
   describe("deploy", () => {
     it("should execute commands", async () => {
       Object.assign(action, {
-        build: "build",
+        folder: "build",
         branch: "branch",
         gitHubToken: "123",
         pusher: {
@@ -210,7 +210,7 @@ describe("git", () => {
 
     it("should execute commands with clean options", async () => {
       Object.assign(action, {
-        build: "build",
+        folder: "build",
         branch: "branch",
         gitHubToken: "123",
         pusher: {
@@ -230,7 +230,7 @@ describe("git", () => {
 
     it("should gracefully handle incorrectly formatted clean exclude items", async () => {
       Object.assign(action, {
-        build: ".",
+        folder: ".",
         branch: "branch",
         gitHubToken: "123",
         pusher: {},
@@ -249,7 +249,7 @@ describe("git", () => {
 
     it("should stop early if there is nothing to commit", async () => {
       Object.assign(action, {
-        build: "build",
+        folder: "build",
         branch: "branch",
         gitHubToken: "123",
         pusher: {

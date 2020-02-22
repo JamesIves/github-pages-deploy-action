@@ -28,7 +28,7 @@ export async function init(action: actionInterface): Promise<void> {
       );
     }
 
-    if (action.build.startsWith("/") || action.build.startsWith("./")) {
+    if (action.folder.startsWith("/") || action.folder.startsWith("./")) {
       setFailed(
         `The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly.`
       );
@@ -141,7 +141,7 @@ export async function deploy(action: actionInterface): Promise<string> {
     Allows the user to specify the root if '.' is provided.
     rysync is used to prevent file duplication. */
   await execute(
-    `rsync -q -av --progress ${action.build}/. ${
+    `rsync -q -av --progress ${action.folder}/. ${
       action.targetFolder
         ? `${temporaryDeploymentDirectory}/${action.targetFolder}`
         : temporaryDeploymentDirectory
@@ -150,7 +150,7 @@ export async function deploy(action: actionInterface): Promise<string> {
         ? `--delete ${excludes} --exclude CNAME --exclude .nojekyll`
         : ""
     }  --exclude .ssh --exclude .git --exclude .github ${
-      action.build === root ? `--exclude ${temporaryDeploymentDirectory}` : ""
+      action.folder === root ? `--exclude ${temporaryDeploymentDirectory}` : ""
     }`,
     workspace
   );

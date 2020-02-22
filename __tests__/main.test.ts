@@ -26,7 +26,7 @@ describe("main", () => {
 
   it("should run through the commands", async () => {
     Object.assign(action, {
-      build: "build",
+      folder: "build",
       branch: "branch",
       gitHubToken: "123",
       pusher: {
@@ -41,7 +41,7 @@ describe("main", () => {
 
   it("should throw if an error is encountered", async () => {
     Object.assign(action, {
-      build: "build",
+      folder: "build",
       branch: "branch",
       baseBranch: "master",
       gitHubToken: null,

@@ -5,21 +5,21 @@ import { isNullOrUndefined } from "./util";
 const { pusher, repository } = github.context.payload;
 
 export const workspace: any = process.env.GITHUB_WORKSPACE;
-export const folder = getInput("FOLDER", { required: true });
+export const build = getInput("FOLDER", { required: true });
 export const root = ".";
 
 export interface actionInterface {
   accessToken?: string;
   baseBranch?: string;
   branch: string;
-  build: string;
+  folder: string;
   clean?: string;
   cleanExclude?: string;
   commitMessage?: string;
   defaultBranch?: string;
   email?: string;
-  gitHubRepository: string | undefined;
-  gitHubToken: string;
+  gitHubRepository?: string;
+  gitHubToken?: string;
   isTest?: string | undefined;
   name?: string;
   ssh?: string;
@@ -30,7 +30,7 @@ export interface actionInterface {
 export const action: actionInterface = {
   accessToken: getInput("ACCESS_TOKEN"),
   baseBranch: getInput("BASE_BRANCH"),
-  build: folder,
+  folder: build,
   branch: getInput("BRANCH"),
   commitMessage: getInput("COMMIT_MESSAGE"),
   clean: getInput("CLEAN"),
