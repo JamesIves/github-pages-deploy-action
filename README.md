@@ -41,7 +41,9 @@ on:
       - master
 ```
 
-If you'd like to use the functionality of this action in your own action it can be installed using `yarn` by running the following command.
+#### Importing the Package
+
+If you'd like to use the functionality provided by this action in your own action you can install it using `yarn` by running the following command.
 
 ```
 yarn add github-pages-deploy-action
