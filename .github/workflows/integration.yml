@@ -3,6 +3,8 @@ on:
   schedule:
     - cron: 10 15 * * 0-6
   push:
+    tags-ignore:
+      - '*.*'
     branches:
       - dev
       - releases/v3

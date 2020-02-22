@@ -15,7 +15,10 @@ jobs:
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org/
-      - run: npm version patch
+      - run: 
+        git config user.email "iam@jamesiv.es"
+        git config user.name "James Ives"
+      - run: npm version patch -m "Release %s"
       - run: npm ci
       - run: npm publish
         env:
