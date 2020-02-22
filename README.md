@@ -49,11 +49,13 @@ If you'd like to use the functionality provided by this action in your own actio
 yarn add github-pages-deploy-action
 ```
 
+It can then be imported into your project like so. 
+
 ```javascript
 import run, { init, deploy, generateBranch } from "github-pages-deploy-action";
 ```
 
-It can then be imported into your project like so. Calling the functions directly will require you to pass in an object containing the variables found in the configuration section. Required secrets must be stored as an environment variable.
+Calling the functions directly will require you to pass in an object containing the variables found in the configuration section. Required secrets must be stored as an environment variable.
 
 ```javascript
 import run from "github-pages-deploy-action";
