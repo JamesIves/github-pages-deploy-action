@@ -128,7 +128,7 @@ jobs:
           npm run-script build
           
       - name: Install SSH Client
-      - uses: webfactory/ssh-agent@v0.2.0 # This step installs the ssh client into the workflow run. There's many options available for this on the action marketplace.
+        uses: webfactory/ssh-agent@v0.2.0 # This step installs the ssh client into the workflow run. There's many options available for this on the action marketplace.
         with:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
