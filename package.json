@@ -2,9 +2,10 @@
   "name": "github-pages-deploy-action",
   "description": "GitHub action for building a project and deploying it to GitHub pages.",
   "version": "3.2.4",
-  "main": "lib/lib.ts",
+  "main": "lib/lib.js",
+  "types": "lib/lib.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf lib && tsc --declaration",
     "test": "jest",
     "lint": "tslint -p tsconfig.json --project '.' || (echo Project needs formatting)",
     "format": "prettier --write './**/*.ts'"
