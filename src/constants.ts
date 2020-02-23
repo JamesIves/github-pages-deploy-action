@@ -4,33 +4,31 @@ import { isNullOrUndefined } from "./util";
 
 const { pusher, repository } = github.context.payload;
 
-export const workspace: any = process.env.GITHUB_WORKSPACE;
-export const build = getInput("FOLDER", { required: true });
-export const root = ".";
-
 export interface actionInterface {
   accessToken?: string;
   baseBranch?: string;
   branch: string;
-  folder: string;
   clean?: string;
   cleanExclude?: string;
   commitMessage?: string;
   defaultBranch?: string;
   email?: string;
+  folder: string;
   gitHubRepository?: string;
   gitHubToken?: string;
   isTest?: string | undefined;
   name?: string;
+  root: string;
   ssh?: string;
   targetFolder?: string;
+  workspace: string;
 }
 
 // Required action data.
 export const action: actionInterface = {
   accessToken: getInput("ACCESS_TOKEN"),
   baseBranch: getInput("BASE_BRANCH"),
-  folder: build,
+  folder: getInput("FOLDER", { required: true }),
   branch: getInput("BRANCH"),
   commitMessage: getInput("COMMIT_MESSAGE"),
   clean: getInput("CLEAN"),
@@ -56,7 +54,9 @@ export const action: actionInterface = {
     : process.env.GITHUB_ACTOR
     ? process.env.GITHUB_ACTOR
     : "GitHub Pages Deploy Action",
-  targetFolder: getInput("TARGET_FOLDER")
+  targetFolder: getInput("TARGET_FOLDER"),
+  workspace: process.env.GITHUB_WORKSPACE || "",
+  root: "."
 };
 
 // Token Types

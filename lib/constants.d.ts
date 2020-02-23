@@ -1,22 +1,21 @@
-export declare const workspace: any;
-export declare const build: string;
-export declare const root = ".";
 export interface actionInterface {
     accessToken?: string;
     baseBranch?: string;
     branch: string;
-    folder: string;
     clean?: string;
     cleanExclude?: string;
     commitMessage?: string;
     defaultBranch?: string;
     email?: string;
+    folder: string;
     gitHubRepository?: string;
     gitHubToken?: string;
     isTest?: string | undefined;
     name?: string;
+    root: string;
     ssh?: string;
     targetFolder?: string;
+    workspace: string;
 }
 export declare const action: actionInterface;
 export declare const tokenType: string;

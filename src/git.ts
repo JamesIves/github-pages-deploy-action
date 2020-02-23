@@ -1,11 +1,5 @@
 import { setFailed } from "@actions/core";
-import {
-  repositoryPath,
-  root,
-  tokenType,
-  workspace,
-  actionInterface
-} from "./constants";
+import { actionInterface, repositoryPath, tokenType } from "./constants";
 import { execute } from "./execute";
 import { isNullOrUndefined } from "./util";
 
@@ -39,12 +33,12 @@ export async function init(action: actionInterface): Promise<void> {
     }
 
     console.log(`Deploying using ${tokenType}... 🔑`);
-    await execute(`git init`, workspace);
-    await execute(`git config user.name ${action.name}`, workspace);
-    await execute(`git config user.email ${action.email}`, workspace);
-    await execute(`git remote rm origin`, workspace);
-    await execute(`git remote add origin ${repositoryPath}`, workspace);
-    await execute(`git fetch`, workspace);
+    await execute(`git init`, action.workspace);
+    await execute(`git config user.name ${action.name}`, action.workspace);
+    await execute(`git config user.email ${action.email}`, action.workspace);
+    await execute(`git remote rm origin`, action.workspace);
+    await execute(`git remote add origin ${repositoryPath}`, action.workspace);
+    await execute(`git fetch`, action.workspace);
   } catch (error) {
     console.log(`There was an error initializing the repository: ${error}`);
   } finally {
@@ -62,7 +56,7 @@ export async function switchToBaseBranch(
     `git checkout --progress --force ${
       action.baseBranch ? action.baseBranch : action.defaultBranch
     }`,
-    workspace
+    action.workspace
   );
 
   return Promise.resolve("Switched to the base branch...");
@@ -79,14 +73,17 @@ export async function generateBranch(action: actionInterface): Promise<void> {
 
     console.log(`Creating ${action.branch} branch... 🔧`);
     await switchToBaseBranch(action);
-    await execute(`git checkout --orphan ${action.branch}`, workspace);
-    await execute(`git reset --hard`, workspace);
+    await execute(`git checkout --orphan ${action.branch}`, action.workspace);
+    await execute(`git reset --hard`, action.workspace);
     await execute(
       `git commit --allow-empty -m "Initial ${action.branch} commit."`,
-      workspace
+      action.workspace
     );
-    await execute(`git push ${repositoryPath} ${action.branch}`, workspace);
-    await execute(`git fetch`, workspace);
+    await execute(
+      `git push ${repositoryPath} ${action.branch}`,
+      action.workspace
+    );
+    await execute(`git fetch`, action.workspace);
   } catch (error) {
     setFailed(`There was an error creating the deployment branch: ${error} ❌`);
   } finally {
@@ -106,7 +103,7 @@ export async function deploy(action: actionInterface): Promise<string> {
     */
   const branchExists = await execute(
     `git ls-remote --heads ${repositoryPath} ${action.branch} | wc -l`,
-    workspace
+    action.workspace
   );
   if (!branchExists && !action.isTest) {
     console.log("Deployment branch does not exist. Creating....");
@@ -115,10 +112,10 @@ export async function deploy(action: actionInterface): Promise<string> {
 
   // Checks out the base branch to begin the deployment process.
   await switchToBaseBranch(action);
-  await execute(`git fetch ${repositoryPath}`, workspace);
+  await execute(`git fetch ${repositoryPath}`, action.workspace);
   await execute(
     `git worktree add --checkout ${temporaryDeploymentDirectory} origin/${action.branch}`,
-    workspace
+    action.workspace
   );
 
   // Ensures that items that need to be excluded from the clean job get parsed.
@@ -150,9 +147,11 @@ export async function deploy(action: actionInterface): Promise<string> {
         ? `--delete ${excludes} --exclude CNAME --exclude .nojekyll`
         : ""
     }  --exclude .ssh --exclude .git --exclude .github ${
-      action.folder === root ? `--exclude ${temporaryDeploymentDirectory}` : ""
+      action.folder === action.root
+        ? `--exclude ${temporaryDeploymentDirectory}`
+        : ""
     }`,
-    workspace
+    action.workspace
   );
 
   const hasFilesToCommit = await execute(
@@ -186,10 +185,10 @@ export async function deploy(action: actionInterface): Promise<string> {
 
   // Cleans up temporary files/folders and restores the git state.
   console.log("Running post deployment cleanup jobs... 🔧");
-  await execute(`rm -rf ${temporaryDeploymentDirectory}`, workspace);
+  await execute(`rm -rf ${temporaryDeploymentDirectory}`, action.workspace);
   await execute(
     `git checkout --progress --force ${action.defaultBranch}`,
-    workspace
+    action.workspace
   );
 
   return Promise.resolve("Commit step complete...");

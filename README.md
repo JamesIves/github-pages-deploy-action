@@ -55,7 +55,7 @@ It can then be imported into your project like so.
 import run, { init, deploy, generateBranch, actionInterface } from "github-pages-deploy-action";
 ```
 
-Calling the functions directly will require you to pass in an object containing the variables found in the configuration section. Required secrets must be stored as an environment variable.
+Calling the functions directly will require you to pass in an object containing the variables found in the configuration section, you'll also need to provide a `workspace` with a path to your project. Required secrets must be stored as an environment variable.
 
 ```javascript
 import run from "github-pages-deploy-action";
@@ -63,6 +63,7 @@ import run from "github-pages-deploy-action";
 run({
   folder: 'build',
   branch: 'gh-pages',
+  workspace: 'src/project/location'
 })
 ```
 
