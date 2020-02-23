@@ -27,4 +27,4 @@ export default async function run(
   }
 }
 
-export { init, deploy, generateBranch };
+export { init, deploy, generateBranch, actionInterface };
