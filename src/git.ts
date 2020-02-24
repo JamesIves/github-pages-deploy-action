@@ -1,5 +1,5 @@
 import { setFailed } from "@actions/core";
-import { actionInterface, repositoryPath, tokenType } from "./constants";
+import { actionInterface } from "./constants";
 import { execute } from "./execute";
 import { isNullOrUndefined } from "./util";
 
@@ -13,9 +13,10 @@ export async function init(action: actionInterface): Promise<void> {
     }
 
     if (
-      isNullOrUndefined(action.accessToken) &&
-      isNullOrUndefined(action.gitHubToken) &&
-      isNullOrUndefined(action.ssh)
+      (isNullOrUndefined(action.accessToken) &&
+        isNullOrUndefined(action.gitHubToken) &&
+        isNullOrUndefined(action.ssh)) ||
+      isNullOrUndefined(action.repositoryPath)
     ) {
       setFailed(
         "You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true."
@@ -36,12 +37,15 @@ export async function init(action: actionInterface): Promise<void> {
       );
     }
 
-    console.log(`Deploying using ${tokenType}... 🔑`);
+    console.log(`Deploying using ${action.tokenType}... 🔑`);
     await execute(`git init`, action.workspace);
     await execute(`git config user.name ${action.name}`, action.workspace);
     await execute(`git config user.email ${action.email}`, action.workspace);
     await execute(`git remote rm origin`, action.workspace);
-    await execute(`git remote add origin ${repositoryPath}`, action.workspace);
+    await execute(
+      `git remote add origin ${action.repositoryPath}`,
+      action.workspace
+    );
     await execute(`git fetch`, action.workspace);
   } catch (error) {
     console.log(`There was an error initializing the repository: ${error}`);
@@ -84,7 +88,7 @@ export async function generateBranch(action: actionInterface): Promise<void> {
       action.workspace
     );
     await execute(
-      `git push ${repositoryPath} ${action.branch}`,
+      `git push ${action.repositoryPath} ${action.branch}`,
       action.workspace
     );
     await execute(`git fetch`, action.workspace);
@@ -106,7 +110,7 @@ export async function deploy(action: actionInterface): Promise<string> {
       If the branch doesn't exist it gets created here as an orphan.
     */
   const branchExists = await execute(
-    `git ls-remote --heads ${repositoryPath} ${action.branch} | wc -l`,
+    `git ls-remote --heads ${action.repositoryPath} ${action.branch} | wc -l`,
     action.workspace
   );
   if (!branchExists && !action.isTest) {
@@ -116,7 +120,7 @@ export async function deploy(action: actionInterface): Promise<string> {
 
   // Checks out the base branch to begin the deployment process.
   await switchToBaseBranch(action);
-  await execute(`git fetch ${repositoryPath}`, action.workspace);
+  await execute(`git fetch ${action.repositoryPath}`, action.workspace);
   await execute(
     `git worktree add --checkout ${temporaryDeploymentDirectory} origin/${action.branch}`,
     action.workspace
@@ -126,7 +130,10 @@ export async function deploy(action: actionInterface): Promise<string> {
   let excludes = "";
   if (action.clean && action.cleanExclude) {
     try {
-      const excludedItems = JSON.parse(action.cleanExclude);
+      const excludedItems =
+        typeof action.cleanExclude === "string"
+          ? JSON.parse(action.cleanExclude)
+          : action.cleanExclude;
       excludedItems.forEach(
         (item: string) => (excludes += `--exclude ${item} `)
       );
@@ -183,7 +190,7 @@ export async function deploy(action: actionInterface): Promise<string> {
     temporaryDeploymentDirectory
   );
   await execute(
-    `git push --force ${repositoryPath} ${temporaryDeploymentBranch}:${action.branch}`,
+    `git push --force ${action.repositoryPath} ${temporaryDeploymentBranch}:${action.branch}`,
     temporaryDeploymentDirectory
   );
 

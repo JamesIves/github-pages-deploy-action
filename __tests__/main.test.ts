@@ -26,6 +26,7 @@ describe("main", () => {
 
   it("should run through the commands", async () => {
     Object.assign(action, {
+      repositoryPath: "JamesIves/github-pages-deploy-action",
       folder: "build",
       branch: "branch",
       gitHubToken: "123",

@@ -26,6 +26,7 @@ describe("git", () => {
   describe("init", () => {
     it("should execute commands if a GitHub token is provided", async () => {
       Object.assign(action, {
+        repositoryPath: "JamesIves/github-pages-deploy-action",
         folder: "build",
         branch: "branch",
         gitHubToken: "123",
@@ -41,6 +42,7 @@ describe("git", () => {
 
     it("should execute commands if an Access Token is provided", async () => {
       Object.assign(action, {
+        repositoryPath: "JamesIves/github-pages-deploy-action",
         folder: "build",
         branch: "branch",
         accessToken: "123",
@@ -56,6 +58,7 @@ describe("git", () => {
 
     it("should execute commands if SSH is true", async () => {
       Object.assign(action, {
+        repositoryPath: "JamesIves/github-pages-deploy-action",
         folder: "build",
         branch: "branch",
         ssh: true,
@@ -72,6 +75,7 @@ describe("git", () => {
 
     it("should fail if there is no provided GitHub Token, Access Token or SSH bool", async () => {
       Object.assign(action, {
+        repositoryPath: null,
         folder: "build",
         branch: "branch",
         pusher: {
@@ -88,9 +92,29 @@ describe("git", () => {
       expect(execute).toBeCalledTimes(0);
     });
 
+    it("should fail if there is no provided repository path", async () => {
+      Object.assign(action, {
+        repositoryPath: null,
+        folder: "build",
+        branch: "branch",
+        pusher: {
+          name: "asd",
+          email: "as@cat"
+        },
+        gitHubToken: "123",
+        accessToken: null,
+        ssh: null
+      });
+
+      await init(action);
+      expect(setFailed).toBeCalledTimes(1);
+      expect(execute).toBeCalledTimes(0);
+    });
+
     it("should fail if the build folder begins with a /", async () => {
       Object.assign(action, {
         accessToken: "123",
+        repositoryPath: "JamesIves/github-pages-deploy-action",
         branch: "branch",
         folder: "/",
         pusher: {
@@ -123,9 +147,11 @@ describe("git", () => {
 
     it("should not fail if root is used", async () => {
       Object.assign(action, {
+        repositoryPath: "JamesIves/github-pages-deploy-action",
         accessToken: "123",
         branch: "branch",
         folder: ".",
+        root: ".",
         pusher: {
           name: "asd",
           email: "as@cat"
@@ -219,6 +245,26 @@ describe("git", () => {
         },
         clean: true,
         cleanExclude: '["cat", "montezuma"]'
+      });
+
+      const call = await deploy(action);
+
+      // Includes the call to generateBranch
+      expect(execute).toBeCalledTimes(12);
+      expect(call).toBe("Commit step complete...");
+    });
+
+    it("should execute commands with clean options stored as an array instead", async () => {
+      Object.assign(action, {
+        folder: "build",
+        branch: "branch",
+        gitHubToken: "123",
+        pusher: {
+          name: "asd",
+          email: "as@cat"
+        },
+        clean: true,
+        cleanExclude: ["cat", "montezuma"]
       });
 
       const call = await deploy(action);

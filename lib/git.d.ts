@@ -6,7 +6,9 @@ export declare function init(action: actionInterface): Promise<void>;
 /** Switches to the base branch.
  * @returns {Promise}
  */
-export declare function switchToBaseBranch(action: actionInterface): Promise<string>;
+export declare function switchToBaseBranch(
+  action: actionInterface
+): Promise<string>;
 /** Generates the branch if it doesn't exist on the remote.
  * @returns {Promise}
  */
