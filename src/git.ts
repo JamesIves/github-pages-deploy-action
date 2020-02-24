@@ -8,6 +8,10 @@ import { isNullOrUndefined } from "./util";
  */
 export async function init(action: actionInterface): Promise<void> {
   try {
+    if (isNullOrUndefined(action.folder)) {
+      setFailed("You must provide the action with a folder to deploy.");
+    }
+
     if (
       isNullOrUndefined(action.accessToken) &&
       isNullOrUndefined(action.gitHubToken) &&

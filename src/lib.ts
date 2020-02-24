@@ -8,6 +8,7 @@ export default async function run(
 ): Promise<void> {
   /** Sensitive data is overwritten here to ensure they are being securely stored to prevent token leaking. */
   const settings = {
+    ...action,
     ...configuration,
     accessToken: action.accessToken,
     gitHubToken: action.gitHubToken
