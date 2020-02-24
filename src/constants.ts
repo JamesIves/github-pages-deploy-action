@@ -28,7 +28,7 @@ export interface actionInterface {
 export const action: actionInterface = {
   accessToken: getInput("ACCESS_TOKEN"),
   baseBranch: getInput("BASE_BRANCH"),
-  folder: getInput("FOLDER", { required: true }),
+  folder: getInput("FOLDER"),
   branch: getInput("BRANCH"),
   commitMessage: getInput("COMMIT_MESSAGE"),
   clean: getInput("CLEAN"),
