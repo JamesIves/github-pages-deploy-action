@@ -34,10 +34,10 @@ describe("main", () => {
         name: "asd",
         email: "as@cat"
       },
-      isTest: true
+      isTest: false
     });
     await run(action);
-    expect(execute).toBeCalledTimes(30);
+    expect(execute).toBeCalledTimes(18);
   });
 
   it("should throw if an error is encountered", async () => {
@@ -55,7 +55,7 @@ describe("main", () => {
       isTest: true
     });
     await run(action);
-    expect(execute).toBeCalledTimes(12);
+    expect(execute).toBeCalledTimes(0);
     expect(setFailed).toBeCalledTimes(1);
   });
 });

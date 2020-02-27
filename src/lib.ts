@@ -1,4 +1,4 @@
-import { setFailed, setSecret } from "@actions/core";
+import { setFailed } from "@actions/core";
 import { init, deploy, generateBranch } from "./git";
 import { action, actionInterface } from "./constants";
 import { generateRepositoryPath, generateTokenType } from "./util";
@@ -7,16 +7,11 @@ import { generateRepositoryPath, generateTokenType } from "./util";
 export default async function run(
   configuration: actionInterface
 ): Promise<void> {
-  // Sets secrets so they don't get exposed in the logs.
-  setSecret('INPUT_ACCESS_TOKEN');
-  setSecret('INPUT_GITHUB_TOKEN');
+  let errorState: boolean = false;
 
-  /** Sensitive data is overwritten here to ensure they are being securely stored to prevent token leaking. */
   const settings = {
     ...action,
-    ...configuration,
-    accessToken: action.accessToken,
-    gitHubToken: action.gitHubToken
+    ...configuration
   };
 
   // Defines the repository paths and token types.
@@ -27,13 +22,16 @@ export default async function run(
     await init(settings);
     await deploy(settings);
   } catch (error) {
-    /* istanbul ignore next */
-    console.log("The deployment encountered an error. ❌");
-
-    /* istanbul ignore next */
+    errorState = true;
     setFailed(error);
   } finally {
-    console.log("Completed Deployment ✅");
+    console.log(
+      `${
+        errorState
+          ? "Deployment Failed ❌"
+          : "Completed Deployment Successfully! ✅"
+      }`
+    );
   }
 }
 
