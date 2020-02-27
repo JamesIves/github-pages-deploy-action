@@ -7,10 +7,6 @@ import { generateRepositoryPath, generateTokenType } from "./util";
 export default async function run(
   configuration: actionInterface
 ): Promise<void> {
-  // Sets secrets so they don't get exposed in the logs.
-  setSecret('INPUT_ACCESS_TOKEN');
-  setSecret('INPUT_GITHUB_TOKEN');
-
   /** Sensitive data is overwritten here to ensure they are being securely stored to prevent token leaking. */
   const settings = {
     ...action,

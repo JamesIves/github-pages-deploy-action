@@ -213,6 +213,23 @@ describe("git", () => {
       expect(execute).toBeCalledTimes(1);
       expect(call).toBe("Switched to the base branch...");
     });
+
+    it("should execute one command if using custom baseBranch", async () => {
+      Object.assign(action, {
+        baseBranch: '123',
+        accessToken: "123",
+        branch: "branch",
+        folder: ".",
+        pusher: {
+          name: "asd",
+          email: "as@cat"
+        }
+      });
+
+      const call = await switchToBaseBranch(action);
+      expect(execute).toBeCalledTimes(1);
+      expect(call).toBe("Switched to the base branch...");
+    });
   });
 
   describe("deploy", () => {
@@ -227,14 +244,14 @@ describe("git", () => {
         }
       });
 
-      const call = await deploy(action);
+      await deploy(action);
 
       // Includes the call to generateBranch
       expect(execute).toBeCalledTimes(12);
-      expect(call).toBe("Commit step complete...");
     });
 
-    it("should execute commands with clean options", async () => {
+    it("should execute commands with clean options, ommits sha commit message", async () => {
+      process.env.GITHUB_SHA = '';
       Object.assign(action, {
         folder: "build",
         branch: "branch",
@@ -247,11 +264,10 @@ describe("git", () => {
         cleanExclude: '["cat", "montezuma"]'
       });
 
-      const call = await deploy(action);
+      await deploy(action);
 
       // Includes the call to generateBranch
       expect(execute).toBeCalledTimes(12);
-      expect(call).toBe("Commit step complete...");
     });
 
     it("should execute commands with clean options stored as an array instead", async () => {
@@ -267,11 +283,10 @@ describe("git", () => {
         cleanExclude: ["cat", "montezuma"]
       });
 
-      const call = await deploy(action);
+      await deploy(action);
 
       // Includes the call to generateBranch
       expect(execute).toBeCalledTimes(12);
-      expect(call).toBe("Commit step complete...");
     });
 
     it("should gracefully handle incorrectly formatted clean exclude items", async () => {
@@ -287,10 +302,9 @@ describe("git", () => {
         cleanExclude: '["cat, "montezuma"]' // There is a syntax errror in the string.
       });
 
-      const call = await deploy(action);
+      await deploy(action);
 
       expect(execute).toBeCalledTimes(12);
-      expect(call).toBe("Commit step complete...");
     });
 
     it("should stop early if there is nothing to commit", async () => {
@@ -307,6 +321,21 @@ describe("git", () => {
 
       await deploy(action);
       expect(execute).toBeCalledTimes(12);
+    });
+
+    it("should set the action to failed if it encounters an error", async () => {
+      Object.assign(action, {
+        branch: "branch",
+        pusher: {
+          name: "asd",
+          email: "as@cat"
+        },
+        isTest: false // Setting this env variable to false means there will never be anything to commit and the action will exit early.
+      });
+
+      await deploy(action);
+      expect(execute).toBeCalledTimes(12);
+      expect(setFailed).toBeCalledTimes(1);
     });
   });
 });
