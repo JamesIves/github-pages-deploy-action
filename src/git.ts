@@ -1,13 +1,13 @@
 import { setFailed } from "@actions/core";
 import { actionInterface } from "./constants";
 import { execute } from "./execute";
-import { isNullOrUndefined, hasRequiredParamters } from "./util";
+import { isNullOrUndefined, hasRequiredParameters } from "./util";
 
 /** Generates the branch if it doesn't exist on the remote. */
-export async function init(action: actionInterface): Promise<void> {
+export async function init(action: actionInterface): Promise<void | Error> {
   try {
-    hasRequiredParamters(action)
-    
+    hasRequiredParameters(action);
+
     console.log(`Deploying using ${action.tokenType}... 🔑`);
     await execute(`git init`, action.workspace);
     await execute(`git config user.name "${action.name}"`, action.workspace);
@@ -19,30 +19,34 @@ export async function init(action: actionInterface): Promise<void> {
     );
     await execute(`git fetch`, action.workspace);
   } catch (error) {
-    return setFailed(`There was an error initializing the repository: ${error} ❌`);
-  } finally {
-    console.log("Initialization step complete...");
+    throw `There was an error initializing the repository: ${error} ❌`;
   }
 }
 
 /** Switches to the base branch. */
 export async function switchToBaseBranch(
   action: actionInterface
-): Promise<string> {
-  await execute(
-    `git checkout --progress --force ${
-      action.baseBranch ? action.baseBranch : action.defaultBranch
-    }`,
-    action.workspace
-  );
+): Promise<void> {
+  try {
+    hasRequiredParameters(action);
 
-  return Promise.resolve("Switched to the base branch...");
+    await execute(
+      `git checkout --progress --force ${
+        action.baseBranch ? action.baseBranch : action.defaultBranch
+      }`,
+      action.workspace
+    );
+
+    console.log("Switched to the base branch...");
+  } catch (error) {
+    throw `There was an error switching to the base branch: ${error} ❌`;
+  }
 }
 
 /** Generates the branch if it doesn't exist on the remote. */
 export async function generateBranch(action: actionInterface): Promise<void> {
   try {
-    hasRequiredParamters(action)
+    hasRequiredParameters(action);
 
     console.log(`Creating ${action.branch} branch... 🔧`);
     await switchToBaseBranch(action);
@@ -58,20 +62,18 @@ export async function generateBranch(action: actionInterface): Promise<void> {
     );
     await execute(`git fetch`, action.workspace);
   } catch (error) {
-    return setFailed(`There was an error creating the deployment branch: ${error} ❌`);
-  } finally {
-    console.log("Deployment branch creation step complete... ✅");
+    throw `There was an error creating the deployment branch: ${error} ❌`;
   }
 }
 
 /** Runs the necessary steps to make the deployment. */
 export async function deploy(action: actionInterface): Promise<void> {
   try {
-    hasRequiredParamters(action)
+    hasRequiredParameters(action);
 
     const temporaryDeploymentDirectory = "gh-action-temp-deployment-folder";
     const temporaryDeploymentBranch = "gh-action-temp-deployment-branch";
-    
+
     /*
         Checks to see if the remote exists prior to deploying.
         If the branch doesn't exist it gets created here as an orphan.
@@ -115,7 +117,7 @@ export async function deploy(action: actionInterface): Promise<void> {
     /*
       Pushes all of the build files into the deployment directory.
       Allows the user to specify the root if '.' is provided.
-      rysync is used to prevent file duplication. */
+      rsync is used to prevent file duplication. */
     await execute(
       `rsync -q -av --progress ${action.folder}/. ${
         action.targetFolder
@@ -172,8 +174,6 @@ export async function deploy(action: actionInterface): Promise<void> {
       action.workspace
     );
   } catch (error) {
-    setFailed(`The deploy step encountered an error: ${error} ❌`);
-  } finally {
-    console.log("Commit step complete...");
+    throw `The deploy step encountered an error: ${error} ❌`;
   }
 }

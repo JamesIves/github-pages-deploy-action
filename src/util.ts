@@ -28,29 +28,25 @@ export const generateRepositoryPath = (action: actionInterface): string =>
       }.git`;
 
 /** Checks for the required tokens and formatting. Throws an error if any case is matched.. */
-export const hasRequiredParamters = (action: actionInterface): void => {
+export const hasRequiredParameters = (action: actionInterface): void => {
   if (
     (isNullOrUndefined(action.accessToken) &&
       isNullOrUndefined(action.gitHubToken) &&
       isNullOrUndefined(action.ssh)) ||
     isNullOrUndefined(action.repositoryPath)
   ) {
-    throw new Error(
-      "No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true."
-    );
+    throw "No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true.";
   }
 
   if (isNullOrUndefined(action.branch)) {
-    throw new Error("Branch is required.");
+    throw "Branch is required.";
   }
 
-  if (isNullOrUndefined(action.folder)) {
-    throw new Error("You must provide the action with a folder to deploy.");
+  if (!action.folder || isNullOrUndefined(action.folder)) {
+    throw "You must provide the action with a folder to deploy.";
   }
 
   if (action.folder.startsWith("/") || action.folder.startsWith("./")) {
-    throw new Error(
-      "Incorrectly formatted build folder. The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly."
-    );
+    throw "Incorrectly formatted build folder. The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly.";
   }
 };
