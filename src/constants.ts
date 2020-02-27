@@ -35,7 +35,7 @@ export interface actionInterface {
   /** The fully qualified repositpory path, this gets auto generated if gitHubRepository is provided. */
   repositoryPath?: string;
   /** The root directory where your project lives. */
-  root: string;
+  root?: string;
   /** Set to true if you're using an ssh client in your build step. */
   ssh?: string | boolean | null;
   /** If you'd like to push the contents of the deployment folder into a specific directory on the deployment branch you can specify it here. */

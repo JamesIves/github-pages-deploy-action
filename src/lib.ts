@@ -1,6 +1,7 @@
 import { setFailed } from "@actions/core";
 import { init, deploy, generateBranch } from "./git";
 import { action, actionInterface } from "./constants";
+import { generateRepositoryPath, generateTokenType } from "./util";
 
 /** Initializes and runs the action. */
 export default async function run(
@@ -13,6 +14,9 @@ export default async function run(
     accessToken: action.accessToken,
     gitHubToken: action.gitHubToken
   };
+
+  settings.repositoryPath = generateRepositoryPath(settings);
+  settings.tokenType = generateTokenType(settings);
 
   try {
     await init(settings);
