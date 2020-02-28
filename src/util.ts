@@ -27,7 +27,7 @@ export const generateRepositoryPath = (action: actionInterface): string =>
         action.gitHubRepository
       }.git`;
 
-/** Checks for the required tokens and formatting. Throws an error if any case is matched.. */
+/** Checks for the required tokens and formatting. Throws an error if any case is matched. */
 export const hasRequiredParameters = (action: actionInterface): void => {
   if (
     (isNullOrUndefined(action.accessToken) &&
