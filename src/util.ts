@@ -1,4 +1,5 @@
 import { actionInterface } from "./constants";
+import { getInput } from "@actions/core";
 
 /** Utility function that checks to see if a value is undefined or not.
  * @param {*} value = The value to check.
@@ -35,18 +36,49 @@ export const hasRequiredParameters = (action: actionInterface): void => {
       isNullOrUndefined(action.ssh)) ||
     isNullOrUndefined(action.repositoryPath)
   ) {
-    throw "No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true.";
+    throw new Error(
+      "No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true."
+    );
   }
 
   if (isNullOrUndefined(action.branch)) {
-    throw "Branch is required.";
+    throw new Error("Branch is required.");
   }
 
   if (!action.folder || isNullOrUndefined(action.folder)) {
-    throw "You must provide the action with a folder to deploy.";
+    throw new Error("You must provide the action with a folder to deploy.");
   }
 
   if (action.folder.startsWith("/") || action.folder.startsWith("./")) {
-    throw "Incorrectly formatted build folder. The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly.";
+    throw new Error(
+      "Incorrectly formatted build folder. The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly."
+    );
   }
+};
+
+/** Suppresses sensitive information from being exposed in error messages. */
+export const suppressSensitiveInformation = (
+  str: string,
+  action: actionInterface
+) => {
+  let value = str;
+
+  if (getInput("DEBUG")) {
+    // Data is unmasked in debug mode.
+    return value;
+  }
+
+  if (action.accessToken) {
+    value = value.replace(action.accessToken, "***");
+  }
+
+  if (action.gitHubToken) {
+    value = value.replace(action.gitHubToken, "***");
+  }
+
+  if (action.repositoryPath) {
+    value = value.replace(action.repositoryPath, "***");
+  }
+
+  return value;
 };

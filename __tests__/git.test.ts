@@ -91,7 +91,7 @@ describe("git", () => {
         await init(action);
       } catch (e) {
         expect(execute).toBeCalledTimes(0);
-        expect(e).toMatch(
+        expect(e.message).toMatch(
           "There was an error initializing the repository: No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true. ❌"
         );
       }
@@ -114,7 +114,7 @@ describe("git", () => {
         await init(action);
       } catch (e) {
         expect(execute).toBeCalledTimes(0);
-        expect(e).toMatch(
+        expect(e.message).toMatch(
           "There was an error initializing the repository: You must provide the action with a folder to deploy. ❌"
         );
       }
@@ -138,7 +138,7 @@ describe("git", () => {
         await init(action);
       } catch (e) {
         expect(execute).toBeCalledTimes(0);
-        expect(e).toMatch(
+        expect(e.message).toMatch(
           "There was an error initializing the repository: No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true. "
         );
       }
@@ -160,7 +160,7 @@ describe("git", () => {
         await init(action);
       } catch (e) {
         expect(execute).toBeCalledTimes(0);
-        expect(e).toMatch(
+        expect(e.message).toMatch(
           "There was an error initializing the repository: Incorrectly formatted build folder. The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly. ❌"
         );
       }
@@ -181,7 +181,7 @@ describe("git", () => {
         await init(action);
       } catch (e) {
         expect(execute).toBeCalledTimes(0);
-        expect(e).toMatch(
+        expect(e.message).toMatch(
           "There was an error initializing the repository: Incorrectly formatted build folder. The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly. ❌"
         );
       }
@@ -236,7 +236,7 @@ describe("git", () => {
       try {
         await generateBranch(action);
       } catch (e) {
-        expect(e).toMatch(
+        expect(e.message).toMatch(
           "There was an error creating the deployment branch: Branch is required. ❌"
         );
       }
@@ -293,7 +293,7 @@ describe("git", () => {
         await switchToBaseBranch(action);
       } catch (e) {
         expect(execute).toBeCalledTimes(0);
-        expect(e).toMatch(
+        expect(e.message).toMatch(
           "There was an error switching to the base branch: No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true. ❌"
         );
       }
@@ -409,7 +409,7 @@ describe("git", () => {
         await deploy(action);
       } catch (e) {
         expect(execute).toBeCalledTimes(0);
-        expect(e).toMatch(
+        expect(e.message).toMatch(
           "The deploy step encountered an error: No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true. ❌"
         );
       }

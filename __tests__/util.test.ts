@@ -1,7 +1,8 @@
 import {
   isNullOrUndefined,
   generateTokenType,
-  generateRepositoryPath
+  generateRepositoryPath,
+  suppressSensitiveInformation
 } from "../src/util";
 
 describe("util", () => {
@@ -123,6 +124,48 @@ describe("util", () => {
       expect(generateRepositoryPath(action)).toEqual(
         "https://x-access-token:123@github.com/JamesIves/github-pages-deploy-action.git"
       );
+    });
+
+    describe("suppressSensitiveInformation", () => {
+      it("should replace any sensitive information with ***", async () => {
+        const action = {
+          gitHubRepository: "JamesIves/github-pages-deploy-action",
+          repositoryPath:
+            "https://x-access-token:supersecret999%%%@github.com/anothersecret123333",
+          branch: "123",
+          root: ".",
+          workspace: "src/",
+          folder: "build",
+          accessToken: "supersecret999%%%",
+          gitHubToken: "anothersecret123333"
+        };
+
+        const string = `This is an error message! It contains ${action.accessToken} and ${action.gitHubToken} and ${action.repositoryPath}`;
+        expect(suppressSensitiveInformation(string, action)).toBe(
+          "This is an error message! It contains *** and *** and ***"
+        );
+      });
+
+      it("should not suppress information when in debug mode", async () => {
+        const action = {
+          gitHubRepository: "JamesIves/github-pages-deploy-action",
+          repositoryPath:
+            "https://x-access-token:supersecret999%%%@github.com/anothersecret123333",
+          branch: "123",
+          root: ".",
+          workspace: "src/",
+          folder: "build",
+          accessToken: "supersecret999%%%",
+          gitHubToken: "anothersecret123333"
+        };
+
+        process.env["INPUT_DEBUG"] = "true";
+
+        const string = `This is an error message! It contains ${action.accessToken} and ${action.gitHubToken} and ${action.repositoryPath}`;
+        expect(suppressSensitiveInformation(string, action)).toBe(
+          "This is an error message! It contains supersecret999%%% and anothersecret123333 and https://x-access-token:supersecret999%%%@github.com/anothersecret123333"
+        );
+      });
     });
   });
 });

@@ -10,13 +10,13 @@ export default async function run(
   let errorState: boolean = false;
 
   try {
-    console.log('Checking configuration and starting deployment...🚦')
+    console.log("Checking configuration and starting deployment...🚦");
 
     const settings = {
       ...action,
       ...configuration
     };
-  
+
     // Defines the repository paths and token types.
     settings.repositoryPath = generateRepositoryPath(settings);
     settings.tokenType = generateTokenType(settings);
