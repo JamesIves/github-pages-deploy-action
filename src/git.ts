@@ -34,16 +34,12 @@ export async function switchToBaseBranch(
   try {
     hasRequiredParameters(action);
 
-    console.log('Switching to the base branch...')
-
     await execute(
       `git checkout --progress --force ${
         action.baseBranch ? action.baseBranch : action.defaultBranch
       }`,
       action.workspace
     );
-
-    console.log("Switched to the base branch... 🌲");
   } catch (error) {
     throw `There was an error switching to the base branch: ${error} ❌`;
   }
