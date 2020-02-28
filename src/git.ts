@@ -9,6 +9,8 @@ export async function init(action: actionInterface): Promise<void | Error> {
     hasRequiredParameters(action);
 
     console.log(`Deploying using ${action.tokenType}... 🔑`);
+    console.log('Configuring git...')
+
     await execute(`git init`, action.workspace);
     await execute(`git config user.name "${action.name}"`, action.workspace);
     await execute(`git config user.email "${action.email}"`, action.workspace);
@@ -18,6 +20,8 @@ export async function init(action: actionInterface): Promise<void | Error> {
       action.workspace
     );
     await execute(`git fetch`, action.workspace);
+
+    console.log('Git configured... 🔧');
   } catch (error) {
     throw `There was an error initializing the repository: ${error} ❌`;
   }
@@ -30,6 +34,8 @@ export async function switchToBaseBranch(
   try {
     hasRequiredParameters(action);
 
+    console.log('Switching to the base branch...')
+
     await execute(
       `git checkout --progress --force ${
         action.baseBranch ? action.baseBranch : action.defaultBranch
@@ -37,7 +43,7 @@ export async function switchToBaseBranch(
       action.workspace
     );
 
-    console.log("Switched to the base branch...");
+    console.log("Switched to the base branch... 🌲");
   } catch (error) {
     throw `There was an error switching to the base branch: ${error} ❌`;
   }
@@ -48,7 +54,8 @@ export async function generateBranch(action: actionInterface): Promise<void> {
   try {
     hasRequiredParameters(action);
 
-    console.log(`Creating ${action.branch} branch... 🔧`);
+    console.log(`Creating the ${action.branch} branch...`);
+  
     await switchToBaseBranch(action);
     await execute(`git checkout --orphan ${action.branch}`, action.workspace);
     await execute(`git reset --hard`, action.workspace);
@@ -61,6 +68,8 @@ export async function generateBranch(action: actionInterface): Promise<void> {
       action.workspace
     );
     await execute(`git fetch`, action.workspace);
+
+    console.log(`Created the ${action.branch} branch... 🔧`)
   } catch (error) {
     throw `There was an error creating the deployment branch: ${error} ❌`;
   }
@@ -74,6 +83,8 @@ export async function deploy(action: actionInterface): Promise<void> {
     const temporaryDeploymentDirectory = "gh-action-temp-deployment-folder";
     const temporaryDeploymentBranch = "gh-action-temp-deployment-branch";
 
+    console.log('Starting to commit changes...')
+
     /*
         Checks to see if the remote exists prior to deploying.
         If the branch doesn't exist it gets created here as an orphan.
@@ -84,7 +95,6 @@ export async function deploy(action: actionInterface): Promise<void> {
     );
 
     if (!branchExists && !action.isTest) {
-      console.log("Deployment branch does not exist. Creating....");
       await generateBranch(action);
     }
 
@@ -141,7 +151,7 @@ export async function deploy(action: actionInterface): Promise<void> {
     );
 
     if (!hasFilesToCommit && !action.isTest) {
-      console.log("There is nothing to commit. Exiting... ✅");
+      console.log("There is nothing to commit. Exiting early... 📭");
       return;
     }
 
@@ -166,8 +176,10 @@ export async function deploy(action: actionInterface): Promise<void> {
       temporaryDeploymentDirectory
     );
 
+    console.log(`Changes committed to the ${action.branch} branch... 📦`)
+
     // Cleans up temporary files/folders and restores the git state.
-    console.log("Running post deployment cleanup jobs... 🔧");
+    console.log("Running post deployment cleanup jobs...");
     await execute(`rm -rf ${temporaryDeploymentDirectory}`, action.workspace);
     await execute(
       `git checkout --progress --force ${action.defaultBranch}`,

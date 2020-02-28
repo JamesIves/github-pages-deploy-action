@@ -9,16 +9,18 @@ export default async function run(
 ): Promise<void> {
   let errorState: boolean = false;
 
-  const settings = {
-    ...action,
-    ...configuration
-  };
-
-  // Defines the repository paths and token types.
-  settings.repositoryPath = generateRepositoryPath(settings);
-  settings.tokenType = generateTokenType(settings);
-
   try {
+    console.log('Checking configuration and starting deployment...🚦')
+
+    const settings = {
+      ...action,
+      ...configuration
+    };
+  
+    // Defines the repository paths and token types.
+    settings.repositoryPath = generateRepositoryPath(settings);
+    settings.tokenType = generateTokenType(settings);
+
     await init(settings);
     await deploy(settings);
   } catch (error) {
