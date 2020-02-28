@@ -1,6 +1,7 @@
 // Initial env variable setup for tests.
 process.env["INPUT_FOLDER"] = "build";
 process.env["GITHUB_SHA"] = "123";
+process.env["INPUT_DEBUG"] = "debug";
 
 import "../src/main";
 import { action } from "../src/constants";
@@ -34,7 +35,8 @@ describe("main", () => {
         name: "asd",
         email: "as@cat"
       },
-      isTest: false
+      isTest: false,
+      debug: true
     });
     await run(action);
     expect(execute).toBeCalledTimes(18);

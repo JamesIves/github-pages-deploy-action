@@ -4,7 +4,7 @@ import { isNullOrUndefined } from "./util";
 
 const { pusher, repository } = github.context.payload;
 
-/** For more information please refer to the README: https://github.com/JamesIves/github-pages-deploy-action */
+/* For more information please refer to the README: https://github.com/JamesIves/github-pages-deploy-action */
 export interface actionInterface {
   /** Deployment access token. */
   accessToken?: string | null;
@@ -18,6 +18,8 @@ export interface actionInterface {
   cleanExclude?: string | Array<string>;
   /** If you need to customize the commit message for an integration you can do so. */
   commitMessage?: string;
+  /** Unhides the Git commands from the function terminal. */
+  debug?: boolean | string;
   /** The default branch of the deployment. Similar to baseBranch if you're using this action as a module. */
   defaultBranch?: string;
   /** The git config email. */
@@ -46,7 +48,7 @@ export interface actionInterface {
   workspace: string;
 }
 
-// Required action data that gets initialized when running within the GitHub Actions environment.
+/* Required action data that gets initialized when running within the GitHub Actions environment. */
 export const action: actionInterface = {
   accessToken: getInput("ACCESS_TOKEN"),
   baseBranch: getInput("BASE_BRANCH"),
@@ -55,6 +57,7 @@ export const action: actionInterface = {
   commitMessage: getInput("COMMIT_MESSAGE"),
   clean: getInput("CLEAN"),
   cleanExclude: getInput("CLEAN_EXCLUDE"),
+  debug: getInput("DEBUG"),
   defaultBranch: process.env.GITHUB_SHA ? process.env.GITHUB_SHA : "master",
   isTest: process.env.UNIT_TEST,
   ssh: getInput("SSH"),

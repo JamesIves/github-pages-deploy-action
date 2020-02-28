@@ -21,6 +21,11 @@ export default async function run(
     settings.repositoryPath = generateRepositoryPath(settings);
     settings.tokenType = generateTokenType(settings);
 
+    if (settings.debug) {
+      // Sets the debug flag if passed as an arguement.
+      process.env["INPUT_DEBUG"] = "debug";
+    }
+
     await init(settings);
     await deploy(settings);
   } catch (error) {

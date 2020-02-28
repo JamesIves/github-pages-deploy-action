@@ -1,4 +1,3 @@
-import { setFailed } from "@actions/core";
 import { actionInterface } from "./constants";
 import { execute } from "./execute";
 import {
@@ -7,7 +6,7 @@ import {
   suppressSensitiveInformation
 } from "./util";
 
-/** Generates the branch if it doesn't exist on the remote. */
+/* Generates the branch if it doesn't exist on the remote. */
 export async function init(action: actionInterface): Promise<void | Error> {
   try {
     hasRequiredParameters(action);
@@ -36,7 +35,7 @@ export async function init(action: actionInterface): Promise<void | Error> {
   }
 }
 
-/** Switches to the base branch. */
+/* Switches to the base branch. */
 export async function switchToBaseBranch(
   action: actionInterface
 ): Promise<void> {
@@ -59,7 +58,7 @@ export async function switchToBaseBranch(
   }
 }
 
-/** Generates the branch if it doesn't exist on the remote. */
+/* Generates the branch if it doesn't exist on the remote. */
 export async function generateBranch(action: actionInterface): Promise<void> {
   try {
     hasRequiredParameters(action);
@@ -90,7 +89,7 @@ export async function generateBranch(action: actionInterface): Promise<void> {
   }
 }
 
-/** Runs the necessary steps to make the deployment. */
+/* Runs the necessary steps to make the deployment. */
 export async function deploy(action: actionInterface): Promise<void> {
   try {
     hasRequiredParameters(action);

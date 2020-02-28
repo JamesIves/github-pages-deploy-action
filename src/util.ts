@@ -1,10 +1,7 @@
 import { actionInterface } from "./constants";
 import { getInput } from "@actions/core";
 
-/** Utility function that checks to see if a value is undefined or not.
- * @param {*} value = The value to check.
- * @returns {boolean}
- */
+/* Utility function that checks to see if a value is undefined or not. */
 export function isNullOrUndefined(value: any): boolean {
   return typeof value === "undefined" || value === null || value === "";
 }
@@ -28,7 +25,7 @@ export const generateRepositoryPath = (action: actionInterface): string =>
         action.gitHubRepository
       }.git`;
 
-/** Checks for the required tokens and formatting. Throws an error if any case is matched. */
+/* Checks for the required tokens and formatting. Throws an error if any case is matched. */
 export const hasRequiredParameters = (action: actionInterface): void => {
   if (
     (isNullOrUndefined(action.accessToken) &&
@@ -56,7 +53,7 @@ export const hasRequiredParameters = (action: actionInterface): void => {
   }
 };
 
-/** Suppresses sensitive information from being exposed in error messages. */
+/* Suppresses sensitive information from being exposed in error messages. */
 export const suppressSensitiveInformation = (
   str: string,
   action: actionInterface

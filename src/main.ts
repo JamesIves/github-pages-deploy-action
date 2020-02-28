@@ -1,5 +1,5 @@
 import run from "./lib";
 import { action } from "./constants";
 
-// Init
+// Runs the action within the GitHub actions environment.
 run(action);
