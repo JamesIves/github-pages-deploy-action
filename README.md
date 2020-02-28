@@ -41,9 +41,9 @@ on:
       - master
 ```
 
-#### Install Using Yarn or NPM 📦
+#### Install Using Yarn 📦
 
-If you'd like to use the functionality provided by this action in your own action you can install it using `yarn` by running the following command.
+If you'd like to use the functionality provided by this action in your own action you can install it using [yarn](https://yarnpkg.com/) by running the following command.
 
 ```
 yarn add github-pages-deploy-action
@@ -63,7 +63,7 @@ import run from "github-pages-deploy-action";
 run({
   folder: 'build',
   branch: 'gh-pages',
-  workspace: 'src/project/location'
+  workspace: 'src/project/location',
   accessToken: process.env['ACCESS_TOKEN']
 })
 ```
@@ -102,7 +102,7 @@ In addition to the deployment options you must also configure the following.
 | `COMMIT_MESSAGE`   | If you need to customize the commit message for an integration you can do so.                                                                                                                                                                                                                                                                         | `with` | **No**   |
 | `CLEAN`            | If your project generates hashed files on build you can use this option to automatically delete them from the deployment branch with each deploy. This option can be toggled on by setting it to `true`.                                                                                                                                              | `with` | **No**   |
 | `CLEAN_EXCLUDE`    | If you need to use `CLEAN` but you'd like to preserve certain files or folders you can use this option. This should be formatted as an array but stored as a string. For example: `'["filename.js", "folder"]'`                                                                                                                                       | `with` | **No**   |
-| `DEBUG`    | By default the git commands are hidden from the log. If you'd like to turn them on you can toggle this to `true`.                                                                                                                                  | `with` | **No**   |
+| `DEBUG`    | By default the git commands are hidden from the log. If you'd like to turn them on you can toggle this to `true`. **If you're using this action in your own project via Yarn or NPM you may expose your secrets if you toggle this on in a production environment**.                                                                                                                                 | `with` | **No**   |
 
 With the action correctly configured you should see the workflow trigger the deployment under the configured conditions.
 
