@@ -41,7 +41,7 @@ on:
       - master
 ```
 
-#### Importing 📦
+#### Install Using Yarn or NPM 📦
 
 If you'd like to use the functionality provided by this action in your own action you can install it using `yarn` by running the following command.
 
