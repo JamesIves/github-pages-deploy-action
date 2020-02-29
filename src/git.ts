@@ -91,13 +91,12 @@ export async function generateBranch(action: actionInterface): Promise<void> {
 
 /* Runs the necessary steps to make the deployment. */
 export async function deploy(action: actionInterface): Promise<void> {
+  const temporaryDeploymentDirectory = "gh-action-temp-deployment-folder";
+  const temporaryDeploymentBranch = "gh-action-temp-deployment-branch";
+  console.log("Starting to commit changes...");
+
   try {
     hasRequiredParameters(action);
-
-    const temporaryDeploymentDirectory = "gh-action-temp-deployment-folder";
-    const temporaryDeploymentBranch = "gh-action-temp-deployment-branch";
-
-    console.log("Starting to commit changes...");
 
     /*
         Checks to see if the remote exists prior to deploying.
@@ -194,7 +193,6 @@ export async function deploy(action: actionInterface): Promise<void> {
 
     // Cleans up temporary files/folders and restores the git state.
     console.log("Running post deployment cleanup jobs...");
-    await execute(`rm -rf ${temporaryDeploymentDirectory}`, action.workspace);
     await execute(
       `git checkout --progress --force ${action.defaultBranch}`,
       action.workspace
@@ -206,5 +204,8 @@ export async function deploy(action: actionInterface): Promise<void> {
         action
       )} ❌`
     );
+  } finally {
+    // Ensures the deployment directory is safely removed.
+    await execute(`rm -rf ${temporaryDeploymentDirectory}`, action.workspace);
   }
 }

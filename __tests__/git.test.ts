@@ -388,7 +388,7 @@ describe("git", () => {
       });
 
       await deploy(action);
-      expect(execute).toBeCalledTimes(12);
+      expect(execute).toBeCalledTimes(13);
     });
 
     it("should throw an error if one of the required parameters is not available", async () => {
@@ -408,7 +408,7 @@ describe("git", () => {
       try {
         await deploy(action);
       } catch (e) {
-        expect(execute).toBeCalledTimes(0);
+        expect(execute).toBeCalledTimes(1);
         expect(e.message).toMatch(
           "The deploy step encountered an error: No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true. ❌"
         );

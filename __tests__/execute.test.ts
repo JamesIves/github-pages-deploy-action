@@ -20,7 +20,7 @@ describe("execute", () => {
   });
 
   it("should not silence the input when INPUT_DEBUG is defined", async () => {
-    process.env["INPUT_DEBUG"] = "yes";
+    process.env["DEBUG_DEPLOY_ACTION"] = "yes";
 
     await stdout("hello");
     await execute("echo Montezuma", "./");

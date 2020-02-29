@@ -17,7 +17,8 @@ jest.mock("../src/execute", () => ({
 
 jest.mock("@actions/core", () => ({
   setFailed: jest.fn(),
-  getInput: jest.fn()
+  getInput: jest.fn(),
+  exportVariable: jest.fn()
 }));
 
 describe("main", () => {
@@ -39,7 +40,7 @@ describe("main", () => {
       debug: true
     });
     await run(action);
-    expect(execute).toBeCalledTimes(18);
+    expect(execute).toBeCalledTimes(19);
   });
 
   it("should throw if an error is encountered", async () => {

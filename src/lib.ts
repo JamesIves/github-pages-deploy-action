@@ -1,6 +1,6 @@
-import { setFailed } from "@actions/core";
-import { init, deploy, generateBranch } from "./git";
+import { exportVariable, setFailed } from "@actions/core";
 import { action, actionInterface } from "./constants";
+import { deploy, generateBranch, init } from "./git";
 import { generateRepositoryPath, generateTokenType } from "./util";
 
 /** Initializes and runs the action. */
@@ -23,7 +23,7 @@ export default async function run(
 
     if (settings.debug) {
       // Sets the debug flag if passed as an arguement.
-      process.env["INPUT_DEBUG"] = "debug";
+      exportVariable("DEBUG_DEPLOY_ACTION", "debug");
     }
 
     await init(settings);

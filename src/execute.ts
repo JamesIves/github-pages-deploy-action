@@ -1,5 +1,4 @@
 import { exec } from "@actions/exec";
-import { getInput } from "@actions/core";
 
 let output: string;
 
@@ -14,7 +13,7 @@ export async function execute(cmd: string, cwd: string): Promise<any> {
 
   await exec(cmd, [], {
     // Silences the input unless the INPUT_DEBUG flag is set.
-    silent: getInput("DEBUG") ? false : true,
+    silent: process.env.DEBUG_DEPLOY_ACTION ? false : true,
     cwd,
     listeners: {
       stdout
