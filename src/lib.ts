@@ -30,7 +30,7 @@ export default async function run(
     await deploy(settings);
   } catch (error) {
     errorState = true;
-    setFailed(error);
+    setFailed(error.message);
   } finally {
     console.log(
       `${
