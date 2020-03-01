@@ -1,8 +1,8 @@
 import { actionInterface } from "./constants";
 import { execute } from "./execute";
 import {
-  isNullOrUndefined,
   hasRequiredParameters,
+  isNullOrUndefined,
   suppressSensitiveInformation
 } from "./util";
 

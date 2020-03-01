@@ -1,5 +1,5 @@
-import { actionInterface } from "./constants";
 import { getInput } from "@actions/core";
+import { actionInterface } from "./constants";
 
 /* Utility function that checks to see if a value is undefined or not. */
 export function isNullOrUndefined(value: any): boolean {
