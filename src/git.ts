@@ -9,7 +9,7 @@ import {
 import { execute } from "./execute";
 import { isNullOrUndefined } from "./util";
 
-/** Generates the branch if it doesn't exist on the remote.
+/** Initialize workspace with git configuration for deployment.
  * @returns {Promise}
  */
 export async function init(): Promise<void> {
