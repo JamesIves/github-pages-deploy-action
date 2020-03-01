@@ -160,7 +160,7 @@ export async function deploy(action: actionInterface): Promise<void> {
 
     const hasFilesToCommit = await execute(
       `git status --porcelain`,
-      temporaryDeploymentDirectory
+      `${action.workspace}/${temporaryDeploymentDirectory}`
     );
 
     if (!hasFilesToCommit && !action.isTest) {
@@ -169,10 +169,13 @@ export async function deploy(action: actionInterface): Promise<void> {
     }
 
     // Commits to GitHub.
-    await execute(`git add --all .`, temporaryDeploymentDirectory);
+    await execute(
+      `git add --all .`,
+      `${action.workspace}/${temporaryDeploymentDirectory}`
+    );
     await execute(
       `git checkout -b ${temporaryDeploymentBranch}`,
-      temporaryDeploymentDirectory
+      `${action.workspace}/${temporaryDeploymentDirectory}`
     );
     await execute(
       `git commit -m "${
@@ -182,11 +185,11 @@ export async function deploy(action: actionInterface): Promise<void> {
       } ${
         process.env.GITHUB_SHA ? `- ${process.env.GITHUB_SHA}` : ""
       } 🚀" --quiet`,
-      temporaryDeploymentDirectory
+      `${action.workspace}/${temporaryDeploymentDirectory}`
     );
     await execute(
       `git push --force ${action.repositoryPath} ${temporaryDeploymentBranch}:${action.branch}`,
-      temporaryDeploymentDirectory
+      `${action.workspace}/${temporaryDeploymentDirectory}`
     );
 
     console.log(`Changes committed to the ${action.branch} branch... 📦`);
