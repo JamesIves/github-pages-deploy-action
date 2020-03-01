@@ -26,10 +26,11 @@ export const action = {
     ? pusher.email
     : `${process.env.GITHUB_ACTOR ||
         "github-pages-deploy-action"}@users.noreply.github.com`,
-  gitHubRepository:
-    repository && repository.full_name
-      ? repository.full_name
-      : process.env.GITHUB_REPOSITORY,
+  gitHubRepository: !isNullOrUndefined(getInput("REMOTE_REPOSITORY"))
+    ? getInput("REMOTE_REPOSITORY")
+    : repository && repository.full_name
+    ? repository.full_name
+    : process.env.GITHUB_REPOSITORY,
   gitHubToken: getInput("GITHUB_TOKEN"),
   name: !isNullOrUndefined(getInput("GIT_CONFIG_NAME"))
     ? getInput("GIT_CONFIG_NAME")

@@ -36,6 +36,10 @@ inputs:
     description: 'The base branch of your repository which you would like to checkout prior to deploying. This defaults to the current commit SHA that triggered the build followed by master if it does not exist. This is useful for making deployments from another branch, and also may be necessary when using a scheduled job.'
     required: false
 
+  REMOTE_REPOSITORY:
+    description: If you'd like to push to an alternate repository, specify the `organization/repository` path.
+    required: false
+
   COMMIT_MESSAGE:
     description: 'If you need to customize the commit message for an integration you can do so.'
     required: false

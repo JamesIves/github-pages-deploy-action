@@ -67,6 +67,7 @@ In addition to the deployment options you must also configure the following.
 | ------------- | ------------- | ------------- | ------------- |
 | `GIT_CONFIG_NAME`  | Allows you to customize the name that is attached to the GitHub config which is used when pushing the deployment commits. If this is not included it will use the name in the GitHub context, followed by the name of the action.  | `with` | **No** |
 | `GIT_CONFIG_EMAIL`  | Allows you to customize the email that is attached to the GitHub config which is used when pushing the deployment commits. If this is not included it will use the email in the GitHub context, followed by a generic noreply GitHub email.  | `with` | **No** |
+| `REMOTE_REPOSITORY`  | If you'd like to push to an alternate repository, specify the `organization/repository` path.  | `with` | **No** |
 | `TARGET_FOLDER`  | If you'd like to push the contents of the deployment folder into a specific directory on the deployment branch you can specify it here.  | `with` | **No** |
 | `BASE_BRANCH`  | The base branch of your repository which you'd like to checkout prior to deploying. This defaults to the current commit [SHA](http://en.wikipedia.org/wiki/SHA-1) that triggered the build followed by `master` if it doesn't exist. This is useful for making deployments from another branch, and also may be necessary when using a scheduled job.  | `with` | **No** |
 | `COMMIT_MESSAGE`  | If you need to customize the commit message for an integration you can do so.  | `with` | **No** |
