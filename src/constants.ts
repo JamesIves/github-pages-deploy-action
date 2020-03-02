@@ -26,15 +26,15 @@ export interface actionInterface {
   email?: string;
   /** The folder to deploy. */
   folder: string;
-  /** The repository path, for example JamesIves/github-pages-deploy-action */
-  gitHubRepository?: string;
   /** GitHub deployment token. */
   gitHubToken?: string | null;
   /** Determines if the action is running in test mode or not. */
   isTest?: string | undefined | null;
   /** The git config name. */
   name?: string;
-  /** The fully qualified repositpory path, this gets auto generated if gitHubRepository is provided. */
+  /** The repository path, for example JamesIves/github-pages-deploy-action */
+  repositoryName?: string;
+  /** The fully qualified repositpory path, this gets auto generated if repositoryName is provided. */
   repositoryPath?: string;
   /** The root directory where your project lives. */
   root?: string;
@@ -67,11 +67,6 @@ export const action: actionInterface = {
     ? pusher.email
     : `${process.env.GITHUB_ACTOR ||
         "github-pages-deploy-action"}@users.noreply.github.com`,
-  gitHubRepository: !isNullOrUndefined(getInput("REPOSITORY_PATH"))
-    ? getInput("REPOSITORY_PATH")
-    : repository && repository.full_name
-    ? repository.full_name
-    : process.env.GITHUB_REPOSITORY,
   gitHubToken: getInput("GITHUB_TOKEN"),
   name: !isNullOrUndefined(getInput("GIT_CONFIG_NAME"))
     ? getInput("GIT_CONFIG_NAME")
@@ -80,7 +75,12 @@ export const action: actionInterface = {
     : process.env.GITHUB_ACTOR
     ? process.env.GITHUB_ACTOR
     : "GitHub Pages Deploy Action",
+  repositoryName: !isNullOrUndefined(getInput("REPOSITORY_NAME"))
+    ? getInput("REPOSITORY_NAME")
+    : repository && repository.full_name
+    ? repository.full_name
+    : process.env.GITHUB_REPOSITORY,
+  root: ".",
   targetFolder: getInput("TARGET_FOLDER"),
-  workspace: process.env.GITHUB_WORKSPACE || "",
-  root: "."
+  workspace: process.env.GITHUB_WORKSPACE || ""
 };

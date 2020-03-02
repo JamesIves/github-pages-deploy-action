@@ -18,10 +18,10 @@ export const generateTokenType = (action: actionInterface): string =>
 /* Generates a the repository path used to make the commits. */
 export const generateRepositoryPath = (action: actionInterface): string =>
   action.ssh
-    ? `git@github.com:${action.gitHubRepository}`
+    ? `git@github.com:${action.repositoryName}`
     : `https://${action.accessToken ||
         `x-access-token:${action.gitHubToken}`}@github.com/${
-        action.gitHubRepository
+        action.repositoryName
       }.git`;
 
 /* Checks for the required tokens and formatting. Throws an error if any case is matched. */
