@@ -1,4 +1,5 @@
 var camelCase = require('camelcase')
+var decamelize = require('decamelize')
 var path = require('path')
 var tokenizeArgString = require('./lib/tokenize-arg-string')
 var util = require('util')
@@ -8,9 +9,10 @@ function parse (args, opts) {
   // allow a string argument to be passed in rather
   // than an argv array.
   args = tokenizeArgString(args)
+
   // aliases might have transitive relationships, normalize this.
   var aliases = combineAliases(opts.alias || {})
-  var configuration = assign({
+  var configuration = Object.assign({
     'short-option-groups': true,
     'camel-case-expansion': true,
     'dot-notation': true,
@@ -21,7 +23,11 @@ function parse (args, opts) {
     'flatten-duplicate-arrays': true,
     'populate--': false,
     'combine-arrays': false,
-    'set-placeholder-key': false
+    'set-placeholder-key': false,
+    'halt-at-non-option': false,
+    'strip-aliased': false,
+    'strip-dashed': false,
+    'unknown-options-as-args': false
   }, opts.configuration)
   var defaults = opts.default || {}
   var configObjects = opts.configObjects || []
@@ -29,10 +35,9 @@ function parse (args, opts) {
   var notFlagsOption = configuration['populate--']
   var notFlagsArgv = notFlagsOption ? '--' : '_'
   var newAliases = {}
+  var defaulted = {}
   // allow a i18n handler to be passed in, default to a fake one (util.format).
-  var __ = opts.__ || function (str) {
-    return util.format.apply(util, Array.prototype.slice.call(arguments))
-  }
+  var __ = opts.__ || util.format
   var error = null
   var flags = {
     aliases: {},
@@ -43,15 +48,30 @@ function parse (args, opts) {
     counts: {},
     normalize: {},
     configs: {},
-    defaulted: {},
     nargs: {},
     coercions: {},
     keys: []
   }
-  var negative = /^-[0-9]+(\.[0-9]+)?/
+  var negative = /^-([0-9]+(\.[0-9]+)?|\.[0-9]+)$/
   var negatedBoolean = new RegExp('^--' + configuration['negation-prefix'] + '(.+)')
 
-  ;[].concat(opts.array).filter(Boolean).forEach(function (key) {
+  ;[].concat(opts.array).filter(Boolean).forEach(function (opt) {
+    var key = opt.key || opt
+
+    // assign to flags[bools|strings|numbers]
+    const assignment = Object.keys(opt).map(function (key) {
+      return ({
+        boolean: 'bools',
+        string: 'strings',
+        number: 'numbers'
+      })[key]
+    }).filter(Boolean).pop()
+
+    // assign key to be coerced
+    if (assignment) {
+      flags[assignment][key] = true
+    }
+
     flags.arrays[key] = true
     flags.keys.push(key)
   })
@@ -112,20 +132,10 @@ function parse (args, opts) {
     })
   })
 
+  checkConfiguration()
+
   var argv = { _: [] }
-
-  Object.keys(flags.bools).forEach(function (key) {
-    if (Object.prototype.hasOwnProperty.call(defaults, key)) {
-      setArg(key, defaults[key])
-      setDefaulted(key)
-    }
-  })
-
   var notFlags = []
-  if (args.indexOf('--') !== -1) {
-    notFlags = args.slice(args.indexOf('--') + 1)
-    args = args.slice(0, args.indexOf('--'))
-  }
 
   for (var i = 0; i < args.length; i++) {
     var arg = args[i]
@@ -136,8 +146,11 @@ function parse (args, opts) {
     var next
     var value
 
-    // -- seperated by =
-    if (arg.match(/^--.+=/) || (
+    // any unknown option (except for end-of-options, "--")
+    if (arg !== '--' && isUnknownOptionAsArg(arg)) {
+      argv._.push(arg)
+    // -- separated by =
+    } else if (arg.match(/^--.+=/) || (
       !configuration['short-option-groups'] && arg.match(/^-.+=/)
     )) {
       // Using [\s\S] instead of . because js doesn't support the
@@ -150,7 +163,7 @@ function parse (args, opts) {
         args.splice(i + 1, 0, m[2])
         i = eatNargs(i, m[1], args)
       // arrays format = '--f=a b c'
-      } else if (checkAllAliases(m[1], flags.arrays) && args.length > i + 1) {
+      } else if (checkAllAliases(m[1], flags.arrays)) {
         args.splice(i + 1, 0, m[2])
         i = eatArray(i, m[1], args)
       } else {
@@ -158,19 +171,20 @@ function parse (args, opts) {
       }
     } else if (arg.match(negatedBoolean) && configuration['boolean-negation']) {
       key = arg.match(negatedBoolean)[1]
-      setArg(key, false)
+      setArg(key, checkAllAliases(key, flags.arrays) ? [false] : false)
 
-    // -- seperated by space.
+    // -- separated by space.
     } else if (arg.match(/^--.+/) || (
-      !configuration['short-option-groups'] && arg.match(/^-.+/)
+      !configuration['short-option-groups'] && arg.match(/^-[^-]+/)
     )) {
       key = arg.match(/^--?(.+)/)[1]
 
       // nargs format = '--foo a b c'
-      if (checkAllAliases(key, flags.nargs)) {
+      // should be truthy even if: flags.nargs[key] === 0
+      if (checkAllAliases(key, flags.nargs) !== false) {
         i = eatNargs(i, key, args)
       // array format = '--foo a b c'
-      } else if (checkAllAliases(key, flags.arrays) && args.length > i + 1) {
+      } else if (checkAllAliases(key, flags.arrays)) {
         i = eatArray(i, key, args)
       } else {
         next = args[i + 1]
@@ -185,17 +199,17 @@ function parse (args, opts) {
           setArg(key, next)
           i++
         } else {
-          setArg(key, defaultForType(guessType(key, flags)))
+          setArg(key, defaultValue(key))
         }
       }
 
-    // dot-notation flag seperated by '='.
+    // dot-notation flag separated by '='.
     } else if (arg.match(/^-.\..+=/)) {
       m = arg.match(/^-([^=]+)=([\s\S]*)$/)
       setArg(m[1], m[2])
 
-    // dot-notation flag seperated by space.
-    } else if (arg.match(/^-.\..+/)) {
+    // dot-notation flag separated by space.
+    } else if (arg.match(/^-.\..+/) && !arg.match(negative)) {
       next = args[i + 1]
       key = arg.match(/^-(.\..+)/)[1]
 
@@ -205,7 +219,7 @@ function parse (args, opts) {
         setArg(key, next)
         i++
       } else {
-        setArg(key, defaultForType(guessType(key, flags)))
+        setArg(key, defaultValue(key))
       }
     } else if (arg.match(/^-[^-]+/) && !arg.match(negative)) {
       letters = arg.slice(1, -1).split('')
@@ -223,7 +237,7 @@ function parse (args, opts) {
             args.splice(i + 1, 0, value)
             i = eatNargs(i, key, args)
           // array format = '-f=a b c'
-          } else if (checkAllAliases(key, flags.arrays) && args.length > i + 1) {
+          } else if (checkAllAliases(key, flags.arrays)) {
             args.splice(i + 1, 0, value)
             i = eatArray(i, key, args)
           } else {
@@ -252,7 +266,7 @@ function parse (args, opts) {
           broken = true
           break
         } else {
-          setArg(letters[j], defaultForType(guessType(letters[j], flags)))
+          setArg(letters[j], defaultValue(letters[j]))
         }
       }
 
@@ -260,10 +274,11 @@ function parse (args, opts) {
 
       if (!broken && key !== '-') {
         // nargs format = '-f a b c'
-        if (checkAllAliases(key, flags.nargs)) {
+        // should be truthy even if: flags.nargs[key] === 0
+        if (checkAllAliases(key, flags.nargs) !== false) {
           i = eatNargs(i, key, args)
         // array format = '-f a b c'
-        } else if (checkAllAliases(key, flags.arrays) && args.length > i + 1) {
+        } else if (checkAllAliases(key, flags.arrays)) {
           i = eatArray(i, key, args)
         } else {
           next = args[i + 1]
@@ -278,10 +293,16 @@ function parse (args, opts) {
             setArg(key, next)
             i++
           } else {
-            setArg(key, defaultForType(guessType(key, flags)))
+            setArg(key, defaultValue(key))
           }
         }
       }
+    } else if (arg === '--') {
+      notFlags = args.slice(i + 1)
+      break
+    } else if (configuration['halt-at-non-option']) {
+      notFlags = args.slice(i)
+      break
     } else {
       argv._.push(maybeCoerceNumber('_', arg))
     }
@@ -297,7 +318,7 @@ function parse (args, opts) {
   applyEnvVars(argv, false)
   setConfig(argv)
   setConfigObjects()
-  applyDefaultsAndAliases(argv, flags.aliases, defaults)
+  applyDefaultsAndAliases(argv, flags.aliases, defaults, true)
   applyCoercions(argv)
   if (configuration['set-placeholder-key']) setPlaceholderKeys(argv)
 
@@ -312,17 +333,39 @@ function parse (args, opts) {
     argv[notFlagsArgv].push(key)
   })
 
+  if (configuration['camel-case-expansion'] && configuration['strip-dashed']) {
+    Object.keys(argv).filter(key => key !== '--' && key.includes('-')).forEach(key => {
+      delete argv[key]
+    })
+  }
+
+  if (configuration['strip-aliased']) {
+    // XXX Switch to [].concat(...Object.values(aliases)) once node.js 6 is dropped
+    ;[].concat(...Object.keys(aliases).map(k => aliases[k])).forEach(alias => {
+      if (configuration['camel-case-expansion']) {
+        delete argv[alias.split('.').map(prop => camelCase(prop)).join('.')]
+      }
+
+      delete argv[alias]
+    })
+  }
+
   // how many arguments should we consume, based
   // on the nargs option?
   function eatNargs (i, key, args) {
     var ii
     const toEat = checkAllAliases(key, flags.nargs)
 
+    if (toEat === 0) {
+      setArg(key, defaultValue(key))
+      return i
+    }
+
     // nargs will not consume flag arguments, e.g., -abc, --foo,
     // and terminates when one is observed.
     var available = 0
     for (ii = i + 1; ii < args.length; ii++) {
-      if (!args[ii].match(/^-[^0-9]/)) available++
+      if (!args[ii].match(/^-[^0-9]/) || args[ii].match(negative) || isUnknownOptionAsArg(args[ii])) available++
       else break
     }
 
@@ -340,38 +383,37 @@ function parse (args, opts) {
   // following it... YUM!
   // e.g., --foo apple banana cat becomes ["apple", "banana", "cat"]
   function eatArray (i, key, args) {
-    var start = i + 1
-    var argsToSet = []
-    var multipleArrayFlag = i > 0
-    for (var ii = i + 1; ii < args.length; ii++) {
-      if (/^-/.test(args[ii]) && !negative.test(args[ii])) {
-        if (ii === start) {
-          setArg(key, defaultForType('array'))
-        }
-        multipleArrayFlag = true
-        break
+    let argsToSet = []
+    let next = args[i + 1]
+
+    if (checkAllAliases(key, flags.bools) && !(/^(true|false)$/.test(next))) {
+      argsToSet.push(true)
+    } else if (isUndefined(next) || (/^-/.test(next) && !negative.test(next) && !isUnknownOptionAsArg(next))) {
+      // for keys without value ==> argsToSet remains an empty []
+      // set user default value, if available
+      if (defaults.hasOwnProperty(key)) {
+        const defVal = defaults[key]
+        argsToSet = Array.isArray(defVal) ? defVal : [defVal]
       }
-      i = ii
-      argsToSet.push(args[ii])
-    }
-    if (multipleArrayFlag) {
-      setArg(key, argsToSet.map(function (arg) {
-        return processValue(key, arg)
-      }))
     } else {
-      argsToSet.forEach(function (arg) {
-        setArg(key, arg)
-      })
+      for (var ii = i + 1; ii < args.length; ii++) {
+        next = args[ii]
+        if (/^-/.test(next) && !negative.test(next) && !isUnknownOptionAsArg(next)) break
+        i = ii
+        argsToSet.push(processValue(key, next))
+      }
     }
 
+    setArg(key, argsToSet)
     return i
   }
 
   function setArg (key, val) {
-    unsetDefaulted(key)
-
     if (/-/.test(key) && configuration['camel-case-expansion']) {
-      addNewAlias(key, camelCase(key))
+      var alias = key.split('.').map(function (prop) {
+        return camelCase(prop)
+      }).join('.')
+      addNewAlias(key, alias)
     }
 
     var value = processValue(key, val)
@@ -427,12 +469,22 @@ function parse (args, opts) {
   }
 
   function processValue (key, val) {
+    // strings may be quoted, clean this up as we assign values.
+    if (typeof val === 'string' &&
+      (val[0] === "'" || val[0] === '"') &&
+      val[val.length - 1] === val[0]
+    ) {
+      val = val.substring(1, val.length - 1)
+    }
+
     // handle parsing boolean arguments --foo=true --bar false.
     if (checkAllAliases(key, flags.bools) || checkAllAliases(key, flags.counts)) {
       if (typeof val === 'string') val = val === 'true'
     }
 
-    var value = maybeCoerceNumber(key, val)
+    var value = Array.isArray(val)
+      ? val.map(function (v) { return maybeCoerceNumber(key, v) })
+      : maybeCoerceNumber(key, val)
 
     // increment a count given as arg (either no value or value parsed as boolean)
     if (checkAllAliases(key, flags.counts) && (isUndefined(value) || typeof value === 'boolean')) {
@@ -448,7 +500,7 @@ function parse (args, opts) {
   }
 
   function maybeCoerceNumber (key, value) {
-    if (!checkAllAliases(key, flags.strings) && !checkAllAliases(key, flags.coercions)) {
+    if (!checkAllAliases(key, flags.strings) && !checkAllAliases(key, flags.bools) && !Array.isArray(value)) {
       const shouldCoerceNumber = isNumber(value) && configuration['parse-numbers'] && (
         Number.isSafeInteger(Math.floor(value))
       )
@@ -511,7 +563,7 @@ function parse (args, opts) {
       } else {
         // setting arguments via CLI takes precedence over
         // values within the config file.
-        if (!hasKey(argv, fullKey.split('.')) || (flags.defaulted[fullKey]) || (flags.arrays[fullKey] && configuration['combine-arrays'])) {
+        if (!hasKey(argv, fullKey.split('.')) || (checkAllAliases(fullKey, flags.arrays) && configuration['combine-arrays'])) {
           setArg(fullKey, value)
         }
       }
@@ -540,7 +592,7 @@ function parse (args, opts) {
           return camelCase(key)
         })
 
-        if (((configOnly && flags.configs[keys.join('.')]) || !configOnly) && (!hasKey(argv, keys) || flags.defaulted[keys.join('.')])) {
+        if (((configOnly && flags.configs[keys.join('.')]) || !configOnly) && !hasKey(argv, keys)) {
           setArg(keys.join('.'), process.env[envVar])
         }
       }
@@ -555,7 +607,7 @@ function parse (args, opts) {
         coerce = checkAllAliases(key, flags.coercions)
         if (typeof coerce === 'function') {
           try {
-            var value = coerce(argv[key])
+            var value = maybeCoerceNumber(key, coerce(argv[key]))
             ;([].concat(flags.aliases[key] || [], key)).forEach(ali => {
               applied[ali] = argv[ali] = value
             })
@@ -576,10 +628,11 @@ function parse (args, opts) {
     return argv
   }
 
-  function applyDefaultsAndAliases (obj, aliases, defaults) {
+  function applyDefaultsAndAliases (obj, aliases, defaults, canLog = false) {
     Object.keys(defaults).forEach(function (key) {
       if (!hasKey(obj, key.split('.'))) {
         setKey(obj, key.split('.'), defaults[key])
+        if (canLog) defaulted[key] = true
 
         ;(aliases[key] || []).forEach(function (x) {
           if (hasKey(obj, x.split('.'))) return
@@ -635,11 +688,19 @@ function parse (args, opts) {
     var isValueArray = Array.isArray(value)
     var duplicate = configuration['duplicate-arguments-array']
 
+    // nargs has higher priority than duplicate
+    if (!duplicate && checkAllAliases(key, flags.nargs)) {
+      duplicate = true
+      if ((!isUndefined(o[key]) && flags.nargs[key] === 1) || (Array.isArray(o[key]) && o[key].length === flags.nargs[key])) {
+        o[key] = undefined
+      }
+    }
+
     if (value === increment) {
       o[key] = increment(o[key])
     } else if (Array.isArray(o[key])) {
       if (duplicate && isTypeArray && isValueArray) {
-        o[key] = configuration['flatten-duplicate-arrays'] ? o[key].concat(value) : [o[key]].concat([value])
+        o[key] = configuration['flatten-duplicate-arrays'] ? o[key].concat(value) : (Array.isArray(o[key][0]) ? o[key] : [o[key]]).concat([value])
       } else if (!duplicate && Boolean(isTypeArray) === Boolean(isValueArray)) {
         o[key] = value
       } else {
@@ -647,7 +708,7 @@ function parse (args, opts) {
       }
     } else if (o[key] === undefined && isTypeArray) {
       o[key] = isValueArray ? value : [value]
-    } else if (duplicate && !(o[key] === undefined || checkAllAliases(key, flags.bools) || checkAllAliases(keys.join('.'), flags.bools) || checkAllAliases(key, flags.counts))) {
+    } else if (duplicate && !(o[key] === undefined || checkAllAliases(key, flags.counts))) {
       o[key] = [ o[key], value ]
     } else {
       o[key] = value
@@ -655,8 +716,8 @@ function parse (args, opts) {
   }
 
   // extend the aliases list with inferred aliases.
-  function extendAliases () {
-    Array.prototype.slice.call(arguments).forEach(function (obj) {
+  function extendAliases (...args) {
+    args.forEach(function (obj) {
       Object.keys(obj || {}).forEach(function (key) {
         // short-circuit if we've already added a key
         // to the aliases array, for example it might
@@ -674,6 +735,16 @@ function parse (args, opts) {
             }
           }
         })
+        // For "--optionName", also set argv['option-name']
+        flags.aliases[key].concat(key).forEach(function (x) {
+          if (x.length > 1 && /[A-Z]/.test(x) && configuration['camel-case-expansion']) {
+            var c = decamelize(x, '-')
+            if (c !== key && flags.aliases[key].indexOf(c) === -1) {
+              flags.aliases[key].push(c)
+              newAliases[c] = true
+            }
+          }
+        })
         flags.aliases[key].forEach(function (x) {
           flags.aliases[x] = [key].concat(flags.aliases[key].filter(function (y) {
             return x !== y
@@ -683,28 +754,88 @@ function parse (args, opts) {
     })
   }
 
-  // check if a flag is set for any of a key's aliases.
+  // return the 1st set flag for any of a key's aliases (or false if no flag set)
   function checkAllAliases (key, flag) {
-    var isSet = false
     var toCheck = [].concat(flags.aliases[key] || [], key)
-
-    toCheck.forEach(function (key) {
-      if (flag[key]) isSet = flag[key]
-    })
-
-    return isSet
+    let setAlias = toCheck.find(key => flag.hasOwnProperty(key))
+    return setAlias ? flag[setAlias] : false
   }
 
-  function setDefaulted (key) {
-    [].concat(flags.aliases[key] || [], key).forEach(function (k) {
-      flags.defaulted[k] = true
+  function hasAnyFlag (key) {
+    // XXX Switch to [].concat(...Object.values(flags)) once node.js 6 is dropped
+    var toCheck = [].concat(...Object.keys(flags).map(k => flags[k]))
+
+    return toCheck.some(function (flag) {
+      return flag[key]
     })
   }
 
-  function unsetDefaulted (key) {
-    [].concat(flags.aliases[key] || [], key).forEach(function (k) {
-      delete flags.defaulted[k]
+  function hasFlagsMatching (arg, ...patterns) {
+    var toCheck = [].concat(...patterns)
+    return toCheck.some(function (pattern) {
+      var match = arg.match(pattern)
+      return match && hasAnyFlag(match[1])
     })
+  }
+
+  // based on a simplified version of the short flag group parsing logic
+  function hasAllShortFlags (arg) {
+    // if this is a negative number, or doesn't start with a single hyphen, it's not a short flag group
+    if (arg.match(negative) || !arg.match(/^-[^-]+/)) { return false }
+    var hasAllFlags = true
+    var letters = arg.slice(1).split('')
+    var next
+    for (var j = 0; j < letters.length; j++) {
+      next = arg.slice(j + 2)
+
+      if (!hasAnyFlag(letters[j])) {
+        hasAllFlags = false
+        break
+      }
+
+      if ((letters[j + 1] && letters[j + 1] === '=') ||
+        next === '-' ||
+        (/[A-Za-z]/.test(letters[j]) && /^-?\d+(\.\d*)?(e-?\d+)?$/.test(next)) ||
+        (letters[j + 1] && letters[j + 1].match(/\W/))) {
+        break
+      }
+    }
+    return hasAllFlags
+  }
+
+  function isUnknownOptionAsArg (arg) {
+    return configuration['unknown-options-as-args'] && isUnknownOption(arg)
+  }
+
+  function isUnknownOption (arg) {
+    // ignore negative numbers
+    if (arg.match(negative)) { return false }
+    // if this is a short option group and all of them are configured, it isn't unknown
+    if (hasAllShortFlags(arg)) { return false }
+    // e.g. '--count=2'
+    const flagWithEquals = /^-+([^=]+?)=[\s\S]*$/
+    // e.g. '-a' or '--arg'
+    const normalFlag = /^-+([^=]+?)$/
+    // e.g. '-a-'
+    const flagEndingInHyphen = /^-+([^=]+?)-$/
+    // e.g. '-abc123'
+    const flagEndingInDigits = /^-+([^=]+?)\d+$/
+    // e.g. '-a/usr/local'
+    const flagEndingInNonWordCharacters = /^-+([^=]+?)\W+.*$/
+    // check the different types of flag styles, including negatedBoolean, a pattern defined near the start of the parse method
+    return !hasFlagsMatching(arg, flagWithEquals, negatedBoolean, normalFlag, flagEndingInHyphen, flagEndingInDigits, flagEndingInNonWordCharacters)
+  }
+
+  // make a best effor to pick a default value
+  // for an option based on name and type.
+  function defaultValue (key) {
+    if (!checkAllAliases(key, flags.bools) &&
+        !checkAllAliases(key, flags.counts) &&
+        `${key}` in defaults) {
+      return defaults[key]
+    } else {
+      return defaultForType(guessType(key))
+    }
   }
 
   // return a default value, given the type of a flag.,
@@ -721,24 +852,44 @@ function parse (args, opts) {
   }
 
   // given a flag, enforce a default type.
-  function guessType (key, flags) {
+  function guessType (key) {
     var type = 'boolean'
 
     if (checkAllAliases(key, flags.strings)) type = 'string'
     else if (checkAllAliases(key, flags.numbers)) type = 'number'
+    else if (checkAllAliases(key, flags.bools)) type = 'boolean'
     else if (checkAllAliases(key, flags.arrays)) type = 'array'
 
     return type
   }
 
   function isNumber (x) {
+    if (x === null || x === undefined) return false
+    // if loaded from config, may already be a number.
     if (typeof x === 'number') return true
+    // hexadecimal.
     if (/^0x[0-9a-f]+$/i.test(x)) return true
-    return /^[-+]?(?:\d+(?:\.\d*)?|\.\d+)(e[-+]?\d+)?$/.test(x)
+    // don't treat 0123 as a number; as it drops the leading '0'.
+    if (x.length > 1 && x[0] === '0') return false
+    return /^[-]?(?:\d+(?:\.\d*)?|\.\d+)(e[-+]?\d+)?$/.test(x)
   }
 
   function isUndefined (num) {
     return num === undefined
+  }
+
+  // check user configuration settings for inconsistencies
+  function checkConfiguration () {
+    // count keys should not be set as array/narg
+    Object.keys(flags.counts).find(key => {
+      if (checkAllAliases(key, flags.arrays)) {
+        error = Error(__('Invalid configuration: %s, opts.count excludes opts.array.', key))
+        return true
+      } else if (checkAllAliases(key, flags.nargs)) {
+        error = Error(__('Invalid configuration: %s, opts.count excludes opts.narg.', key))
+        return true
+      }
+    })
   }
 
   return {
@@ -746,6 +897,7 @@ function parse (args, opts) {
     error: error,
     aliases: flags.aliases,
     newAliases: newAliases,
+    defaulted: defaulted,
     configuration: configuration
   }
 }
@@ -795,20 +947,6 @@ function combineAliases (aliases) {
   })
 
   return combined
-}
-
-function assign (defaults, configuration) {
-  var o = {}
-  configuration = configuration || {}
-
-  Object.keys(defaults).forEach(function (k) {
-    o[k] = defaults[k]
-  })
-  Object.keys(configuration).forEach(function (k) {
-    o[k] = configuration[k]
-  })
-
-  return o
 }
 
 // this function should only be called when a count is given as an arg
