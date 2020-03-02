@@ -1,10 +1,13 @@
 {
   "name": "github-pages-deploy-action",
   "description": "GitHub action for building a project and deploying it to GitHub pages.",
-  "version": "3.1.1",
-  "main": "lib/main.js",
+  "author": "James Ives <iam@jamesiv.es>",
+  "version": "3.3.0",
+  "license": "MIT",
+  "main": "lib/lib.js",
+  "types": "lib/lib.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf lib && tsc --declaration",
     "test": "jest",
     "lint": "tslint -p tsconfig.json --project '.' || (echo Project needs formatting)",
     "format": "prettier --write './**/*.ts'"
@@ -29,15 +32,13 @@
     "deploy",
     "deployment"
   ],
-  "author": "James Ives <iam@jamesiv.es>",
-  "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.2.0",
     "@actions/exec": "^1.0.2",
     "@actions/github": "^2.0.0"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.25",
+    "@types/jest": "^25.1.0",
     "@types/node": "^13.1.2",
     "jest": "^25.1.0",
     "jest-circus": "^25.1.0",

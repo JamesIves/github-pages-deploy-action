@@ -7,6 +7,8 @@ on:
   push:
     branches:
       - dev
+    tags-ignore:
+      - '*.*'
 jobs:
   unit-tests:
     runs-on: ubuntu-latest
@@ -22,4 +24,4 @@ jobs:
       - name: Uploade CodeCov Report
         uses: codecov/codecov-action@v1
         with:
-          token: ${{ secrets.CODECOV_TOKEN }} #required
+          token: ${{ secrets.CODECOV_TOKEN }}

@@ -2,7 +2,7 @@
 name: Support
 about: If you're having problems setting up the action you can make a request for support here.
 labels:
-  - support 📞
+  - support
 
 ---
 

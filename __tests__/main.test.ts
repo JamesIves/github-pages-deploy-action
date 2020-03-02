@@ -1,9 +1,11 @@
 // Initial env variable setup for tests.
 process.env["INPUT_FOLDER"] = "build";
 process.env["GITHUB_SHA"] = "123";
+process.env["INPUT_DEBUG"] = "debug";
 
+import "../src/main";
 import { action } from "../src/constants";
-import main from "../src/main";
+import run from "../src/lib";
 import { execute } from "../src/execute";
 import { setFailed } from "@actions/core";
 
@@ -15,7 +17,8 @@ jest.mock("../src/execute", () => ({
 
 jest.mock("@actions/core", () => ({
   setFailed: jest.fn(),
-  getInput: jest.fn()
+  getInput: jest.fn(),
+  exportVariable: jest.fn()
 }));
 
 describe("main", () => {
@@ -25,22 +28,24 @@ describe("main", () => {
 
   it("should run through the commands", async () => {
     Object.assign(action, {
-      build: "build",
+      repositoryPath: "JamesIves/github-pages-deploy-action",
+      folder: "build",
       branch: "branch",
       gitHubToken: "123",
       pusher: {
         name: "asd",
         email: "as@cat"
       },
-      isTest: true
+      isTest: false,
+      debug: true
     });
-    await main();
-    expect(execute).toBeCalledTimes(30);
+    await run(action);
+    expect(execute).toBeCalledTimes(19);
   });
 
   it("should throw if an error is encountered", async () => {
     Object.assign(action, {
-      build: "build",
+      folder: "build",
       branch: "branch",
       baseBranch: "master",
       gitHubToken: null,
@@ -52,8 +57,8 @@ describe("main", () => {
       },
       isTest: true
     });
-    await main();
-    expect(execute).toBeCalledTimes(12);
+    await run(action);
+    expect(execute).toBeCalledTimes(0);
     expect(setFailed).toBeCalledTimes(1);
   });
 });
