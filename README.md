@@ -4,7 +4,7 @@
 
 This [GitHub action](https://github.com/features/actions) will handle the deploy process of your project to [GitHub Pages](https://pages.github.com/). It can be configured to upload your production-ready code into any branch you'd like, including `gh-pages` and `docs`.
 
-![Example Screenshot](screenshot.png)
+![Example Screen shot](screenshot.png)
 
 ## Getting Started :airplane:
 
