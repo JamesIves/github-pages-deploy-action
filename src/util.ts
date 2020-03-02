@@ -2,9 +2,8 @@ import { getInput } from "@actions/core";
 import { actionInterface } from "./constants";
 
 /* Utility function that checks to see if a value is undefined or not. */
-export function isNullOrUndefined(value: any): boolean {
-  return typeof value === "undefined" || value === null || value === "";
-}
+export const isNullOrUndefined = (value: any): boolean =>
+  typeof value === "undefined" || value === null || value === "";
 
 /* Generates a token type used for the action. */
 export const generateTokenType = (action: actionInterface): string =>
