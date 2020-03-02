@@ -49,10 +49,15 @@ If you'd like to use the functionality provided by this action in your own actio
 yarn add github-pages-deploy-action
 ```
 
-It can then be imported into your project like so. 
+It can then be imported into your project like so.
 
 ```javascript
-import run, { init, deploy, generateBranch, actionInterface } from "github-pages-deploy-action";
+import run, {
+  init,
+  deploy,
+  generateBranch,
+  actionInterface
+} from "github-pages-deploy-action";
 ```
 
 Calling the functions directly will require you to pass in an object containing the variables found in the configuration section, you'll also need to provide a `workspace` with a path to your project.
@@ -61,11 +66,11 @@ Calling the functions directly will require you to pass in an object containing 
 import run from "github-pages-deploy-action";
 
 run({
-  folder: 'build',
-  branch: 'gh-pages',
-  workspace: 'src/project/location',
-  accessToken: process.env['ACCESS_TOKEN']
-})
+  folder: "build",
+  branch: "gh-pages",
+  workspace: "src/project/location",
+  accessToken: process.env["ACCESS_TOKEN"]
+});
 ```
 
 For more information regarding the [action interface please click here](https://github.com/JamesIves/github-pages-deploy-action/blob/dev/src/constants.ts#L7).
@@ -97,13 +102,14 @@ In addition to the deployment options you must also configure the following.
 | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | -------- |
 | `GIT_CONFIG_NAME`  | Allows you to customize the name that is attached to the GitHub config which is used when pushing the deployment commits. If this is not included it will use the name in the GitHub context, followed by the name of the action.                                                                                                                     | `with` | **No**   |
 | `GIT_CONFIG_EMAIL` | Allows you to customize the email that is attached to the GitHub config which is used when pushing the deployment commits. If this is not included it will use the email in the GitHub context, followed by a generic noreply GitHub email.                                                                                                           | `with` | **No**   |
+| `REPOSITORY_PATH`       | Allows you to speicfy a different repository path so long as you have permissions to push to it. This shoul be formatted like so: `JamesIves/github-pages-deploy-action`.                                                                                                                                                                             | `with` | **No**   |
 | `TARGET_FOLDER`    | If you'd like to push the contents of the deployment folder into a specific directory on the deployment branch you can specify it here.                                                                                                                                                                                                               | `with` | **No**   |
 | `BASE_BRANCH`      | The base branch of your repository which you'd like to checkout prior to deploying. This defaults to the current commit [SHA](http://en.wikipedia.org/wiki/SHA-1) that triggered the build followed by `master` if it doesn't exist. This is useful for making deployments from another branch, and also may be necessary when using a scheduled job. | `with` | **No**   |
 | `COMMIT_MESSAGE`   | If you need to customize the commit message for an integration you can do so.                                                                                                                                                                                                                                                                         | `with` | **No**   |
 | `CLEAN`            | If your project generates hashed files on build you can use this option to automatically delete them from the deployment branch with each deploy. This option can be toggled on by setting it to `true`.                                                                                                                                              | `with` | **No**   |
 | `CLEAN_EXCLUDE`    | If you need to use `CLEAN` but you'd like to preserve certain files or folders you can use this option. This should be formatted as an array but stored as a string. For example: `'["filename.js", "folder"]'`                                                                                                                                       | `with` | **No**   |
-| `WORKSPACE`    | This should point to where your project lives on the virtual machine. The GitHub Actions environment will set this for you. It is only neccersary to set this variable if you're using the node module.                                                                                                                    | `with` | **No**   |
-| `DEBUG`    | By default the git commands are hidden from the log. If you'd like to turn them on you can toggle this to `true`. **If you're using this action in your own project as a node module via yarn or npm you may expose your secrets if you toggle this on in a production environment**.                                                                                                               | `with` | **No**   |
+| `WORKSPACE`        | This should point to where your project lives on the virtual machine. The GitHub Actions environment will set this for you. It is only neccersary to set this variable if you're using the node module.                                                                                                                                               | `with` | **No**   |
+| `DEBUG`            | By default the git commands are hidden from the log. If you'd like to turn them on you can toggle this to `true`. **If you're using this action in your own project as a node module via yarn or npm you may expose your secrets if you toggle this on in a production environment**.                                                                 | `with` | **No**   |
 
 With the action correctly configured you should see the workflow trigger the deployment under the configured conditions.
 
