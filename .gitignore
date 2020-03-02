@@ -7,6 +7,9 @@ yarn-debug.log*
 yarn-error.log*
 #node_modules
 
+# Build
+lib
+
 ## Registry
 package-lock.json
 yarn-error.log

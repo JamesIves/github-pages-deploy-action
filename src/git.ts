@@ -6,7 +6,7 @@ import {
   suppressSensitiveInformation
 } from "./util";
 
-/* Generates the branch if it doesn't exist on the remote. */
+/* Initializes git in the workspace. */
 export async function init(action: actionInterface): Promise<void | Error> {
   try {
     hasRequiredParameters(action);

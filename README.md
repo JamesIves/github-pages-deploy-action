@@ -74,7 +74,7 @@ run({
 });
 ```
 
-For more information regarding the [action interface please click here](https://github.com/JamesIves/github-pages-deploy-action/blob/dev/src/constants.ts#L7).
+For more information regarding the [action interface please click here](https://github.com/JamesIves/github-pages-deploy-action/blob/dev/src/constants.ts#L7). You can find the npm listing for the module [here](https://www.npmjs.com/package/github-pages-deploy-action).
 
 ## Configuration 📁
 
