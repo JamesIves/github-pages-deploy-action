@@ -20,6 +20,7 @@ jobs:
           git config user.email "iam@jamesiv.es"
           git config user.name "James Ives"
       - run: npm install
+      - run: npm run-script build
       - run: npm version patch -m "Release %s"
       - run: npm ci
       - run: npm publish
