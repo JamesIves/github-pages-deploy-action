@@ -8,7 +8,7 @@ yarn-error.log*
 #node_modules
 
 # Build
-lib
+# lib
 
 ## Registry
 package-lock.json
