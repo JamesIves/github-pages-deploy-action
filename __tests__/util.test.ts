@@ -80,7 +80,7 @@ describe("util", () => {
   describe("generateRepositoryPath", () => {
     it("should return ssh if ssh is provided", async () => {
       const action = {
-        gitHubRepository: "JamesIves/github-pages-deploy-action",
+        repositoryName: "JamesIves/github-pages-deploy-action",
         branch: "123",
         root: ".",
         workspace: "src/",
@@ -96,7 +96,7 @@ describe("util", () => {
 
     it("should return https if access token is provided", async () => {
       const action = {
-        gitHubRepository: "JamesIves/github-pages-deploy-action",
+        repositoryName: "JamesIves/github-pages-deploy-action",
         branch: "123",
         root: ".",
         workspace: "src/",
@@ -112,7 +112,7 @@ describe("util", () => {
 
     it("should return https with x-access-token if github token is provided", async () => {
       const action = {
-        gitHubRepository: "JamesIves/github-pages-deploy-action",
+        repositoryName: "JamesIves/github-pages-deploy-action",
         branch: "123",
         root: ".",
         workspace: "src/",
@@ -129,7 +129,7 @@ describe("util", () => {
     describe("suppressSensitiveInformation", () => {
       it("should replace any sensitive information with ***", async () => {
         const action = {
-          gitHubRepository: "JamesIves/github-pages-deploy-action",
+          repositoryName: "JamesIves/github-pages-deploy-action",
           repositoryPath:
             "https://x-access-token:supersecret999%%%@github.com/anothersecret123333",
           branch: "123",
@@ -148,7 +148,7 @@ describe("util", () => {
 
       it("should not suppress information when in debug mode", async () => {
         const action = {
-          gitHubRepository: "JamesIves/github-pages-deploy-action",
+          repositoryName: "JamesIves/github-pages-deploy-action",
           repositoryPath:
             "https://x-access-token:supersecret999%%%@github.com/anothersecret123333",
           branch: "123",

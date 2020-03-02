@@ -19,15 +19,15 @@ export interface actionInterface {
     email?: string;
     /** The folder to deploy. */
     folder: string;
-    /** The repository path, for example JamesIves/github-pages-deploy-action */
-    gitHubRepository?: string;
     /** GitHub deployment token. */
     gitHubToken?: string | null;
     /** Determines if the action is running in test mode or not. */
     isTest?: string | undefined | null;
     /** The git config name. */
     name?: string;
-    /** The fully qualified repositpory path, this gets auto generated if gitHubRepository is provided. */
+    /** The repository path, for example JamesIves/github-pages-deploy-action */
+    repositoryName?: string;
+    /** The fully qualified repositpory path, this gets auto generated if repositoryName is provided. */
     repositoryPath?: string;
     /** The root directory where your project lives. */
     root?: string;
