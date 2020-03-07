@@ -1,12 +1,12 @@
 import {getInput} from '@actions/core'
-import {actionInterface} from './constants'
+import {ActionInterface} from './constants'
 
 /* Utility function that checks to see if a value is undefined or not. */
 export const isNullOrUndefined = (value: any): boolean =>
   typeof value === 'undefined' || value === null || value === ''
 
 /* Generates a token type used for the action. */
-export const generateTokenType = (action: actionInterface): string =>
+export const generateTokenType = (action: ActionInterface): string =>
   action.ssh
     ? 'SSH Deploy Key'
     : action.accessToken
@@ -16,7 +16,7 @@ export const generateTokenType = (action: actionInterface): string =>
     : '...'
 
 /* Generates a the repository path used to make the commits. */
-export const generateRepositoryPath = (action: actionInterface): string =>
+export const generateRepositoryPath = (action: ActionInterface): string =>
   action.ssh
     ? `git@github.com:${action.repositoryName}`
     : `https://${action.accessToken ||
@@ -25,7 +25,7 @@ export const generateRepositoryPath = (action: actionInterface): string =>
       }.git`
 
 /* Checks for the required tokens and formatting. Throws an error if any case is matched. */
-export const hasRequiredParameters = (action: actionInterface): void => {
+export const hasRequiredParameters = (action: ActionInterface): void => {
   if (
     (isNullOrUndefined(action.accessToken) &&
       isNullOrUndefined(action.gitHubToken) &&
@@ -55,8 +55,8 @@ export const hasRequiredParameters = (action: actionInterface): void => {
 /* Suppresses sensitive information from being exposed in error messages. */
 export const suppressSensitiveInformation = (
   str: string,
-  action: actionInterface
-) => {
+  action: ActionInterface
+): string => {
   let value = str
 
   if (getInput('DEBUG')) {

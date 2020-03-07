@@ -1,4 +1,4 @@
-import {actionInterface} from './constants'
+import {ActionInterface} from './constants'
 import {execute} from './execute'
 import {
   hasRequiredParameters,
@@ -7,7 +7,7 @@ import {
 } from './util'
 
 /* Initializes git in the workspace. */
-export async function init(action: actionInterface): Promise<void | Error> {
+export async function init(action: ActionInterface): Promise<void | Error> {
   try {
     hasRequiredParameters(action)
 
@@ -37,7 +37,7 @@ export async function init(action: actionInterface): Promise<void | Error> {
 
 /* Switches to the base branch. */
 export async function switchToBaseBranch(
-  action: actionInterface
+  action: ActionInterface
 ): Promise<void> {
   try {
     hasRequiredParameters(action)
@@ -59,7 +59,7 @@ export async function switchToBaseBranch(
 }
 
 /* Generates the branch if it doesn't exist on the remote. */
-export async function generateBranch(action: actionInterface): Promise<void> {
+export async function generateBranch(action: ActionInterface): Promise<void> {
   try {
     hasRequiredParameters(action)
 
@@ -90,7 +90,7 @@ export async function generateBranch(action: actionInterface): Promise<void> {
 }
 
 /* Runs the necessary steps to make the deployment. */
-export async function deploy(action: actionInterface): Promise<void> {
+export async function deploy(action: ActionInterface): Promise<void> {
   const temporaryDeploymentDirectory = 'gh-action-temp-deployment-folder'
   const temporaryDeploymentBranch = 'gh-action-temp-deployment-branch'
   console.log('Starting to commit changes...')
@@ -127,9 +127,10 @@ export async function deploy(action: actionInterface): Promise<void> {
           typeof action.cleanExclude === 'string'
             ? JSON.parse(action.cleanExclude)
             : action.cleanExclude
-        excludedItems.forEach(
-          (item: string) => (excludes += `--exclude ${item} `)
-        )
+
+        for (const item of excludedItems) {
+          excludes += `--exclude ${item} `
+        }
       } catch {
         console.log(
           'There was an error parsing your CLEAN_EXCLUDE items. Please refer to the README for more details. ❌'

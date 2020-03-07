@@ -23,6 +23,6 @@ export async function execute(cmd: string, cwd: string): Promise<any> {
   return Promise.resolve(output)
 }
 
-export function stdout(data: any) {
+export function stdout(data: any): string | void {
   output += data.toString().trim()
 }

@@ -1,13 +1,13 @@
 import {exportVariable, setFailed} from '@actions/core'
-import {action, actionInterface} from './constants'
+import {action, ActionInterface} from './constants'
 import {deploy, generateBranch, init} from './git'
 import {generateRepositoryPath, generateTokenType} from './util'
 
 /** Initializes and runs the action. */
 export default async function run(
-  configuration: actionInterface
+  configuration: ActionInterface
 ): Promise<void> {
-  let errorState: boolean = false
+  let errorState = false
 
   try {
     console.log('Checking configuration and starting deployment...🚦')
@@ -42,4 +42,4 @@ export default async function run(
   }
 }
 
-export {init, deploy, generateBranch, actionInterface}
+export {init, deploy, generateBranch, ActionInterface}

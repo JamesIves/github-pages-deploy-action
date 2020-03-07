@@ -19,12 +19,12 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout 🛎️
         uses: actions/checkout@v2 # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
         with:
           persist-credentials: false
 
-      - name: Build and Deploy
+      - name: Build and Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
@@ -56,7 +56,7 @@ import run, {
   init,
   deploy,
   generateBranch,
-  actionInterface
+  ActionInterface
 } from "github-pages-deploy-action";
 ```
 
@@ -134,7 +134,7 @@ With this configured you must add the `ssh-agent` step to your workflow and set 
   with:
     ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
-- name: Build and Deploy
+- name: Build and Deploy 🚀
   uses: JamesIves/github-pages-deploy-action@releases/v3
   with:
     SSH: true
@@ -155,7 +155,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout 🛎️
         uses: actions/checkout@v2
         with:
           persist-credentials: false
@@ -165,12 +165,12 @@ jobs:
           npm install
           npm run-script build
 
-      - name: Install SSH Client
+      - name: Install SSH Client 🔑
         uses: webfactory/ssh-agent@v0.2.0 # This step installs the ssh client into the workflow run. There's many options available for this on the action marketplace.
         with:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
-      - name: Build and Deploy Repo
+      - name: Build and Deploy Repo 🚀
         uses: JamesIves/github-pages-deploy-action@releases/v3-test
         with:
           BASE_BRANCH: master
@@ -207,7 +207,7 @@ jobs:
   build:
     runs-on: windows-latest # The first job utilizes windows-latest
     steps:
-      - name: Checkout
+      - name: Checkout 🛎️
         uses: actions/checkout@v2
         with:
           persist-credentials: false
@@ -227,7 +227,7 @@ jobs:
     needs: [build] # The second job must depend on the first one to complete before running, and uses ubuntu-latest instead of windows.
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout 🛎️
         uses: actions/checkout@v2
         with:
           persist-credentials: false
@@ -237,7 +237,7 @@ jobs:
         with:
           name: site
 
-      - name: Build and Deploy
+      - name: Build and Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
