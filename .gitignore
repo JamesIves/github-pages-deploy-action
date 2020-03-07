@@ -20,3 +20,6 @@ yarn-error.log
 
 ## CodeCov
 coverage
+
+# Yarn Integrity file
+.yarn-integrity

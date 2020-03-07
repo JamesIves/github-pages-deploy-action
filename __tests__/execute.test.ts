@@ -1,36 +1,36 @@
-import { execute, stdout } from "../src/execute";
-import { exec } from "@actions/exec";
+import {execute, stdout} from '../src/execute'
+import {exec} from '@actions/exec'
 
-jest.mock("@actions/exec", () => ({
+jest.mock('@actions/exec', () => ({
   exec: jest.fn()
-}));
+}))
 
-describe("execute", () => {
-  it("should be called with the correct arguments", async () => {
-    await stdout("hello");
-    await execute("echo Montezuma", "./");
+describe('execute', () => {
+  it('should be called with the correct arguments', async () => {
+    await stdout('hello')
+    await execute('echo Montezuma', './')
 
-    expect(exec).toBeCalledWith("echo Montezuma", [], {
-      cwd: "./",
+    expect(exec).toBeCalledWith('echo Montezuma', [], {
+      cwd: './',
       silent: true,
       listeners: {
         stdout: expect.any(Function)
       }
-    });
-  });
+    })
+  })
 
-  it("should not silence the input when INPUT_DEBUG is defined", async () => {
-    process.env["DEBUG_DEPLOY_ACTION"] = "yes";
+  it('should not silence the input when INPUT_DEBUG is defined', async () => {
+    process.env['DEBUG_DEPLOY_ACTION'] = 'yes'
 
-    await stdout("hello");
-    await execute("echo Montezuma", "./");
+    await stdout('hello')
+    await execute('echo Montezuma', './')
 
-    expect(exec).toBeCalledWith("echo Montezuma", [], {
-      cwd: "./",
+    expect(exec).toBeCalledWith('echo Montezuma', [], {
+      cwd: './',
       silent: false,
       listeners: {
         stdout: expect.any(Function)
       }
-    });
-  });
-});
+    })
+  })
+})

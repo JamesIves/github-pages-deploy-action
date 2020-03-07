@@ -1,6 +1,6 @@
-import { exec } from "@actions/exec";
+import {exec} from '@actions/exec'
 
-let output: string;
+let output: string
 
 /** Wrapper around the GitHub toolkit exec command which returns the output.
  * Also allows you to easily toggle the current working directory.
@@ -9,7 +9,7 @@ let output: string;
  * @returns - The output from the command.
  */
 export async function execute(cmd: string, cwd: string): Promise<any> {
-  output = "";
+  output = ''
 
   await exec(cmd, [], {
     // Silences the input unless the INPUT_DEBUG flag is set.
@@ -18,11 +18,11 @@ export async function execute(cmd: string, cwd: string): Promise<any> {
     listeners: {
       stdout
     }
-  });
+  })
 
-  return Promise.resolve(output);
+  return Promise.resolve(output)
 }
 
-export function stdout(data: any) {
-  output += data.toString().trim();
+export function stdout(data: any): string | void {
+  output += data.toString().trim()
 }

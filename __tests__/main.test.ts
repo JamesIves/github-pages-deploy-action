@@ -1,64 +1,64 @@
 // Initial env variable setup for tests.
-process.env["INPUT_FOLDER"] = "build";
-process.env["GITHUB_SHA"] = "123";
-process.env["INPUT_DEBUG"] = "debug";
+process.env['INPUT_FOLDER'] = 'build'
+process.env['GITHUB_SHA'] = '123'
+process.env['INPUT_DEBUG'] = 'debug'
 
-import "../src/main";
-import { action } from "../src/constants";
-import run from "../src/lib";
-import { execute } from "../src/execute";
-import { setFailed } from "@actions/core";
+import '../src/main'
+import {action} from '../src/constants'
+import run from '../src/lib'
+import {execute} from '../src/execute'
+import {setFailed} from '@actions/core'
 
-const originalAction = JSON.stringify(action);
+const originalAction = JSON.stringify(action)
 
-jest.mock("../src/execute", () => ({
+jest.mock('../src/execute', () => ({
   execute: jest.fn()
-}));
+}))
 
-jest.mock("@actions/core", () => ({
+jest.mock('@actions/core', () => ({
   setFailed: jest.fn(),
   getInput: jest.fn(),
   exportVariable: jest.fn()
-}));
+}))
 
-describe("main", () => {
+describe('main', () => {
   afterEach(() => {
-    Object.assign(action, JSON.parse(originalAction));
-  });
+    Object.assign(action, JSON.parse(originalAction))
+  })
 
-  it("should run through the commands", async () => {
+  it('should run through the commands', async () => {
     Object.assign(action, {
-      repositoryPath: "JamesIves/github-pages-deploy-action",
-      folder: "build",
-      branch: "branch",
-      gitHubToken: "123",
+      repositoryPath: 'JamesIves/github-pages-deploy-action',
+      folder: 'build',
+      branch: 'branch',
+      gitHubToken: '123',
       pusher: {
-        name: "asd",
-        email: "as@cat"
+        name: 'asd',
+        email: 'as@cat'
       },
       isTest: false,
       debug: true
-    });
-    await run(action);
-    expect(execute).toBeCalledTimes(19);
-  });
+    })
+    await run(action)
+    expect(execute).toBeCalledTimes(19)
+  })
 
-  it("should throw if an error is encountered", async () => {
+  it('should throw if an error is encountered', async () => {
     Object.assign(action, {
-      folder: "build",
-      branch: "branch",
-      baseBranch: "master",
+      folder: 'build',
+      branch: 'branch',
+      baseBranch: 'master',
       gitHubToken: null,
       ssh: null,
       accessToken: null,
       pusher: {
-        name: "asd",
-        email: "as@cat"
+        name: 'asd',
+        email: 'as@cat'
       },
       isTest: true
-    });
-    await run(action);
-    expect(execute).toBeCalledTimes(0);
-    expect(setFailed).toBeCalledTimes(1);
-  });
-});
+    })
+    await run(action)
+    expect(execute).toBeCalledTimes(0)
+    expect(setFailed).toBeCalledTimes(1)
+  })
+})
