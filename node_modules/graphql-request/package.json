@@ -1,0 +1,52 @@
+{
+  "name": "graphql-request",
+  "version": "1.8.2",
+  "main": "dist/src/index.js",
+  "typings": "./dist/src/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "bundlesize": [
+    {
+      "path": "./dist/src/index.js",
+      "maxSize": "15 kB"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/graphcool/graphql-request.git"
+  },
+  "keywords": [
+    "graphql",
+    "request",
+    "fetch",
+    "graphql-client",
+    "apollo"
+  ],
+  "author": "Johannes Schickling <johannes@graph.cool>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/graphcool/graphql-request/issues"
+  },
+  "homepage": "https://github.com/graphcool/graphql-request",
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "rm -rf dist && tsc -d",
+    "lint": "tslint --type-check --project tsconfig.json {src,test}/**/*.ts",
+    "test": "npm run lint && npm run build && ava --serial && npm run size",
+    "size": "bundlesize"
+  },
+  "devDependencies": {
+    "@types/fetch-mock": "5.12.2",
+    "@types/node": "8.5.5",
+    "ava": "0.25.0",
+    "bundlesize": "0.17.0",
+    "fetch-mock": "5.13.1",
+    "tslint": "5.9.1",
+    "tslint-config-standard": "7.0.0",
+    "typescript": "2.7.2"
+  },
+  "dependencies": {
+    "cross-fetch": "2.2.2"
+  }
+}

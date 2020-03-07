@@ -1,3 +1,10 @@
+2.1.1 / 2019-12-17
+=================
+  * [meta] add `funding` field
+  * [Dev Deps] update `eslint`, `@ljharb/eslint-config`, `functions-have-names`, `tape`
+  * [Tests] use shared travis-ci configs
+  * [actions] add automatic rebasing / merge commit blocking
+
 2.1.0 / 2019-09-09
 =================
   * [New] add `auto` entry point

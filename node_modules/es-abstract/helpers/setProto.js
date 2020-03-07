@@ -10,7 +10,7 @@ module.exports = originalSetProto || (
 	[].__proto__ !== $ArrayProto
 		? null
 		: function (O, proto) {
-			O.__proto__ = proto; // eslint-disable-line no-proto
+			O.__proto__ = proto; // eslint-disable-line no-proto, no-param-reassign
 			return O;
 		}
 );

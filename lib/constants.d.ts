@@ -1,4 +1,4 @@
-export interface actionInterface {
+export interface ActionInterface {
     /** Deployment access token. */
     accessToken?: string | null;
     /** The base branch that the deploy should be made from. */
@@ -8,7 +8,7 @@ export interface actionInterface {
     /** If your project generates hashed files on build you can use this option to automatically delete them from the deployment branch with each deploy. This option can be toggled on by setting it to true. */
     clean?: string | boolean;
     /** If you need to use CLEAN but you'd like to preserve certain files or folders you can use this option. */
-    cleanExclude?: string | Array<string>;
+    cleanExclude?: string | string[];
     /** If you need to customize the commit message for an integration you can do so. */
     commitMessage?: string;
     /** Unhides the Git commands from the function terminal. */
@@ -40,4 +40,4 @@ export interface actionInterface {
     /** The folder where your deployment project lives. */
     workspace: string;
 }
-export declare const action: actionInterface;
+export declare const action: ActionInterface;

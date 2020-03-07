@@ -1,6 +1,6 @@
 {
 	"all": true,
-	"check-coverage": true,
+	"check-coverage": false,
 	"reporter": ["text-summary", "text", "html", "json"],
 	"lines": 86,
 	"statements": 85.93,

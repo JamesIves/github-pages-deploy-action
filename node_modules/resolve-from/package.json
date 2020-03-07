@@ -1,6 +1,6 @@
 {
 	"name": "resolve-from",
-	"version": "5.0.0",
+	"version": "4.0.0",
 	"description": "Resolve the path of a module like `require.resolve()` but from a given path",
 	"license": "MIT",
 	"repository": "sindresorhus/resolve-from",
@@ -10,14 +10,13 @@
 		"url": "sindresorhus.com"
 	},
 	"engines": {
-		"node": ">=8"
+		"node": ">=4"
 	},
 	"scripts": {
-		"test": "xo && ava && tsd"
+		"test": "xo && ava"
 	},
 	"files": [
-		"index.js",
-		"index.d.ts"
+		"index.js"
 	],
 	"keywords": [
 		"require",
@@ -29,8 +28,7 @@
 		"import"
 	],
 	"devDependencies": {
-		"ava": "^1.4.1",
-		"tsd": "^0.7.2",
-		"xo": "^0.24.0"
+		"ava": "*",
+		"xo": "*"
 	}
 }

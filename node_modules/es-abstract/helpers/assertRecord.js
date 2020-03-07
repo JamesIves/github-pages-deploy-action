@@ -9,8 +9,8 @@ var has = require('has');
 
 var predicates = {
 	// https://ecma-international.org/ecma-262/6.0/#sec-property-descriptor-specification-type
-	'Property Descriptor': function isPropertyDescriptor(ES, Desc) {
-		if (ES.Type(Desc) !== 'Object') {
+	'Property Descriptor': function isPropertyDescriptor(Type, Desc) {
+		if (Type(Desc) !== 'Object') {
 			return false;
 		}
 		var allowed = {
@@ -37,12 +37,12 @@ var predicates = {
 	}
 };
 
-module.exports = function assertRecord(ES, recordType, argumentName, value) {
+module.exports = function assertRecord(Type, recordType, argumentName, value) {
 	var predicate = predicates[recordType];
 	if (typeof predicate !== 'function') {
 		throw new $SyntaxError('unknown record type: ' + recordType);
 	}
-	if (!predicate(ES, value)) {
+	if (!predicate(Type, value)) {
 		throw new $TypeError(argumentName + ' must be a ' + recordType);
 	}
 };

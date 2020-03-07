@@ -5,4 +5,4 @@
  * @returns - The output from the command.
  */
 export declare function execute(cmd: string, cwd: string): Promise<any>;
-export declare function stdout(data: any): void;
+export declare function stdout(data: any): string | void;

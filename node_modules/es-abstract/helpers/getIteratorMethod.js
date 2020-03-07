@@ -5,8 +5,7 @@ var GetIntrinsic = require('../GetIntrinsic');
 var callBound = require('./callBound');
 
 var $iterator = GetIntrinsic('%Symbol.iterator%', true);
-var $arraySlice = callBound('Array.prototype.slice');
-var $arrayJoin = callBound('Array.prototype.join');
+var $stringSlice = callBound('String.prototype.slice');
 
 module.exports = function getIteratorMethod(ES, iterable) {
 	var usingIterator;
@@ -32,7 +31,7 @@ module.exports = function getIteratorMethod(ES, iterable) {
 			return {
 				next: function () {
 					var nextIndex = ES.AdvanceStringIndex(iterable, i, true);
-					var value = $arrayJoin($arraySlice(iterable, i, nextIndex), '');
+					var value = $stringSlice(iterable, i, nextIndex);
 					i = nextIndex;
 					return {
 						done: nextIndex > iterable.length,

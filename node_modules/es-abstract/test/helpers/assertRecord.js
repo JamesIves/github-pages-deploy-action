@@ -12,45 +12,45 @@ module.exports = function assertRecordTests(ES, test) {
 
 		forEach(v.nonUndefinedPrimitives, function (primitive) {
 			t['throws'](
-				function () { assertRecord(ES, record, 'arg', primitive); },
+				function () { assertRecord(ES.Type, record, 'arg', primitive); },
 				TypeError,
 				debug(primitive) + ' is not a Property Descriptor'
 			);
 		});
 
 		t['throws'](
-			function () { assertRecord(ES, record, 'arg', { invalid: true }); },
+			function () { assertRecord(ES.Type, record, 'arg', { invalid: true }); },
 			TypeError,
 			'invalid keys not allowed on a Property Descriptor'
 		);
 
 		t.doesNotThrow(
-			function () { assertRecord(ES, record, 'arg', {}); },
+			function () { assertRecord(ES.Type, record, 'arg', {}); },
 			'empty object is an incomplete Property Descriptor'
 		);
 
 		t.doesNotThrow(
-			function () { assertRecord(ES, record, 'arg', v.accessorDescriptor()); },
+			function () { assertRecord(ES.Type, record, 'arg', v.accessorDescriptor()); },
 			'accessor descriptor is a Property Descriptor'
 		);
 
 		t.doesNotThrow(
-			function () { assertRecord(ES, record, 'arg', v.mutatorDescriptor()); },
+			function () { assertRecord(ES.Type, record, 'arg', v.mutatorDescriptor()); },
 			'mutator descriptor is a Property Descriptor'
 		);
 
 		t.doesNotThrow(
-			function () { assertRecord(ES, record, 'arg', v.dataDescriptor()); },
+			function () { assertRecord(ES.Type, record, 'arg', v.dataDescriptor()); },
 			'data descriptor is a Property Descriptor'
 		);
 
 		t.doesNotThrow(
-			function () { assertRecord(ES, record, 'arg', v.genericDescriptor()); },
+			function () { assertRecord(ES.Type, record, 'arg', v.genericDescriptor()); },
 			'generic descriptor is a Property Descriptor'
 		);
 
 		t['throws'](
-			function () { assertRecord(ES, record, 'arg', v.bothDescriptor()); },
+			function () { assertRecord(ES.Type, record, 'arg', v.bothDescriptor()); },
 			TypeError,
 			'a Property Descriptor can not be both a Data and an Accessor Descriptor'
 		);

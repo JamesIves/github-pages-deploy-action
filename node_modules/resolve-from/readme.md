@@ -24,15 +24,15 @@ resolveFrom('foo', './bar');
 
 ## API
 
-### resolveFrom(fromDirectory, moduleId)
+### resolveFrom(fromDir, moduleId)
 
 Like `require()`, throws when the module can't be found.
 
-### resolveFrom.silent(fromDirectory, moduleId)
+### resolveFrom.silent(fromDir, moduleId)
 
-Returns `undefined` instead of throwing when the module can't be found.
+Returns `null` instead of throwing when the module can't be found.
 
-#### fromDirectory
+#### fromDir
 
 Type: `string`
 
@@ -47,7 +47,7 @@ What you would use in `require()`.
 
 ## Tip
 
-Create a partial using a bound function if you want to resolve from the same `fromDirectory` multiple times:
+Create a partial using a bound function if you want to resolve from the same `fromDir` multiple times:
 
 ```js
 const resolveFromFoo = resolveFrom.bind(null, 'foo');

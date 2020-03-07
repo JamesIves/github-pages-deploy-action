@@ -29,7 +29,7 @@ import { forEachComment, forEachToken } from "tsutils/util";
 
 ### Typescript version dependency
 
-This package is backwards compatible with typescript 2.1.0 at runtime although compiling might need a newer version of typescript installed.
+This package is backwards compatible with typescript 2.8.0 at runtime although compiling might need a newer version of typescript installed.
 
 Using `typescript@next` might work, but it's not officially supported. If you encounter any bugs, please open an issue.
 

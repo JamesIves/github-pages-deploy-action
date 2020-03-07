@@ -1,5 +1,5 @@
-import { actionInterface } from "./constants";
-import { deploy, generateBranch, init } from "./git";
+import { ActionInterface } from './constants';
+import { deploy, generateBranch, init } from './git';
 /** Initializes and runs the action. */
-export default function run(configuration: actionInterface): Promise<void>;
-export { init, deploy, generateBranch, actionInterface };
+export default function run(configuration: ActionInterface): Promise<void>;
+export { init, deploy, generateBranch, ActionInterface };

@@ -1,7 +1,7 @@
 var test = require('tape');
 var inspect = require('../');
 
-var xs = [ 'a', 'b' ];
+var xs = ['a', 'b'];
 xs[5] = 'f';
 xs[7] = 'j';
 xs[8] = 'k';

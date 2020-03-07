@@ -3,9 +3,9 @@ const path = require('path');
 const Module = require('module');
 const fs = require('fs');
 
-const resolveFrom = (fromDirectory, moduleId, silent) => {
-	if (typeof fromDirectory !== 'string') {
-		throw new TypeError(`Expected \`fromDir\` to be of type \`string\`, got \`${typeof fromDirectory}\``);
+const resolveFrom = (fromDir, moduleId, silent) => {
+	if (typeof fromDir !== 'string') {
+		throw new TypeError(`Expected \`fromDir\` to be of type \`string\`, got \`${typeof fromDir}\``);
 	}
 
 	if (typeof moduleId !== 'string') {
@@ -13,35 +13,35 @@ const resolveFrom = (fromDirectory, moduleId, silent) => {
 	}
 
 	try {
-		fromDirectory = fs.realpathSync(fromDirectory);
-	} catch (error) {
-		if (error.code === 'ENOENT') {
-			fromDirectory = path.resolve(fromDirectory);
+		fromDir = fs.realpathSync(fromDir);
+	} catch (err) {
+		if (err.code === 'ENOENT') {
+			fromDir = path.resolve(fromDir);
 		} else if (silent) {
-			return;
+			return null;
 		} else {
-			throw error;
+			throw err;
 		}
 	}
 
-	const fromFile = path.join(fromDirectory, 'noop.js');
+	const fromFile = path.join(fromDir, 'noop.js');
 
 	const resolveFileName = () => Module._resolveFilename(moduleId, {
 		id: fromFile,
 		filename: fromFile,
-		paths: Module._nodeModulePaths(fromDirectory)
+		paths: Module._nodeModulePaths(fromDir)
 	});
 
 	if (silent) {
 		try {
 			return resolveFileName();
-		} catch (error) {
-			return;
+		} catch (err) {
+			return null;
 		}
 	}
 
 	return resolveFileName();
 };
 
-module.exports = (fromDirectory, moduleId) => resolveFrom(fromDirectory, moduleId);
-module.exports.silent = (fromDirectory, moduleId) => resolveFrom(fromDirectory, moduleId, true);
+module.exports = (fromDir, moduleId) => resolveFrom(fromDir, moduleId);
+module.exports.silent = (fromDir, moduleId) => resolveFrom(fromDir, moduleId, true);

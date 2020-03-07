@@ -23,6 +23,7 @@ environment:
 matrix:
   # fast_finish: true
   allow_failures:
+    - nodejs_version: "5" # due to windows npm bug, registry-side
     - nodejs_version: "0.8"
     - nodejs_version: "0.6"
 

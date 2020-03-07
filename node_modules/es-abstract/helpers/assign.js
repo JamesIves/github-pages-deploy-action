@@ -14,6 +14,7 @@ module.exports = function assign(target, source) {
 	// eslint-disable-next-line no-restricted-syntax
 	for (var key in source) {
 		if (has(source, key)) {
+			// eslint-disable-next-line no-param-reassign
 			target[key] = source[key];
 		}
 	}
