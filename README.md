@@ -129,7 +129,7 @@ Once you've generated the key pair you must add the contents of the public key w
 With this configured you must add the `ssh-agent` step to your workflow and set `SSH` to `true` within the deploy action.
 
 ```yml
-- name: Install SSH Client
+- name: Install SSH Client 🔑
   uses: webfactory/ssh-agent@v0.2.0
   with:
     ssh-private-key: ${{ secrets.DEPLOY_KEY }}
@@ -160,7 +160,7 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Install
+      - name: Install 🔧
         run: |
           npm install
           npm run-script build
@@ -212,12 +212,12 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Install # The project is built using npm and placed in the 'build' folder.
+      - name: Install 🔧 # The project is built using npm and placed in the 'build' folder.
         run: |
           npm install
           npm run-script build
 
-      - name: Upload Artifacts # The project is then uploaded as an artifact named 'site'.
+      - name: Upload Artifacts 🔺 # The project is then uploaded as an artifact named 'site'.
         uses: actions/upload-artifact@v1
         with:
           name: site
@@ -232,7 +232,7 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Download Artifacts # The built project is downloaded into the 'site' folder.
+      - name: Download Artifacts 🔻 # The built project is downloaded into the 'site' folder.
         uses: actions/download-artifact@v1
         with:
           name: site
@@ -255,11 +255,11 @@ jobs:
 If you use a [container](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#jobsjob_idcontainer) in your workflow you may need to run an additional step to install `rsync` as this action depends on it. You can view an example of this below.
 
 ```yml
-- name: Install rsync
+- name: Install rsync 📚
   run: |
     apt-get update && apt-get install -y rsync
 
-- name: Deploy
+- name: Deploy 🚀
   uses: JamesIves/github-pages-deploy-action@releases/v3
 ```
 
