@@ -3,7 +3,10 @@ import {action, ActionInterface} from './constants'
 import {deploy, generateBranch, init} from './git'
 import {generateRepositoryPath, generateTokenType} from './util'
 
-/** Initializes and runs the action. */
+/** Initializes and runs the action.
+ *
+ * @param {object} configuration - The action configuration.
+ */
 export default async function run(
   configuration: ActionInterface
 ): Promise<void> {

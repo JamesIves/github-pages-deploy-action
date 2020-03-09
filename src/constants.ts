@@ -32,7 +32,7 @@ export interface ActionInterface {
   isTest?: string | undefined | null
   /** The git config name. */
   name?: string
-  /** The repository path, for example JamesIves/github-pages-deploy-action */
+  /** The repository path, for example JamesIves/github-pages-deploy-action. */
   repositoryName?: string
   /** The fully qualified repositpory path, this gets auto generated if repositoryName is provided. */
   repositoryPath?: string
