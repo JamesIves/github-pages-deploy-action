@@ -19,6 +19,7 @@ jobs:
       - name: Install and Test
         run: |
           npm install
+          npm run-script lint
           npm run-script test
 
       - name: Uploade CodeCov Report
