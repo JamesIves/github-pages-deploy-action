@@ -13,7 +13,7 @@ export default async function run(
   let errorState = false
 
   try {
-    console.log('Checking configuration and starting deployment...🚦')
+    console.log('Checking configuration and starting deployment… 🚦')
 
     const settings = {
       ...action,
