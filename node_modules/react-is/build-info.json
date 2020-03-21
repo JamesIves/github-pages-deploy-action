@@ -1,8 +1,8 @@
 {
-  "branch": "master",
-  "buildNumber": "59518",
-  "checksum": "6f449c4",
-  "commit": "b53ea6ca0",
+  "branch": "pull/18344",
+  "buildNumber": "106499",
+  "checksum": "7fe5a2e",
+  "commit": "da834083c",
   "environment": "ci",
-  "reactVersion": "16.11.0-b53ea6ca0"
+  "reactVersion": "16.12.0-da834083c"
 }

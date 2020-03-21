@@ -6,8 +6,12 @@ var getPolyfill = require('./polyfill');
 module.exports = function shimUtilPromisify() {
 	var polyfill = getPolyfill();
 	if (polyfill !== util.promisify) {
-		util.promisify = polyfill;
-		Object.defineProperty(util, 'promisify', { value: polyfill });
+		Object.defineProperty(util, 'promisify', {
+			configurable: true,
+			enumerable: true,
+			value: polyfill,
+			writable: true
+		});
 	}
 	return polyfill;
 };

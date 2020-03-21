@@ -234,13 +234,13 @@ console.log(result);
   negated: true }
 ```
 
-### [.compileRe](lib/picomatch.js#L249)
+### [.compileRe](lib/picomatch.js#L250)
 
-Create a regular expression from a glob pattern.
+Create a regular expression from a parsed glob pattern.
 
 **Params**
 
-* `input` **{String}**: A glob pattern to convert to regex.
+* `state` **{String}**: The object returned from the `.parse` method.
 * `options` **{Object}**
 * `returns` **{RegExp}**: Returns a regex created from the given pattern.
 
@@ -248,13 +248,14 @@ Create a regular expression from a glob pattern.
 
 ```js
 const picomatch = require('picomatch');
-// picomatch.makeRe(input[, options]);
+const state = picomatch.parse('*.js');
+// picomatch.compileRe(state[, options]);
 
-console.log(picomatch.makeRe('*.js'));
+console.log(picomatch.compileRe(state));
 //=> /^(?:(?!\.)(?=.)[^/]*?\.js)$/
 ```
 
-### [.toRegex](lib/picomatch.js#L317)
+### [.toRegex](lib/picomatch.js#L318)
 
 Create a regular expression from the given regex source string.
 

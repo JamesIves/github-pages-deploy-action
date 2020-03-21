@@ -247,23 +247,24 @@ const scan = (input, options) => {
     }
 
     if (opts.noparen !== true && code === CHAR_LEFT_PARENTHESES) {
-      while (eos() !== true && (code = advance())) {
-        if (code === CHAR_BACKWARD_SLASH) {
-          backslashes = token.backslashes = true;
-          code = advance();
-          continue;
-        }
+      isGlob = token.isGlob = true;
 
-        if (code === CHAR_RIGHT_PARENTHESES) {
-          isGlob = token.isGlob = true;
-          finished = true;
-
-          if (scanToEnd === true) {
+      if (scanToEnd === true) {
+        while (eos() !== true && (code = advance())) {
+          if (code === CHAR_LEFT_PARENTHESES) {
+            backslashes = token.backslashes = true;
+            code = advance();
             continue;
           }
-          break;
+
+          if (code === CHAR_RIGHT_PARENTHESES) {
+            finished = true;
+            break;
+          }
         }
+        continue;
       }
+      break;
     }
 
     if (isGlob === true) {

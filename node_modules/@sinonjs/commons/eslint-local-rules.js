@@ -1,3 +1,4 @@
+/* eslint-disable jsdoc/require-jsdoc, jsdoc/no-undefined-types */
 "use strict";
 
 function getPrototypeMethods(prototype) {
@@ -31,6 +32,7 @@ module.exports = {
         create: function(context) {
             /**
              * Reports if a disallowed property is used in a CallExpression
+             *
              * @param {ASTNode} node The CallExpression node.
              * @returns {void}
              */

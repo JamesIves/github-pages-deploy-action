@@ -231,16 +231,17 @@ picomatch.parse = (pattern, options) => {
 picomatch.scan = (input, options) => scan(input, options);
 
 /**
- * Create a regular expression from a glob pattern.
+ * Create a regular expression from a parsed glob pattern.
  *
  * ```js
  * const picomatch = require('picomatch');
- * // picomatch.makeRe(input[, options]);
+ * const state = picomatch.parse('*.js');
+ * // picomatch.compileRe(state[, options]);
  *
- * console.log(picomatch.makeRe('*.js'));
+ * console.log(picomatch.compileRe(state));
  * //=> /^(?:(?!\.)(?=.)[^/]*?\.js)$/
  * ```
- * @param {String} `input` A glob pattern to convert to regex.
+ * @param {String} `state` The object returned from the `.parse` method.
  * @param {Object} `options`
  * @return {RegExp} Returns a regex created from the given pattern.
  * @api public

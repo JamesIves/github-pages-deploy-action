@@ -56,6 +56,11 @@ CSSStyleDeclaration.prototype = {
       this.removeProperty(name);
       return;
     }
+    var isCustomProperty = name.indexOf('--') === 0;
+    if (isCustomProperty) {
+      this._setProperty(name, value, priority);
+      return;
+    }
     var lowercaseName = name.toLowerCase();
     if (!allProperties.has(lowercaseName) && !allExtraProperties.has(lowercaseName)) {
       return;

@@ -3,7 +3,7 @@
 > Send parameterized requests to GitHub’s APIs with sensible defaults in browsers and Node
 
 [![@latest](https://img.shields.io/npm/v/@octokit/request.svg)](https://www.npmjs.com/package/@octokit/request)
-[![Build Status](https://travis-ci.org/octokit/request.js.svg?branch=master)](https://travis-ci.org/octokit/request.js)
+[![Build Status](https://github.com/octokit/request.js/workflows/Test/badge.svg)](https://github.com/octokit/request.js/actions?query=workflow%3ATest)
 [![Greenkeeper](https://badges.greenkeeper.io/octokit/request.js.svg)](https://greenkeeper.io/)
 
 `@octokit/request` is a request library for browsers & node that makes it easier

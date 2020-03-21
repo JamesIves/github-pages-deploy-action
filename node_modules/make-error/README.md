@@ -1,7 +1,8 @@
-# make-error [![Build Status](https://img.shields.io/travis/JsCommunity/make-error/master.svg)](http://travis-ci.org/JsCommunity/make-error)
+# make-error
+
+[![Package Version](https://badgen.net/npm/v/make-error)](https://npmjs.org/package/make-error) [![Build Status](https://travis-ci.org/JsCommunity/make-error.png?branch=master)](https://travis-ci.org/JsCommunity/make-error) [![PackagePhobia](https://badgen.net/packagephobia/install/make-error)](https://packagephobia.now.sh/result?p=make-error) [![Latest Commit](https://badgen.net/github/last-commit/JsCommunity/make-error)](https://github.com/JsCommunity/make-error/commits/master)
 
 > Make your own error types!
-
 
 ## Features
 
@@ -23,7 +24,7 @@ Installation of the [npm package](https://npmjs.org/package/make-error):
 Then require the package:
 
 ```javascript
-var makeError = require('make-error');
+var makeError = require("make-error");
 ```
 
 ### Browser
@@ -39,40 +40,40 @@ You can directly use the build provided at [unpkg.com](https://unpkg.com):
 ### Basic named error
 
 ```javascript
-var CustomError = makeError('CustomError')
+var CustomError = makeError("CustomError");
 
 // Parameters are forwarded to the super class (here Error).
-throw new CustomError('a message')
+throw new CustomError("a message");
 ```
 
 ### Advanced error class
 
 ```javascript
-function CustomError (customValue) {
-  CustomError.super.call(this, 'custom error message')
+function CustomError(customValue) {
+  CustomError.super.call(this, "custom error message");
 
-  this.customValue = customValue
+  this.customValue = customValue;
 }
-makeError(CustomError)
+makeError(CustomError);
 
 // Feel free to extend the prototype.
-CustomError.prototype.myMethod = function CustomError$myMethod () {
-  console.log('CustomError.myMethod (%s, %s)', this.code, this.message)
-}
+CustomError.prototype.myMethod = function CustomError$myMethod() {
+  console.log("CustomError.myMethod (%s, %s)", this.code, this.message);
+};
 
 //-----
 
 try {
-  throw new CustomError(42)
+  throw new CustomError(42);
 } catch (error) {
-  error.myMethod()
+  error.myMethod();
 }
 ```
 
 ### Specialized error
 
 ```javascript
-var SpecializedError = makeError('SpecializedError', CustomError);
+var SpecializedError = makeError("SpecializedError", CustomError);
 
 throw new SpecializedError(42);
 ```
@@ -82,11 +83,11 @@ throw new SpecializedError(42);
 > Best for ES2015+.
 
 ```javascript
-import {BaseError} from 'make-error'
+import { BaseError } from "make-error";
 
 class CustomError extends BaseError {
-  constructor () {
-    super('custom error message')
+  constructor() {
+    super("custom error message");
   }
 }
 ```
@@ -97,7 +98,7 @@ class CustomError extends BaseError {
 
 ## Contributions
 
-Contributions are *very* welcomed, either on the documentation or on
+Contributions are _very_ welcomed, either on the documentation or on
 the code.
 
 You may:

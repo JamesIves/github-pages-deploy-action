@@ -26,6 +26,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const SCIENTIFIC_NOTATION = /e/i;
 const ZERO_DECIMAL_INTEGER = /\.0+$/;
 const NON_DECIMAL_LITERAL = /^0[box]/;
+const PURE_ANNOTATION_RE = /^\s*[@#]__PURE__\s*$/;
 
 class Printer {
   constructor(format, map) {
@@ -196,6 +197,7 @@ class Printer {
       if (i + 1 === str.length) return;
       const chaPost = str[i + 1];
       if (chaPost !== "/" && chaPost !== "*") return;
+      if (PURE_ANNOTATION_RE.test(str.slice(i + 2, str.length - 2))) return;
     }
 
     this.token("(");
@@ -375,7 +377,7 @@ class Printer {
   }
 
   _printLeadingComments(node) {
-    this._printComments(this._getComments(true, node));
+    this._printComments(this._getComments(true, node), true);
   }
 
   printInnerComments(node, indent = true) {
@@ -424,7 +426,7 @@ class Printer {
     return node && (leading ? node.leadingComments : node.trailingComments) || [];
   }
 
-  _printComment(comment) {
+  _printComment(comment, skipNewLines) {
     if (!this.format.shouldPrintComment(comment.value)) return;
     if (comment.ignore) return;
     if (this._printedComments.has(comment)) return;
@@ -437,7 +439,8 @@ class Printer {
     }
 
     const isBlockComment = comment.type === "CommentBlock";
-    this.newline(this._buf.hasContent() && !this._noLineTerminator && isBlockComment ? 1 : 0);
+    const printNewLines = isBlockComment && !skipNewLines && !this._noLineTerminator;
+    if (printNewLines && this._buf.hasContent()) this.newline(1);
     if (!this.endsWith("[") && !this.endsWith("{")) this.space();
     let val = !isBlockComment && !this._noLineTerminator ? `//${comment.value}\n` : `/*${comment.value}*/`;
 
@@ -457,14 +460,18 @@ class Printer {
     this.withSource("start", comment.loc, () => {
       this._append(val);
     });
-    this.newline(isBlockComment && !this._noLineTerminator ? 1 : 0);
+    if (printNewLines) this.newline(1);
   }
 
-  _printComments(comments) {
+  _printComments(comments, inlinePureAnnotation) {
     if (!comments || !comments.length) return;
 
-    for (const comment of comments) {
-      this._printComment(comment);
+    if (inlinePureAnnotation && comments.length === 1 && PURE_ANNOTATION_RE.test(comments[0].value)) {
+      this._printComment(comments[0], this._buf.hasContent() && !this.endsWith("\n"));
+    } else {
+      for (const comment of comments) {
+        this._printComment(comment);
+      }
     }
   }
 

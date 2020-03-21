@@ -32,12 +32,16 @@ function isReferenced(node, parent, grandparent) {
     case "PrivateName":
       return false;
 
-    case "ObjectProperty":
-    case "ClassProperty":
-    case "ClassPrivateProperty":
     case "ClassMethod":
     case "ClassPrivateMethod":
     case "ObjectMethod":
+      if (parent.params.includes(node)) {
+        return false;
+      }
+
+    case "ObjectProperty":
+    case "ClassProperty":
+    case "ClassPrivateProperty":
       if (parent.key === node) {
         return !!parent.computed;
       }

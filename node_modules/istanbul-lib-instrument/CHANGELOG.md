@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.1](https://github.com/istanbuljs/istanbuljs/compare/istanbul-lib-instrument@4.0.0...istanbul-lib-instrument@4.0.1) (2020-02-03)
+
+
+### Bug Fixes
+
+* Always call coverage initialization function ([#524](https://github.com/istanbuljs/istanbuljs/issues/524)) ([c6536c1](https://github.com/istanbuljs/istanbuljs/commit/c6536c14bf0663ca7e0493dd40ea132b05352594))
+
+
+
+
+
 # [4.0.0](https://github.com/istanbuljs/istanbuljs/compare/istanbul-lib-instrument@4.0.0-alpha.3...istanbul-lib-instrument@4.0.0) (2019-12-20)
 
 **Note:** Version bump only for package istanbul-lib-instrument

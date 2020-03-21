@@ -11,6 +11,7 @@ var _exportNames = {
   cloneNode: true,
   clone: true,
   cloneDeep: true,
+  cloneDeepWithoutLoc: true,
   cloneWithoutLoc: true,
   addComment: true,
   addComments: true,
@@ -93,6 +94,12 @@ Object.defineProperty(exports, "cloneDeep", {
   enumerable: true,
   get: function () {
     return _cloneDeep.default;
+  }
+});
+Object.defineProperty(exports, "cloneDeepWithoutLoc", {
+  enumerable: true,
+  get: function () {
+    return _cloneDeepWithoutLoc.default;
   }
 });
 Object.defineProperty(exports, "cloneWithoutLoc", {
@@ -422,6 +429,8 @@ var _cloneNode = _interopRequireDefault(require("./clone/cloneNode"));
 var _clone = _interopRequireDefault(require("./clone/clone"));
 
 var _cloneDeep = _interopRequireDefault(require("./clone/cloneDeep"));
+
+var _cloneDeepWithoutLoc = _interopRequireDefault(require("./clone/cloneDeepWithoutLoc"));
 
 var _cloneWithoutLoc = _interopRequireDefault(require("./clone/cloneWithoutLoc"));
 

@@ -1,19 +1,26 @@
 'use strict';
 
-var isObject = require('is-extendable');
+var isExtendable = require('is-extendable');
+var assignSymbols = require('assign-symbols');
 
-module.exports = function extend(o/*, objects*/) {
-  if (!isObject(o)) { o = {}; }
-
-  var len = arguments.length;
-  for (var i = 1; i < len; i++) {
-    var obj = arguments[i];
-
-    if (isObject(obj)) {
-      assign(o, obj);
+module.exports = Object.assign || function(obj/*, objects*/) {
+  if (obj === null || typeof obj === 'undefined') {
+    throw new TypeError('Cannot convert undefined or null to object');
+  }
+  if (!isObject(obj)) {
+    obj = {};
+  }
+  for (var i = 1; i < arguments.length; i++) {
+    var val = arguments[i];
+    if (isString(val)) {
+      val = toObject(val);
+    }
+    if (isObject(val)) {
+      assign(obj, val);
+      assignSymbols(obj, val);
     }
   }
-  return o;
+  return obj;
 };
 
 function assign(a, b) {
@@ -24,10 +31,30 @@ function assign(a, b) {
   }
 }
 
+function isString(val) {
+  return (val && typeof val === 'string');
+}
+
+function toObject(str) {
+  var obj = {};
+  for (var i in str) {
+    obj[i] = str[i];
+  }
+  return obj;
+}
+
+function isObject(val) {
+  return (val && typeof val === 'object') || isExtendable(val);
+}
+
 /**
  * Returns true if the given `key` is an own property of `obj`.
  */
 
 function hasOwn(obj, key) {
   return Object.prototype.hasOwnProperty.call(obj, key);
+}
+
+function isEnum(obj, key) {
+  return Object.prototype.propertyIsEnumerable.call(obj, key);
 }

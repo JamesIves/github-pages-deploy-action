@@ -1,6 +1,13 @@
 "use strict";
 
-// This is an `every` implementation that works for all iterables
+/**
+ * Returns true when fn returns true for all members of obj.
+ * This is an every implementation that works for all iterables
+ *
+ * @param  {object}   obj
+ * @param  {Function} fn
+ * @returns {boolean}
+ */
 module.exports = function every(obj, fn) {
     var pass = true;
 

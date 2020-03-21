@@ -1,3 +1,10 @@
+### v2.1.2 [[code][c2.1.2], [diff][d2.1.2]]
+
+[c2.1.2]: https://github.com/json5/json5/tree/v2.1.2
+[d2.1.2]: https://github.com/json5/json5/compare/v2.1.1...v2.1.2
+
+- Fix: Bump `minimist` to `v1.2.5`. ([#222])
+
 ### v2.1.1 [[code][c2.1.1], [diff][d2.1.1]]
 
 [c2.1.1]: https://github.com/json5/json5/tree/v2.1.1
@@ -327,3 +334,4 @@ parser for the regular JSON format.
 [#196]: https://github.com/json5/json5/issues/196
 [#208]: https://github.com/json5/json5/issues/208
 [#210]: https://github.com/json5/json5/issues/210
+[#222]: https://github.com/json5/json5/issues/222

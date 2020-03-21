@@ -1,9 +1,8 @@
 import { EndpointInterface } from "./EndpointInterface";
 import { EndpointOptions } from "./EndpointOptions";
+import { OctokitResponse } from "./OctokitResponse";
 import { RequestParameters } from "./RequestParameters";
-import { ResponseHeaders } from "./ResponseHeaders";
 import { Route } from "./Route";
-import { Url } from "./Url";
 
 export interface RequestInterface {
   /**
@@ -33,19 +32,3 @@ export interface RequestInterface {
    */
   endpoint: EndpointInterface;
 }
-
-export type OctokitResponse<T> = {
-  headers: ResponseHeaders;
-  /**
-   * http response code
-   */
-  status: number;
-  /**
-   * URL of response after all redirects
-   */
-  url: Url;
-  /**
-   *  This is the data you would see in https://developer.Octokit.com/v3/
-   */
-  data: T;
-};

@@ -228,8 +228,6 @@ const parse = (input, options) => {
     const output = (opts.capture ? '(' : '') + token.open;
 
     increment('parens');
-
-
     push({ type, value, output: state.output ? '' : ONE_CHAR });
     push({ type: 'paren', extglob: true, value: advance(), output });
     extglobs.push(token);
@@ -585,7 +583,7 @@ const parse = (input, options) => {
         const out = state.output.slice(0, brace.outputIndex);
         const toks = state.tokens.slice(brace.tokensIndex);
         brace.value = brace.output = '\\{';
-        value = output = `\\}`;
+        value = output = '\\}';
         state.output = out;
         for (const t of toks) {
           state.output += (t.output || t.value);

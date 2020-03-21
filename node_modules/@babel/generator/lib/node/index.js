@@ -58,11 +58,7 @@ function isOrHasCallExpression(node) {
     return true;
   }
 
-  if (t.isMemberExpression(node)) {
-    return isOrHasCallExpression(node.object) || !node.computed && isOrHasCallExpression(node.property);
-  } else {
-    return false;
-  }
+  return t.isMemberExpression(node) && isOrHasCallExpression(node.object);
 }
 
 function needsWhitespace(node, parent, type) {
@@ -107,6 +103,5 @@ function needsParens(node, parent, printStack) {
     if (isOrHasCallExpression(node)) return true;
   }
 
-  if (t.isLogicalExpression(node) && parent.operator === "??") return true;
   return find(expandedParens, node, parent, printStack);
 }

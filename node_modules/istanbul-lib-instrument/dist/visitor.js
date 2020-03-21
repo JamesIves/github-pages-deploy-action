@@ -35,7 +35,6 @@ function genVar(filename) {
 class VisitState {
   constructor(types, sourceFilePath, inputSourceMap, ignoreClassMethods = []) {
     this.varName = genVar(sourceFilePath);
-    this.varCalled = false;
     this.attrs = {};
     this.nextIgnore = null;
     this.cov = new _sourceCoverage.SourceCoverage(sourceFilePath);
@@ -172,7 +171,6 @@ class VisitState {
     const T = this.types;
     const wrap = index !== null ? // If `index` present, turn `x` into `x[index]`.
     x => T.memberExpression(x, T.numericLiteral(index), true) : x => x;
-    this.varCalled = true;
     return T.updateExpression('++', wrap(T.memberExpression(T.memberExpression(T.callExpression(T.identifier(this.varName), []), T.identifier(type)), T.numericLiteral(id), true)));
   }
 
@@ -665,12 +663,9 @@ function programVisitor(types, sourceFilePath = 'unknown.js', opts = {}) {
         PATH: T.stringLiteral(sourceFilePath),
         INITIAL: coverageNode,
         HASH: T.stringLiteral(hash)
-      }); // explicitly call this.varName if this file has no coverage
+      }); // explicitly call this.varName to ensure coverage is always initialized
 
-      if (!visitState.varCalled) {
-        path.node.body.unshift(T.expressionStatement(T.callExpression(T.identifier(visitState.varName), [])));
-      }
-
+      path.node.body.unshift(T.expressionStatement(T.callExpression(T.identifier(visitState.varName), [])));
       path.node.body.unshift(cv);
       return {
         fileCoverage: coverageData,
