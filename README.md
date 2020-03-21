@@ -1,5 +1,7 @@
 <p align="center">
-  <img width="150px" src="./assets/icon.png">
+  <a href="https://github.com/marketplace/actions/deploy-to-github-pages">
+    <img width="150px" src="./assets/icon.png">
+  </a>
 </p>
 
 <h1 align="center">
