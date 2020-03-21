@@ -28,11 +28,13 @@
   </a>
 </p>
 
-This [GitHub Action](https://github.com/features/actions) will deploy your project to [GitHub Pages](https://pages.github.com/). It can be configured to upload your production-ready code into any branch you'd like, including `gh-pages` and `docs`.
+<p align="center">
+  This GitHub Action will deploy your project to GitHub Pages. It can be configured to upload your production-ready code into any branch you'd like, including `gh-pages` and `docs`.
+</p>
 
-
-![Example Screenshot](./assets/screenshot.png)</center>
-
+<p align="center">
+  <img src="./assets/screenshot.png">
+</p>
 
 ## Getting Started :airplane:
 
