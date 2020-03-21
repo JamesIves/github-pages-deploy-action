@@ -1,10 +1,18 @@
+<p align="center">
+  
+  <img width="150px" src="./assets/icon.png">
+  
+
 # GitHub Pages Deploy Action :rocket:
 
 [![Build Status](https://github.com/JamesIves/github-pages-deploy-action/workflows/unit-tests/badge.svg)](https://github.com/JamesIves/github-pages-deploy-action/actions) [![Actions Status](https://github.com/JamesIves/github-pages-deploy-action/workflows/integration-tests/badge.svg)](https://github.com/JamesIves/github-pages-deploy-action/actions) [![View Action](https://img.shields.io/badge/action-marketplace-blue.svg?logo=github&color=orange)](https://github.com/marketplace/actions/deploy-to-github-pages) [![Version](https://img.shields.io/github/v/release/JamesIves/github-pages-deploy-action.svg?logo=github)](https://github.com/JamesIves/github-pages-deploy-action/releases) [![Codecov Coverage](https://codecov.io/gh/JamesIves/github-pages-deploy-action/branch/dev/graph/badge.svg)](https://codecov.io/gh/JamesIves/github-pages-deploy-action/branch/dev)
 
 This [GitHub Action](https://github.com/features/actions) will deploy your project to [GitHub Pages](https://pages.github.com/). It can be configured to upload your production-ready code into any branch you'd like, including `gh-pages` and `docs`.
 
-![Example Screenshot](./assets/screenshot.png)
+</p>
+
+![Example Screenshot](./assets/screenshot.png)</center>
+
 
 ## Getting Started :airplane:
 
