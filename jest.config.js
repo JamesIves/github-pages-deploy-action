@@ -8,7 +8,7 @@ module.exports = {
     '^.+\\.ts$': 'ts-jest'
   },
   verbose: true,
-  setupFiles: ['<rootDir>/__tests__/env.ts'],
+  setupFiles: ['<rootDir>/__tests__/env.js'],
   collectCoverage: true,
   collectCoverageFrom: ['src/*.ts', '!src/constants.ts']
 }
