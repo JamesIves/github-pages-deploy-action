@@ -29,7 +29,7 @@
 </p>
 
 <p align="center">
-  This GitHub Action will deploy your project to GitHub Pages. It can be configured to upload your production-ready code into any branch you'd like, including `gh-pages` and `docs`.
+  This <a href="https://github.com/features/actions">GitHub Action</a> will deploy your project to <a href="https://pages.github.com/">GitHub Pages</a>. It can be configured to upload your production-ready code into any branch you'd like, including <b>gh-pages</b> and <b>docs</b>.
 </p>
 
 <p align="center">
