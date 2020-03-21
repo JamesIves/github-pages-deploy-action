@@ -1,15 +1,35 @@
 <p align="center">
-  
   <img width="150px" src="./assets/icon.png">
+</p>
+
+<h1 align="center">
+  GitHub Pages Deploy Action :rocket:
+</h1>
+
+<p align="center">
+  <a href="https://github.com/JamesIves/github-pages-deploy-action/actions">
+    <img src="https://github.com/JamesIves/github-pages-deploy-action/workflows/unit-tests/badge.svg">
+  </a>
   
-
-# GitHub Pages Deploy Action :rocket:
-
-[![Build Status](https://github.com/JamesIves/github-pages-deploy-action/workflows/unit-tests/badge.svg)](https://github.com/JamesIves/github-pages-deploy-action/actions) [![Actions Status](https://github.com/JamesIves/github-pages-deploy-action/workflows/integration-tests/badge.svg)](https://github.com/JamesIves/github-pages-deploy-action/actions) [![View Action](https://img.shields.io/badge/action-marketplace-blue.svg?logo=github&color=orange)](https://github.com/marketplace/actions/deploy-to-github-pages) [![Version](https://img.shields.io/github/v/release/JamesIves/github-pages-deploy-action.svg?logo=github)](https://github.com/JamesIves/github-pages-deploy-action/releases) [![Codecov Coverage](https://codecov.io/gh/JamesIves/github-pages-deploy-action/branch/dev/graph/badge.svg)](https://codecov.io/gh/JamesIves/github-pages-deploy-action/branch/dev)
+  <a href="https://github.com/JamesIves/github-pages-deploy-action/actions">
+    <img src="https://github.com/JamesIves/github-pages-deploy-action/workflows/integration-tests/badge.svg">
+  </a>
+  
+  <a href="https://github.com/marketplace/actions/deploy-to-github-pages">
+    <img src="https://img.shields.io/badge/action-marketplace-blue.svg?logo=github&color=orange">
+  </a>
+  
+  <a href="https://github.com/JamesIves/github-pages-deploy-action/releases">
+    <img src="https://img.shields.io/github/v/release/JamesIves/github-pages-deploy-action.svg?logo=github">
+  </a>
+  
+  <a href="https://codecov.io/gh/JamesIves/github-pages-deploy-action/branch/dev">
+    <img src="https://codecov.io/gh/JamesIves/github-pages-deploy-action/branch/dev/graph/badge.svg">
+  </a>
+</p>
 
 This [GitHub Action](https://github.com/features/actions) will deploy your project to [GitHub Pages](https://pages.github.com/). It can be configured to upload your production-ready code into any branch you'd like, including `gh-pages` and `docs`.
 
-</p>
 
 ![Example Screenshot](./assets/screenshot.png)</center>
 
