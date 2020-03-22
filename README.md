@@ -163,7 +163,7 @@ ssh-keygen -t rsa -b 4096 -C "youremailhere@example.com" -N ""
 
 Once you've generated the key pair you must add the contents of the public key within your repositories [deploy keys menu](https://developer.github.com/v3/guides/managing-deploy-keys/). You can find this option by going to `Settings > Deploy Keys`, you can name the public key whatever you want, but you **do** need to give it write access. Afterwards add the contents of the private key to the `Settings > Secrets` menu as `DEPLOY_KEY`.
 
-With this configured you must add the `ssh-agent` step to your workflow and set `SSH` to `true` within the deploy action. There are several SSH actions available on the [GitHub marketplace](https://github.com/marketplace?type=actions).
+With this configured you must add the `ssh-agent` step to your workflow and set `SSH` to `true` within the deploy action. There are several SSH actions available on the [GitHub marketplace](https://github.com/marketplace?type=actions) for you to choose from.
 
 ```yml
 - name: Install SSH Client 🔑
