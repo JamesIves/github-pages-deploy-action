@@ -65,8 +65,9 @@ export const action: ActionInterface = {
     ? getInput('GIT_CONFIG_EMAIL')
     : pusher && pusher.email
     ? pusher.email
-    : `${process.env.GITHUB_ACTOR ||
-        'github-pages-deploy-action'}@users.noreply.github.com`,
+    : `${
+        process.env.GITHUB_ACTOR || 'github-pages-deploy-action'
+      }@users.noreply.github.com`,
   gitHubToken: getInput('GITHUB_TOKEN'),
   name: !isNullOrUndefined(getInput('GIT_CONFIG_NAME'))
     ? getInput('GIT_CONFIG_NAME')
