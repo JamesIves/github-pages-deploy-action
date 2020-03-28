@@ -1,4 +1,4 @@
-import {isDebug} from '@actions/core'
+import {debug, isDebug} from '@actions/core'
 import {exec} from '@actions/exec'
 
 let output: string
@@ -21,7 +21,7 @@ export async function execute(cmd: string, cwd: string): Promise<any> {
     }
   })
 
-  return Promise.resolve(output)
+  return Promise.resolve(debug(output))
 }
 
 export function stdout(data: any): string | void {
