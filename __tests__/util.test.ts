@@ -45,7 +45,7 @@ describe('util', () => {
         folder: 'build',
         gitHubToken: null,
         accessToken: '123',
-        ssh: false
+        ssh: null
       }
       expect(generateTokenType(action)).toEqual('Access Token')
     })
@@ -58,7 +58,7 @@ describe('util', () => {
         folder: 'build',
         gitHubToken: '123',
         accessToken: null,
-        ssh: false
+        ssh: null
       }
       expect(generateTokenType(action)).toEqual('GitHub Token')
     })
@@ -71,7 +71,7 @@ describe('util', () => {
         folder: 'build',
         gitHubToken: null,
         accessToken: null,
-        ssh: false
+        ssh: null
       }
       expect(generateTokenType(action)).toEqual('...')
     })
@@ -103,7 +103,7 @@ describe('util', () => {
         folder: 'build',
         gitHubToken: null,
         accessToken: '123',
-        ssh: false
+        ssh: null
       }
       expect(generateRepositoryPath(action)).toEqual(
         'https://123@github.com/JamesIves/github-pages-deploy-action.git'
@@ -119,7 +119,7 @@ describe('util', () => {
         folder: 'build',
         gitHubToken: '123',
         accessToken: null,
-        ssh: false
+        ssh: null
       }
       expect(generateRepositoryPath(action)).toEqual(
         'https://x-access-token:123@github.com/JamesIves/github-pages-deploy-action.git'
