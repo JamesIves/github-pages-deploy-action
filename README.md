@@ -309,6 +309,6 @@ This action maintains the full git history of the deployment branch. Therefore i
 
 ### Debugging 🐝
 
-By default the git commands are hidden from the logs. If you'd like to turn them on you can set the `ACTIONS_RUNNER_DEBUG` environment variable within the [Settings/Secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#creating-encrypted-secrets) menu. 
+By default the git commands are hidden from the logs. If you'd like to turn them on you can set the `ACTIONS_STEP_DEBUG` environment variable to true within the [Settings/Secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#creating-encrypted-secrets) menu. 
 
 If you're using this action in your own project as a node module via yarn or npm you'll need to set `RUNNER_DEBUG` as the environment variable instead. **You may expose your secrets if you toggle this on in a production environment**. You can learn more about debugging GitHub actions [here](https://github.com/actions/toolkit/blob/master/docs/action-debugging.md).
