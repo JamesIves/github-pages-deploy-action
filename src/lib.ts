@@ -1,4 +1,4 @@
-import {exportVariable, setFailed} from '@actions/core'
+import {info, setFailed} from '@actions/core'
 import {action, ActionInterface} from './constants'
 import {deploy, generateBranch, init} from './git'
 import {generateRepositoryPath, generateTokenType} from './util'
@@ -13,7 +13,7 @@ export default async function run(
   let errorState = false
 
   try {
-    console.log('Checking configuration and starting deployment… 🚦')
+    info('Checking configuration and starting deployment… 🚦')
 
     const settings = {
       ...action,
@@ -24,18 +24,13 @@ export default async function run(
     settings.repositoryPath = generateRepositoryPath(settings)
     settings.tokenType = generateTokenType(settings)
 
-    if (settings.debug) {
-      // Sets the debug flag if passed as an arguement.
-      exportVariable('DEBUG_DEPLOY_ACTION', 'debug')
-    }
-
     await init(settings)
     await deploy(settings)
   } catch (error) {
     errorState = true
     setFailed(error.message)
   } finally {
-    console.log(
+    info(
       `${
         errorState
           ? 'Deployment Failed ❌'

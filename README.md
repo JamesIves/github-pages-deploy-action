@@ -147,7 +147,6 @@ In addition to the deployment options you must also configure the following.
 | `CLEAN`            | If your project generates hashed files on build you can use this option to automatically delete them from the deployment branch with each deploy. This option can be toggled on by setting it to `true`.                                                                                                                                              | `with` | **No**   |
 | `CLEAN_EXCLUDE`    | If you need to use `CLEAN` but you'd like to preserve certain files or folders you can use this option. This should be formatted as an array but stored as a string. For example: `'["filename.js", "folder"]'`                                                                                                                                       | `with` | **No**   |
 | `WORKSPACE`        | This should point to where your project lives on the virtual machine. The GitHub Actions environment will set this for you. It is only neccersary to set this variable if you're using the node module.                                                                                                                                               | `with` | **No**   |
-| `DEBUG`            | By default the git commands are hidden from the log. If you'd like to turn them on you can toggle this to `true`. **If you're using this action in your own project as a node module via yarn or npm you may expose your secrets if you toggle this on in a production environment**.                                                                 | `with` | **No**   |
 
 With the action correctly configured you should see the workflow trigger the deployment under the configured conditions.
 
@@ -305,3 +304,9 @@ If you use a [container](https://help.github.com/en/actions/automating-your-work
 ### Additional Build Files 📁
 
 This action maintains the full git history of the deployment branch. Therefore if you're using a custom domain and require a `CNAME` file, or if you require the use of a `.nojekyll` file, you can safely commit these files directly into deployment branch without them being overridden after each deployment.
+
+### Debugging 🐝
+
+By default the git commands are hidden from the logs. If you'd like to turn them on you can set the `ACTIONS_RUNNER_DEBUG` environment variable within the `Settings/Secrets` menu. 
+
+If you're using this action in your own project as a node module via yarn or npm you'll need to set `RUNNER_DEBUG` as the environment variable instead. **You may expose your secrets if you toggle this on in a production environment**. You can learn more about debugging GitHub actions [here](https://github.com/actions/toolkit/blob/master/docs/action-debugging.md).

@@ -5,13 +5,14 @@ process.env['GITHUB_SHA'] = '123'
 import {action} from '../src/constants'
 import {deploy, generateBranch, init, switchToBaseBranch} from '../src/git'
 import {execute} from '../src/execute'
-import {setFailed} from '@actions/core'
 
 const originalAction = JSON.stringify(action)
 
 jest.mock('@actions/core', () => ({
   setFailed: jest.fn(),
-  getInput: jest.fn()
+  getInput: jest.fn(),
+  isDebug: jest.fn(),
+  info: jest.fn()
 }))
 
 jest.mock('../src/execute', () => ({

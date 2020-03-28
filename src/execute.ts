@@ -1,3 +1,4 @@
+import {isDebug} from '@actions/core'
 import {exec} from '@actions/exec'
 
 let output: string
@@ -13,7 +14,7 @@ export async function execute(cmd: string, cwd: string): Promise<any> {
 
   await exec(cmd, [], {
     // Silences the input unless the INPUT_DEBUG flag is set.
-    silent: process.env.DEBUG_DEPLOY_ACTION ? false : true,
+    silent: isDebug() ? false : true,
     cwd,
     listeners: {
       stdout

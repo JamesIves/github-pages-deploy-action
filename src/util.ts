@@ -1,4 +1,4 @@
-import {getInput} from '@actions/core'
+import {isDebug} from '@actions/core'
 import {ActionInterface} from './constants'
 
 /* Utility function that checks to see if a value is undefined or not. */
@@ -58,7 +58,7 @@ export const suppressSensitiveInformation = (
 ): string => {
   let value = str
 
-  if (getInput('DEBUG')) {
+  if (isDebug()) {
     // Data is unmasked in debug mode.
     return value
   }

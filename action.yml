@@ -63,7 +63,3 @@ inputs:
   WORKSPACE:
     description: "This should point to where your project lives on the virtual machine. The GitHub Actions environment will set this for you. It is only neccersary to set this variable if you're using the node module."
     required: false
-
-  DEBUG:
-    description: "By default the git commands are hidden from the log. If you'd like to turn them on you can toggle this to true."
-    required: false

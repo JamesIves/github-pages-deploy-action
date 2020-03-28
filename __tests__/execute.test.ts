@@ -7,7 +7,7 @@ jest.mock('@actions/exec', () => ({
 
 describe('execute', () => {
   it('should be called with the correct arguments', async () => {
-    await stdout('hello')
+    stdout('hello')
     await execute('echo Montezuma', './')
 
     expect(exec).toBeCalledWith('echo Montezuma', [], {
@@ -20,9 +20,9 @@ describe('execute', () => {
   })
 
   it('should not silence the input when INPUT_DEBUG is defined', async () => {
-    process.env['DEBUG_DEPLOY_ACTION'] = 'yes'
+    process.env['RUNNER_DEBUG'] = '1'
 
-    await stdout('hello')
+    stdout('hello')
     await execute('echo Montezuma', './')
 
     expect(exec).toBeCalledWith('echo Montezuma', [], {
