@@ -115,7 +115,7 @@ For more information regarding the [action interface please click here](https://
 
 ## Configuration 📁
 
-The `with` portion of the workflow **must** be configured before the action will work. You can add these in the `with` section found in the examples above. Any `secrets` must be referenced using the bracket syntax and stored in the GitHub repositories `Settings/Secrets` menu. You can learn more about setting environment variables with GitHub actions [here](https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idstepsenv).
+The `with` portion of the workflow **must** be configured before the action will work. You can add these in the `with` section found in the examples above. Any `secrets` must be referenced using the bracket syntax and stored in the GitHub repositories `Settings/Secrets` menu. You can learn more about setting environment variables with GitHub actions [here](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#creating-encrypted-secrets).
 
 #### Required Setup
 
@@ -309,6 +309,6 @@ This action maintains the full git history of the deployment branch. Therefore i
 
 ### Debugging 🐝
 
-By default the git commands are hidden from the logs. If you'd like to turn them on you can set the `ACTIONS_RUNNER_DEBUG` environment variable within the `Settings/Secrets` menu. 
+By default the git commands are hidden from the logs. If you'd like to turn them on you can set the `ACTIONS_RUNNER_DEBUG` environment variable within the [Settings/Secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#creating-encrypted-secrets) menu. 
 
 If you're using this action in your own project as a node module via yarn or npm you'll need to set `RUNNER_DEBUG` as the environment variable instead. **You may expose your secrets if you toggle this on in a production environment**. You can learn more about debugging GitHub actions [here](https://github.com/actions/toolkit/blob/master/docs/action-debugging.md).
