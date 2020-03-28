@@ -85,7 +85,7 @@ describe('git', () => {
         },
         gitHubToken: null,
         accessToken: null,
-        ssh: null
+        ssh: false,
       })
 
       try {
@@ -132,7 +132,7 @@ describe('git', () => {
         },
         gitHubToken: '123',
         accessToken: null,
-        ssh: null
+        ssh: false,
       })
 
       try {
@@ -281,7 +281,7 @@ describe('git', () => {
         baseBranch: '123',
         accessToken: null,
         gitHubToken: null,
-        ssh: null,
+        ssh: false,
         branch: 'branch',
         folder: null,
         pusher: {
@@ -396,7 +396,7 @@ describe('git', () => {
       Object.assign(action, {
         folder: 'build',
         branch: 'branch',
-        ssh: null,
+        ssh: false,
         accessToken: null,
         gitHubToken: null,
         pusher: {

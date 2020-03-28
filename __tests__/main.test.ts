@@ -51,7 +51,7 @@ describe('main', () => {
       branch: 'branch',
       baseBranch: 'master',
       gitHubToken: null,
-      ssh: null,
+      ssh: false,
       accessToken: null,
       pusher: {
         name: 'asd',
