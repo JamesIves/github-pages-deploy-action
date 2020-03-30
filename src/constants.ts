@@ -14,8 +14,6 @@ export interface ActionInterface {
   branch: string
   /** If your project generates hashed files on build you can use this option to automatically delete them from the deployment branch with each deploy. This option can be toggled on by setting it to true. */
   clean?: boolean | null
-  /** Wipes the commit history from the deployment branch. */
-  clearHistory?: boolean | null
   /** If you need to use CLEAN but you'd like to preserve certain files or folders you can use this option. */
   cleanExclude?: string | string[]
   /** If you need to customize the commit message for an integration you can do so. */
@@ -38,6 +36,8 @@ export interface ActionInterface {
   repositoryPath?: string
   /** The root directory where your project lives. */
   root?: string
+  /** Wipes the commit history from the deployment branch in favor of a single commit. */
+  singleCommit?: boolean | null
   /** Set to true if you're using an ssh client in your build step. */
   ssh?: boolean | null
   /** If you'd like to push the contents of the deployment folder into a specific directory on the deployment branch you can specify it here. */
@@ -52,7 +52,6 @@ export interface ActionInterface {
 export const action: ActionInterface = {
   accessToken: getInput('ACCESS_TOKEN'),
   baseBranch: getInput('BASE_BRANCH'),
-  clearHistory: getInput('CLEAR_HISTORY'),
   folder: getInput('FOLDER'),
   branch: getInput('BRANCH'),
   commitMessage: getInput('COMMIT_MESSAGE'),
@@ -63,9 +62,6 @@ export const action: ActionInterface = {
   defaultBranch: process.env.GITHUB_SHA ? process.env.GITHUB_SHA : 'master',
   isTest: process.env.UNIT_TEST
     ? process.env.UNIT_TEST.toLowerCase() === 'true'
-    : false,
-  ssh: !isNullOrUndefined(getInput('SSH'))
-    ? getInput('SSH').toLowerCase() === 'true'
     : false,
   email: !isNullOrUndefined(getInput('GIT_CONFIG_EMAIL'))
     ? getInput('GIT_CONFIG_EMAIL')
@@ -88,6 +84,12 @@ export const action: ActionInterface = {
     ? repository.full_name
     : process.env.GITHUB_REPOSITORY,
   root: '.',
+  singleCommit: !isNullOrUndefined(getInput('SINGLE_COMMIT'))
+    ? getInput('SINGLE_COMMIT').toLowerCase() === 'true'
+    : false,
+  ssh: !isNullOrUndefined(getInput('SSH'))
+    ? getInput('SSH').toLowerCase() === 'true'
+    : false,
   targetFolder: getInput('TARGET_FOLDER'),
   workspace: process.env.GITHUB_WORKSPACE || ''
 }

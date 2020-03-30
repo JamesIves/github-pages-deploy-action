@@ -319,6 +319,24 @@ describe('git', () => {
       expect(execute).toBeCalledTimes(12)
     })
 
+    it('should execute commands with single commit toggled', async () => {
+      Object.assign(action, {
+        folder: 'build',
+        branch: 'branch',
+        gitHubToken: '123',
+        singleCommit: true,
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        }
+      })
+
+      await deploy(action)
+
+      // Includes the call to generateBranch
+      expect(execute).toBeCalledTimes(18)
+    })
+
     it('should execute commands with clean options, ommits sha commit message', async () => {
       process.env.GITHUB_SHA = ''
       Object.assign(action, {

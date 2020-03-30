@@ -1,4 +1,4 @@
-import {debug, isDebug} from '@actions/core'
+import {isDebug} from '@actions/core'
 import {exec} from '@actions/exec'
 
 let output: string

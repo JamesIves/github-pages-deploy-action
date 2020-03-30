@@ -187,7 +187,7 @@ export async function deploy(action: ActionInterface): Promise<void> {
       `${action.workspace}/${temporaryDeploymentDirectory}`
     )
     await execute(
-      `git commit -m ${commitMessage} --quiet`,
+      `git commit -m "${commitMessage}" --quiet`,
       `${action.workspace}/${temporaryDeploymentDirectory}`
     )
     await execute(
@@ -199,19 +199,27 @@ export async function deploy(action: ActionInterface): Promise<void> {
 
     // Cleans up temporary files/folders and restores the git state.
     info('Running post deployment cleanup jobs…')
-    if (clearHistory) {
+    if (action.singleCommit) {
+      await execute(`git fetch ${action.repositoryPath}`, action.workspace)
       await execute(
         `git checkout --orphan ${action.branch}-temp`,
-        action.workspace
+        `${action.workspace}/${temporaryDeploymentDirectory}`
       )
-      await execute(`git commit -m "${commitMessage}"`, action.workspace)
+      await execute(
+        `git add --all .`,
+        `${action.workspace}/${temporaryDeploymentDirectory}`
+      )
+      await execute(
+        `git commit -m "${commitMessage}" --quiet`,
+        `${action.workspace}/${temporaryDeploymentDirectory}`
+      )
       await execute(
         `git branch -M ${action.branch}-temp ${action.branch}`,
-        action.workspace
+        `${action.workspace}/${temporaryDeploymentDirectory}`
       )
       await execute(
         `git push origin ${action.branch} --force`,
-        action.workspace
+        `${action.workspace}/${temporaryDeploymentDirectory}`
       )
 
       info('Cleared git history… 🚿')
