@@ -199,6 +199,7 @@ export async function deploy(action: ActionInterface): Promise<void> {
 
     // Cleans up temporary files/folders and restores the git state.
     info('Running post deployment cleanup jobs…')
+
     if (action.singleCommit) {
       await execute(`git fetch ${action.repositoryPath}`, action.workspace)
       await execute(
