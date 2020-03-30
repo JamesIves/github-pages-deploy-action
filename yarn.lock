@@ -290,14 +290,6 @@
     slash "^3.0.0"
     strip-ansi "^6.0.0"
 
-"@jest/environment@^25.2.3":
-  version "25.2.3"
-  resolved "https://registry.yarnpkg.com/@jest/environment/-/environment-25.2.3.tgz#32b3f216355b03e9449b93b62584c18934a2cc4a"
-  dependencies:
-    "@jest/fake-timers" "^25.2.3"
-    "@jest/types" "^25.2.3"
-    jest-mock "^25.2.3"
-
 "@jest/environment@^25.2.4":
   version "25.2.4"
   resolved "https://registry.yarnpkg.com/@jest/environment/-/environment-25.2.4.tgz#74f4d8dd87b427434d0b822cde37bc0e78f3e28b"
@@ -305,16 +297,6 @@
     "@jest/fake-timers" "^25.2.4"
     "@jest/types" "^25.2.3"
     jest-mock "^25.2.3"
-
-"@jest/fake-timers@^25.2.3":
-  version "25.2.3"
-  resolved "https://registry.yarnpkg.com/@jest/fake-timers/-/fake-timers-25.2.3.tgz#808a8a761be3baac719311f8bde1362bd1861e65"
-  dependencies:
-    "@jest/types" "^25.2.3"
-    jest-message-util "^25.2.3"
-    jest-mock "^25.2.3"
-    jest-util "^25.2.3"
-    lolex "^5.0.0"
 
 "@jest/fake-timers@^25.2.4":
   version "25.2.4"
@@ -364,16 +346,6 @@
     graceful-fs "^4.2.3"
     source-map "^0.6.0"
 
-"@jest/test-result@^25.2.3":
-  version "25.2.3"
-  resolved "https://registry.yarnpkg.com/@jest/test-result/-/test-result-25.2.3.tgz#db6028427514702c739dda66528dfbcc7fb8cdf4"
-  dependencies:
-    "@jest/console" "^25.2.3"
-    "@jest/transform" "^25.2.3"
-    "@jest/types" "^25.2.3"
-    "@types/istanbul-lib-coverage" "^2.0.0"
-    collect-v8-coverage "^1.0.0"
-
 "@jest/test-result@^25.2.4":
   version "25.2.4"
   resolved "https://registry.yarnpkg.com/@jest/test-result/-/test-result-25.2.4.tgz#8fc9eac58e82eb2a82e4058e68c3814f98f59cf5"
@@ -392,27 +364,6 @@
     jest-haste-map "^25.2.3"
     jest-runner "^25.2.4"
     jest-runtime "^25.2.4"
-
-"@jest/transform@^25.2.3":
-  version "25.2.3"
-  resolved "https://registry.yarnpkg.com/@jest/transform/-/transform-25.2.3.tgz#f090bdd91f54b867631a76959f2b2fc566534ffe"
-  dependencies:
-    "@babel/core" "^7.1.0"
-    "@jest/types" "^25.2.3"
-    babel-plugin-istanbul "^6.0.0"
-    chalk "^3.0.0"
-    convert-source-map "^1.4.0"
-    fast-json-stable-stringify "^2.0.0"
-    graceful-fs "^4.2.3"
-    jest-haste-map "^25.2.3"
-    jest-regex-util "^25.2.1"
-    jest-util "^25.2.3"
-    micromatch "^4.0.2"
-    pirates "^4.0.1"
-    realpath-native "^2.0.0"
-    slash "^3.0.0"
-    source-map "^0.6.1"
-    write-file-atomic "^3.0.0"
 
 "@jest/transform@^25.2.4":
   version "25.2.4"
@@ -434,15 +385,6 @@
     slash "^3.0.0"
     source-map "^0.6.1"
     write-file-atomic "^3.0.0"
-
-"@jest/types@^25.1.0":
-  version "25.1.0"
-  resolved "https://registry.yarnpkg.com/@jest/types/-/types-25.1.0.tgz#b26831916f0d7c381e11dbb5e103a72aed1b4395"
-  dependencies:
-    "@types/istanbul-lib-coverage" "^2.0.0"
-    "@types/istanbul-reports" "^1.1.1"
-    "@types/yargs" "^15.0.0"
-    chalk "^3.0.0"
 
 "@jest/types@^25.2.3":
   version "25.2.3"
@@ -1670,17 +1612,6 @@ expand-brackets@^2.1.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
-expect@^25.2.3:
-  version "25.2.3"
-  resolved "https://registry.yarnpkg.com/expect/-/expect-25.2.3.tgz#ee714f82bf33c43466fcef139ace0a57b3d0aa48"
-  dependencies:
-    "@jest/types" "^25.2.3"
-    ansi-styles "^4.0.0"
-    jest-get-type "^25.2.1"
-    jest-matcher-utils "^25.2.3"
-    jest-message-util "^25.2.3"
-    jest-regex-util "^25.2.1"
-
 expect@^25.2.4:
   version "25.2.4"
   resolved "https://registry.yarnpkg.com/expect/-/expect-25.2.4.tgz#b66e0777c861034ebc21730bb34e1839d5d46806"
@@ -2338,22 +2269,23 @@ jest-changed-files@^25.2.3:
     execa "^3.2.0"
     throat "^5.0.0"
 
-jest-circus@25.2.3:
-  version "25.2.3"
-  resolved "https://registry.yarnpkg.com/jest-circus/-/jest-circus-25.2.3.tgz#b20bea94b4448cce5b2c56229bd0e424aec4dd6b"
+jest-circus@25.2.4:
+  version "25.2.4"
+  resolved "https://registry.yarnpkg.com/jest-circus/-/jest-circus-25.2.4.tgz#7c2eee3eddc4478923b1a1ed39a6a0dbc87e39d7"
   dependencies:
     "@babel/traverse" "^7.1.0"
-    "@jest/environment" "^25.2.3"
-    "@jest/test-result" "^25.2.3"
+    "@jest/environment" "^25.2.4"
+    "@jest/test-result" "^25.2.4"
     "@jest/types" "^25.2.3"
     chalk "^3.0.0"
     co "^4.6.0"
-    expect "^25.2.3"
+    expect "^25.2.4"
     is-generator-fn "^2.0.0"
     jest-each "^25.2.3"
     jest-matcher-utils "^25.2.3"
-    jest-message-util "^25.2.3"
-    jest-snapshot "^25.2.3"
+    jest-message-util "^25.2.4"
+    jest-runtime "^25.2.4"
+    jest-snapshot "^25.2.4"
     jest-util "^25.2.3"
     pretty-format "^25.2.3"
     stack-utils "^1.0.1"
@@ -2520,19 +2452,6 @@ jest-matcher-utils@^25.2.3:
     jest-get-type "^25.2.1"
     pretty-format "^25.2.3"
 
-jest-message-util@^25.2.3:
-  version "25.2.3"
-  resolved "https://registry.yarnpkg.com/jest-message-util/-/jest-message-util-25.2.3.tgz#a911c4e3af06df851cc6065d9a3119fd2a3aa240"
-  dependencies:
-    "@babel/code-frame" "^7.0.0"
-    "@jest/test-result" "^25.2.3"
-    "@jest/types" "^25.2.3"
-    "@types/stack-utils" "^1.0.1"
-    chalk "^3.0.0"
-    micromatch "^4.0.2"
-    slash "^3.0.0"
-    stack-utils "^1.0.1"
-
 jest-message-util@^25.2.4:
   version "25.2.4"
   resolved "https://registry.yarnpkg.com/jest-message-util/-/jest-message-util-25.2.4.tgz#b1441b9c82f5c11fc661303cbf200a2f136a7762"
@@ -2636,25 +2555,6 @@ jest-runtime@^25.2.4:
 jest-serializer@^25.2.1:
   version "25.2.1"
   resolved "https://registry.yarnpkg.com/jest-serializer/-/jest-serializer-25.2.1.tgz#51727a5fc04256f461abe0fa024a022ba165877a"
-
-jest-snapshot@^25.2.3:
-  version "25.2.3"
-  resolved "https://registry.yarnpkg.com/jest-snapshot/-/jest-snapshot-25.2.3.tgz#2d432fcf9e7f1f7eb3e5012ffcce8035794b76ae"
-  dependencies:
-    "@babel/types" "^7.0.0"
-    "@jest/types" "^25.2.3"
-    "@types/prettier" "^1.19.0"
-    chalk "^3.0.0"
-    expect "^25.2.3"
-    jest-diff "^25.2.3"
-    jest-get-type "^25.2.1"
-    jest-matcher-utils "^25.2.3"
-    jest-message-util "^25.2.3"
-    jest-resolve "^25.2.3"
-    make-dir "^3.0.0"
-    natural-compare "^1.4.0"
-    pretty-format "^25.2.3"
-    semver "^6.3.0"
 
 jest-snapshot@^25.2.4:
   version "25.2.4"
@@ -3380,16 +3280,7 @@ prettier@2.0.2, prettier@>=1.12.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.0.2.tgz#1ba8f3eb92231e769b7fcd7cb73ae1b6b74ade08"
 
-pretty-format@^25.1.0:
-  version "25.1.0"
-  resolved "https://registry.yarnpkg.com/pretty-format/-/pretty-format-25.1.0.tgz#ed869bdaec1356fc5ae45de045e2c8ec7b07b0c8"
-  dependencies:
-    "@jest/types" "^25.1.0"
-    ansi-regex "^5.0.0"
-    ansi-styles "^4.0.0"
-    react-is "^16.12.0"
-
-pretty-format@^25.2.3:
+pretty-format@^25.1.0, pretty-format@^25.2.3:
   version "25.2.3"
   resolved "https://registry.yarnpkg.com/pretty-format/-/pretty-format-25.2.3.tgz#ba6e9603a0d80fa2e470b1fed55de1f9bfd81421"
   dependencies:
