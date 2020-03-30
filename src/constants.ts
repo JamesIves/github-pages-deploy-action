@@ -14,6 +14,8 @@ export interface ActionInterface {
   branch: string
   /** If your project generates hashed files on build you can use this option to automatically delete them from the deployment branch with each deploy. This option can be toggled on by setting it to true. */
   clean?: boolean | null
+  /** Wipes the commit history from the deployment branch. */
+  clearHistory?: boolean | null
   /** If you need to use CLEAN but you'd like to preserve certain files or folders you can use this option. */
   cleanExclude?: string | string[]
   /** If you need to customize the commit message for an integration you can do so. */
@@ -50,6 +52,7 @@ export interface ActionInterface {
 export const action: ActionInterface = {
   accessToken: getInput('ACCESS_TOKEN'),
   baseBranch: getInput('BASE_BRANCH'),
+  clearHistory: getInput('CLEAR_HISTORY'),
   folder: getInput('FOLDER'),
   branch: getInput('BRANCH'),
   commitMessage: getInput('COMMIT_MESSAGE'),

@@ -21,7 +21,7 @@ export async function execute(cmd: string, cwd: string): Promise<any> {
     }
   })
 
-  return Promise.resolve(debug(output))
+  return Promise.resolve(output)
 }
 
 export function stdout(data: any): string | void {

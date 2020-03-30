@@ -94,10 +94,17 @@ export async function generateBranch(action: ActionInterface): Promise<void> {
 export async function deploy(action: ActionInterface): Promise<void> {
   const temporaryDeploymentDirectory = 'gh-action-temp-deployment-folder'
   const temporaryDeploymentBranch = 'gh-action-temp-deployment-branch'
+
   info('Starting to commit changes…')
 
   try {
     hasRequiredParameters(action)
+
+    const commitMessage = `${
+      !isNullOrUndefined(action.commitMessage)
+        ? action.commitMessage
+        : `Deploying to ${action.branch} from ${action.baseBranch}`
+    } ${process.env.GITHUB_SHA ? `@ ${process.env.GITHUB_SHA}` : ''} 🚀`
 
     /*
         Checks to see if the remote exists prior to deploying.
@@ -180,13 +187,7 @@ export async function deploy(action: ActionInterface): Promise<void> {
       `${action.workspace}/${temporaryDeploymentDirectory}`
     )
     await execute(
-      `git commit -m "${
-        !isNullOrUndefined(action.commitMessage)
-          ? action.commitMessage
-          : `Deploying to ${action.branch} from ${action.baseBranch}`
-      } ${
-        process.env.GITHUB_SHA ? `@ ${process.env.GITHUB_SHA}` : ''
-      } 🚀" --quiet`,
+      `git commit -m ${commitMessage} --quiet`,
       `${action.workspace}/${temporaryDeploymentDirectory}`
     )
     await execute(
@@ -198,6 +199,24 @@ export async function deploy(action: ActionInterface): Promise<void> {
 
     // Cleans up temporary files/folders and restores the git state.
     info('Running post deployment cleanup jobs…')
+    if (clearHistory) {
+      await execute(
+        `git checkout --orphan ${action.branch}-temp`,
+        action.workspace
+      )
+      await execute(`git commit -m "${commitMessage}"`, action.workspace)
+      await execute(
+        `git branch -M ${action.branch}-temp ${action.branch}`,
+        action.workspace
+      )
+      await execute(
+        `git push origin ${action.branch} --force`,
+        action.workspace
+      )
+
+      info('Cleared git history… 🚿')
+    }
+
     await execute(
       `git checkout --progress --force ${action.defaultBranch}`,
       action.workspace
