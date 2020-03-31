@@ -10,12 +10,13 @@ function batchedSingleLineTests(options) {
         .trim()
         .split('\n')
         .map((code, i) => {
+        var _a;
         const lineNum = i + lineOffset;
         const errors = 'errors' in options
             ? options.errors.filter(e => e.line === lineNum)
             : [];
         const returnVal = Object.assign(Object.assign({}, options), { code, errors: errors.map(e => (Object.assign(Object.assign({}, e), { line: 1 }))) });
-        if (output === null || output === void 0 ? void 0 : output[i]) {
+        if ((_a = output) === null || _a === void 0 ? void 0 : _a[i]) {
             return Object.assign(Object.assign({}, returnVal), { output: output[i] });
         }
         return returnVal;

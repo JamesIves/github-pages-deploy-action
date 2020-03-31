@@ -1884,11 +1884,9 @@
     if (this.options.ecmaVersion >= 6) {
       if (name === "__proto__" && kind === "init") {
         if (propHash.proto) {
-          if (refDestructuringErrors) {
-            if (refDestructuringErrors.doubleProto < 0)
-              { refDestructuringErrors.doubleProto = key.start; }
-            // Backwards-compat kludge. Can be removed in version 6.0
-          } else { this.raiseRecoverable(key.start, "Redefinition of __proto__ property"); }
+          if (refDestructuringErrors && refDestructuringErrors.doubleProto < 0) { refDestructuringErrors.doubleProto = key.start; }
+          // Backwards-compat kludge. Can be removed in version 6.0
+          else { this.raiseRecoverable(key.start, "Redefinition of __proto__ property"); }
         }
         propHash.proto = true;
       }
@@ -1953,11 +1951,12 @@
       else { this.exprAllowed = false; }
     }
 
-    var ownDestructuringErrors = false, oldParenAssign = -1, oldTrailingComma = -1;
+    var ownDestructuringErrors = false, oldParenAssign = -1, oldTrailingComma = -1, oldShorthandAssign = -1;
     if (refDestructuringErrors) {
       oldParenAssign = refDestructuringErrors.parenthesizedAssign;
       oldTrailingComma = refDestructuringErrors.trailingComma;
-      refDestructuringErrors.parenthesizedAssign = refDestructuringErrors.trailingComma = -1;
+      oldShorthandAssign = refDestructuringErrors.shorthandAssign;
+      refDestructuringErrors.parenthesizedAssign = refDestructuringErrors.trailingComma = refDestructuringErrors.shorthandAssign = -1;
     } else {
       refDestructuringErrors = new DestructuringErrors;
       ownDestructuringErrors = true;
@@ -1972,11 +1971,8 @@
       var node = this.startNodeAt(startPos, startLoc);
       node.operator = this.value;
       node.left = this.type === types.eq ? this.toAssignable(left, false, refDestructuringErrors) : left;
-      if (!ownDestructuringErrors) {
-        refDestructuringErrors.parenthesizedAssign = refDestructuringErrors.trailingComma = refDestructuringErrors.doubleProto = -1;
-      }
-      if (refDestructuringErrors.shorthandAssign >= node.left.start)
-        { refDestructuringErrors.shorthandAssign = -1; } // reset because shorthand default was used correctly
+      if (!ownDestructuringErrors) { DestructuringErrors.call(refDestructuringErrors); }
+      refDestructuringErrors.shorthandAssign = -1; // reset because shorthand default was used correctly
       this.checkLVal(left);
       this.next();
       node.right = this.parseMaybeAssign(noIn);
@@ -1986,6 +1982,7 @@
     }
     if (oldParenAssign > -1) { refDestructuringErrors.parenthesizedAssign = oldParenAssign; }
     if (oldTrailingComma > -1) { refDestructuringErrors.trailingComma = oldTrailingComma; }
+    if (oldShorthandAssign > -1) { refDestructuringErrors.shorthandAssign = oldShorthandAssign; }
     return left
   };
 
@@ -2090,8 +2087,8 @@
   pp$3.parseExprSubscripts = function(refDestructuringErrors) {
     var startPos = this.start, startLoc = this.startLoc;
     var expr = this.parseExprAtom(refDestructuringErrors);
-    if (expr.type === "ArrowFunctionExpression" && this.input.slice(this.lastTokStart, this.lastTokEnd) !== ")")
-      { return expr }
+    var skipArrowSubscripts = expr.type === "ArrowFunctionExpression" && this.input.slice(this.lastTokStart, this.lastTokEnd) !== ")";
+    if (this.checkExpressionErrors(refDestructuringErrors) || skipArrowSubscripts) { return expr }
     var result = this.parseSubscripts(expr, startPos, startLoc);
     if (refDestructuringErrors && result.type === "MemberExpression") {
       if (refDestructuringErrors.parenthesizedAssign >= result.start) { refDestructuringErrors.parenthesizedAssign = -1; }
@@ -2389,7 +2386,6 @@
   var empty$1 = [];
 
   pp$3.parseNew = function() {
-    if (this.containsEsc) { this.raiseRecoverable(this.start, "Escape sequence in keyword new"); }
     var node = this.startNode();
     var meta = this.parseIdent(true);
     if (this.options.ecmaVersion >= 6 && this.eat(types.dot)) {
@@ -2790,7 +2786,7 @@
     } else {
       this.unexpected();
     }
-    this.next(!!liberal);
+    this.next();
     this.finishNode(node, "Identifier");
     if (!liberal) {
       this.checkUnreserved(node);
@@ -2822,7 +2818,7 @@
 
     var node = this.startNode();
     this.next();
-    node.argument = this.parseMaybeUnary(null, false);
+    node.argument = this.parseMaybeUnary(null, true);
     return this.finishNode(node, "AwaitExpression")
   };
 
@@ -3221,8 +3217,7 @@
     if (!this.switchU || c <= 0xD7FF || c >= 0xE000 || i + 1 >= l) {
       return c
     }
-    var next = s.charCodeAt(i + 1);
-    return next >= 0xDC00 && next <= 0xDFFF ? (c << 10) + next - 0x35FDC00 : c
+    return (c << 10) + s.charCodeAt(i + 1) - 0x35FDC00
   };
 
   RegExpValidationState.prototype.nextIndex = function nextIndex (i) {
@@ -3231,9 +3226,8 @@
     if (i >= l) {
       return l
     }
-    var c = s.charCodeAt(i), next;
-    if (!this.switchU || c <= 0xD7FF || c >= 0xE000 || i + 1 >= l ||
-        (next = s.charCodeAt(i + 1)) < 0xDC00 || next > 0xDFFF) {
+    var c = s.charCodeAt(i);
+    if (!this.switchU || c <= 0xD7FF || c >= 0xE000 || i + 1 >= l) {
       return i + 1
     }
     return i + 2
@@ -3324,7 +3318,7 @@
       if (state.eat(0x29 /* ) */)) {
         state.raise("Unmatched ')'");
       }
-      if (state.eat(0x5D /* ] */) || state.eat(0x7D /* } */)) {
+      if (state.eat(0x5D /* [ */) || state.eat(0x7D /* } */)) {
         state.raise("Lone quantifier brackets");
       }
     }
@@ -4013,7 +4007,7 @@
     if (state.eat(0x5B /* [ */)) {
       state.eat(0x5E /* ^ */);
       this.regexp_classRanges(state);
-      if (state.eat(0x5D /* ] */)) {
+      if (state.eat(0x5D /* [ */)) {
         return true
       }
       // Unreachable since it threw "unterminated regular expression" error before.
@@ -4061,7 +4055,7 @@
     }
 
     var ch = state.current();
-    if (ch !== 0x5D /* ] */) {
+    if (ch !== 0x5D /* [ */) {
       state.lastIntValue = ch;
       state.advance();
       return true
@@ -4240,9 +4234,7 @@
 
   // Move to the next token
 
-  pp$9.next = function(ignoreEscapeSequenceInKeyword) {
-    if (!ignoreEscapeSequenceInKeyword && this.type.keyword && this.containsEsc)
-      { this.raiseRecoverable(this.start, "Escape sequence in keyword " + this.type.keyword); }
+  pp$9.next = function() {
     if (this.options.onToken)
       { this.options.onToken(new Token(this)); }
 
@@ -4661,6 +4653,7 @@
     if (!startsWithDot && this.readInt(10) === null) { this.raise(start, "Invalid number"); }
     var octal = this.pos - start >= 2 && this.input.charCodeAt(start) === 48;
     if (octal && this.strict) { this.raise(start, "Invalid number"); }
+    if (octal && /[89]/.test(this.input.slice(start, this.pos))) { octal = false; }
     var next = this.input.charCodeAt(this.pos);
     if (!octal && !startsWithDot && this.options.ecmaVersion >= 11 && next === 110) {
       var str$1 = this.input.slice(start, this.pos);
@@ -4669,7 +4662,6 @@
       if (isIdentifierStart(this.fullCharCodeAtPos())) { this.raise(this.pos, "Identifier directly after number"); }
       return this.finishToken(types.num, val$1)
     }
-    if (octal && /[89]/.test(this.input.slice(start, this.pos))) { octal = false; }
     if (next === 46 && !octal) { // '.'
       ++this.pos;
       this.readInt(10);
@@ -4844,18 +4836,6 @@
     case 10: // ' \n'
       if (this.options.locations) { this.lineStart = this.pos; ++this.curLine; }
       return ""
-    case 56:
-    case 57:
-      if (inTemplate) {
-        var codePos = this.pos - 1;
-
-        this.invalidStringToken(
-          codePos,
-          "Invalid escape sequence in template string"
-        );
-
-        return null
-      }
     default:
       if (ch >= 48 && ch <= 55) {
         var octalStr = this.input.substr(this.pos - 1, 3).match(/^[0-7]+/)[0];
@@ -4935,6 +4915,7 @@
     var word = this.readWord1();
     var type = types.name;
     if (this.keywords.test(word)) {
+      if (this.containsEsc) { this.raiseRecoverable(this.start, "Escape sequence in keyword " + word); }
       type = keywords$1[word];
     }
     return this.finishToken(type, word)

@@ -58,7 +58,6 @@ exports.ObjectTypeIndexer = ObjectTypeIndexer;
 exports.ObjectTypeProperty = ObjectTypeProperty;
 exports.ObjectTypeSpreadProperty = ObjectTypeSpreadProperty;
 exports.QualifiedTypeIdentifier = QualifiedTypeIdentifier;
-exports.SymbolTypeAnnotation = SymbolTypeAnnotation;
 exports.UnionTypeAnnotation = UnionTypeAnnotation;
 exports.TypeCastExpression = TypeCastExpression;
 exports.Variance = Variance;
@@ -710,10 +709,6 @@ function QualifiedTypeIdentifier(node) {
   this.print(node.qualification, node);
   this.token(".");
   this.print(node.id, node);
-}
-
-function SymbolTypeAnnotation() {
-  this.word("symbol");
 }
 
 function orSeparator() {

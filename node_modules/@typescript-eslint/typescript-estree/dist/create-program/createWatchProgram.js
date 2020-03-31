@@ -12,7 +12,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const debug_1 = __importDefault(require("debug"));
 const fs_1 = __importDefault(require("fs"));
-const semver_1 = __importDefault(require("semver"));
 const ts = __importStar(require("typescript"));
 const shared_1 = require("./shared");
 const log = debug_1.default('typescript-eslint:typescript-estree:createWatchProgram');
@@ -134,7 +133,7 @@ function getProgramsForProjects(code, filePathIn, extra) {
         }
         if (fileList.has(filePath)) {
             log('Found existing program for file. %s', filePath);
-            updatedProgram = updatedProgram !== null && updatedProgram !== void 0 ? updatedProgram : existingWatch.getProgram().getProgram();
+            updatedProgram = (updatedProgram !== null && updatedProgram !== void 0 ? updatedProgram : existingWatch.getProgram().getProgram());
             // sets parent pointers in source files
             updatedProgram.getTypeChecker();
             return [updatedProgram];
@@ -170,13 +169,10 @@ function getProgramsForProjects(code, filePathIn, extra) {
     return results;
 }
 exports.getProgramsForProjects = getProgramsForProjects;
-const isRunningNoTimeoutFix = semver_1.default.satisfies(ts.version, '>=3.9.0-beta', {
-    includePrerelease: true,
-});
 function createWatchProgram(tsconfigPath, extra) {
     log('Creating watch program for %s.', tsconfigPath);
     // create compiler host
-    const watchCompilerHost = ts.createWatchCompilerHost(tsconfigPath, shared_1.createDefaultCompilerOptionsFromExtra(extra), ts.sys, ts.createAbstractBuilder, diagnosticReporter, 
+    const watchCompilerHost = ts.createWatchCompilerHost(tsconfigPath, shared_1.createDefaultCompilerOptionsFromExtra(extra), ts.sys, ts.createSemanticDiagnosticsBuilderProgram, diagnosticReporter, 
     /*reportWatchStatus*/ () => { });
     // ensure readFile reads the code being linted instead of the copy on disk
     const oldReadFile = watchCompilerHost.readFile;
@@ -185,7 +181,7 @@ function createWatchProgram(tsconfigPath, extra) {
         const fileContent = filePath === currentLintOperationState.filePath
             ? currentLintOperationState.code
             : oldReadFile(filePath, encoding);
-        if (fileContent !== undefined) {
+        if (fileContent) {
             parsedFilesSeenHash.set(filePath, createHash(fileContent));
         }
         return fileContent;
@@ -221,38 +217,23 @@ function createWatchProgram(tsconfigPath, extra) {
         host.readDirectory = (path, extensions, exclude, include, depth) => oldReadDirectory(path, !extensions ? undefined : extensions.concat(extra.extraFileExtensions), exclude, include, depth);
         oldOnDirectoryStructureHostCreate(host);
     };
-    watchCompilerHost.trace = log;
-    // Since we don't want to asynchronously update program we want to disable timeout methods
-    // So any changes in the program will be delayed and updated when getProgram is called on watch
-    let callback;
-    if (isRunningNoTimeoutFix) {
-        watchCompilerHost.setTimeout = undefined;
-        watchCompilerHost.clearTimeout = undefined;
-    }
-    else {
-        log('Running without timeout fix');
-        // But because of https://github.com/microsoft/TypeScript/pull/37308 we cannot just set it to undefined
-        // instead save it and call before getProgram is called
-        watchCompilerHost.setTimeout = (cb, _ms, ...args) => {
-            callback = cb.bind(/*this*/ undefined, ...args);
-            return callback;
-        };
-        watchCompilerHost.clearTimeout = () => {
-            callback = undefined;
-        };
-    }
-    const watch = ts.createWatchProgram(watchCompilerHost);
-    if (!isRunningNoTimeoutFix) {
-        const originalGetProgram = watch.getProgram;
-        watch.getProgram = () => {
-            if (callback) {
-                callback();
-            }
-            callback = undefined;
-            return originalGetProgram.call(watch);
-        };
-    }
-    return watch;
+    /*
+     * The watch change callbacks TS provides us all have a 250ms delay before firing
+     * https://github.com/microsoft/TypeScript/blob/b845800bdfcc81c8c72e2ac6fdc2c1df0cdab6f9/src/compiler/watch.ts#L1013
+     *
+     * We live in a synchronous world, so we can't wait for that.
+     * This is a bit of a hack, but it lets us immediately force updates when we detect a tsconfig or directory change
+     */
+    const oldSetTimeout = watchCompilerHost.setTimeout;
+    watchCompilerHost.setTimeout = (cb, ms, ...args) => {
+        var _a;
+        if (ms === 250) {
+            cb();
+            return null;
+        }
+        return (_a = oldSetTimeout) === null || _a === void 0 ? void 0 : _a(cb, ms, ...args);
+    };
+    return ts.createWatchProgram(watchCompilerHost);
 }
 exports.createWatchProgram = createWatchProgram;
 function hasTSConfigChanged(tsconfigPath) {

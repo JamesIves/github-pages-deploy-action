@@ -19,9 +19,7 @@ function remove() {
 
   this.resync();
 
-  if (!this.opts || !this.opts.noScope) {
-    this._removeFromScope();
-  }
+  this._removeFromScope();
 
   if (this._callRemovalHooks()) {
     this._markRemoved();

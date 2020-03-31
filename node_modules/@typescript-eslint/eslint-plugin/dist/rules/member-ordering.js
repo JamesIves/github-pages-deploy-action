@@ -325,19 +325,19 @@ exports.default = util.createRule({
         return {
             ClassDeclaration(node) {
                 var _a;
-                validateMembersOrder(node.body.body, (_a = options.classes) !== null && _a !== void 0 ? _a : options.default, true);
+                validateMembersOrder(node.body.body, (_a = options.classes, (_a !== null && _a !== void 0 ? _a : options.default)), true);
             },
             ClassExpression(node) {
                 var _a;
-                validateMembersOrder(node.body.body, (_a = options.classExpressions) !== null && _a !== void 0 ? _a : options.default, true);
+                validateMembersOrder(node.body.body, (_a = options.classExpressions, (_a !== null && _a !== void 0 ? _a : options.default)), true);
             },
             TSInterfaceDeclaration(node) {
                 var _a;
-                validateMembersOrder(node.body.body, (_a = options.interfaces) !== null && _a !== void 0 ? _a : options.default, false);
+                validateMembersOrder(node.body.body, (_a = options.interfaces, (_a !== null && _a !== void 0 ? _a : options.default)), false);
             },
             TSTypeLiteral(node) {
                 var _a;
-                validateMembersOrder(node.members, (_a = options.typeLiterals) !== null && _a !== void 0 ? _a : options.default, false);
+                validateMembersOrder(node.members, (_a = options.typeLiterals, (_a !== null && _a !== void 0 ? _a : options.default)), false);
             },
         };
     },

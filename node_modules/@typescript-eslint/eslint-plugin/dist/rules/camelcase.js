@@ -59,7 +59,7 @@ exports.default = util.createRule({
         const allow = (_b = (_a = options.allow) === null || _a === void 0 ? void 0 : _a.map(entry => ({
             name: entry,
             regex: new RegExp(entry),
-        }))) !== null && _b !== void 0 ? _b : [];
+        })), (_b !== null && _b !== void 0 ? _b : []));
         /**
          * Checks if a string contains an underscore and isn't all upper-case
          * @param  name The string to check.

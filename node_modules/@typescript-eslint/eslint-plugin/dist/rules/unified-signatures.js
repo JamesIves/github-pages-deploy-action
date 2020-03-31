@@ -40,6 +40,7 @@ exports.default = util.createRule({
             return `${overloads} can be combined into one signature`;
         }
         function addFailures(failures) {
+            var _a, _b;
             for (const failure of failures) {
                 const { unify, only2 } = failure;
                 switch (unify.kind) {
@@ -57,8 +58,8 @@ exports.default = util.createRule({
                             messageId: 'singleParameterDifference',
                             data: {
                                 failureStringStart: failureStringStart(lineOfOtherOverload),
-                                type1: sourceCode.getText(typeAnnotation0 === null || typeAnnotation0 === void 0 ? void 0 : typeAnnotation0.typeAnnotation),
-                                type2: sourceCode.getText(typeAnnotation1 === null || typeAnnotation1 === void 0 ? void 0 : typeAnnotation1.typeAnnotation),
+                                type1: sourceCode.getText((_a = typeAnnotation0) === null || _a === void 0 ? void 0 : _a.typeAnnotation),
+                                type2: sourceCode.getText((_b = typeAnnotation1) === null || _b === void 0 ? void 0 : _b.typeAnnotation),
                             },
                             node: p1,
                         });
@@ -300,7 +301,7 @@ exports.default = util.createRule({
             currentScope = scopes.pop();
         }
         function addOverload(signature, key, containingNode) {
-            key = key !== null && key !== void 0 ? key : getOverloadKey(signature);
+            key = (key !== null && key !== void 0 ? key : getOverloadKey(signature));
             if (currentScope &&
                 (containingNode || signature).parent === currentScope.parent) {
                 const overloads = currentScope.overloads.get(key);
@@ -327,9 +328,9 @@ exports.default = util.createRule({
             TSTypeLiteral: createScope,
             // collect overloads
             TSDeclareFunction(node) {
-                var _a, _b;
+                var _a, _b, _c;
                 const exportingNode = getExportingNode(node);
-                addOverload(node, (_b = (_a = node.id) === null || _a === void 0 ? void 0 : _a.name) !== null && _b !== void 0 ? _b : exportingNode === null || exportingNode === void 0 ? void 0 : exportingNode.type, exportingNode);
+                addOverload(node, (_b = (_a = node.id) === null || _a === void 0 ? void 0 : _a.name, (_b !== null && _b !== void 0 ? _b : (_c = exportingNode) === null || _c === void 0 ? void 0 : _c.type)), exportingNode);
             },
             TSCallSignatureDeclaration: addOverload,
             TSConstructSignatureDeclaration: addOverload,

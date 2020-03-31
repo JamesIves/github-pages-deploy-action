@@ -388,8 +388,6 @@ export interface EmptyStatement extends BaseNode {
 export interface ExportAllDeclaration extends BaseNode {
     type: AST_NODE_TYPES.ExportAllDeclaration;
     source: Expression | null;
-    exportKind: 'type' | 'value';
-    exported: Identifier | null;
 }
 export interface ExportDefaultDeclaration extends BaseNode {
     type: AST_NODE_TYPES.ExportDefaultDeclaration;
@@ -400,7 +398,6 @@ export interface ExportNamedDeclaration extends BaseNode {
     declaration: ExportDeclaration | null;
     specifiers: ExportSpecifier[];
     source: Expression | null;
-    exportKind: 'type' | 'value';
 }
 export interface ExportSpecifier extends BaseNode {
     type: AST_NODE_TYPES.ExportSpecifier;
@@ -459,7 +456,6 @@ export interface ImportDeclaration extends BaseNode {
     type: AST_NODE_TYPES.ImportDeclaration;
     source: Literal;
     specifiers: ImportClause[];
-    importKind: 'type' | 'value';
 }
 export interface ImportDefaultSpecifier extends BaseNode {
     type: AST_NODE_TYPES.ImportDefaultSpecifier;

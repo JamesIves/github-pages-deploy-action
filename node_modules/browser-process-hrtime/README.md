@@ -1,25 +1,23 @@
 # browser-process-hrtime
 
-Browser shim for Node.js `process.hrtime()`.
+Browser shim for Node.js process.hrtime().
 See [documentation at nodejs.org](http://nodejs.org/api/process.html#process_process_hrtime)
 
-This module does not provide the same level of time precision as node.js, but provides a matching API and response format.
-
 ### usage
-Use hrtime independent of environment (node or browser).
-It will use `process.hrtime` first and fallback if not present.
+Use hrtime independant of environment (node or browser).
+It will use process.hrtime first and fallback if not present.
 ```js
-const hrtime = require('browser-process-hrtime')
-const start = hrtime()
+var hrtime = require('browser-process-hrtime')
+var start = hrtime()
 // ...
-const delta = hrtime(start)
+var delta = hrtime(start)
 ```
 
 ### monkey-patching
-You can monkey-patch `process.hrtime` for your dependency graph like this:
+You can monkey-patch process.hrtime for your dependency graph like this:
 ```js
 process.hrtime = require('browser-process-hrtime')
-const coolTool = require('module-that-uses-hrtime-somewhere-in-its-depths')
+var coolTool = require('module-that-uses-hrtime-somewhere-in-its-depths')
 ```
 
 ### note

@@ -82,9 +82,10 @@ exports.default = util.createRule({
          * @private
          */
         function isAllowedEmptyConstructor(node) {
+            var _a;
             const parent = node.parent;
             if (isBodyEmpty(node) &&
-                (parent === null || parent === void 0 ? void 0 : parent.type) === experimental_utils_1.AST_NODE_TYPES.MethodDefinition &&
+                ((_a = parent) === null || _a === void 0 ? void 0 : _a.type) === experimental_utils_1.AST_NODE_TYPES.MethodDefinition &&
                 parent.kind === 'constructor') {
                 const { accessibility } = parent;
                 return (

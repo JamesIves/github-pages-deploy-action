@@ -590,17 +590,17 @@ function createValidator(type, context, allConfigs) {
     };
     // centralizes the logic for formatting the report data
     function formatReportData({ affixes, formats, originalName, position, custom, }) {
-        var _a;
+        var _a, _b, _c, _d, _e, _f;
         return {
             type: selectorTypeToMessageString(type),
             name: originalName,
             position,
-            affixes: affixes === null || affixes === void 0 ? void 0 : affixes.join(', '),
-            formats: formats === null || formats === void 0 ? void 0 : formats.map(f => PredefinedFormats[f]).join(', '),
-            regex: (_a = custom === null || custom === void 0 ? void 0 : custom.regex) === null || _a === void 0 ? void 0 : _a.toString(),
-            regexMatch: (custom === null || custom === void 0 ? void 0 : custom.match) === true
+            affixes: (_a = affixes) === null || _a === void 0 ? void 0 : _a.join(', '),
+            formats: (_b = formats) === null || _b === void 0 ? void 0 : _b.map(f => PredefinedFormats[f]).join(', '),
+            regex: (_d = (_c = custom) === null || _c === void 0 ? void 0 : _c.regex) === null || _d === void 0 ? void 0 : _d.toString(),
+            regexMatch: ((_e = custom) === null || _e === void 0 ? void 0 : _e.match) === true
                 ? 'match'
-                : (custom === null || custom === void 0 ? void 0 : custom.match) === false
+                : ((_f = custom) === null || _f === void 0 ? void 0 : _f.match) === false
                     ? 'not match'
                     : null,
         };
@@ -863,8 +863,8 @@ function normalizeOption(option) {
         selector: isMetaSelector(option.selector)
             ? MetaSelectors[option.selector]
             : Selectors[option.selector],
-        modifiers: (_d = (_c = option.modifiers) === null || _c === void 0 ? void 0 : _c.map(m => Modifiers[m])) !== null && _d !== void 0 ? _d : null,
-        types: (_f = (_e = option.types) === null || _e === void 0 ? void 0 : _e.map(m => TypeModifiers[m])) !== null && _f !== void 0 ? _f : null,
+        modifiers: (_d = (_c = option.modifiers) === null || _c === void 0 ? void 0 : _c.map(m => Modifiers[m]), (_d !== null && _d !== void 0 ? _d : null)),
+        types: (_f = (_e = option.types) === null || _e === void 0 ? void 0 : _e.map(m => TypeModifiers[m]), (_f !== null && _f !== void 0 ? _f : null)),
         filter: option.filter !== undefined
             ? typeof option.filter === 'string'
                 ? { regex: new RegExp(option.filter), match: true }

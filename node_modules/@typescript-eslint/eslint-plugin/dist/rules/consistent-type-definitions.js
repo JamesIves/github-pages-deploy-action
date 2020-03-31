@@ -41,7 +41,7 @@ exports.default = util.createRule({
                         messageId: 'interfaceOverType',
                         fix(fixer) {
                             var _a;
-                            const typeNode = (_a = node.typeParameters) !== null && _a !== void 0 ? _a : node.id;
+                            const typeNode = (_a = node.typeParameters, (_a !== null && _a !== void 0 ? _a : node.id));
                             const fixes = [];
                             const firstToken = sourceCode.getFirstToken(node);
                             if (firstToken) {
@@ -66,7 +66,7 @@ exports.default = util.createRule({
                         messageId: 'typeOverInterface',
                         fix(fixer) {
                             var _a;
-                            const typeNode = (_a = node.typeParameters) !== null && _a !== void 0 ? _a : node.id;
+                            const typeNode = (_a = node.typeParameters, (_a !== null && _a !== void 0 ? _a : node.id));
                             const fixes = [];
                             const firstToken = sourceCode.getFirstToken(node);
                             if (firstToken) {

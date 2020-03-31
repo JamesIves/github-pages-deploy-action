@@ -25,9 +25,9 @@ function shareCommentsWithSiblings() {
   const hasPrev = Boolean(prev.node);
   const hasNext = Boolean(next.node);
 
-  if (hasPrev && !hasNext) {
+  if (hasPrev && hasNext) {} else if (hasPrev) {
     prev.addComments("trailing", trailing);
-  } else if (hasNext && !hasPrev) {
+  } else if (hasNext) {
     next.addComments("leading", leading);
   }
 }

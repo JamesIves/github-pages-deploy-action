@@ -14,9 +14,7 @@ const clockIsAccurate = require("./clock-is-accurate");
 function calculateClockOffset() {
   const start = Date.now();
   let cur = start;
-  // Limit the iterations, just in case we're running in an environment where Date.now() has been mocked and is
-  // constant.
-  for (let i = 0; i < 1e6 && cur === start; i++) {
+  while (cur === start) {
     cur = Date.now();
   }
 

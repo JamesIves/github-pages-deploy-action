@@ -166,8 +166,9 @@ function isDangerousMethod(symbol, ignoreStatic) {
     return false;
 }
 function isSafeUse(node) {
+    var _a;
     const parent = node.parent;
-    switch (parent === null || parent === void 0 ? void 0 : parent.type) {
+    switch ((_a = parent) === null || _a === void 0 ? void 0 : _a.type) {
         case experimental_utils_1.AST_NODE_TYPES.IfStatement:
         case experimental_utils_1.AST_NODE_TYPES.ForStatement:
         case experimental_utils_1.AST_NODE_TYPES.MemberExpression:

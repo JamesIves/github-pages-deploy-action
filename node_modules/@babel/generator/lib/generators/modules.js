@@ -116,7 +116,7 @@ function ExportDeclaration(node) {
     const specifiers = node.specifiers.slice(0);
     let hasSpecial = false;
 
-    for (;;) {
+    while (true) {
       const first = specifiers[0];
 
       if (t.isExportDefaultSpecifier(first) || t.isExportNamespaceSpecifier(first)) {
@@ -167,7 +167,7 @@ function ImportDeclaration(node) {
   const specifiers = node.specifiers.slice(0);
 
   if (specifiers && specifiers.length) {
-    for (;;) {
+    while (true) {
       const first = specifiers[0];
 
       if (t.isImportDefaultSpecifier(first) || t.isImportNamespaceSpecifier(first)) {

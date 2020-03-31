@@ -65,7 +65,7 @@ exports.default = util.createRule({
             ignoredNames: userOptions && typeof userOptions.ignoredNamesRegex === 'string'
                 ? new RegExp(userOptions.ignoredNamesRegex)
                 : null,
-            ignoreArgsIfArgsAfterAreUsed: (_a = userOptions.ignoreArgsIfArgsAfterAreUsed) !== null && _a !== void 0 ? _a : false,
+            ignoreArgsIfArgsAfterAreUsed: (_a = userOptions.ignoreArgsIfArgsAfterAreUsed, (_a !== null && _a !== void 0 ? _a : false)),
         };
         function handleIdentifier(identifier) {
             function report(type) {

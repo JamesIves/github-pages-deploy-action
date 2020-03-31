@@ -268,14 +268,15 @@ class Referencer extends experimental_utils_1.TSESLintScope.Referencer {
      * @param node The TSDeclareFunction node to visit.
      */
     TSDeclareFunction(node) {
+        var _a, _b;
         const scopeManager = this.scopeManager;
         const upperScope = this.currentScope();
         const { id, typeParameters, params, returnType } = node;
         // Ignore this if other overload have already existed.
         if (id) {
             const variable = upperScope.set.get(id.name);
-            const defs = variable === null || variable === void 0 ? void 0 : variable.defs;
-            const existed = defs === null || defs === void 0 ? void 0 : defs.some((d) => d.type === 'FunctionName');
+            const defs = (_a = variable) === null || _a === void 0 ? void 0 : _a.defs;
+            const existed = (_b = defs) === null || _b === void 0 ? void 0 : _b.some((d) => d.type === 'FunctionName');
             if (!existed) {
                 upperScope.__define(id, new experimental_utils_1.TSESLintScope.Definition('FunctionName', id, node, null, null, null));
             }
@@ -670,7 +671,7 @@ function analyzeScope(ast, parserOptions) {
                 parserOptions.ecmaFeatures.globalReturn) === true,
         impliedStrict: false,
         sourceType: parserOptions.sourceType,
-        ecmaVersion: (_a = parserOptions.ecmaVersion) !== null && _a !== void 0 ? _a : 2018,
+        ecmaVersion: (_a = parserOptions.ecmaVersion, (_a !== null && _a !== void 0 ? _a : 2018)),
         childVisitorKeys: typescript_estree_1.visitorKeys,
         fallback: eslint_visitor_keys_1.getKeys,
     };

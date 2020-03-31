@@ -38,7 +38,7 @@ exports.default = util.createRule({
                 return false;
             }
             if (symbol.getName() === 'Error') {
-                const declarations = (_a = symbol.getDeclarations()) !== null && _a !== void 0 ? _a : [];
+                const declarations = (_a = symbol.getDeclarations(), (_a !== null && _a !== void 0 ? _a : []));
                 for (const declaration of declarations) {
                     const sourceFile = declaration.getSourceFile();
                     if (program.isSourceFileDefaultLibrary(sourceFile)) {
@@ -69,11 +69,11 @@ exports.default = util.createRule({
                     return tryGetThrowArgumentType(node.expressions[node.expressions.length - 1]);
                 case experimental_utils_1.AST_NODE_TYPES.LogicalExpression: {
                     const left = tryGetThrowArgumentType(node.left);
-                    return left !== null && left !== void 0 ? left : tryGetThrowArgumentType(node.right);
+                    return (left !== null && left !== void 0 ? left : tryGetThrowArgumentType(node.right));
                 }
                 case experimental_utils_1.AST_NODE_TYPES.ConditionalExpression: {
                     const consequent = tryGetThrowArgumentType(node.consequent);
-                    return consequent !== null && consequent !== void 0 ? consequent : tryGetThrowArgumentType(node.alternate);
+                    return (consequent !== null && consequent !== void 0 ? consequent : tryGetThrowArgumentType(node.alternate));
                 }
                 default:
                     return null;

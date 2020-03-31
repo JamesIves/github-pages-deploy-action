@@ -82,7 +82,7 @@ exports.default = util.createRule({
         const sourceCode = context.getSourceCode();
         // use the base options as the defaults for the cases
         const baseOptions = options;
-        const overrides = (_a = baseOptions.overrides) !== null && _a !== void 0 ? _a : {};
+        const overrides = (_a = baseOptions.overrides, (_a !== null && _a !== void 0 ? _a : {}));
         const interfaceOptions = util.deepMerge(baseOptions, overrides.interface);
         const typeLiteralOptions = util.deepMerge(baseOptions, overrides.typeLiteral);
         /**
@@ -184,7 +184,7 @@ exports.default = util.createRule({
                 : typeLiteralOptions;
             const opts = isSingleLine ? typeOpts.singleline : typeOpts.multiline;
             members.forEach((member, index) => {
-                checkLastToken(member, opts !== null && opts !== void 0 ? opts : {}, index === members.length - 1);
+                checkLastToken(member, (opts !== null && opts !== void 0 ? opts : {}), index === members.length - 1);
             });
         }
         return {

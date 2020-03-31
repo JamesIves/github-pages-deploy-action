@@ -4,11 +4,11 @@ const eslint_1 = require("eslint");
 // the cast on the extends is so that we don't want to have the built type defs to attempt to import eslint
 class RuleTester extends eslint_1.RuleTester {
     constructor(config) {
-        var _a;
+        var _a, _b;
         super(config);
         // nobody will ever need watching in tests
         // so we can give everyone a perf win by disabling watching
-        if ((_a = config === null || config === void 0 ? void 0 : config.parserOptions) === null || _a === void 0 ? void 0 : _a.project) {
+        if ((_b = (_a = config) === null || _a === void 0 ? void 0 : _a.parserOptions) === null || _b === void 0 ? void 0 : _b.project) {
             config.parserOptions.noWatch =
                 typeof config.parserOptions.noWatch === 'boolean' || true;
         }

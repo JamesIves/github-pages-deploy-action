@@ -83,7 +83,7 @@ exports.getTypeName = getTypeName;
 function getConstrainedTypeAtLocation(checker, node) {
     const nodeType = checker.getTypeAtLocation(node);
     const constrained = checker.getBaseConstraintOfType(nodeType);
-    return constrained !== null && constrained !== void 0 ? constrained : nodeType;
+    return (constrained !== null && constrained !== void 0 ? constrained : nodeType);
 }
 exports.getConstrainedTypeAtLocation = getConstrainedTypeAtLocation;
 /**
@@ -222,107 +222,4 @@ function getEqualsKind(operator) {
     }
 }
 exports.getEqualsKind = getEqualsKind;
-/**
- * @returns true if the type is `any`
- */
-function isTypeAnyType(type) {
-    return isTypeFlagSet(type, ts.TypeFlags.Any);
-}
-exports.isTypeAnyType = isTypeAnyType;
-/**
- * @returns `AnyType.Any` if the type is `any`, `AnyType.AnyArray` if the type is `any[]` or `readonly any[]`,
- *          otherwise it returns `AnyType.Safe`.
- */
-function isAnyOrAnyArrayTypeDiscriminated(node, checker) {
-    const type = checker.getTypeAtLocation(node);
-    if (isTypeAnyType(type)) {
-        return 0 /* Any */;
-    }
-    if (checker.isArrayType(type) &&
-        isTypeAnyType(checker.getTypeArguments(type)[0])) {
-        return 1 /* AnyArray */;
-    }
-    return 2 /* Safe */;
-}
-exports.isAnyOrAnyArrayTypeDiscriminated = isAnyOrAnyArrayTypeDiscriminated;
-/**
- * Does a simple check to see if there is an any being assigned to a non-any type.
- *
- * This also checks generic positions to ensure there's no unsafe sub-assignments.
- * Note: in the case of generic positions, it makes the assumption that the two types are the same.
- *
- * @example See tests for examples
- *
- * @returns false if it's safe, or an object with the two types if it's unsafe
- */
-function isUnsafeAssignment(type, receiver, checker) {
-    var _a, _b;
-    if (tsutils_1.isTypeReference(type) && tsutils_1.isTypeReference(receiver)) {
-        // TODO - figure out how to handle cases like this,
-        // where the types are assignable, but not the same type
-        /*
-        function foo(): ReadonlySet<number> { return new Set<any>(); }
-    
-        // and
-    
-        type Test<T> = { prop: T }
-        type Test2 = { prop: string }
-        declare const a: Test<any>;
-        const b: Test2 = a;
-        */
-        if (type.target !== receiver.target) {
-            // if the type references are different, assume safe, as we won't know how to compare the two types
-            // the generic positions might not be equivalent for both types
-            return false;
-        }
-        const typeArguments = (_a = type.typeArguments) !== null && _a !== void 0 ? _a : [];
-        const receiverTypeArguments = (_b = receiver.typeArguments) !== null && _b !== void 0 ? _b : [];
-        for (let i = 0; i < typeArguments.length; i += 1) {
-            const arg = typeArguments[i];
-            const receiverArg = receiverTypeArguments[i];
-            const unsafe = isUnsafeAssignment(arg, receiverArg, checker);
-            if (unsafe) {
-                return { sender: type, receiver };
-            }
-        }
-        return false;
-    }
-    if (isTypeAnyType(type) && !isTypeAnyType(receiver)) {
-        return { sender: type, receiver };
-    }
-    return false;
-}
-exports.isUnsafeAssignment = isUnsafeAssignment;
-/**
- * Returns the contextual type of a given node.
- * Contextual type is the type of the target the node is going into.
- * i.e. the type of a called function's parameter, or the defined type of a variable declaration
- */
-function getContextualType(checker, node) {
-    const parent = node.parent;
-    if (!parent) {
-        return;
-    }
-    if (tsutils_1.isCallExpression(parent) || tsutils_1.isNewExpression(parent)) {
-        if (node === parent.expression) {
-            // is the callee, so has no contextual type
-            return;
-        }
-    }
-    else if (tsutils_1.isVariableDeclaration(parent) ||
-        tsutils_1.isPropertyDeclaration(parent) ||
-        tsutils_1.isParameterDeclaration(parent)) {
-        return parent.type ? checker.getTypeFromTypeNode(parent.type) : undefined;
-    }
-    else if (tsutils_1.isJsxExpression(parent)) {
-        return checker.getContextualType(parent);
-    }
-    else if (![ts.SyntaxKind.TemplateSpan, ts.SyntaxKind.JsxExpression].includes(parent.kind)) {
-        // parent is not something we know we can get the contextual type of
-        return;
-    }
-    // TODO - support return statement checking
-    return checker.getContextualType(node);
-}
-exports.getContextualType = getContextualType;
 //# sourceMappingURL=types.js.map

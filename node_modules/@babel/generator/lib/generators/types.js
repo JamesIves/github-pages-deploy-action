@@ -10,8 +10,6 @@ exports.ObjectPattern = exports.ObjectExpression = ObjectExpression;
 exports.ObjectMethod = ObjectMethod;
 exports.ObjectProperty = ObjectProperty;
 exports.ArrayPattern = exports.ArrayExpression = ArrayExpression;
-exports.RecordExpression = RecordExpression;
-exports.TupleExpression = TupleExpression;
 exports.RegExpLiteral = RegExpLiteral;
 exports.BooleanLiteral = BooleanLiteral;
 exports.NullLiteral = NullLiteral;
@@ -119,68 +117,6 @@ function ArrayExpression(node) {
   this.token("]");
 }
 
-function RecordExpression(node) {
-  const props = node.properties;
-  let startToken;
-  let endToken;
-
-  if (this.format.recordAndTupleSyntaxType === "bar") {
-    startToken = "{|";
-    endToken = "|}";
-  } else if (this.format.recordAndTupleSyntaxType === "hash") {
-    startToken = "#{";
-    endToken = "}";
-  } else {
-    throw new Error(`The "recordAndTupleSyntaxType" generator option must be "bar" or "hash" (${JSON.stringify(this.format.recordAndTupleSyntaxType)} received).`);
-  }
-
-  this.token(startToken);
-  this.printInnerComments(node);
-
-  if (props.length) {
-    this.space();
-    this.printList(props, node, {
-      indent: true,
-      statement: true
-    });
-    this.space();
-  }
-
-  this.token(endToken);
-}
-
-function TupleExpression(node) {
-  const elems = node.elements;
-  const len = elems.length;
-  let startToken;
-  let endToken;
-
-  if (this.format.recordAndTupleSyntaxType === "bar") {
-    startToken = "[|";
-    endToken = "|]";
-  } else if (this.format.recordAndTupleSyntaxType === "hash") {
-    startToken = "#[";
-    endToken = "]";
-  } else {
-    throw new Error(`${this.format.recordAndTupleSyntaxType} is not a valid recordAndTuple syntax type`);
-  }
-
-  this.token(startToken);
-  this.printInnerComments(node);
-
-  for (let i = 0; i < elems.length; i++) {
-    const elem = elems[i];
-
-    if (elem) {
-      if (i > 0) this.space();
-      this.print(elem, node);
-      if (i < len - 1) this.token(",");
-    }
-  }
-
-  this.token(endToken);
-}
-
 function RegExpLiteral(node) {
   this.word(`/${node.pattern}/${node.flags}`);
 }
@@ -195,12 +131,9 @@ function NullLiteral() {
 
 function NumericLiteral(node) {
   const raw = this.getPossibleRaw(node);
-  const opts = this.format.jsescOption;
   const value = node.value + "";
 
-  if (opts.numbers) {
-    this.number((0, _jsesc.default)(node.value, opts));
-  } else if (raw == null) {
+  if (raw == null) {
     this.number(value);
   } else if (this.format.minified) {
     this.number(raw.length < value.length ? raw : value);

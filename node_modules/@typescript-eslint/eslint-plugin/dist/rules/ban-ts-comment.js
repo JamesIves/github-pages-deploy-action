@@ -26,7 +26,7 @@ exports.default = util.createRule({
             recommended: false,
         },
         messages: {
-            tsDirectiveComment: 'Do not use "// @ts-{{directive}}" because it alters compilation errors.',
+            tsDirectiveComment: 'Do not use "// @ts-{directive}" because it alters compilation errors.',
         },
         schema: [
             {
@@ -61,7 +61,7 @@ exports.default = util.createRule({
                     if (comment.type !== experimental_utils_1.AST_TOKEN_TYPES.Line) {
                         return;
                     }
-                    const [, directive] = (_a = tsCommentRegExp.exec(comment.value)) !== null && _a !== void 0 ? _a : [];
+                    const [, directive] = (_a = tsCommentRegExp.exec(comment.value), (_a !== null && _a !== void 0 ? _a : []));
                     const fullDirective = `ts-${directive}`;
                     if (options[fullDirective]) {
                         context.report({

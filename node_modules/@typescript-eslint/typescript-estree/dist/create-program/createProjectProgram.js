@@ -24,10 +24,11 @@ function getExtension(fileName) {
 function createProjectProgram(code, createDefaultProgram, extra) {
     log('Creating project program for: %s', extra.filePath);
     const astAndProgram = node_utils_1.firstDefined(createWatchProgram_1.getProgramsForProjects(code, extra.filePath, extra), currentProgram => {
+        var _a;
         const ast = currentProgram.getSourceFile(extra.filePath);
         // working around https://github.com/typescript-eslint/typescript-eslint/issues/1573
         const expectedExt = getExtension(extra.filePath);
-        const returnedExt = getExtension(ast === null || ast === void 0 ? void 0 : ast.fileName);
+        const returnedExt = getExtension((_a = ast) === null || _a === void 0 ? void 0 : _a.fileName);
         if (expectedExt !== returnedExt) {
             return;
         }

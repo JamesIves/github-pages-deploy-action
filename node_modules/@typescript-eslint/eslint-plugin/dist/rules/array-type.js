@@ -110,7 +110,7 @@ exports.default = util.createRule({
         var _a;
         const sourceCode = context.getSourceCode();
         const defaultOption = options.default;
-        const readonlyOption = (_a = options.readonly) !== null && _a !== void 0 ? _a : defaultOption;
+        const readonlyOption = (_a = options.readonly, (_a !== null && _a !== void 0 ? _a : defaultOption));
         const isArraySimpleOption = defaultOption === 'array-simple' && readonlyOption === 'array-simple';
         const isArrayOption = defaultOption === 'array' && readonlyOption === 'array';
         const isGenericOption = defaultOption === 'generic' && readonlyOption === 'generic';

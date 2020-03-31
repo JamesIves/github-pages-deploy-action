@@ -33,12 +33,13 @@ exports.default = util.createRule({
         const checker = parserServices.program.getTypeChecker();
         const sourceCode = context.getSourceCode();
         function checkTSArgsAndParameters(esParameters, typeParameters) {
+            var _a;
             // Just check the last one. Must specify previous type parameters if the last one is specified.
             const i = esParameters.params.length - 1;
             const arg = esParameters.params[i];
             const param = typeParameters[i];
             // TODO: would like checker.areTypesEquivalent. https://github.com/Microsoft/TypeScript/issues/13502
-            if (!(param === null || param === void 0 ? void 0 : param.default) ||
+            if (!((_a = param) === null || _a === void 0 ? void 0 : _a.default) ||
                 param.default.getText() !== sourceCode.getText(arg)) {
                 return;
             }
@@ -89,8 +90,9 @@ function getTypeParametersFromType(type, checker) {
         : undefined);
 }
 function getTypeParametersFromCall(node, checker) {
+    var _a;
     const sig = checker.getResolvedSignature(node);
-    const sigDecl = sig === null || sig === void 0 ? void 0 : sig.getDeclaration();
+    const sigDecl = (_a = sig) === null || _a === void 0 ? void 0 : _a.getDeclaration();
     if (!sigDecl) {
         return ts.isNewExpression(node)
             ? getTypeParametersFromType(node.expression, checker)
