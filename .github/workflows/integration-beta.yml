@@ -26,6 +26,13 @@ jobs:
           GIT_CONFIG_NAME: Montezuma
           GIT_CONFIG_EMAIL: montezuma@jamesiv.es
 
+      - name: Cleanup Generated Branch
+        uses: dawidd6/action-delete-branch@v2.0.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branches: gh-pages-beta
+  
+
   # Deploys using checkout@v2 with a GITHUB_TOKEN.
   integration-checkout-v2:
     needs: integration-checkout-v1
@@ -44,6 +51,12 @@ jobs:
           FOLDER: integration
           BASE_BRANCH: dev
           TARGET_FOLDER: montezuma2
+
+      - name: Cleanup Generated Branch
+        uses: dawidd6/action-delete-branch@v2.0.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branches: gh-pages-beta
 
 
   # Deploys using a container that requires you to install rsync.
@@ -73,6 +86,13 @@ jobs:
           BASE_BRANCH: dev
           TARGET_FOLDER: montezuma2
 
+      - name: Cleanup Generated Branch
+        uses: dawidd6/action-delete-branch@v2.0.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branches: gh-pages-beta
+
+
   # Deploys using an SSH key.
   integration-ssh:
     needs: integration-container
@@ -96,6 +116,13 @@ jobs:
           FOLDER: integration
           BASE_BRANCH: dev
           TARGET_FOLDER: montezuma3
+
+      - name: Cleanup Generated Branch
+        uses: dawidd6/action-delete-branch@v2.0.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branches: gh-pages-beta
+
 
   # Deploys using a custom env.
   integration-env:
@@ -125,6 +152,13 @@ jobs:
           BASE_BRANCH: dev
           TARGET_FOLDER: montezuma4
 
+      - name: Cleanup Generated Branch
+        uses: dawidd6/action-delete-branch@v2.0.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branches: gh-pages-beta
+
+
   # Deploys using the CLEAN option with SINGLE_COMMIT toggled.
   integration-clean:
     needs: [integration-checkout-v1, integration-checkout-v2, integration-container, integration-ssh, integration-env]
@@ -143,6 +177,13 @@ jobs:
           FOLDER: integration
           BASE_BRANCH: dev
           CLEAN: true
+
+      - name: Cleanup Generated Branch
+        uses: dawidd6/action-delete-branch@v2.0.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branches: gh-pages-beta
+
 
   # Deploys to a branch that doesn't exist with SINGLE_COMMIT.
   integration-branch-creation:
