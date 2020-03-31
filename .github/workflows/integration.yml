@@ -87,7 +87,7 @@ jobs:
           BASE_BRANCH: dev
           TARGET_FOLDER: montezuma2
 
-        - name: Cleanup Generated Branch
+      - name: Cleanup Generated Branch
         uses: dawidd6/action-delete-branch@v2.0.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
