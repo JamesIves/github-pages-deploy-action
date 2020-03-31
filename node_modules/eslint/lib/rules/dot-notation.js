@@ -8,14 +8,17 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const astUtils = require("../util/ast-utils");
+const astUtils = require("./utils/ast-utils");
+const keywords = require("./utils/keywords");
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
 const validIdentifier = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/u;
-const keywords = require("../util/keywords");
+
+// `null` literal must be handled separately.
+const literalTypesToCheck = new Set(["string", "boolean"]);
 
 module.exports = {
     meta: {
@@ -61,7 +64,7 @@ module.exports = {
         let allowPattern;
 
         if (options.allowPattern) {
-            allowPattern = new RegExp(options.allowPattern); // eslint-disable-line require-unicode-regexp
+            allowPattern = new RegExp(options.allowPattern, "u");
         }
 
         /**
@@ -115,7 +118,8 @@ module.exports = {
             MemberExpression(node) {
                 if (
                     node.computed &&
-                    node.property.type === "Literal"
+                    node.property.type === "Literal" &&
+                    (literalTypesToCheck.has(typeof node.property.value) || astUtils.isNullLiteral(node.property))
                 ) {
                     checkComputedProperty(node, node.property.value);
                 }

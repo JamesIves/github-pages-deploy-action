@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const astUtils = require("../util/ast-utils"),
+const astUtils = require("./utils/ast-utils"),
     naturalCompare = require("natural-compare");
 
 //------------------------------------------------------------------------------
@@ -23,13 +23,18 @@ const astUtils = require("../util/ast-utils"),
  *   whether it's a computed property or not.
  * - If the property has a static name, this returns the static name.
  * - Otherwise, this returns null.
- *
- * @param {ASTNode} node - The `Property` node to get.
+ * @param {ASTNode} node The `Property` node to get.
  * @returns {string|null} The property name or null.
  * @private
  */
 function getPropertyName(node) {
-    return astUtils.getStaticPropertyName(node) || node.key.name || null;
+    const staticName = astUtils.getStaticPropertyName(node);
+
+    if (staticName !== null) {
+        return staticName;
+    }
+
+    return node.key.name || null;
 }
 
 /**
@@ -37,7 +42,6 @@ function getPropertyName(node) {
  *
  * Postfix `I` is meant insensitive.
  * Postfix `N` is meant natual.
- *
  * @private
  */
 const isValidOrders = {
@@ -96,6 +100,11 @@ module.exports = {
                     natural: {
                         type: "boolean",
                         default: false
+                    },
+                    minKeys: {
+                        type: "integer",
+                        minimum: 2,
+                        default: 2
                     }
                 },
                 additionalProperties: false
@@ -110,6 +119,7 @@ module.exports = {
         const options = context.options[1];
         const insensitive = options && options.caseSensitive === false;
         const natual = options && options.natural;
+        const minKeys = options && options.minKeys;
         const isValidOrder = isValidOrders[
             order + (insensitive ? "I" : "") + (natual ? "N" : "")
         ];
@@ -118,10 +128,11 @@ module.exports = {
         let stack = null;
 
         return {
-            ObjectExpression() {
+            ObjectExpression(node) {
                 stack = {
                     upper: stack,
-                    prevName: null
+                    prevName: null,
+                    numKeys: node.properties.length
                 };
             },
 
@@ -141,11 +152,14 @@ module.exports = {
                 }
 
                 const prevName = stack.prevName;
+                const numKeys = stack.numKeys;
                 const thisName = getPropertyName(node);
 
-                stack.prevName = thisName || prevName;
+                if (thisName !== null) {
+                    stack.prevName = thisName;
+                }
 
-                if (!prevName || !thisName) {
+                if (prevName === null || thisName === null || numKeys < minKeys) {
                     return;
                 }
 

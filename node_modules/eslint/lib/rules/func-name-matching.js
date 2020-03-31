@@ -9,7 +9,7 @@
 // Requirements
 //--------------------------------------------------------------------------
 
-const astUtils = require("../util/ast-utils");
+const astUtils = require("./utils/ast-utils");
 const esutils = require("esutils");
 
 //--------------------------------------------------------------------------
@@ -118,6 +118,7 @@ module.exports = {
                 return false;
             }
             return node.type === "CallExpression" &&
+                node.callee.type === "MemberExpression" &&
                 node.callee.object.name === objName &&
                 node.callee.property.name === funcName;
         }

@@ -8,7 +8,6 @@
 	},
 
 	"rules": {
-		"arrow-parens": [2, "always"],
 		"array-bracket-newline": 0,
 		"array-element-newline": 0,
 		"complexity": 0,
@@ -16,7 +15,6 @@
 		"func-name-matching": 0,
 		"id-length": [2, { "min": 1, "max": 40 }],
 		"max-params": [2, 4],
-		"max-statements": [2, 24],
 		"max-statements-per-line": [2, { "max": 2 }],
 		"multiline-comment-style": 0,
 		"no-magic-numbers": 0,
@@ -28,12 +26,6 @@
 
 	"overrides": [
 		{
-			"files": "./*/{Date,Month}FromTime.js",
-			"rules": {
-				"max-statements": [2, 30],
-			},
-		},
-		{
 			"files": "operations/*",
 			"rules": {
 				"max-lines": 0,
@@ -42,7 +34,7 @@
 		{
 			"files": "operations/*.js",
 			"parserOptions": {
-				"ecmaVersion": 2018,
+				"ecmaVersion": 2020,
 			},
 			"rules": {
 				"no-console": 0,
@@ -63,7 +55,6 @@
 				"max-lines": 0,
 				"max-lines-per-function": 0,
 				"max-statements-per-line": [2, { "max": 3 }],
-				"max-nested-callbacks": [2, 4],
 				"max-statements": 0,
 				"no-implicit-coercion": 0,
 				"no-invalid-this": 1,

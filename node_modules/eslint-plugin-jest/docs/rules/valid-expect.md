@@ -79,6 +79,7 @@ expect();
 expect().toEqual('something');
 expect('something', 'else');
 expect('something');
+await expect('something');
 expect(true).toBeDefined;
 expect(Promise.resolve('hello')).resolves;
 expect(Promise.resolve('hello')).resolves.toEqual('hello');

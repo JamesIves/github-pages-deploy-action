@@ -1,0 +1,16 @@
+{
+  "extends": "eslint:recommended",
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "rules": {
+    "quotes": [2, "single", "avoid-escape"],
+    "no-use-before-define": [2, "nofunc"],
+    "space-infix-ops": [2, { "int32Hint": false }],
+    "curly": [2, "multi-line"],
+    "comma-dangle": [2, "always-multiline"],
+    "camelcase": 0,
+    "no-underscore-dangle": 0
+  }
+}

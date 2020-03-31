@@ -768,7 +768,7 @@ test('TimeClip', function (t) {
 	t.ok(is(ES.TimeClip(-8.64e15 - 1), NaN), '-8.64e15 is the largest magnitude considered "finite"');
 
 	forEach(v.zeroes.concat([-10, 10, +new Date()]), function (time) {
-		t.equal(ES.TimeClip(time), time, debug(time) + ' is a time of ' + debug(time));
+		t.looseEqual(ES.TimeClip(time), time, debug(time) + ' is a time of ' + debug(time));
 	});
 
 	t.end();

@@ -2695,6 +2695,8 @@ function foo(bar: { n: number } & { s: string }) {}
 <a name="eslint-plugin-flowtype-rules-require-exact-type"></a>
 ### <code>require-exact-type</code>
 
+_The `--fix` option on the command line automatically fixes problems reported by this rule._
+
 This rule enforces [exact object types](https://flow.org/en/docs/types/objects/#toc-exact-object-types).
 
 <a name="eslint-plugin-flowtype-rules-require-exact-type-options-3"></a>
@@ -2729,26 +2731,38 @@ The following patterns are considered problems:
 
 ```js
 type foo = {};
-// Message: Type identifier 'foo' must be exact.
+// Message: Object type must be exact.
 
 type foo = { bar: string };
-// Message: Type identifier 'foo' must be exact.
+// Message: Object type must be exact.
 
 // Options: ["always"]
-type foo = {};
-// Message: Type identifier 'foo' must be exact.
+type foo = Array<{bar: string}>;
+// Message: Object type must be exact.
 
 // Options: ["always"]
-type foo = { bar: string };
-// Message: Type identifier 'foo' must be exact.
+(foo: Array<{bar: string}>) => {};
+// Message: Object type must be exact.
 
 // Options: ["never"]
 type foo = {| |};
-// Message: Type identifier 'foo' must not be exact.
+// Message: Object type must not be exact.
 
 // Options: ["never"]
 type foo = {| bar: string |};
-// Message: Type identifier 'foo' must not be exact.
+// Message: Object type must not be exact.
+
+// Options: ["never"]
+type foo = { bar: {| baz: string |} };
+// Message: Object type must not be exact.
+
+// Options: ["never"]
+type foo = Array<{| bar: string |}>;
+// Message: Object type must not be exact.
+
+// Options: ["never"]
+(foo: Array<{| bar: string |}>) => {};
+// Message: Object type must not be exact.
 ```
 
 The following patterns are not considered problems:
@@ -2769,6 +2783,12 @@ type foo = {| |};
 type foo = {| bar: string |};
 
 // Options: ["always"]
+type foo = {| bar: {| baz: string |} |};
+
+// Options: ["always"]
+type foo = Array<{| bar: string |}>;
+
+// Options: ["always"]
 type foo = number;
 
 // Options: ["never"]
@@ -2776,6 +2796,12 @@ type foo = { };
 
 // Options: ["never"]
 type foo = { bar: string };
+
+// Options: ["never"]
+type foo = { bar: { baz: string } };
+
+// Options: ["never"]
+type foo = Array<{bar: string}>;
 
 // Options: ["never"]
 type foo = number;
@@ -3812,6 +3838,18 @@ a;
 a;
 b;
 // Message: Strict Flow file annotation is required, should be `// @flow strict`
+
+// Options: ["never",{"annotationStyle":"line"}]
+/* @flow */
+a;
+b;
+// Message: Flow file annotation style must be `// @flow`
+
+// Options: ["never",{"annotationStyle":"line"}]
+/* @flow strict */
+a;
+b;
+// Message: Flow file annotation style must be `// @flow strict`
 ```
 
 The following patterns are not considered problems:
@@ -4095,6 +4133,96 @@ type FooType = { a: number, c: number, b: string }
           a: number,
           c: number,
           b: string,
+        }
+      
+// Message: Expected type annotations to be in ascending order. "b" should be before "c".
+
+
+        type FooType = {
+          a: $ReadOnlyArray<number>,
+          c: $ReadOnlyMap<string, number>,
+          b: Map<string, Array<Map<string, number>>>,
+        }
+      
+// Message: Expected type annotations to be in ascending order. "b" should be before "c".
+
+
+        type FooType = {
+          ...ErrorsInRecursiveGenericTypeArgsButDoesNotFix<{
+            y: boolean,
+            x: string,
+            z: {
+              j: string,
+              l: number,
+              k: boolean,
+            },
+          }>,
+          a: number,
+          c: string,
+          b: Map<string, Array<ErrorsInRecursiveGenericTypeArgsButDoesNotFix<{
+            y: boolean,
+            x: string,
+            z: {
+              j: string,
+              l: number,
+              k: boolean,
+            },
+          }>>>,
+        }
+      
+// Message: Expected type annotations to be in ascending order. "x" should be before "y".
+// Message: Expected type annotations to be in ascending order. "k" should be before "l".
+// Message: Expected type annotations to be in ascending order. "b" should be before "c".
+// Message: Expected type annotations to be in ascending order. "x" should be before "y".
+// Message: Expected type annotations to be in ascending order. "k" should be before "l".
+
+
+        type FooType = {
+          ...BPreservesSpreadOrder,
+          ...APreservesSpreadOrder,
+          c: string,
+          b: number,
+        }
+      
+// Message: Expected type annotations to be in ascending order. "b" should be before "c".
+
+
+        type FooType = {
+          ...BPreservesSpreadSpans,
+          ...APreservesSpreadSpans,
+          c: string,
+          b: number,
+          ...CPreservesSpreadSpans,
+          e: string,
+          d: number,
+        }
+      
+// Message: Expected type annotations to be in ascending order. "b" should be before "c".
+// Message: Expected type annotations to be in ascending order. "d" should be before "e".
+
+
+        type FooType = {
+          ...BPreservesSpreadOrderAndTypeArgs<string, number>,
+          ...APreservesSpreadOrderAndTypeArgs<number>,
+          c: string,
+          b: number,
+        }
+      
+// Message: Expected type annotations to be in ascending order. "b" should be before "c".
+
+
+        type FooType = {
+          /* preserves block comment before spread BType */
+          // preserves line comment before spread BType
+          ... /* preserves comment in spread BType */ BType<Generic> /* preserves trailing comment in spread AType */,
+          /* preserves block comment before spread AType */
+          // preserves line comment before spread AType
+          ... /* preserves comment in spread AType */ AType /* preserves trailing comment in spread AType */,
+          /* preserves block comment before reordered key "c" */
+          // preserves line comment before reordered key "c"
+          c:/* preserves comment and white space or lack of it */string/* preserves trailing comment for key "c" */,
+          b: number,
+          dWithoutComma: boolean
         }
       
 // Message: Expected type annotations to be in ascending order. "b" should be before "c".

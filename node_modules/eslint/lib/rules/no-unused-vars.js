@@ -9,8 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const lodash = require("lodash");
-const astUtils = require("../util/ast-utils");
+const astUtils = require("./utils/ast-utils");
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -88,15 +87,15 @@ module.exports = {
                 config.caughtErrors = firstOption.caughtErrors || config.caughtErrors;
 
                 if (firstOption.varsIgnorePattern) {
-                    config.varsIgnorePattern = new RegExp(firstOption.varsIgnorePattern); // eslint-disable-line require-unicode-regexp
+                    config.varsIgnorePattern = new RegExp(firstOption.varsIgnorePattern, "u");
                 }
 
                 if (firstOption.argsIgnorePattern) {
-                    config.argsIgnorePattern = new RegExp(firstOption.argsIgnorePattern); // eslint-disable-line require-unicode-regexp
+                    config.argsIgnorePattern = new RegExp(firstOption.argsIgnorePattern, "u");
                 }
 
                 if (firstOption.caughtErrorsIgnorePattern) {
-                    config.caughtErrorsIgnorePattern = new RegExp(firstOption.caughtErrorsIgnorePattern); // eslint-disable-line require-unicode-regexp
+                    config.caughtErrorsIgnorePattern = new RegExp(firstOption.caughtErrorsIgnorePattern, "u");
                 }
             }
         }
@@ -104,7 +103,7 @@ module.exports = {
         /**
          * Generate the warning message about the variable being
          * defined and unused, including the ignore pattern if configured.
-         * @param {Variable} unusedVar - eslint-scope variable object.
+         * @param {Variable} unusedVar eslint-scope variable object.
          * @returns {string} The warning message to be used with this unused variable.
          */
         function getDefinedMessage(unusedVar) {
@@ -147,7 +146,7 @@ module.exports = {
 
         /**
          * Determines if a given variable is being exported from a module.
-         * @param {Variable} variable - eslint-scope variable object.
+         * @param {Variable} variable eslint-scope variable object.
          * @returns {boolean} True if the variable is exported, false if not.
          * @private
          */
@@ -173,7 +172,7 @@ module.exports = {
 
         /**
          * Determines if a variable has a sibling rest property
-         * @param {Variable} variable - eslint-scope variable object.
+         * @param {Variable} variable eslint-scope variable object.
          * @returns {boolean} True if the variable is exported, false if not.
          * @private
          */
@@ -196,7 +195,7 @@ module.exports = {
 
         /**
          * Determines if a reference is a read operation.
-         * @param {Reference} ref - An eslint-scope Reference
+         * @param {Reference} ref An eslint-scope Reference
          * @returns {boolean} whether the given reference represents a read operation
          * @private
          */
@@ -206,8 +205,8 @@ module.exports = {
 
         /**
          * Determine if an identifier is referencing an enclosing function name.
-         * @param {Reference} ref - The reference to check.
-         * @param {ASTNode[]} nodes - The candidate function nodes.
+         * @param {Reference} ref The reference to check.
+         * @param {ASTNode[]} nodes The candidate function nodes.
          * @returns {boolean} True if it's a self-reference, false if not.
          * @private
          */
@@ -227,7 +226,7 @@ module.exports = {
 
         /**
          * Gets a list of function definitions for a specified variable.
-         * @param {Variable} variable - eslint-scope variable object.
+         * @param {Variable} variable eslint-scope variable object.
          * @returns {ASTNode[]} Function nodes.
          * @private
          */
@@ -253,9 +252,8 @@ module.exports = {
 
         /**
          * Checks the position of given nodes.
-         *
-         * @param {ASTNode} inner - A node which is expected as inside.
-         * @param {ASTNode} outer - A node which is expected as outside.
+         * @param {ASTNode} inner A node which is expected as inside.
+         * @param {ASTNode} outer A node which is expected as outside.
          * @returns {boolean} `true` if the `inner` node exists in the `outer` node.
          * @private
          */
@@ -276,9 +274,8 @@ module.exports = {
          * - The reference is inside of a loop.
          * - The reference is inside of a function scope which is different from
          *   the declaration.
-         *
-         * @param {eslint-scope.Reference} ref - A reference to check.
-         * @param {ASTNode} prevRhsNode - The previous RHS node.
+         * @param {eslint-scope.Reference} ref A reference to check.
+         * @param {ASTNode} prevRhsNode The previous RHS node.
          * @returns {ASTNode|null} The RHS node or null.
          * @private
          */
@@ -311,9 +308,8 @@ module.exports = {
         /**
          * Checks whether a given function node is stored to somewhere or not.
          * If the function node is stored, the function can be used later.
-         *
-         * @param {ASTNode} funcNode - A function node to check.
-         * @param {ASTNode} rhsNode - The RHS node of the previous assignment.
+         * @param {ASTNode} funcNode A function node to check.
+         * @param {ASTNode} rhsNode The RHS node of the previous assignment.
          * @returns {boolean} `true` if under the following conditions:
          *      - the funcNode is assigned to a variable.
          *      - the funcNode is bound as an argument of a function call.
@@ -368,9 +364,8 @@ module.exports = {
          * - the function is bound as an argument of a function call.
          *
          * If a reference exists in a function which can be used later, the reference is read when the function is called.
-         *
-         * @param {ASTNode} id - An Identifier node to check.
-         * @param {ASTNode} rhsNode - The RHS node of the previous assignment.
+         * @param {ASTNode} id An Identifier node to check.
+         * @param {ASTNode} rhsNode The RHS node of the previous assignment.
          * @returns {boolean} `true` if the `id` node exists inside of a function node which can be used later.
          * @private
          */
@@ -386,9 +381,8 @@ module.exports = {
 
         /**
          * Checks whether a given reference is a read to update itself or not.
-         *
-         * @param {eslint-scope.Reference} ref - A reference to check.
-         * @param {ASTNode} rhsNode - The RHS node of the previous assignment.
+         * @param {eslint-scope.Reference} ref A reference to check.
+         * @param {ASTNode} rhsNode The RHS node of the previous assignment.
          * @returns {boolean} The reference is a read to update itself.
          * @private
          */
@@ -417,8 +411,7 @@ module.exports = {
 
         /**
          * Determine if an identifier is used either in for-in loops.
-         *
-         * @param {Reference} ref - The reference to check.
+         * @param {Reference} ref The reference to check.
          * @returns {boolean} whether reference is used in the for-in loops
          * @private
          */
@@ -454,7 +447,7 @@ module.exports = {
 
         /**
          * Determines if the variable is used.
-         * @param {Variable} variable - The variable to check.
+         * @param {Variable} variable The variable to check.
          * @returns {boolean} True if the variable is used
          * @private
          */
@@ -482,8 +475,7 @@ module.exports = {
 
         /**
          * Checks whether the given variable is after the last used parameter.
-         *
-         * @param {eslint-scope.Variable} variable - The variable to check.
+         * @param {eslint-scope.Variable} variable The variable to check.
          * @returns {boolean} `true` if the variable is defined after the last
          * used parameter.
          */
@@ -498,8 +490,8 @@ module.exports = {
 
         /**
          * Gets an array of variables without read references.
-         * @param {Scope} scope - an eslint-scope Scope object.
-         * @param {Variable[]} unusedVars - an array that saving result.
+         * @param {Scope} scope an eslint-scope Scope object.
+         * @param {Variable[]} unusedVars an array that saving result.
          * @returns {Variable[]} unused variables of the scope and descendant scopes.
          * @private
          */
@@ -508,7 +500,7 @@ module.exports = {
             const childScopes = scope.childScopes;
             let i, l;
 
-            if (scope.type !== "TDZ" && (scope.type !== "global" || config.vars === "all")) {
+            if (scope.type !== "global" || config.vars === "all") {
                 for (i = 0, l = variables.length; i < l; ++i) {
                     const variable = variables[i];
 
@@ -588,39 +580,6 @@ module.exports = {
             return unusedVars;
         }
 
-        /**
-         * Gets the index of a given variable name in a given comment.
-         * @param {eslint-scope.Variable} variable - A variable to get.
-         * @param {ASTNode} comment - A comment node which includes the variable name.
-         * @returns {number} The index of the variable name's location.
-         * @private
-         */
-        function getColumnInComment(variable, comment) {
-            const namePattern = new RegExp(`[\\s,]${lodash.escapeRegExp(variable.name)}(?:$|[\\s,:])`, "gu");
-
-            // To ignore the first text "global".
-            namePattern.lastIndex = comment.value.indexOf("global") + 6;
-
-            // Search a given variable name.
-            const match = namePattern.exec(comment.value);
-
-            return match ? match.index + 1 : 0;
-        }
-
-        /**
-         * Creates the correct location of a given variables.
-         * The location is at its name string in a `/*global` comment.
-         *
-         * @param {eslint-scope.Variable} variable - A variable to get its location.
-         * @returns {{line: number, column: number}} The location object for the variable.
-         * @private
-         */
-        function getLocation(variable) {
-            const comment = variable.eslintExplicitGlobalComment;
-
-            return sourceCode.getLocFromIndex(comment.range[0] + 2 + getColumnInComment(variable, comment));
-        }
-
         //--------------------------------------------------------------------------
         // Public
         //--------------------------------------------------------------------------
@@ -632,19 +591,24 @@ module.exports = {
                 for (let i = 0, l = unusedVars.length; i < l; ++i) {
                     const unusedVar = unusedVars[i];
 
-                    if (unusedVar.eslintExplicitGlobal) {
-                        context.report({
-                            node: programNode,
-                            loc: getLocation(unusedVar),
-                            message: getDefinedMessage(unusedVar),
-                            data: unusedVar
-                        });
-                    } else if (unusedVar.defs.length > 0) {
+                    // Report the first declaration.
+                    if (unusedVar.defs.length > 0) {
                         context.report({
                             node: unusedVar.identifiers[0],
                             message: unusedVar.references.some(ref => ref.isWrite())
                                 ? getAssignedMessage()
                                 : getDefinedMessage(unusedVar),
+                            data: unusedVar
+                        });
+
+                    // If there are no regular declaration, report the first `/*globals*/` comment directive.
+                    } else if (unusedVar.eslintExplicitGlobalComments) {
+                        const directiveComment = unusedVar.eslintExplicitGlobalComments[0];
+
+                        context.report({
+                            node: programNode,
+                            loc: astUtils.getNameLocationInGlobalDirectiveComment(sourceCode, directiveComment, unusedVar.name),
+                            message: getDefinedMessage(unusedVar),
                             data: unusedVar
                         });
                     }

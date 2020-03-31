@@ -1,3 +1,9 @@
+1.17.5 / 2020-03-22
+=================
+  * [Fix] `CreateDataProperty`: update an existing property
+  * [Fix] run missing spackle from cd7504701879ddea0f5981e99cbcf93bfea9171d
+  * [Dev Deps] update `make-arrow-function`, `tape`, `@ljharb/eslint-config`
+
 1.17.4 / 2020-01-21
 =================
   * [Fix] `2015+`: add code to handle IE 8’s problems

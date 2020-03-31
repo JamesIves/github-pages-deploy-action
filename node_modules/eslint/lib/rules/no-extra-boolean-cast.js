@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const astUtils = require("../util/ast-utils");
+const astUtils = require("./utils/ast-utils");
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -49,9 +49,8 @@ module.exports = {
 
         /**
          * Check if a node is in a context where its value would be coerced to a boolean at runtime.
-         *
-         * @param {Object} node The node
-         * @param {Object} parent Its parent
+         * @param {ASTNode} node The node
+         * @param {ASTNode} parent Its parent
          * @returns {boolean} If it is in a boolean context
          */
         function isInBooleanContext(node, parent) {
@@ -65,6 +64,14 @@ module.exports = {
             );
         }
 
+        /**
+         * Check if a node has comments inside.
+         * @param {ASTNode} node The node to check.
+         * @returns {boolean} `true` if it has comments inside.
+         */
+        function hasCommentsInside(node) {
+            return Boolean(sourceCode.getCommentsInside(node).length);
+        }
 
         return {
             UnaryExpression(node) {
@@ -87,9 +94,24 @@ module.exports = {
                         grandparent.callee.name === "Boolean")
                 ) {
                     context.report({
-                        node,
+                        node: parent,
                         messageId: "unexpectedNegation",
-                        fix: fixer => fixer.replaceText(parent, sourceCode.getText(node.argument))
+                        fix: fixer => {
+                            if (hasCommentsInside(parent)) {
+                                return null;
+                            }
+
+                            let prefix = "";
+                            const tokenBefore = sourceCode.getTokenBefore(parent);
+                            const firstReplacementToken = sourceCode.getFirstToken(node.argument);
+
+                            if (tokenBefore && tokenBefore.range[1] === parent.range[0] &&
+                                    !astUtils.canTokensBeAdjacent(tokenBefore, firstReplacementToken)) {
+                                prefix = " ";
+                            }
+
+                            return fixer.replaceText(parent, prefix + sourceCode.getText(node.argument));
+                        }
                     });
                 }
             },
@@ -106,10 +128,35 @@ module.exports = {
                         messageId: "unexpectedCall",
                         fix: fixer => {
                             if (!node.arguments.length) {
-                                return fixer.replaceText(parent, "true");
+                                if (parent.type === "UnaryExpression" && parent.operator === "!") {
+
+                                    // !Boolean() -> true
+
+                                    if (hasCommentsInside(parent)) {
+                                        return null;
+                                    }
+
+                                    const replacement = "true";
+                                    let prefix = "";
+                                    const tokenBefore = sourceCode.getTokenBefore(parent);
+
+                                    if (tokenBefore && tokenBefore.range[1] === parent.range[0] &&
+                                            !astUtils.canTokensBeAdjacent(tokenBefore, replacement)) {
+                                        prefix = " ";
+                                    }
+
+                                    return fixer.replaceText(parent, prefix + replacement);
+                                }
+
+                                // Boolean() -> false
+                                if (hasCommentsInside(node)) {
+                                    return null;
+                                }
+                                return fixer.replaceText(node, "false");
                             }
 
-                            if (node.arguments.length > 1 || node.arguments[0].type === "SpreadElement") {
+                            if (node.arguments.length > 1 || node.arguments[0].type === "SpreadElement" ||
+                                    hasCommentsInside(node)) {
                                 return null;
                             }
 

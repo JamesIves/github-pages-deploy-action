@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const astUtils = require("../util/ast-utils");
+const astUtils = require("./utils/ast-utils");
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -175,10 +175,10 @@ module.exports = {
                             }
 
                             /*
-                             * If the first token of the reutrn value is `{`,
+                             * If the first token of the reutrn value is `{` or the return value is a sequence expression,
                              * enclose the return value by parentheses to avoid syntax error.
                              */
-                            if (astUtils.isOpeningBraceToken(firstValueToken)) {
+                            if (astUtils.isOpeningBraceToken(firstValueToken) || blockBody[0].argument.type === "SequenceExpression") {
                                 fixes.push(
                                     fixer.insertTextBefore(firstValueToken, "("),
                                     fixer.insertTextAfter(lastValueToken, ")")

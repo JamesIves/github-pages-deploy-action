@@ -5,7 +5,8 @@
 
 "use strict";
 
-const astUtils = require("../util/ast-utils");
+const { escapeRegExp } = require("lodash");
+const astUtils = require("./utils/ast-utils");
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -53,12 +54,11 @@ module.exports = {
          * Convert a warning term into a RegExp which will match a comment containing that whole word in the specified
          * location ("start" or "anywhere"). If the term starts or ends with non word characters, then the match will not
          * require word boundaries on that side.
-         *
          * @param {string} term A term to convert to a RegExp
          * @returns {RegExp} The term converted to a RegExp
          */
         function convertToRegExp(term) {
-            const escaped = term.replace(/[-/\\$^*+?.()|[\]{}]/gu, "\\$&");
+            const escaped = escapeRegExp(term);
             const wordBoundary = "\\b";
             const eitherOrWordBoundary = `|${wordBoundary}`;
             let prefix;
@@ -95,7 +95,7 @@ module.exports = {
                  * ^\s*TERM\b.  This checks the word boundary
                  * at the beginning of the comment.
                  */
-                return new RegExp(prefix + escaped + suffix, "i"); // eslint-disable-line require-unicode-regexp
+                return new RegExp(prefix + escaped + suffix, "iu");
             }
 
             /*
@@ -103,7 +103,7 @@ module.exports = {
              * \bTERM\b|\bTERM\b, this checks the entire comment
              * for the term.
              */
-            return new RegExp(prefix + escaped + suffix + eitherOrWordBoundary + term + wordBoundary, "i"); // eslint-disable-line require-unicode-regexp
+            return new RegExp(prefix + escaped + suffix + eitherOrWordBoundary + term + wordBoundary, "iu");
         }
 
         const warningRegExps = warningTerms.map(convertToRegExp);

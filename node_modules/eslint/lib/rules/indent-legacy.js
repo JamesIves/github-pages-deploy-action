@@ -12,7 +12,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const astUtils = require("../util/ast-utils");
+const astUtils = require("./utils/ast-utils");
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -303,7 +303,7 @@ module.exports = {
          * @param {int} needed Expected indentation character count
          * @param {int} gottenSpaces Indentation space count in the actual node/code
          * @param {int} gottenTabs Indentation tab count in the actual node/code
-         * @param {Object=} loc Error line and column location
+         * @param {Object} [loc] Error line and column location
          * @param {boolean} isLastNodeCheck Is the error for last node check
          * @returns {void}
          */

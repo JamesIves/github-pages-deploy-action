@@ -1,12 +1,12 @@
 'use strict';
-const errorEx = require('error-ex');
-const fallback = require('json-parse-better-errors');
+var errorEx = require('error-ex');
+var fallback = require('./vendor/parse');
 
-const JSONError = errorEx('JSONError', {
+var JSONError = errorEx('JSONError', {
 	fileName: errorEx.append('in %s')
 });
 
-module.exports = (input, reviver, filename) => {
+module.exports = function (x, reviver, filename) {
 	if (typeof reviver === 'string') {
 		filename = reviver;
 		reviver = null;
@@ -14,16 +14,18 @@ module.exports = (input, reviver, filename) => {
 
 	try {
 		try {
-			return JSON.parse(input, reviver);
+			return JSON.parse(x, reviver);
 		} catch (err) {
-			fallback(input, reviver);
+			fallback.parse(x, {
+				mode: 'json',
+				reviver: reviver
+			});
 
 			throw err;
 		}
 	} catch (err) {
-		err.message = err.message.replace(/\n/g, '');
+		var jsonErr = new JSONError(err);
 
-		const jsonErr = new JSONError(err);
 		if (filename) {
 			jsonErr.fileName = filename;
 		}

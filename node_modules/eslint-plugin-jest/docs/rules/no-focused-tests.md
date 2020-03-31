@@ -32,6 +32,12 @@ test['only']('bar', () => {});
 fdescribe('foo', () => {});
 fit('foo', () => {});
 ftest('bar', () => {});
+fit.each`
+  table
+`();
+ftest.each`
+  table
+`();
 ```
 
 These patterns would not be considered warnings:
@@ -43,4 +49,12 @@ describe.skip('bar', () => {});
 it.skip('bar', () => {});
 test('foo', () => {});
 test.skip('bar', () => {});
+it.each()();
+it.each`
+  table
+`();
+test.each()();
+test.each`
+  table
+`();
 ```

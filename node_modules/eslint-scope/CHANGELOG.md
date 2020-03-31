@@ -1,3 +1,8 @@
+v5.0.0 - July 20, 2019
+
+* [`e9fa22e`](https://github.com/eslint/eslint-scope/commit/e9fa22ea412c26cf2761fa98af7e715644bdb464) Upgrade: update dependencies after dropping support for Node <8 (#53) (Kai Cataldo)
+* [`ee9f7c1`](https://github.com/eslint/eslint-scope/commit/ee9f7c12721aa195ba7e0e69551f49bfdb479951) Breaking: drop support for Node v6 (#54) (Kai Cataldo)
+
 v4.0.3 - March 15, 2019
 
 * [`299df64`](https://github.com/eslint/eslint-scope/commit/299df64bdafb30b4d9372e4b7af0cf51a3818c4a) Fix: arrow function scope strictness (take 2) (#52) (futpib)
