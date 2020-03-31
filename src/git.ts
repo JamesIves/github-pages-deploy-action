@@ -74,7 +74,7 @@ export async function generateBranch(action: ActionInterface): Promise<void> {
       action.workspace
     )
     await execute(
-      `git push ${action.repositoryPath} ${action.branch}`,
+      `git push --force ${action.repositoryPath} ${action.branch}`,
       action.workspace
     )
     await execute(`git fetch`, action.workspace)
