@@ -11,18 +11,33 @@ email, or any other method with the owners of this repository before making a ch
 
 # Deploying
 
-In order to deploy and test your own fork of this action, you must commit the required `node_modules` dependencies. 
+In order to deploy and test your own fork of this action, you must commit the required `node_modules` dependencies. Be sure to run `nvm use` before installing any dependencies. You can learn more about nvm [here](https://github.com/nvm-sh/nvm/blob/master/README.md).
 
 To do this you can follow the instructions below:
 
+Install the project:
+
 ```
-# comment out in distribution branches
+yarn install
+```
+
+Comment out the following in distribution branches:
+
+```
 # node_modules/
 ```
+
+Build the project: 
+
+```
+yarn build
+```
+
+Commit:
 
 ```
 $ git checkout -b branchnamehere
 $ git commit -a -m "prod dependencies"
 ```
 
-The `node_modules` folder should _not_ be included when making a pull request.
+The `node_modules` folder should _not_ be included when making a pull request. These are only required for GitHub Actions when it consumes the distribution branch branch, the `dev` branch of the project should be free from any dependencies or lib files. 
