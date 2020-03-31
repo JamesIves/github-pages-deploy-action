@@ -1,11 +1,11 @@
-name: integration-tests-beta
+name: integration-tests
 on:
   schedule:
-    - cron: 35 15 * * 0-6
+    - cron: 30 15 * * 0-6
   push:
     branches:
       - dev
-      - releases/v3-test
+      - releases/v3-test-test
 
 jobs:
   # Deploys using checkout@v1 with an ACCESS_TOKEN.

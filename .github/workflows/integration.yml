@@ -94,7 +94,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           SSH: true
-          BRANCH: gh-pages-beta
+          BRANCH: gh-pages
           FOLDER: integration
           BASE_BRANCH: dev
           TARGET_FOLDER: montezuma3
@@ -122,7 +122,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           SSH: true
-          BRANCH: gh-pages-beta
+          BRANCH: gh-pages
           FOLDER: integration
           BASE_BRANCH: dev
           TARGET_FOLDER: montezuma4
