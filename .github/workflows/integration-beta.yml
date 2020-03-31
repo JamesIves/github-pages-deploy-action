@@ -19,7 +19,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@releases/v3-test
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BRANCH: gh-pages-beta
+          BRANCH: gh-pages-test
           FOLDER: integration
           BASE_BRANCH: dev
           TARGET_FOLDER: montezuma
@@ -30,7 +30,7 @@ jobs:
         uses: dawidd6/action-delete-branch@v2.0.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branches: gh-pages-beta
+          branches: gh-pages-test
   
 
   # Deploys using checkout@v2 with a GITHUB_TOKEN.
@@ -47,7 +47,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@releases/v3-test
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages-beta
+          BRANCH: gh-pages-test
           FOLDER: integration
           BASE_BRANCH: dev
           TARGET_FOLDER: montezuma2
@@ -56,7 +56,7 @@ jobs:
         uses: dawidd6/action-delete-branch@v2.0.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branches: gh-pages-beta
+          branches: gh-pages-test
 
 
   # Deploys using a container that requires you to install rsync.
@@ -81,7 +81,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@releases/v3-test
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages-beta
+          BRANCH: gh-pages-test
           FOLDER: integration
           BASE_BRANCH: dev
           TARGET_FOLDER: montezuma2
@@ -90,7 +90,7 @@ jobs:
         uses: dawidd6/action-delete-branch@v2.0.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branches: gh-pages-beta
+          branches: gh-pages-test
 
 
   # Deploys using an SSH key.
@@ -112,7 +112,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@releases/v3-test
         with:
           SSH: true
-          BRANCH: gh-pages-beta
+          BRANCH: gh-pages-test
           FOLDER: integration
           BASE_BRANCH: dev
           TARGET_FOLDER: montezuma3
@@ -121,7 +121,7 @@ jobs:
         uses: dawidd6/action-delete-branch@v2.0.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branches: gh-pages-beta
+          branches: gh-pages-test
 
 
   # Deploys using a custom env.
@@ -147,7 +147,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@releases/v3-test
         with:
           SSH: true
-          BRANCH: gh-pages-beta
+          BRANCH: gh-pages-test
           FOLDER: integration
           BASE_BRANCH: dev
           TARGET_FOLDER: montezuma4
@@ -156,7 +156,7 @@ jobs:
         uses: dawidd6/action-delete-branch@v2.0.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branches: gh-pages-beta
+          branches: gh-pages-test
 
 
   # Deploys using the CLEAN option with SINGLE_COMMIT toggled.
@@ -173,7 +173,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@releases/v3-test
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BRANCH: gh-pages-beta
+          BRANCH: gh-pages-test
           FOLDER: integration
           BASE_BRANCH: dev
           CLEAN: true
@@ -182,7 +182,7 @@ jobs:
         uses: dawidd6/action-delete-branch@v2.0.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branches: gh-pages-beta
+          branches: gh-pages-test
 
 
   # Deploys to a branch that doesn't exist with SINGLE_COMMIT.
