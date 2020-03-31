@@ -7,6 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: Configure git
+      run: |
+        git config user.email "iam@jamesiv.es"
+        git config user.name "James Ives"
     # Setup .npmrc file to publish to npm
     - uses: actions/setup-node@v1
       with:
@@ -14,7 +18,7 @@ jobs:
         registry-url: 'https://registry.npmjs.org'
     - run: npm install
     - run: npm run-script build
-    - run: npm cli
+    - run: npm ci
     # Publish to npm
     - run: npm publish --access public
       env:
