@@ -145,7 +145,6 @@ jobs:
           FOLDER: integration
           BASE_BRANCH: dev
           CLEAN: true
-          SINGLE_COMMIT: true
 
   # Deploys to a branch that doesn't exist with SINGLE_COMMIT.
   integration-branch-creation:
@@ -163,7 +162,6 @@ jobs:
           BRANCH: integration-test-delete-prod
           FOLDER: integration
           BASE_BRANCH: dev
-          CLEAN: true
           SINGLE_COMMIT: true
 
       - name: Cleanup Generated Branch
