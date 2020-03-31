@@ -5,13 +5,14 @@ process.env['GITHUB_SHA'] = '123'
 import {action} from '../src/constants'
 import {deploy, generateBranch, init, switchToBaseBranch} from '../src/git'
 import {execute} from '../src/execute'
-import {setFailed} from '@actions/core'
 
 const originalAction = JSON.stringify(action)
 
 jest.mock('@actions/core', () => ({
   setFailed: jest.fn(),
-  getInput: jest.fn()
+  getInput: jest.fn(),
+  isDebug: jest.fn(),
+  info: jest.fn()
 }))
 
 jest.mock('../src/execute', () => ({
@@ -316,6 +317,24 @@ describe('git', () => {
 
       // Includes the call to generateBranch
       expect(execute).toBeCalledTimes(12)
+    })
+
+    it('should execute commands with single commit toggled', async () => {
+      Object.assign(action, {
+        folder: 'build',
+        branch: 'branch',
+        gitHubToken: '123',
+        singleCommit: true,
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        }
+      })
+
+      await deploy(action)
+
+      // Includes the call to generateBranch
+      expect(execute).toBeCalledTimes(18)
     })
 
     it('should execute commands with clean options, ommits sha commit message', async () => {

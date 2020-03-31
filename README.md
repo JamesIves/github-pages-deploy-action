@@ -1,10 +1,42 @@
-# GitHub Pages Deploy Action :rocket:
+<p align="center">
+  <a href="https://github.com/marketplace/actions/deploy-to-github-pages">
+    <img width="150px" src="./assets/icon.png">
+  </a>
+</p>
 
-[![Build Status](https://github.com/JamesIves/github-pages-deploy-action/workflows/unit-tests/badge.svg)](https://github.com/JamesIves/github-pages-deploy-action/actions) [![Actions Status](https://github.com/JamesIves/github-pages-deploy-action/workflows/integration-tests/badge.svg)](https://github.com/JamesIves/github-pages-deploy-action/actions) [![View Action](https://img.shields.io/badge/action-marketplace-blue.svg?logo=github&color=orange)](https://github.com/marketplace/actions/deploy-to-github-pages) [![Version](https://img.shields.io/github/v/release/JamesIves/github-pages-deploy-action.svg?logo=github)](https://github.com/JamesIves/github-pages-deploy-action/releases) [![Codecov Coverage](https://codecov.io/gh/JamesIves/github-pages-deploy-action/branch/dev/graph/badge.svg)](https://codecov.io/gh/JamesIves/github-pages-deploy-action/branch/dev)
+<h1 align="center">
+  GitHub Pages Deploy Action :rocket:
+</h1>
 
-This [GitHub action](https://github.com/features/actions) will handle the deploy process of your project to [GitHub Pages](https://pages.github.com/). It can be configured to upload your production-ready code into any branch you'd like, including `gh-pages` and `docs`.
+<p align="center">
+  <a href="https://github.com/JamesIves/github-pages-deploy-action/actions">
+    <img src="https://github.com/JamesIves/github-pages-deploy-action/workflows/unit-tests/badge.svg">
+  </a>
+  
+  <a href="https://github.com/JamesIves/github-pages-deploy-action/actions">
+    <img src="https://github.com/JamesIves/github-pages-deploy-action/workflows/integration-tests/badge.svg">
+  </a>
+  
+  <a href="https://github.com/marketplace/actions/deploy-to-github-pages">
+    <img src="https://img.shields.io/badge/action-marketplace-blue.svg?logo=github&color=orange">
+  </a>
+  
+  <a href="https://github.com/JamesIves/github-pages-deploy-action/releases">
+    <img src="https://img.shields.io/github/v/release/JamesIves/github-pages-deploy-action.svg?logo=github">
+  </a>
+  
+  <a href="https://codecov.io/gh/JamesIves/github-pages-deploy-action/branch/dev">
+    <img src="https://codecov.io/gh/JamesIves/github-pages-deploy-action/branch/dev/graph/badge.svg">
+  </a>
+</p>
 
-![Example Screen shot](screenshot.png)
+<p align="center">
+  This <a href="https://github.com/features/actions">GitHub Action</a> will deploy your project to <a href="https://pages.github.com/">GitHub Pages</a>. It can be configured to upload your production-ready code into any branch you'd like, including <b>gh-pages</b> and <b>docs</b>.
+</p>
+
+<p align="center">
+  <img src="./assets/screenshot.png">
+</p>
 
 ## Getting Started :airplane:
 
@@ -24,7 +56,12 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Build and Deploy 🚀
+      - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
+        run: |
+          npm install
+          npm run build
+
+      - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
@@ -78,7 +115,7 @@ For more information regarding the [action interface please click here](https://
 
 ## Configuration 📁
 
-The `with` portion of the workflow **must** be configured before the action will work. You can add these in the `with` section found in the examples above. Any `secrets` must be referenced using the bracket syntax and stored in the GitHub repositories `Settings/Secrets` menu. You can learn more about setting environment variables with GitHub actions [here](https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idstepsenv).
+The `with` portion of the workflow **must** be configured before the action will work. You can add these in the `with` section found in the examples above. Any `secrets` must be referenced using the bracket syntax and stored in the GitHub repositories `Settings/Secrets` menu. You can learn more about setting environment variables with GitHub actions [here](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#creating-encrypted-secrets).
 
 #### Required Setup
 
@@ -101,16 +138,16 @@ In addition to the deployment options you must also configure the following.
 
 | Key                | Value Information                                                                                                                                                                                                                                                                                                                                     | Type   | Required |
 | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | -------- |
-| `GIT_CONFIG_NAME`  | Allows you to customize the name that is attached to the GitHub config which is used when pushing the deployment commits. If this is not included it will use the name in the GitHub context, followed by the name of the action.                                                                                                                     | `with` | **No**   |
-| `GIT_CONFIG_EMAIL` | Allows you to customize the email that is attached to the GitHub config which is used when pushing the deployment commits. If this is not included it will use the email in the GitHub context, followed by a generic noreply GitHub email.                                                                                                           | `with` | **No**   |
+| `GIT_CONFIG_NAME`  | Allows you to customize the name that is attached to the git config which is used when pushing the deployment commits. If this is not included it will use the name in the GitHub context, followed by the name of the action.                                                                                                                     | `with` | **No**   |
+| `GIT_CONFIG_EMAIL` | Allows you to customize the email that is attached to the git config which is used when pushing the deployment commits. If this is not included it will use the email in the GitHub context, followed by a generic noreply GitHub email.                                                                                                           | `with` | **No**   |
 | `REPOSITORY_NAME`       | Allows you to speicfy a different repository path so long as you have permissions to push to it. This should be formatted like so: `JamesIves/github-pages-deploy-action`.                                                                                                                                                                          | `with` | **No**   |
 | `TARGET_FOLDER`    | If you'd like to push the contents of the deployment folder into a specific directory on the deployment branch you can specify it here.                                                                                                                                                                                                               | `with` | **No**   |
 | `BASE_BRANCH`      | The base branch of your repository which you'd like to checkout prior to deploying. This defaults to the current commit [SHA](http://en.wikipedia.org/wiki/SHA-1) that triggered the build followed by `master` if it doesn't exist. This is useful for making deployments from another branch, and also may be necessary when using a scheduled job. | `with` | **No**   |
 | `COMMIT_MESSAGE`   | If you need to customize the commit message for an integration you can do so.                                                                                                                                                                                                                                                                         | `with` | **No**   |
 | `CLEAN`            | If your project generates hashed files on build you can use this option to automatically delete them from the deployment branch with each deploy. This option can be toggled on by setting it to `true`.                                                                                                                                              | `with` | **No**   |
 | `CLEAN_EXCLUDE`    | If you need to use `CLEAN` but you'd like to preserve certain files or folders you can use this option. This should be formatted as an array but stored as a string. For example: `'["filename.js", "folder"]'`                                                                                                                                       | `with` | **No**   |
+| `SINGLE_COMMIT`        | This option can be toggled to `true` if you'd prefer to have a single commit on the deployment branch instead of maintaining the full history. Using this option will also cause any existing history to be wiped from the deployment branch.                                                                                                                                            | `with` | **No**   |
 | `WORKSPACE`        | This should point to where your project lives on the virtual machine. The GitHub Actions environment will set this for you. It is only neccersary to set this variable if you're using the node module.                                                                                                                                               | `with` | **No**   |
-| `DEBUG`            | By default the git commands are hidden from the log. If you'd like to turn them on you can toggle this to `true`. **If you're using this action in your own project as a node module via yarn or npm you may expose your secrets if you toggle this on in a production environment**.                                                                 | `with` | **No**   |
 
 With the action correctly configured you should see the workflow trigger the deployment under the configured conditions.
 
@@ -126,15 +163,15 @@ ssh-keygen -t rsa -b 4096 -C "youremailhere@example.com" -N ""
 
 Once you've generated the key pair you must add the contents of the public key within your repositories [deploy keys menu](https://developer.github.com/v3/guides/managing-deploy-keys/). You can find this option by going to `Settings > Deploy Keys`, you can name the public key whatever you want, but you **do** need to give it write access. Afterwards add the contents of the private key to the `Settings > Secrets` menu as `DEPLOY_KEY`.
 
-With this configured you must add the `ssh-agent` step to your workflow and set `SSH` to `true` within the deploy action.
+With this configured you must add the `ssh-agent` step to your workflow and set `SSH` to `true` within the deploy action. There are several SSH actions available on the [GitHub marketplace](https://github.com/marketplace?type=actions) for you to choose from.
 
 ```yml
-- name: Install SSH Client
+- name: Install SSH Client 🔑
   uses: webfactory/ssh-agent@v0.2.0
   with:
     ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
-- name: Build and Deploy 🚀
+- name: Deploy 🚀
   uses: JamesIves/github-pages-deploy-action@releases/v3
   with:
     SSH: true
@@ -160,17 +197,17 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Install
+      - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
         run: |
           npm install
-          npm run-script build
+          npm run build
 
       - name: Install SSH Client 🔑
         uses: webfactory/ssh-agent@v0.2.0 # This step installs the ssh client into the workflow run. There's many options available for this on the action marketplace.
         with:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
-      - name: Build and Deploy Repo 🚀
+      - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@releases/v3-test
         with:
           BASE_BRANCH: master
@@ -212,12 +249,12 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Install # The project is built using npm and placed in the 'build' folder.
+      - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
         run: |
           npm install
-          npm run-script build
+          npm run build
 
-      - name: Upload Artifacts # The project is then uploaded as an artifact named 'site'.
+      - name: Upload Artifacts 🔺 # The project is then uploaded as an artifact named 'site'.
         uses: actions/upload-artifact@v1
         with:
           name: site
@@ -232,12 +269,12 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Download Artifacts # The built project is downloaded into the 'site' folder.
+      - name: Download Artifacts 🔻 # The built project is downloaded into the 'site' folder.
         uses: actions/download-artifact@v1
         with:
           name: site
 
-      - name: Build and Deploy 🚀
+      - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
@@ -255,11 +292,11 @@ jobs:
 If you use a [container](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#jobsjob_idcontainer) in your workflow you may need to run an additional step to install `rsync` as this action depends on it. You can view an example of this below.
 
 ```yml
-- name: Install rsync
+- name: Install rsync 📚
   run: |
     apt-get update && apt-get install -y rsync
 
-- name: Deploy
+- name: Deploy 🚀
   uses: JamesIves/github-pages-deploy-action@releases/v3
 ```
 
@@ -267,4 +304,10 @@ If you use a [container](https://help.github.com/en/actions/automating-your-work
 
 ### Additional Build Files 📁
 
-This action maintains the full Git history of the deployment branch. Therefore if you're using a custom domain and require a `CNAME` file, or if you require the use of a `.nojekyll` file, you can safely commit these files directly into deployment branch without them being overridden after each deployment.
+If you're using a custom domain and require a `CNAME` file, or if you require the use of a `.nojekyll` file, you can safely commit these files directly into deployment branch without them being overridden after each deployment.
+
+---
+
+### Debugging 🐝
+
+By default the git commands are hidden from the logs. If you'd like to turn them on you can set the `ACTIONS_STEP_DEBUG` environment variable to true within the [Settings/Secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#creating-encrypted-secrets) menu.  If you're using this action in your own project as a node module via yarn or npm **you may expose your secrets if you toggle this on in a production environment**. You can learn more about debugging GitHub actions [here](https://github.com/actions/toolkit/blob/master/docs/action-debugging.md).

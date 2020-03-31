@@ -159,7 +159,7 @@ describe('util', () => {
           gitHubToken: 'anothersecret123333'
         }
 
-        process.env['INPUT_DEBUG'] = 'true'
+        process.env['RUNNER_DEBUG'] = '1'
 
         const string = `This is an error message! It contains ${action.accessToken} and ${action.gitHubToken} and ${action.repositoryPath}`
         expect(suppressSensitiveInformation(string, action)).toBe(

@@ -18,7 +18,9 @@ jest.mock('../src/execute', () => ({
 jest.mock('@actions/core', () => ({
   setFailed: jest.fn(),
   getInput: jest.fn(),
-  exportVariable: jest.fn()
+  exportVariable: jest.fn(),
+  isDebug: jest.fn(),
+  info: jest.fn()
 }))
 
 describe('main', () => {

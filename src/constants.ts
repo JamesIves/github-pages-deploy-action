@@ -13,13 +13,11 @@ export interface ActionInterface {
   /** The branch that the action should deploy to. */
   branch: string
   /** If your project generates hashed files on build you can use this option to automatically delete them from the deployment branch with each deploy. This option can be toggled on by setting it to true. */
-  clean?: string | boolean
+  clean?: boolean | null
   /** If you need to use CLEAN but you'd like to preserve certain files or folders you can use this option. */
   cleanExclude?: string | string[]
   /** If you need to customize the commit message for an integration you can do so. */
   commitMessage?: string
-  /** Unhides the Git commands from the function terminal. */
-  debug?: boolean | string
   /** The default branch of the deployment. Similar to baseBranch if you're using this action as a module. */
   defaultBranch?: string
   /** The git config email. */
@@ -29,17 +27,19 @@ export interface ActionInterface {
   /** GitHub deployment token. */
   gitHubToken?: string | null
   /** Determines if the action is running in test mode or not. */
-  isTest?: string | undefined | null
+  isTest?: boolean | null
   /** The git config name. */
   name?: string
-  /** The repository path, for example JamesIves/github-pages-deploy-action */
+  /** The repository path, for example JamesIves/github-pages-deploy-action. */
   repositoryName?: string
   /** The fully qualified repositpory path, this gets auto generated if repositoryName is provided. */
   repositoryPath?: string
   /** The root directory where your project lives. */
   root?: string
+  /** Wipes the commit history from the deployment branch in favor of a single commit. */
+  singleCommit?: boolean | null
   /** Set to true if you're using an ssh client in your build step. */
-  ssh?: string | boolean | null
+  ssh?: boolean | null
   /** If you'd like to push the contents of the deployment folder into a specific directory on the deployment branch you can specify it here. */
   targetFolder?: string
   /** The token type, ie ssh/github token/access token, this gets automatically generated. */
@@ -55,18 +55,21 @@ export const action: ActionInterface = {
   folder: getInput('FOLDER'),
   branch: getInput('BRANCH'),
   commitMessage: getInput('COMMIT_MESSAGE'),
-  clean: getInput('CLEAN'),
+  clean: !isNullOrUndefined(getInput('CLEAN'))
+    ? getInput('CLEAN').toLowerCase() === 'true'
+    : false,
   cleanExclude: getInput('CLEAN_EXCLUDE'),
-  debug: getInput('DEBUG'),
   defaultBranch: process.env.GITHUB_SHA ? process.env.GITHUB_SHA : 'master',
-  isTest: process.env.UNIT_TEST,
-  ssh: getInput('SSH'),
+  isTest: process.env.UNIT_TEST
+    ? process.env.UNIT_TEST.toLowerCase() === 'true'
+    : false,
   email: !isNullOrUndefined(getInput('GIT_CONFIG_EMAIL'))
     ? getInput('GIT_CONFIG_EMAIL')
     : pusher && pusher.email
     ? pusher.email
-    : `${process.env.GITHUB_ACTOR ||
-        'github-pages-deploy-action'}@users.noreply.github.com`,
+    : `${
+        process.env.GITHUB_ACTOR || 'github-pages-deploy-action'
+      }@users.noreply.github.com`,
   gitHubToken: getInput('GITHUB_TOKEN'),
   name: !isNullOrUndefined(getInput('GIT_CONFIG_NAME'))
     ? getInput('GIT_CONFIG_NAME')
@@ -81,6 +84,12 @@ export const action: ActionInterface = {
     ? repository.full_name
     : process.env.GITHUB_REPOSITORY,
   root: '.',
+  singleCommit: !isNullOrUndefined(getInput('SINGLE_COMMIT'))
+    ? getInput('SINGLE_COMMIT').toLowerCase() === 'true'
+    : false,
+  ssh: !isNullOrUndefined(getInput('SSH'))
+    ? getInput('SSH').toLowerCase() === 'true'
+    : false,
   targetFolder: getInput('TARGET_FOLDER'),
   workspace: process.env.GITHUB_WORKSPACE || ''
 }

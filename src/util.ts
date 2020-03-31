@@ -1,4 +1,4 @@
-import {getInput} from '@actions/core'
+import {isDebug} from '@actions/core'
 import {ActionInterface} from './constants'
 
 /* Utility function that checks to see if a value is undefined or not. */
@@ -19,10 +19,9 @@ export const generateTokenType = (action: ActionInterface): string =>
 export const generateRepositoryPath = (action: ActionInterface): string =>
   action.ssh
     ? `git@github.com:${action.repositoryName}`
-    : `https://${action.accessToken ||
-        `x-access-token:${action.gitHubToken}`}@github.com/${
-        action.repositoryName
-      }.git`
+    : `https://${
+        action.accessToken || `x-access-token:${action.gitHubToken}`
+      }@github.com/${action.repositoryName}.git`
 
 /* Checks for the required tokens and formatting. Throws an error if any case is matched. */
 export const hasRequiredParameters = (action: ActionInterface): void => {
@@ -59,7 +58,7 @@ export const suppressSensitiveInformation = (
 ): string => {
   let value = str
 
-  if (getInput('DEBUG')) {
+  if (isDebug()) {
     // Data is unmasked in debug mode.
     return value
   }
