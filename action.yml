@@ -63,3 +63,7 @@ inputs:
   WORKSPACE:
     description: "This should point to where your project lives on the virtual machine. The GitHub Actions environment will set this for you. It is only neccersary to set this variable if you're using the node module."
     required: false
+
+  SINGLE_COMMIT:
+    description: "This option can be used if you'd prefer to have a single commit on the deployment branch instead of maintaining the full history."
+    required: false

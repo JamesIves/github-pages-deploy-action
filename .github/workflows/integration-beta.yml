@@ -126,7 +126,7 @@ jobs:
           BASE_BRANCH: dev
           TARGET_FOLDER: montezuma4
 
-  # Deploys using the CLEAN option.
+  # Deploys using the CLEAN and SINGLE_COMMIT option.
   integration-clean:
     needs: [integration-checkout-v1, integration-checkout-v2, integration-container, integration-ssh, integration-env]
     runs-on: ubuntu-latest
@@ -144,8 +144,9 @@ jobs:
           FOLDER: integration
           BASE_BRANCH: dev
           CLEAN: true
+          SINGLE_COMMIT: true
 
-  # Deploys to a branch that doesn't exist.
+  # Deploys to a branch that doesn't exist with SINGLE_COMMIT toggled.
   integration-branch-creation:
     runs-on: ubuntu-latest
     steps:
@@ -162,6 +163,7 @@ jobs:
           FOLDER: integration
           BASE_BRANCH: dev
           CLEAN: true
+          SINGLE_COMMIT: true
 
       - name: Cleanup Generated Branch
         uses: dawidd6/action-delete-branch@v2.0.1

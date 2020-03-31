@@ -36,6 +36,8 @@ export interface ActionInterface {
   repositoryPath?: string
   /** The root directory where your project lives. */
   root?: string
+  /** Wipes the commit history from the deployment branch in favor of a single commit. */
+  singleCommit?: boolean | null
   /** Set to true if you're using an ssh client in your build step. */
   ssh?: boolean | null
   /** If you'd like to push the contents of the deployment folder into a specific directory on the deployment branch you can specify it here. */
@@ -61,9 +63,6 @@ export const action: ActionInterface = {
   isTest: process.env.UNIT_TEST
     ? process.env.UNIT_TEST.toLowerCase() === 'true'
     : false,
-  ssh: !isNullOrUndefined(getInput('SSH'))
-    ? getInput('SSH').toLowerCase() === 'true'
-    : false,
   email: !isNullOrUndefined(getInput('GIT_CONFIG_EMAIL'))
     ? getInput('GIT_CONFIG_EMAIL')
     : pusher && pusher.email
@@ -85,6 +84,12 @@ export const action: ActionInterface = {
     ? repository.full_name
     : process.env.GITHUB_REPOSITORY,
   root: '.',
+  singleCommit: !isNullOrUndefined(getInput('SINGLE_COMMIT'))
+    ? getInput('SINGLE_COMMIT').toLowerCase() === 'true'
+    : false,
+  ssh: !isNullOrUndefined(getInput('SSH'))
+    ? getInput('SSH').toLowerCase() === 'true'
+    : false,
   targetFolder: getInput('TARGET_FOLDER'),
   workspace: process.env.GITHUB_WORKSPACE || ''
 }
