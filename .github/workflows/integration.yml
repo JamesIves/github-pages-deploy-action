@@ -1,7 +1,7 @@
 name: integration-tests
 on:
   schedule:
-    - cron: 10 15 * * 0-6
+    - cron: 30 15 * * 0-6
   push:
     tags-ignore:
       - '*.*'
