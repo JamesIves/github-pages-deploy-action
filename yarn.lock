@@ -385,7 +385,7 @@
     source-map "^0.6.1"
     write-file-atomic "^3.0.0"
 
-"@jest/types@^25.2.6":
+"@jest/types@^25.1.0", "@jest/types@^25.2.6":
   version "25.2.6"
   resolved "https://registry.yarnpkg.com/@jest/types/-/types-25.2.6.tgz#c12f44af9bed444438091e4b59e7ed05f8659cb6"
   dependencies:
@@ -547,12 +547,12 @@
     "@types/istanbul-lib-coverage" "*"
     "@types/istanbul-lib-report" "*"
 
-"@types/jest@25.1.4":
-  version "25.1.4"
-  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-25.1.4.tgz#9e9f1e59dda86d3fd56afce71d1ea1b331f6f760"
+"@types/jest@25.1.5":
+  version "25.1.5"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-25.1.5.tgz#3c3c078b3cd19c6403e21277f1cfdc0ce5ebf9a9"
   dependencies:
-    jest-diff "^25.1.0"
-    pretty-format "^25.1.0"
+    jest-diff "25.1.0"
+    pretty-format "25.1.0"
 
 "@types/json-schema@^7.0.3":
   version "7.0.4"
@@ -2331,7 +2331,7 @@ jest-config@^25.2.7:
     pretty-format "^25.2.6"
     realpath-native "^2.0.0"
 
-jest-diff@^25.1.0:
+jest-diff@25.1.0:
   version "25.1.0"
   resolved "https://registry.yarnpkg.com/jest-diff/-/jest-diff-25.1.0.tgz#58b827e63edea1bc80c1de952b80cec9ac50e1ad"
   dependencies:
@@ -3277,6 +3277,15 @@ prettier-linter-helpers@^1.0.0:
 prettier@2.0.2, prettier@>=1.12.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.0.2.tgz#1ba8f3eb92231e769b7fcd7cb73ae1b6b74ade08"
+
+pretty-format@25.1.0:
+  version "25.1.0"
+  resolved "https://registry.yarnpkg.com/pretty-format/-/pretty-format-25.1.0.tgz#ed869bdaec1356fc5ae45de045e2c8ec7b07b0c8"
+  dependencies:
+    "@jest/types" "^25.1.0"
+    ansi-regex "^5.0.0"
+    ansi-styles "^4.0.0"
+    react-is "^16.12.0"
 
 pretty-format@^25.1.0, pretty-format@^25.2.6:
   version "25.2.6"
