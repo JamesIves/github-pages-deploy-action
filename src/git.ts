@@ -100,11 +100,11 @@ export async function deploy(action: ActionInterface): Promise<void> {
   try {
     hasRequiredParameters(action)
 
-    const commitMessage = `${
-      !isNullOrUndefined(action.commitMessage)
-        ? action.commitMessage
-        : `Deploying to ${action.branch} from ${action.baseBranch}`
-    } ${process.env.GITHUB_SHA ? `@ ${process.env.GITHUB_SHA}` : ''} 🚀`
+    const commitMessage = !isNullOrUndefined(action.commitMessage)
+      ? (action.commitMessage as string)
+      : `Deploying to ${action.branch} from ${action.baseBranch} ${
+          process.env.GITHUB_SHA ? `@ ${process.env.GITHUB_SHA}` : ''
+        } 🚀`
 
     /*
         Checks to see if the remote exists prior to deploying.
