@@ -42,7 +42,7 @@ describe('main', () => {
       debug: true
     })
     await run(action)
-    expect(execute).toBeCalledTimes(19)
+    expect(execute).toBeCalledTimes(20)
   })
 
   it('should throw if an error is encountered', async () => {
