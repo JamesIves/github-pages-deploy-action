@@ -100,11 +100,11 @@ export async function deploy(action: ActionInterface): Promise<void> {
   try {
     hasRequiredParameters(action)
 
-    const commitMessage = `${
-      !isNullOrUndefined(action.commitMessage)
-        ? action.commitMessage
-        : `Deploying to ${action.branch} from ${action.baseBranch}`
-    } ${process.env.GITHUB_SHA ? `@ ${process.env.GITHUB_SHA}` : ''} 🚀`
+    const commitMessage = !isNullOrUndefined(action.commitMessage)
+      ? (action.commitMessage as string)
+      : `Deploying to ${action.branch} from ${action.baseBranch} ${
+          process.env.GITHUB_SHA ? `@ ${process.env.GITHUB_SHA}` : ''
+        } 🚀`
 
     /*
         Checks to see if the remote exists prior to deploying.
@@ -239,6 +239,10 @@ export async function deploy(action: ActionInterface): Promise<void> {
     )
   } finally {
     // Ensures the deployment directory is safely removed.
+    await execute(
+      `chmod u+w -R ${temporaryDeploymentDirectory}`,
+      action.workspace
+    )
     await execute(`rm -rf ${temporaryDeploymentDirectory}`, action.workspace)
   }
 }

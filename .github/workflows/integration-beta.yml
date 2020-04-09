@@ -1,7 +1,7 @@
 name: integration-tests-beta
 on:
   schedule:
-    - cron: 10 15 * * 0-6
+    - cron: 30 15 * * 0-6
   push:
     branches:
       - dev
@@ -19,12 +19,19 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@releases/v3-test
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BRANCH: gh-pages-beta
+          BRANCH: gh-pages-test
           FOLDER: integration
           BASE_BRANCH: dev
           TARGET_FOLDER: montezuma
           GIT_CONFIG_NAME: Montezuma
           GIT_CONFIG_EMAIL: montezuma@jamesiv.es
+
+      - name: Cleanup Generated Branch
+        uses: dawidd6/action-delete-branch@v2.0.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branches: gh-pages-test
+  
 
   # Deploys using checkout@v2 with a GITHUB_TOKEN.
   integration-checkout-v2:
@@ -40,10 +47,16 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@releases/v3-test
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages-beta
+          BRANCH: gh-pages-test
           FOLDER: integration
           BASE_BRANCH: dev
           TARGET_FOLDER: montezuma2
+
+      - name: Cleanup Generated Branch
+        uses: dawidd6/action-delete-branch@v2.0.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branches: gh-pages-test
 
 
   # Deploys using a container that requires you to install rsync.
@@ -68,10 +81,17 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@releases/v3-test
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages-beta
+          BRANCH: gh-pages-test
           FOLDER: integration
           BASE_BRANCH: dev
           TARGET_FOLDER: montezuma2
+
+      - name: Cleanup Generated Branch
+        uses: dawidd6/action-delete-branch@v2.0.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branches: gh-pages-test
+
 
   # Deploys using an SSH key.
   integration-ssh:
@@ -92,10 +112,17 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@releases/v3-test
         with:
           SSH: true
-          BRANCH: gh-pages-beta
+          BRANCH: gh-pages-test
           FOLDER: integration
           BASE_BRANCH: dev
           TARGET_FOLDER: montezuma3
+
+      - name: Cleanup Generated Branch
+        uses: dawidd6/action-delete-branch@v2.0.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branches: gh-pages-test
+
 
   # Deploys using a custom env.
   integration-env:
@@ -120,12 +147,19 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@releases/v3-test
         with:
           SSH: true
-          BRANCH: gh-pages-beta
+          BRANCH: gh-pages-test
           FOLDER: integration
           BASE_BRANCH: dev
           TARGET_FOLDER: montezuma4
 
-  # Deploys using the CLEAN option with SINGLE_COMMIT toggled.
+      - name: Cleanup Generated Branch
+        uses: dawidd6/action-delete-branch@v2.0.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branches: gh-pages-test
+
+
+  # Deploys using the CLEAN option toggled.
   integration-clean:
     needs: [integration-checkout-v1, integration-checkout-v2, integration-container, integration-ssh, integration-env]
     runs-on: ubuntu-latest
@@ -139,11 +173,10 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@releases/v3-test
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BRANCH: gh-pages-beta
+          BRANCH: gh-pages-test
           FOLDER: integration
           BASE_BRANCH: dev
           CLEAN: true
-          SINGLE_COMMIT: true
 
   # Deploys to a branch that doesn't exist with SINGLE_COMMIT.
   integration-branch-creation:
@@ -161,7 +194,6 @@ jobs:
           BRANCH: integration-test-delete-beta
           FOLDER: integration
           BASE_BRANCH: dev
-          CLEAN: true
           SINGLE_COMMIT: true
 
       - name: Cleanup Generated Branch
