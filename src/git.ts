@@ -239,6 +239,10 @@ export async function deploy(action: ActionInterface): Promise<void> {
     )
   } finally {
     // Ensures the deployment directory is safely removed.
+    await execute(
+      `chmod u+w -R ${temporaryDeploymentDirectory}`,
+      action.workspace
+    )
     await execute(`rm -rf ${temporaryDeploymentDirectory}`, action.workspace)
   }
 }
