@@ -7,12 +7,17 @@ import '../src/main'
 import {action} from '../src/constants'
 import run from '../src/lib'
 import {execute} from '../src/execute'
+import {rmRF} from '@actions/io'
 import {setFailed} from '@actions/core'
 
 const originalAction = JSON.stringify(action)
 
 jest.mock('../src/execute', () => ({
   execute: jest.fn()
+}))
+
+jest.mock('@actions/io', () => ({
+  rmRF: jest.fn()
 }))
 
 jest.mock('@actions/core', () => ({
@@ -42,7 +47,8 @@ describe('main', () => {
       debug: true
     })
     await run(action)
-    expect(execute).toBeCalledTimes(20)
+    expect(execute).toBeCalledTimes(18)
+    expect(rmRF).toBeCalledTimes(1)
   })
 
   it('should throw if an error is encountered', async () => {

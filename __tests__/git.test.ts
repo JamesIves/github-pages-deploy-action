@@ -5,6 +5,7 @@ process.env['GITHUB_SHA'] = '123'
 import {action} from '../src/constants'
 import {deploy, generateBranch, init, switchToBaseBranch} from '../src/git'
 import {execute} from '../src/execute'
+import {rmRF} from '@actions/io'
 
 const originalAction = JSON.stringify(action)
 
@@ -13,6 +14,10 @@ jest.mock('@actions/core', () => ({
   getInput: jest.fn(),
   isDebug: jest.fn(),
   info: jest.fn()
+}))
+
+jest.mock('@actions/io', () => ({
+  rmRF: jest.fn()
 }))
 
 jest.mock('../src/execute', () => ({
@@ -316,7 +321,8 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(13)
+      expect(execute).toBeCalledTimes(11)
+      expect(rmRF).toBeCalledTimes(1)
     })
 
     it('should execute commands with single commit toggled', async () => {
@@ -334,7 +340,8 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(19)
+      expect(execute).toBeCalledTimes(17)
+      expect(rmRF).toBeCalledTimes(1)
     })
 
     it('should execute commands with clean options, ommits sha commit message', async () => {
@@ -354,7 +361,8 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(13)
+      expect(execute).toBeCalledTimes(11)
+      expect(rmRF).toBeCalledTimes(1)
     })
 
     it('should execute commands with clean options stored as an array instead', async () => {
@@ -373,7 +381,8 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(13)
+      expect(execute).toBeCalledTimes(11)
+      expect(rmRF).toBeCalledTimes(1)
     })
 
     it('should gracefully handle incorrectly formatted clean exclude items', async () => {
@@ -391,7 +400,8 @@ describe('git', () => {
 
       await deploy(action)
 
-      expect(execute).toBeCalledTimes(13)
+      expect(execute).toBeCalledTimes(11)
+      expect(rmRF).toBeCalledTimes(1)
     })
 
     it('should stop early if there is nothing to commit', async () => {
@@ -407,7 +417,8 @@ describe('git', () => {
       })
 
       await deploy(action)
-      expect(execute).toBeCalledTimes(14)
+      expect(execute).toBeCalledTimes(12)
+      expect(rmRF).toBeCalledTimes(1)
     })
 
     it('should throw an error if one of the required parameters is not available', async () => {
@@ -427,7 +438,8 @@ describe('git', () => {
       try {
         await deploy(action)
       } catch (e) {
-        expect(execute).toBeCalledTimes(2)
+        expect(execute).toBeCalledTimes(0)
+        expect(rmRF).toBeCalledTimes(1)
         expect(e.message).toMatch(
           'The deploy step encountered an error: No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true. ❌'
         )

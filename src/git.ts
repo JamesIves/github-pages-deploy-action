@@ -1,4 +1,5 @@
 import {info} from '@actions/core'
+import {rmRF} from '@actions/io'
 import {ActionInterface} from './constants'
 import {execute} from './execute'
 import {
@@ -238,11 +239,7 @@ export async function deploy(action: ActionInterface): Promise<void> {
       )} ❌`
     )
   } finally {
-    // Ensures the deployment directory is safely removed.
-    await execute(
-      `chmod u+w -R ${temporaryDeploymentDirectory}`,
-      action.workspace
-    )
-    await execute(`rm -rf ${temporaryDeploymentDirectory}`, action.workspace)
+    // Ensures the deployment directory is safely removed after each deployment.
+    await rmRF(temporaryDeploymentDirectory)
   }
 }
