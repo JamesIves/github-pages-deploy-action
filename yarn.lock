@@ -26,6 +26,10 @@
   dependencies:
     tunnel "0.0.6"
 
+"@actions/io@1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@actions/io/-/io-1.0.2.tgz#2f614b6e69ce14d191180451eb38e6576a6e6b27"
+
 "@actions/io@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@actions/io/-/io-1.0.1.tgz#81a9418fe2bbdef2d2717a8e9f85188b9c565aca"
