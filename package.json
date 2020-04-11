@@ -2,7 +2,7 @@
   "name": "github-pages-deploy-action",
   "description": "GitHub action for building a project and deploying it to GitHub pages.",
   "author": "James Ives <iam@jamesiv.es> (https://jamesiv.es)",
-  "version": "3.4.6",
+  "version": "3.4.7",
   "license": "MIT",
   "main": "lib/lib.js",
   "types": "lib/lib.d.ts",
@@ -35,7 +35,8 @@
   "dependencies": {
     "@actions/core": "1.2.3",
     "@actions/exec": "1.0.3",
-    "@actions/github": "2.1.1"
+    "@actions/github": "2.1.1",
+    "@actions/io": "1.0.2"
   },
   "devDependencies": {
     "@types/jest": "25.2.1",
