@@ -208,7 +208,7 @@ jobs:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@releases/v3-test
+        uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           BASE_BRANCH: master
           BRANCH: gh-pages
