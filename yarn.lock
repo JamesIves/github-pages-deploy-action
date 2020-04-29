@@ -6,9 +6,9 @@
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/@actions/core/-/core-1.2.3.tgz#e844b4fa0820e206075445079130868f95bfca95"
 
-"@actions/exec@1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@actions/exec/-/exec-1.0.3.tgz#b967f8700d6ff011dcc91243b58bafc1bb9ab95f"
+"@actions/exec@1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@actions/exec/-/exec-1.0.4.tgz#99d75310e62e59fc37d2ee6dcff6d4bffadd3a5d"
   dependencies:
     "@actions/io" "^1.0.1"
 
@@ -26,13 +26,9 @@
   dependencies:
     tunnel "0.0.6"
 
-"@actions/io@1.0.2":
+"@actions/io@1.0.2", "@actions/io@^1.0.1":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@actions/io/-/io-1.0.2.tgz#2f614b6e69ce14d191180451eb38e6576a6e6b27"
-
-"@actions/io@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@actions/io/-/io-1.0.1.tgz#81a9418fe2bbdef2d2717a8e9f85188b9c565aca"
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.5.5", "@babel/code-frame@^7.8.3":
   version "7.8.3"
