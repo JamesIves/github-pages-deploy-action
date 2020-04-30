@@ -2,10 +2,10 @@
 process.env['INPUT_FOLDER'] = 'build'
 process.env['GITHUB_SHA'] = '123'
 
+import {mkdirP, rmRF} from '@actions/io'
 import {action} from '../src/constants'
-import {deploy, generateBranch, init, switchToBaseBranch} from '../src/git'
 import {execute} from '../src/execute'
-import {rmRF} from '@actions/io'
+import {deploy, generateBranch, init, switchToBaseBranch} from '../src/git'
 
 const originalAction = JSON.stringify(action)
 
@@ -17,7 +17,8 @@ jest.mock('@actions/core', () => ({
 }))
 
 jest.mock('@actions/io', () => ({
-  rmRF: jest.fn()
+  rmRF: jest.fn(),
+  mkdirP: jest.fn()
 }))
 
 jest.mock('../src/execute', () => ({
@@ -402,6 +403,7 @@ describe('git', () => {
 
       expect(execute).toBeCalledTimes(11)
       expect(rmRF).toBeCalledTimes(1)
+      expect(mkdirP).toBeCalledTimes(1)
     })
 
     it('should stop early if there is nothing to commit', async () => {
