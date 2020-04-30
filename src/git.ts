@@ -1,5 +1,5 @@
 import {info} from '@actions/core'
-import {rmRF} from '@actions/io'
+import {rmRF, mkdirP} from '@actions/io'
 import {ActionInterface} from './constants'
 import {execute} from './execute'
 import {
@@ -145,6 +145,11 @@ export async function deploy(action: ActionInterface): Promise<void> {
           'There was an error parsing your CLEAN_EXCLUDE items. Please refer to the README for more details. ❌'
         )
       }
+    }
+
+    if (action.targetFolder) {
+      info('Creating target folder… 📌')
+      await mkdirP(`${temporaryDeploymentDirectory}/${action.targetFolder}`)
     }
 
     /*
