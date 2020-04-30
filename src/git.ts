@@ -148,7 +148,7 @@ export async function deploy(action: ActionInterface): Promise<void> {
     }
 
     if (action.targetFolder) {
-      info('Creating target folder… 📌')
+      info(`Creating target folder if it doesn't already exist… 📌`)
       await mkdirP(`${temporaryDeploymentDirectory}/${action.targetFolder}`)
     }
 
