@@ -120,6 +120,7 @@ module.exports = {
         docs: {
           url: 'https://github.com/prettier/eslint-plugin-prettier#options'
         },
+        type: 'layout',
         fixable: 'code',
         schema: [
           // Prettier options:

@@ -67,33 +67,39 @@ function nodeMissing(node) {
     const isEmpty = metrics.isEmpty();
     const lines = isEmpty ? 0 : metrics.lines.pct;
 
-    let missingLines;
+    let coveredLines;
 
     const fileCoverage = node.getFileCoverage();
     if (lines === 100) {
         const branches = fileCoverage.getBranchCoverageByLine();
-        missingLines = Object.keys(branches).filter(
-            key => branches[key].coverage < 100
-        );
+        coveredLines = Object.entries(branches).map(([key, { coverage }]) => [
+            key,
+            coverage === 100
+        ]);
     } else {
-        missingLines = fileCoverage.getUncoveredLines();
+        coveredLines = Object.entries(fileCoverage.getLineCoverage());
     }
 
-    const ranges = missingLines
-        .reduce((acum, line) => {
-            line = parseInt(line);
-            const range = acum[acum.length - 1];
-            if (range && range[range.length - 1] === line - 1) range.push(line);
-            else acum.push([line]);
+    let newRange = true;
+    const ranges = coveredLines
+        .reduce((acum, [line, hit]) => {
+            if (hit) newRange = true;
+            else {
+                line = parseInt(line);
+                if (newRange) {
+                    acum.push([line]);
+                    newRange = false;
+                } else acum[acum.length - 1][1] = line;
+            }
 
             return acum;
         }, [])
         .map(range => {
             const { length } = range;
 
-            if (length <= 2) return range;
+            if (length === 1) return range[0];
 
-            return `${range[0]}-${range[length - 1]}`;
+            return `${range[0]}-${range[1]}`;
         });
 
     return [].concat(...ranges).join(',');

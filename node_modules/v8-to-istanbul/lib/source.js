@@ -56,7 +56,7 @@ module.exports = class CovSource {
     const start = originalPositionTryBoth(
       sourceMap,
       lines[0].line,
-      startCol - lines[0].startCol
+      Math.max(0, startCol - lines[0].startCol)
     )
     let end = originalEndPositionFor(
       sourceMap,

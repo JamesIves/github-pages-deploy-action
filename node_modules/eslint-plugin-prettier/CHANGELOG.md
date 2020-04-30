@@ -1,5 +1,17 @@
 # Changelog
 
+## v3.1.3 (2020-04-13)
+
+* Fix: Set `meta.type` to "layout" ([#283](git@github.com:prettier/eslint-plugin-prettier/issues/283)) ([97152e2](git@github.com:prettier/eslint-plugin-prettier/commit/97152e2787bf9bb27f053d6a91ccf826dc96a505))
+* build(deps-dev): bump eslint-config-prettier from 6.10.0 to 6.10.1 ([185b106](git@github.com:prettier/eslint-plugin-prettier/commit/185b1064d3dd674538456fb2fad97fbfcde49e0d))
+* build(deps): [security] bump acorn from 6.1.0 to 6.4.1 ([bba5881](git@github.com:prettier/eslint-plugin-prettier/commit/bba588151e860b1a644096441b31a0f3144db611))
+* build(deps-dev): bump eslint-config-prettier from 6.9.0 to 6.10.0 ([9a47a6f](git@github.com:prettier/eslint-plugin-prettier/commit/9a47a6feab691cf228d184c103d4cab99b464d0b))
+* build(deps-dev): bump eslint-plugin-eslint-plugin from 2.2.0 to 2.2.1 ([aad671d](git@github.com:prettier/eslint-plugin-prettier/commit/aad671d5123a2fd20e4396d591e25335d7219950))
+* build(deps-dev): bump eslint-plugin-eslint-plugin from 2.1.0 to 2.2.0 ([e2458c2](git@github.com:prettier/eslint-plugin-prettier/commit/e2458c2d41825f94441dc7d552da37aede95ffe7))
+* build(deps-dev): bump eslint-config-prettier from 6.8.0 to 6.9.0 ([05ef06f](git@github.com:prettier/eslint-plugin-prettier/commit/05ef06ffdda2bb485a2175243e6a8a167a01466c))
+* build(deps-dev): bump eslint-config-prettier from 6.7.0 to 6.8.0 ([ab80b3c](git@github.com:prettier/eslint-plugin-prettier/commit/ab80b3c5d30ea605aa363f13078aef9e0b697b6e))
+* build(deps-dev): bump eslint from 6.7.2 to 6.8.0 ([dea1b30](git@github.com:prettier/eslint-plugin-prettier/commit/dea1b30361921d7160aaf44d5302c5cc6490f87a))
+
 ## v3.1.2 (2019-12-15)
 
 * Resolve config when getting list of inferred parsers ([1ad45be](git@github.com:prettier/eslint-plugin-prettier/commit/1ad45be48ea1ed16e0eb3ba6247163724b956516))
