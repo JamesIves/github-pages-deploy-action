@@ -45,7 +45,7 @@ then
   COMMIT_NAME="${GITHUB_ACTOR:-GitHub Pages Deploy Action}"
 fi
 
-# Directs the action to the the Github workspace.
+# Directs the action to the the GitHub workspace.
 cd $GITHUB_WORKSPACE && \
 
 # Configures Git.
@@ -78,7 +78,7 @@ echo "Running build scripts... $BUILD_SCRIPT" && \
 eval "$BUILD_SCRIPT" && \
 
 if [ "$CNAME" ]; then
-  echo "Generating a CNAME file in in the $FOLDER directory..."
+  echo "Generating a CNAME file in the $FOLDER directory..."
   echo $CNAME > $FOLDER/CNAME
 fi
 
