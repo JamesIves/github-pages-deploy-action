@@ -7,7 +7,6 @@ labels:
 ---
 
 **Describe the bug**
-
 <!-- Please provide a clear and concise description of what the bug is. -->
 
 **Reproduce**
