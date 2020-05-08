@@ -12,9 +12,9 @@
   dependencies:
     "@actions/io" "^1.0.1"
 
-"@actions/github@2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@actions/github/-/github-2.1.1.tgz#bcabedff598196d953f58ba750d5e75549a75142"
+"@actions/github@2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@actions/github/-/github-2.2.0.tgz#8952fe96b12b881fa39340f0e7202b04dc5c3e71"
   dependencies:
     "@actions/http-client" "^1.0.3"
     "@octokit/graphql" "^4.3.1"
