@@ -7,14 +7,10 @@ labels:
 ---
 
 **Describe the Issue**
-
-> Please provide a clear and concise description of what the problem is.
+<!-- Please provide a clear and concise description of what the problem is. Please be sure to read the README first! -->
 
 **Logs**
-
-> Please provide your deployment logs and a link to your workflow file.
-
+<!-- Please provide your deployment logs and a link or sample to/of your workflow. -->
 
 **Additional Comments**
-
-> Add any other context about the issue here.
+<!-- Add any other context about the issue here. -->

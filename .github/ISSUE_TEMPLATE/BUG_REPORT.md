@@ -12,10 +12,8 @@ labels:
 **Reproduce**
 <!-- Steps to reproduce the behavior. -->
 
-
 **Logs**
-<!-- Please provide your deployment logs and a link or sample to/of your workflow file. -->
-
+<!-- Please provide your deployment logs and a link or sample to/of your workflow. -->
 
 **Additional Comments**
 <!--Add any other context about the problem here. -->
