@@ -8,18 +8,15 @@ labels:
 
 **Describe the bug**
 
-> Please provide a clear and concise description of what the bug is.
+<!-- Please provide a clear and concise description of what the bug is. -->
 
 **Reproduce**
-
-> Steps to reproduce the behavior.
+<!-- Steps to reproduce the behavior. -->
 
 
 **Logs**
-
-> Please provide your deployment logs and a link to your workflow file.
+<!-- Please provide your deployment logs and a link or sample to/of your workflow file. -->
 
 
 **Additional Comments**
-
-> Add any other context about the problem here.
+<!--Add any other context about the problem here. -->
