@@ -89,9 +89,28 @@ describe('git', () => {
           name: 'asd',
           email: 'as@cat'
         },
-        gitHubToken: null,
-        accessToken: null,
-        ssh: null
+      })
+
+      try {
+        await init(action)
+      } catch (e) {
+        expect(execute).toBeCalledTimes(0)
+        expect(e.message).toMatch(
+          'There was an error initializing the repository: No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true. ❌'
+        )
+      }
+    })
+
+    it('should fail if access token is defined but it is an empty string', async () => {
+      Object.assign(action, {
+        repositoryPath: null,
+        folder: 'build',
+        branch: 'branch',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        accessToken: '',
       })
 
       try {

@@ -13,7 +13,7 @@ export const generateTokenType = (action: ActionInterface): string =>
     ? 'Access Token'
     : action.gitHubToken
     ? 'GitHub Token'
-    : '...'
+    : '…'
 
 /* Generates a the repository path used to make the commits. */
 export const generateRepositoryPath = (action: ActionInterface): string =>
@@ -29,7 +29,8 @@ export const hasRequiredParameters = (action: ActionInterface): void => {
     (isNullOrUndefined(action.accessToken) &&
       isNullOrUndefined(action.gitHubToken) &&
       isNullOrUndefined(action.ssh)) ||
-    isNullOrUndefined(action.repositoryPath)
+    isNullOrUndefined(action.repositoryPath) ||
+    (action.accessToken && action.accessToken === '')
   ) {
     throw new Error(
       'No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true.'
