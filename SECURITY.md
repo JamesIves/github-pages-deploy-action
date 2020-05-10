@@ -11,4 +11,4 @@ The current versions are actively maintained and will receieve frequent updates 
 
 ## Reporting a Vulnerability
 
-Please disclose any security vulnerabilities either through the issues tab or by [emailing the project maintainer](https://jamesiv.es).
+Please disclose any security vulnerabilities either through the issues interface (as a bug) or by [emailing the project maintainer](https://jamesiv.es).
