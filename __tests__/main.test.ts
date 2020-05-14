@@ -8,7 +8,7 @@ import {action} from '../src/constants'
 import run from '../src/lib'
 import {execute} from '../src/execute'
 import {rmRF} from '@actions/io'
-import {setFailed} from '@actions/core'
+import {setFailed, exportVariable} from '@actions/core'
 
 const originalAction = JSON.stringify(action)
 
@@ -49,6 +49,24 @@ describe('main', () => {
     await run(action)
     expect(execute).toBeCalledTimes(18)
     expect(rmRF).toBeCalledTimes(1)
+    expect(exportVariable).toBeCalledTimes(1)
+  })
+
+  it('should run through the commands and succeed', async () => {
+    Object.assign(action, {
+      repositoryPath: 'JamesIves/github-pages-deploy-action',
+      folder: 'build',
+      branch: 'branch',
+      gitHubToken: '123',
+      pusher: {
+        name: 'asd',
+        email: 'as@cat'
+      }
+    })
+    await run(action)
+    expect(execute).toBeCalledTimes(17)
+    expect(rmRF).toBeCalledTimes(1)
+    expect(exportVariable).toBeCalledTimes(1)
   })
 
   it('should throw if an error is encountered', async () => {
@@ -68,5 +86,6 @@ describe('main', () => {
     await run(action)
     expect(execute).toBeCalledTimes(0)
     expect(setFailed).toBeCalledTimes(1)
+    expect(exportVariable).toBeCalledTimes(1)
   })
 })

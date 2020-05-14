@@ -67,3 +67,7 @@ inputs:
   SINGLE_COMMIT:
     description: "This option can be used if you'd prefer to have a single commit on the deployment branch instead of maintaining the full history."
     required: false
+
+outputs:
+  DEPLOY_STATUS:
+    description: 'The status of the deployment that indicates if the run failed or passed. Possible outputs include: success|failed|skipped'

@@ -1,5 +1,5 @@
-import {info, setFailed} from '@actions/core'
-import {action, ActionInterface} from './constants'
+import {exportVariable, info, setFailed} from '@actions/core'
+import {action, ActionInterface, Status} from './constants'
 import {deploy, generateBranch, init} from './git'
 import {generateRepositoryPath, generateTokenType} from './util'
 
@@ -10,7 +10,7 @@ import {generateRepositoryPath, generateTokenType} from './util'
 export default async function run(
   configuration: ActionInterface
 ): Promise<void> {
-  let errorState = false
+  let status: Status = Status.RUNNING
 
   try {
     info('Checking configuration and starting deployment… 🚦')
@@ -25,18 +25,23 @@ export default async function run(
     settings.tokenType = generateTokenType(settings)
 
     await init(settings)
-    await deploy(settings)
+    status = await deploy(settings)
   } catch (error) {
-    errorState = true
+    status = Status.FAILED
     setFailed(error.message)
   } finally {
+    console.log(status)
     info(
       `${
-        errorState
+        status === Status.FAILED
           ? 'Deployment Failed ❌'
-          : 'Completed Deployment Successfully! ✅'
+          : status === Status.SUCCESS
+          ? 'Completed Deployment Successfully! ✅'
+          : 'There is nothing to commit. Exiting early… 📭'
       }`
     )
+
+    exportVariable('DEPLOY_STATUS', status)
   }
 }
 

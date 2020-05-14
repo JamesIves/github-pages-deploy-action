@@ -1,6 +1,6 @@
 import {info} from '@actions/core'
 import {rmRF, mkdirP} from '@actions/io'
-import {ActionInterface} from './constants'
+import {ActionInterface, Status} from './constants'
 import {execute} from './execute'
 import {
   hasRequiredParameters,
@@ -92,7 +92,7 @@ export async function generateBranch(action: ActionInterface): Promise<void> {
 }
 
 /* Runs the necessary steps to make the deployment. */
-export async function deploy(action: ActionInterface): Promise<void> {
+export async function deploy(action: ActionInterface): Promise<Status> {
   const temporaryDeploymentDirectory = 'gh-action-temp-deployment-folder'
   const temporaryDeploymentBranch = 'gh-action-temp-deployment-branch'
 
@@ -179,8 +179,7 @@ export async function deploy(action: ActionInterface): Promise<void> {
     )
 
     if (!hasFilesToCommit && !action.isTest) {
-      info('There is nothing to commit. Exiting early… 📭')
-      return
+      return Status.SKIPPED
     }
 
     // Commits to GitHub.
@@ -236,6 +235,8 @@ export async function deploy(action: ActionInterface): Promise<void> {
       `git checkout --progress --force ${action.defaultBranch}`,
       action.workspace
     )
+
+    return Status.SUCCESS
   } catch (error) {
     throw new Error(
       `The deploy step encountered an error: ${suppressSensitiveInformation(

@@ -88,7 +88,7 @@ describe('git', () => {
         pusher: {
           name: 'asd',
           email: 'as@cat'
-        },
+        }
       })
 
       try {
@@ -110,7 +110,7 @@ describe('git', () => {
           name: 'asd',
           email: 'as@cat'
         },
-        accessToken: '',
+        accessToken: ''
       })
 
       try {
