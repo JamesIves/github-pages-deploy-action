@@ -115,7 +115,7 @@ For more information regarding the [action interface please click here](https://
 
 ## Configuration 📁
 
-The `with` portion of the workflow **must** be configured before the action will work. You can add these in the `with` section found in the examples above. Any `secrets` must be referenced using the bracket syntax and stored in the GitHub repositories `Settings/Secrets` menu. You can learn more about setting environment variables with GitHub actions [here](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#creating-encrypted-secrets).
+The `with` portion of the workflow **must** be configured before the action will work. You can add these in the `with` section found in the examples above. Any `secrets` must be referenced using the bracket syntax and stored in the GitHub repository's `Settings/Secrets` menu. You can learn more about setting environment variables with GitHub actions [here](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#creating-encrypted-secrets).
 
 #### Required Setup
 
@@ -123,9 +123,9 @@ One of the following deployment options must be configured.
 
 | Key            | Value Information                                                                                                                                                                                                                                                                                                                                                                                                                                              | Type             | Required |
 | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | -------- |
+| `GITHUB_TOKEN` | In order for GitHub to trigger the rebuild of your page you must provide the action with the repository's provided GitHub token. This can be referenced in the workflow `yml` file by using `${{ secrets.GITHUB_TOKEN }}`. If you experience any issues with your changes not being reflected after the deployment it may be neccersary to use either the `SSH` or `ACCESS_TOKEN` options. | `secrets / with` | **Yes**  |
 | `SSH`          | You can configure the action to deploy using SSH by setting this option to `true`. For more information on how to add your ssh key pair please refer to the [Using a Deploy Key section of this README](https://github.com/JamesIves/github-pages-deploy-action/tree/dev#using-an-ssh-deploy-key-).                                                                                                                                                            | `with`           | **Yes**  |
-| `ACCESS_TOKEN` | Depending on the repository permissions you may need to provide the action with a GitHub personal access token instead of the provided GitHub token in order to deploy. You can [learn more about how to generate one here](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line). **This should be stored as a secret**.                                                                                                 | `secrets / with` | **Yes**  |
-| `GITHUB_TOKEN` | In order for GitHub to trigger the rebuild of your page you must provide the action with the repositories provided GitHub token. This can be referenced in the workflow `yml` file by using `${{ secrets.GITHUB_TOKEN }}`. **Please note there is currently an issue affecting the use of this token which makes it so it only works with private repositories, [you can learn more here](https://github.com/JamesIves/github-pages-deploy-action/issues/5)**. | `secrets / with` | **Yes**  |
+| `ACCESS_TOKEN` | Depending on the repository's permissions you may need to provide the action with a GitHub personal access token instead of the provided GitHub token in order to deploy. You can [learn more about how to generate one here](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line). **This should be stored as a secret**.                                                                                                 | `secrets / with` | **Yes**  |
 
 In addition to the deployment options you must also configure the following.
 
@@ -140,7 +140,7 @@ In addition to the deployment options you must also configure the following.
 | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | -------- |
 | `GIT_CONFIG_NAME`  | Allows you to customize the name that is attached to the git config which is used when pushing the deployment commits. If this is not included it will use the name in the GitHub context, followed by the name of the action.                                                                                                                     | `with` | **No**   |
 | `GIT_CONFIG_EMAIL` | Allows you to customize the email that is attached to the git config which is used when pushing the deployment commits. If this is not included it will use the email in the GitHub context, followed by a generic noreply GitHub email.                                                                                                           | `with` | **No**   |
-| `REPOSITORY_NAME`       | Allows you to speicfy a different repository path so long as you have permissions to push to it. This should be formatted like so: `JamesIves/github-pages-deploy-action`.                                                                                                                                                                          | `with` | **No**   |
+| `REPOSITORY_NAME`       | Allows you to specify a different repository path so long as you have permissions to push to it. This should be formatted like so: `JamesIves/github-pages-deploy-action`.                                                                                                                                                                          | `with` | **No**   |
 | `TARGET_FOLDER`    | If you'd like to push the contents of the deployment folder into a specific directory on the deployment branch you can specify it here.                                                                                                                                                                                                               | `with` | **No**   |
 | `BASE_BRANCH`      | The base branch of your repository which you'd like to checkout prior to deploying. This defaults to the current commit [SHA](http://en.wikipedia.org/wiki/SHA-1) that triggered the build followed by `master` if it doesn't exist. This is useful for making deployments from another branch, and also may be necessary when using a scheduled job. | `with` | **No**   |
 | `COMMIT_MESSAGE`   | If you need to customize the commit message for an integration you can do so.                                                                                                                                                                                                                                                                         | `with` | **No**   |
@@ -150,6 +150,16 @@ In addition to the deployment options you must also configure the following.
 | `WORKSPACE`        | This should point to where your project lives on the virtual machine. The GitHub Actions environment will set this for you. It is only neccersary to set this variable if you're using the node module.                                                                                                                                               | `with` | **No**   |
 
 With the action correctly configured you should see the workflow trigger the deployment under the configured conditions.
+
+#### Deployment Status
+
+The action will export an environment variable called `DEPLOYMENT_STATUS` that you can use in your workflow to determine if the deployment was successful or not. You can find an explanation of each status code below.
+
+| Status        | Description           |
+| ------------- |:-------------:|
+| `success`      | The `success` status indicates that the action was able to successfully deploy the project to the branch. |
+| `failed`      | The `failed` status indicates that the action encountered an error while trying to deploy the project.      |
+| `skipped` | The `skipped` status indicates that the action exited early as there was nothing new to deploy.      |
 
 ---
 
@@ -161,7 +171,7 @@ If you'd prefer to use an SSH deploy key as opposed to a token you must first ge
 ssh-keygen -t rsa -b 4096 -C "youremailhere@example.com" -N ""
 ```
 
-Once you've generated the key pair you must add the contents of the public key within your repositories [deploy keys menu](https://developer.github.com/v3/guides/managing-deploy-keys/). You can find this option by going to `Settings > Deploy Keys`, you can name the public key whatever you want, but you **do** need to give it write access. Afterwards add the contents of the private key to the `Settings > Secrets` menu as `DEPLOY_KEY`.
+Once you've generated the key pair you must add the contents of the public key within your repository's [deploy keys menu](https://developer.github.com/v3/guides/managing-deploy-keys/). You can find this option by going to `Settings > Deploy Keys`, you can name the public key whatever you want, but you **do** need to give it write access. Afterwards add the contents of the private key to the `Settings > Secrets` menu as `DEPLOY_KEY`.
 
 With this configured you must add the `ssh-agent` step to your workflow and set `SSH` to `true` within the deploy action. There are several SSH actions available on the [GitHub marketplace](https://github.com/marketplace?type=actions) for you to choose from.
 

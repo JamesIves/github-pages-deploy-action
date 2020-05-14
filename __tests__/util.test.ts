@@ -73,7 +73,7 @@ describe('util', () => {
         accessToken: null,
         ssh: null
       }
-      expect(generateTokenType(action)).toEqual('...')
+      expect(generateTokenType(action)).toEqual('…')
     })
   })
 
