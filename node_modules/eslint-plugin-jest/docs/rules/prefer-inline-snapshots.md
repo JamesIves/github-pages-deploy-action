@@ -1,4 +1,4 @@
-# Suggest using inline snapshots (prefer-inline-snapshots)
+# Suggest using inline snapshots (`prefer-inline-snapshots`)
 
 In order to make snapshot tests more managable and reviewable
 `toMatchInlineSnapshot()` and `toThrowErrorMatchingInlineSnapshot` should be

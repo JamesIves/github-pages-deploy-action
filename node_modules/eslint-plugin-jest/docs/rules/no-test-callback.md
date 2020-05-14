@@ -1,4 +1,4 @@
-# Avoid using a callback in asynchronous tests (no-test-callback)
+# Avoid using a callback in asynchronous tests (`no-test-callback`)
 
 Jest allows you to pass a callback to test definitions, typically called `done`,
 that is later invoked to indicate that the asynchronous test is complete.

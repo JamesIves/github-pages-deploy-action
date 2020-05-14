@@ -1,4 +1,4 @@
-# Enforce assertion to be made in a test body (expect-expect)
+# Enforce assertion to be made in a test body (`expect-expect`)
 
 Ensure that there is at least one `expect` call made in a test.
 

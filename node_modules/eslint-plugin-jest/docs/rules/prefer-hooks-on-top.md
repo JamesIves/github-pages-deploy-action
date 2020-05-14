@@ -1,4 +1,4 @@
-# Suggest to have all hooks at top-level before tests (prefer-hooks-on-top)
+# Suggest to have all hooks at top-level before tests (`prefer-hooks-on-top`)
 
 All hooks should be defined before the start of the tests
 

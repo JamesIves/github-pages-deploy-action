@@ -1,4 +1,4 @@
-# Disallow using `toBeTruthy()` & `toBeFalsy()` (no-truthy-falsy)
+# Disallow using `toBeTruthy()` & `toBeFalsy()` (`no-truthy-falsy`)
 
 Tests against boolean values should assert true or false. Asserting `toBeTruthy`
 or `toBeFalsy` matches non-boolean values as well and encourages weaker tests.

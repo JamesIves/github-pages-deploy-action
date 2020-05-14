@@ -1,4 +1,4 @@
-# disallow large snapshots (no-large-snapshots)
+# disallow large snapshots (`no-large-snapshots`)
 
 When using Jest's snapshot capability one should be mindful of the size of
 created snapshots. As a best practice snapshots should be limited in size in

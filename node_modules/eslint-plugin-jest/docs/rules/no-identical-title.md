@@ -1,4 +1,4 @@
-# Disallow identical titles (no-identical-title)
+# Disallow identical titles (`no-identical-title`)
 
 Having identical titles for two different tests or test suites may create
 confusion. For example, when a test with the same title as another test in the

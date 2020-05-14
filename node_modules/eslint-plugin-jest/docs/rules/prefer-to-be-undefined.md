@@ -1,4 +1,4 @@
-# Suggest using `toBeUndefined()` (prefer-to-be-undefined)
+# Suggest using `toBeUndefined()` (`prefer-to-be-undefined`)
 
 In order to have a better failure message, `toBeUndefined()` should be used upon
 asserting expections on undefined value.

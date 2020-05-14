@@ -1,4 +1,4 @@
-# Suggest using `jest.spyOn()` (prefer-spy-on)
+# Suggest using `jest.spyOn()` (`prefer-spy-on`)
 
 When mocking a function by overwriting a property you have to manually restore
 the original implementation when cleaning up. When using `jest.spyOn()` Jest

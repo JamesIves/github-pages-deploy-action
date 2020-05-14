@@ -1,4 +1,4 @@
-# Disallow explicitly returning from tests (no-test-return-statement)
+# Disallow explicitly returning from tests (`no-test-return-statement`)
 
 Tests in Jest should be void and not return values.
 

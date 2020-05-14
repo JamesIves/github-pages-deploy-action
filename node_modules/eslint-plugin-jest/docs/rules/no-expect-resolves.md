@@ -1,4 +1,4 @@
-# Avoid using `expect().resolves` (no-expect-resolves)
+# Avoid using `expect().resolves` (`no-expect-resolves`)
 
 Jest allows you to test a promise resolve value using `await expect().resolves`.
 For consistency and readability this rule bans `expect().resolves` in favor of

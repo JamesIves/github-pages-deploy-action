@@ -1,4 +1,4 @@
-# Require top-level describe block (require-top-level-describe)
+# Require top-level describe block (`require-top-level-describe`)
 
 Jest allows you to organise your test files the way you want it. However, the
 more your codebase grows, the more it becomes hard to navigate in your test

@@ -1,4 +1,4 @@
-# Disallow conditional logic. (no-if)
+# Disallow conditional logic (`no-if`)
 
 Conditional logic in tests is usually an indication that a test is attempting to
 cover too much, and not testing the logic it intends to. Each branch of code

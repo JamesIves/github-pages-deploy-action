@@ -1,4 +1,4 @@
-# Suggest using `toBeNull()` (prefer-to-be-null)
+# Suggest using `toBeNull()` (`prefer-to-be-null`)
 
 In order to have a better failure message, `toBeNull()` should be used upon
 asserting expections on null value.

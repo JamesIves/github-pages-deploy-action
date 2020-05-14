@@ -1,4 +1,4 @@
-# Disallow manually importing from `__mocks__` (no-mocks-import)
+# Disallow manually importing from `__mocks__` (`no-mocks-import`)
 
 When using `jest.mock`, your tests (just like the code being tested) should
 import from `./x`, not `./__mocks__/x`. Not following this rule can lead to

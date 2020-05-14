@@ -1,4 +1,4 @@
-# describe/test titles should be valid (valid-title)
+# describe/test titles should be valid (`valid-title`)
 
 Checks that the title of Jest blocks are valid by ensuring that titles are:
 

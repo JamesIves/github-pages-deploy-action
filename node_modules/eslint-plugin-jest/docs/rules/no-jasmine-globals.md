@@ -1,4 +1,4 @@
-# Disallow Jasmine globals
+# Disallow Jasmine globals (`no-jasmine-globals`)
 
 `jest` uses `jasmine` as a test runner. A side effect of this is that both a
 `jasmine` object, and some jasmine-specific globals, are exposed to the test

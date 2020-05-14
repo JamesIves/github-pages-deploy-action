@@ -1,4 +1,4 @@
-# Disallow commented out tests (no-commented-out-tests)
+# Disallow commented out tests (`no-commented-out-tests`)
 
 This rule raises a warning about commented out tests. It's similar to
 no-disabled-tests rule.

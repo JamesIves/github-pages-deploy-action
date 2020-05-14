@@ -1,4 +1,4 @@
-# Disallow focused tests (no-focused-tests)
+# Disallow focused tests (`no-focused-tests`)
 
 Jest has a feature that allows you to focus tests by appending `.only` or
 prepending `f` to a test-suite or a test-case. This feature is really helpful to

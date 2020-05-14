@@ -1,4 +1,4 @@
-# Suggest using `toContain()` (prefer-to-contain)
+# Suggest using `toContain()` (`prefer-to-contain`)
 
 In order to have a better failure message, `toContain()` should be used upon
 asserting expectations on an array containing an object.

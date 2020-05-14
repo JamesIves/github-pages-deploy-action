@@ -1,4 +1,4 @@
-# Enforce valid `describe()` callback (valid-describe)
+# Enforce valid `describe()` callback (`valid-describe`)
 
 Using an improper `describe()` callback function can lead to unexpected test
 errors.

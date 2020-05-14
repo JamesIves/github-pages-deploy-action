@@ -1,4 +1,4 @@
-# Require a message for `toThrow()` (require-to-throw-message)
+# Require a message for `toThrow()` (`require-to-throw-message`)
 
 `toThrow()`, and its alias `toThrowError()`, are used to check if an error is
 thrown by a function call, such as in `expect(() => a()).toThrow()`. However, if

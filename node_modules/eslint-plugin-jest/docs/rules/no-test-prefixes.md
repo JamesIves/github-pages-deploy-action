@@ -1,4 +1,4 @@
-# Use `.only` and `.skip` over `f` and `x` (no-test-prefixes)
+# Use `.only` and `.skip` over `f` and `x` (`no-test-prefixes`)
 
 Jest allows you to choose how you want to define focused and skipped tests, with
 multiple permutations for each:

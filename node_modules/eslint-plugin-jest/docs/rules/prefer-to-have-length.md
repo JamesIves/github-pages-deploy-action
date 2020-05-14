@@ -1,4 +1,4 @@
-# Suggest using `toHaveLength()` (prefer-to-have-length)
+# Suggest using `toHaveLength()` (`prefer-to-have-length`)
 
 In order to have a better failure message, `toHaveLength()` should be used upon
 asserting expectations on object's length property.

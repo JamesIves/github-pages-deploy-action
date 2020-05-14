@@ -1,4 +1,4 @@
-# Disallow importing Jest(no-jest-import)
+# Disallow importing Jest (`no-jest-import`)
 
 The `jest` object is automatically in scope within every test file. The methods
 in the `jest` object help create mocks and let you control Jest's overall

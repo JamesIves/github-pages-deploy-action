@@ -1,4 +1,4 @@
-# Enforce lowercase test names (lowercase-name)
+# Enforce lowercase test names (`lowercase-name`)
 
 ## Rule details
 

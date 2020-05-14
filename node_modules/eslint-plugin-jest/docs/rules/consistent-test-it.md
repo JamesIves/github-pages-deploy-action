@@ -1,4 +1,4 @@
-# Have control over `test` and `it` usages (consistent-test-it)
+# Have control over `test` and `it` usages (`consistent-test-it`)
 
 Jest allows you to choose how you want to define your tests, using the `it` or
 the `test` keywords, with multiple permutations for each:

@@ -41,3 +41,10 @@ export interface ActionInterface {
     workspace: string;
 }
 export declare const action: ActionInterface;
+/** Status codes for the action. */
+export declare enum Status {
+    SUCCESS = "success",
+    FAILED = "failed",
+    SKIPPED = "skipped",
+    RUNNING = "running"
+}

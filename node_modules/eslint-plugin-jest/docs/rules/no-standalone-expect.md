@@ -1,4 +1,4 @@
-# No standalone expect in a describe block (no-standalone-expect)
+# No standalone expect in a describe block (`no-standalone-expect`)
 
 Prevents `expect` statements outside of a `test` or `it` block. An `expect`
 within a helper function (but outside of a `test` or `it` block) will not

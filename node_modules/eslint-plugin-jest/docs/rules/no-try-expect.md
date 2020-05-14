@@ -1,4 +1,4 @@
-# Prevent catch assertions in tests (no-try-expect)
+# Prevent catch assertions in tests (`no-try-expect`)
 
 This rule prevents the use of `expect` inside `catch` blocks.
 

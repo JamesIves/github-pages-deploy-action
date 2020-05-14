@@ -1,4 +1,4 @@
-# Disallow setup and teardown hooks (no-hooks)
+# Disallow setup and teardown hooks (`no-hooks`)
 
 Jest provides global functions for setup and teardown tasks, which are called
 before/after each test case and each test suite. The use of these hooks promotes

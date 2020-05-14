@@ -1,0 +1,262 @@
+"use strict";
+
+const conversions = require("webidl-conversions");
+const utils = require("./utils.js");
+
+const Node = require("./Node.js");
+const ceReactionsPreSteps_helpers_custom_elements = require("../helpers/custom-elements.js").ceReactionsPreSteps;
+const ceReactionsPostSteps_helpers_custom_elements = require("../helpers/custom-elements.js").ceReactionsPostSteps;
+const implSymbol = utils.implSymbol;
+const ctorRegistrySymbol = utils.ctorRegistrySymbol;
+
+const interfaceName = "DocumentFragment";
+
+exports.is = function is(obj) {
+  return utils.isObject(obj) && utils.hasOwn(obj, implSymbol) && obj[implSymbol] instanceof Impl.implementation;
+};
+exports.isImpl = function isImpl(obj) {
+  return utils.isObject(obj) && obj instanceof Impl.implementation;
+};
+exports.convert = function convert(obj, { context = "The provided value" } = {}) {
+  if (exports.is(obj)) {
+    return utils.implForWrapper(obj);
+  }
+  throw new TypeError(`${context} is not of type 'DocumentFragment'.`);
+};
+
+exports.create = function create(globalObject, constructorArgs, privateData) {
+  if (globalObject[ctorRegistrySymbol] === undefined) {
+    throw new Error("Internal error: invalid global object");
+  }
+
+  const ctor = globalObject[ctorRegistrySymbol]["DocumentFragment"];
+  if (ctor === undefined) {
+    throw new Error("Internal error: constructor DocumentFragment is not installed on the passed global object");
+  }
+
+  let obj = Object.create(ctor.prototype);
+  obj = exports.setup(obj, globalObject, constructorArgs, privateData);
+  return obj;
+};
+exports.createImpl = function createImpl(globalObject, constructorArgs, privateData) {
+  const obj = exports.create(globalObject, constructorArgs, privateData);
+  return utils.implForWrapper(obj);
+};
+exports._internalSetup = function _internalSetup(obj, globalObject) {
+  Node._internalSetup(obj, globalObject);
+};
+exports.setup = function setup(obj, globalObject, constructorArgs = [], privateData = {}) {
+  privateData.wrapper = obj;
+
+  exports._internalSetup(obj, globalObject);
+  Object.defineProperty(obj, implSymbol, {
+    value: new Impl.implementation(globalObject, constructorArgs, privateData),
+    configurable: true
+  });
+
+  obj[implSymbol][utils.wrapperSymbol] = obj;
+  if (Impl.init) {
+    Impl.init(obj[implSymbol], privateData);
+  }
+  return obj;
+};
+
+exports.install = function install(globalObject) {
+  if (globalObject.Node === undefined) {
+    throw new Error("Internal error: attempting to evaluate DocumentFragment before Node");
+  }
+  class DocumentFragment extends globalObject.Node {
+    constructor() {
+      return exports.setup(Object.create(new.target.prototype), globalObject, undefined);
+    }
+
+    getElementById(elementId) {
+      const esValue = this !== null && this !== undefined ? this : globalObject;
+      if (!exports.is(esValue)) {
+        throw new TypeError("Illegal invocation");
+      }
+
+      if (arguments.length < 1) {
+        throw new TypeError(
+          "Failed to execute 'getElementById' on 'DocumentFragment': 1 argument required, but only " +
+            arguments.length +
+            " present."
+        );
+      }
+      const args = [];
+      {
+        let curArg = arguments[0];
+        curArg = conversions["DOMString"](curArg, {
+          context: "Failed to execute 'getElementById' on 'DocumentFragment': parameter 1"
+        });
+        args.push(curArg);
+      }
+      return utils.tryWrapperForImpl(esValue[implSymbol].getElementById(...args));
+    }
+
+    prepend() {
+      const esValue = this !== null && this !== undefined ? this : globalObject;
+      if (!exports.is(esValue)) {
+        throw new TypeError("Illegal invocation");
+      }
+      const args = [];
+      for (let i = 0; i < arguments.length; i++) {
+        let curArg = arguments[i];
+        if (Node.is(curArg)) {
+          curArg = utils.implForWrapper(curArg);
+        } else {
+          curArg = conversions["DOMString"](curArg, {
+            context: "Failed to execute 'prepend' on 'DocumentFragment': parameter " + (i + 1)
+          });
+        }
+        args.push(curArg);
+      }
+      ceReactionsPreSteps_helpers_custom_elements(globalObject);
+      try {
+        return esValue[implSymbol].prepend(...args);
+      } finally {
+        ceReactionsPostSteps_helpers_custom_elements(globalObject);
+      }
+    }
+
+    append() {
+      const esValue = this !== null && this !== undefined ? this : globalObject;
+      if (!exports.is(esValue)) {
+        throw new TypeError("Illegal invocation");
+      }
+      const args = [];
+      for (let i = 0; i < arguments.length; i++) {
+        let curArg = arguments[i];
+        if (Node.is(curArg)) {
+          curArg = utils.implForWrapper(curArg);
+        } else {
+          curArg = conversions["DOMString"](curArg, {
+            context: "Failed to execute 'append' on 'DocumentFragment': parameter " + (i + 1)
+          });
+        }
+        args.push(curArg);
+      }
+      ceReactionsPreSteps_helpers_custom_elements(globalObject);
+      try {
+        return esValue[implSymbol].append(...args);
+      } finally {
+        ceReactionsPostSteps_helpers_custom_elements(globalObject);
+      }
+    }
+
+    querySelector(selectors) {
+      const esValue = this !== null && this !== undefined ? this : globalObject;
+      if (!exports.is(esValue)) {
+        throw new TypeError("Illegal invocation");
+      }
+
+      if (arguments.length < 1) {
+        throw new TypeError(
+          "Failed to execute 'querySelector' on 'DocumentFragment': 1 argument required, but only " +
+            arguments.length +
+            " present."
+        );
+      }
+      const args = [];
+      {
+        let curArg = arguments[0];
+        curArg = conversions["DOMString"](curArg, {
+          context: "Failed to execute 'querySelector' on 'DocumentFragment': parameter 1"
+        });
+        args.push(curArg);
+      }
+      return utils.tryWrapperForImpl(esValue[implSymbol].querySelector(...args));
+    }
+
+    querySelectorAll(selectors) {
+      const esValue = this !== null && this !== undefined ? this : globalObject;
+      if (!exports.is(esValue)) {
+        throw new TypeError("Illegal invocation");
+      }
+
+      if (arguments.length < 1) {
+        throw new TypeError(
+          "Failed to execute 'querySelectorAll' on 'DocumentFragment': 1 argument required, but only " +
+            arguments.length +
+            " present."
+        );
+      }
+      const args = [];
+      {
+        let curArg = arguments[0];
+        curArg = conversions["DOMString"](curArg, {
+          context: "Failed to execute 'querySelectorAll' on 'DocumentFragment': parameter 1"
+        });
+        args.push(curArg);
+      }
+      return utils.tryWrapperForImpl(esValue[implSymbol].querySelectorAll(...args));
+    }
+
+    get children() {
+      const esValue = this !== null && this !== undefined ? this : globalObject;
+
+      if (!exports.is(esValue)) {
+        throw new TypeError("Illegal invocation");
+      }
+
+      return utils.getSameObject(this, "children", () => {
+        return utils.tryWrapperForImpl(esValue[implSymbol]["children"]);
+      });
+    }
+
+    get firstElementChild() {
+      const esValue = this !== null && this !== undefined ? this : globalObject;
+
+      if (!exports.is(esValue)) {
+        throw new TypeError("Illegal invocation");
+      }
+
+      return utils.tryWrapperForImpl(esValue[implSymbol]["firstElementChild"]);
+    }
+
+    get lastElementChild() {
+      const esValue = this !== null && this !== undefined ? this : globalObject;
+
+      if (!exports.is(esValue)) {
+        throw new TypeError("Illegal invocation");
+      }
+
+      return utils.tryWrapperForImpl(esValue[implSymbol]["lastElementChild"]);
+    }
+
+    get childElementCount() {
+      const esValue = this !== null && this !== undefined ? this : globalObject;
+
+      if (!exports.is(esValue)) {
+        throw new TypeError("Illegal invocation");
+      }
+
+      return esValue[implSymbol]["childElementCount"];
+    }
+  }
+  Object.defineProperties(DocumentFragment.prototype, {
+    getElementById: { enumerable: true },
+    prepend: { enumerable: true },
+    append: { enumerable: true },
+    querySelector: { enumerable: true },
+    querySelectorAll: { enumerable: true },
+    children: { enumerable: true },
+    firstElementChild: { enumerable: true },
+    lastElementChild: { enumerable: true },
+    childElementCount: { enumerable: true },
+    [Symbol.toStringTag]: { value: "DocumentFragment", configurable: true },
+    [Symbol.unscopables]: { value: { prepend: true, append: true, __proto__: null }, configurable: true }
+  });
+  if (globalObject[ctorRegistrySymbol] === undefined) {
+    globalObject[ctorRegistrySymbol] = Object.create(null);
+  }
+  globalObject[ctorRegistrySymbol][interfaceName] = DocumentFragment;
+
+  Object.defineProperty(globalObject, interfaceName, {
+    configurable: true,
+    writable: true,
+    value: DocumentFragment
+  });
+};
+
+const Impl = require("../nodes/DocumentFragment-impl.js");

@@ -17,7 +17,7 @@ CSSOM.CSSKeyframesRule = function CSSKeyframesRule() {
 
 CSSOM.CSSKeyframesRule.prototype = new CSSOM.CSSRule();
 CSSOM.CSSKeyframesRule.prototype.constructor = CSSOM.CSSKeyframesRule;
-CSSOM.CSSKeyframesRule.prototype.type = 7;
+CSSOM.CSSKeyframesRule.prototype.type = 8;
 //FIXME
 //CSSOM.CSSKeyframesRule.prototype.insertRule = CSSStyleSheet.prototype.insertRule;
 //CSSOM.CSSKeyframesRule.prototype.deleteRule = CSSStyleSheet.prototype.deleteRule;

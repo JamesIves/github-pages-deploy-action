@@ -1,4 +1,4 @@
-# Suggest using `test.todo` (prefer-todo)
+# Suggest using `test.todo` (`prefer-todo`)
 
 When test cases are empty then it is better to mark them as `test.todo` as it
 will be highlighted in the summary output.

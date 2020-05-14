@@ -1,4 +1,4 @@
-# Suggest using `expect.assertions()` OR `expect.hasAssertions()` (prefer-expect-assertions)
+# Suggest using `expect.assertions()` OR `expect.hasAssertions()` (`prefer-expect-assertions`)
 
 Ensure every test to have either `expect.assertions(<number of assertions>)` OR
 `expect.hasAssertions()` as its first expression.

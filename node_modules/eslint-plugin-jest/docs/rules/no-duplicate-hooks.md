@@ -1,4 +1,4 @@
-# Disallow duplicate setup and teardown hooks (no-duplicate-hooks)
+# Disallow duplicate setup and teardown hooks (`no-duplicate-hooks`)
 
 A describe block should not contain duplicate hooks.
 
