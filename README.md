@@ -151,6 +151,16 @@ In addition to the deployment options you must also configure the following.
 
 With the action correctly configured you should see the workflow trigger the deployment under the configured conditions.
 
+#### Deployment Status
+
+The action will export an environment variable called `DEPLOYMENT_STATUS` that you can use in your workflow to determine if the deployment was successful or not. You can find an explanation of each status code below.
+
+| Status        | Description           |
+| ------------- |:-------------:|
+| `success`      | The `success` status indicates that the action was able to successfully deploy the project to the branch. |
+| `failed`      | The `failed` status indicates that the action encountered an error while trying to deploy the project.      |
+| `skipped` | The `skipped` status indicates that the action exited early as there was nothing new to deploy.      |
+
 ---
 
 ### Using an SSH Deploy Key 🔑

@@ -93,3 +93,11 @@ export const action: ActionInterface = {
   targetFolder: getInput('TARGET_FOLDER'),
   workspace: process.env.GITHUB_WORKSPACE || ''
 }
+
+/** Status codes for the action. */
+export enum Status {
+  SUCCESS = 'success',
+  FAILED = 'failed',
+  SKIPPED = 'skipped',
+  RUNNING = 'running'
+}
