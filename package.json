@@ -39,7 +39,7 @@
     "@actions/io": "1.0.2"
   },
   "devDependencies": {
-    "@types/jest": "25.2.1",
+    "@types/jest": "25.2.2",
     "@types/node": "14.0.1",
     "eslint": "7.0.0",
     "eslint-plugin-github": "3.4.1",
