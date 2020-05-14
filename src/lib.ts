@@ -41,7 +41,7 @@ export default async function run(
       }`
     )
 
-    exportVariable('DEPLOY_STATUS', status)
+    exportVariable('DEPLOYMENT_STATUS', status)
   }
 }
 

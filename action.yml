@@ -69,5 +69,5 @@ inputs:
     required: false
 
 outputs:
-  DEPLOY_STATUS:
+  DEPLOYMENT_STATUS:
     description: 'The status of the deployment that indicates if the run failed or passed. Possible outputs include: success|failed|skipped'
