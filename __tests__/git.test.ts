@@ -3,7 +3,7 @@ process.env['INPUT_FOLDER'] = 'build'
 process.env['GITHUB_SHA'] = '123'
 
 import {mkdirP, rmRF} from '@actions/io'
-import {action} from '../src/constants'
+import {action, Status} from '../src/constants'
 import {execute} from '../src/execute'
 import {deploy, generateBranch, init, switchToBaseBranch} from '../src/git'
 
@@ -338,11 +338,12 @@ describe('git', () => {
         }
       })
 
-      await deploy(action)
+      const response = await deploy(action)
 
       // Includes the call to generateBranch
       expect(execute).toBeCalledTimes(11)
       expect(rmRF).toBeCalledTimes(1)
+      expect(response).toBe(Status.SUCCESS)
     })
 
     it('should execute commands with single commit toggled', async () => {
@@ -437,9 +438,10 @@ describe('git', () => {
         isTest: false // Setting this env variable to false means there will never be anything to commit and the action will exit early.
       })
 
-      await deploy(action)
+      const response = await deploy(action)
       expect(execute).toBeCalledTimes(12)
       expect(rmRF).toBeCalledTimes(1)
+      expect(response).toBe(Status.SKIPPED)
     })
 
     it('should throw an error if one of the required parameters is not available', async () => {

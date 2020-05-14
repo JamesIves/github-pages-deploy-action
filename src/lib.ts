@@ -30,7 +30,6 @@ export default async function run(
     status = Status.FAILED
     setFailed(error.message)
   } finally {
-    console.log(status)
     info(
       `${
         status === Status.FAILED
