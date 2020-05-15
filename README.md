@@ -157,8 +157,8 @@ The action will export an environment variable called `DEPLOYMENT_STATUS` that y
 
 | Status        | Description           |
 | ------------- |-------------|
-| `success`      | The `success` status indicates that the action was able to successfully deploy the project to the branch. |
-| `failed`      | The `failed` status indicates that the action encountered an error while trying to deploy the project.      |
+| `success`      | The `success` status indicates that the action was able to successfully deploy to the branch. |
+| `failed`      | The `failed` status indicates that the action encountered an error while trying to deploy.      |
 | `skipped` | The `skipped` status indicates that the action exited early as there was nothing new to deploy.      |
 
 ---
