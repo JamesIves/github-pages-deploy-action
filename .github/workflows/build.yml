@@ -16,6 +16,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
 
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.15.1'
+          registry-url: 'https://registry.npmjs.org'
+
       - name: Install Yarn
         run: npm install -g yarn
 
