@@ -45,3 +45,9 @@ $ git commit -a -m "prod dependencies"
 ```
 
 The `node_modules` folder should _not_ be included when making a pull request. These are only required for GitHub Actions when it consumes the distribution branch, the `dev` branch of the project should be free from any dependencies or lib files.
+
+## Resources 💡
+
+* [TypeScript](https://www.typescriptlang.org/)
+* [Jest](https://jestjs.io/)
+* [GitHub Actions Documentation](https://help.github.com/en/actions)
