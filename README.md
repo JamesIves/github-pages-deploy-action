@@ -111,7 +111,7 @@ run({
 });
 ```
 
-For more information regarding the [action interface please click here](https://github.com/JamesIves/github-pages-deploy-action/blob/dev/src/constants.ts#L7). You can find the npm listing for the module [here](https://www.npmjs.com/package/github-pages-deploy-action).
+For more information regarding the [action interface please click here](https://github.com/JamesIves/github-pages-deploy-action/blob/dev/src/constants.ts#L7). You can find the npm registry listing for the module [here](https://www.npmjs.com/package/github-pages-deploy-action), and the GitHub registry listing [here](https://github.com/JamesIves/github-pages-deploy-action/packages/229985).
 
 ## Configuration 📁
 
