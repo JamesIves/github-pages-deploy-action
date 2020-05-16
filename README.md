@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/marketplace/actions/deploy-to-github-pages">
-    <img width="150px" src="./assets/icon.png">
+    <img width="150px" src="https://github.com/JamesIves/github-pages-deploy-action/raw/dev/assets/icon.png">
   </a>
 </p>
 
@@ -35,7 +35,7 @@
 </p>
 
 <p align="center">
-  <img src="./assets/screenshot.png">
+  <img src="https://github.com/JamesIves/github-pages-deploy-action/raw/dev/assets/screenshot.png">
 </p>
 
 ## Getting Started :airplane:
