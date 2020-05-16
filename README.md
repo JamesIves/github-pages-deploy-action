@@ -83,7 +83,7 @@ on:
 If you'd like to use the functionality provided by this action in your own action you can install it using [yarn](https://yarnpkg.com/) by running the following command.
 
 ```
-yarn add github-pages-deploy-action
+yarn add @jamesives/github-pages-deploy-action
 ```
 
 It can then be imported into your project like so.
