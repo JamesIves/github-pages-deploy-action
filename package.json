@@ -1,8 +1,8 @@
 {
-  "name": "github-pages-deploy-action",
+  "name": "@jamesives/github-pages-deploy-action",
   "description": "GitHub action for building a project and deploying it to GitHub pages.",
   "author": "James Ives <iam@jamesiv.es> (https://jamesiv.es)",
-  "version": "3.4.9",
+  "version": "3.5.1",
   "license": "MIT",
   "main": "lib/lib.js",
   "types": "lib/lib.d.ts",

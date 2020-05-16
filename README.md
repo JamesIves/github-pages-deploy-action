@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/marketplace/actions/deploy-to-github-pages">
-    <img width="150px" src="./assets/icon.png">
+    <img width="150px" src="https://github.com/JamesIves/github-pages-deploy-action/raw/dev/assets/icon.png">
   </a>
 </p>
 
@@ -35,7 +35,7 @@
 </p>
 
 <p align="center">
-  <img src="./assets/screenshot.png">
+  <img src="https://github.com/JamesIves/github-pages-deploy-action/raw/dev/assets/screenshot.png">
 </p>
 
 ## Getting Started :airplane:
@@ -83,7 +83,7 @@ on:
 If you'd like to use the functionality provided by this action in your own action you can install it using [yarn](https://yarnpkg.com/) by running the following command.
 
 ```
-yarn add github-pages-deploy-action
+yarn add @jamesives/github-pages-deploy-action
 ```
 
 It can then be imported into your project like so.
@@ -153,12 +153,12 @@ With the action correctly configured you should see the workflow trigger the dep
 
 #### Deployment Status
 
-The action will export an environment variable called `DEPLOYMENT_STATUS` that you can use in your workflow to determine if the deployment was successful or not. You can find an explanation of each status code below.
+The action will export an environment variable called `DEPLOYMENT_STATUS` that you can use in your workflow to determine if the deployment was successful or not. You can find an explanation of each status type below.
 
 | Status        | Description           |
-| ------------- |:-------------:|
-| `success`      | The `success` status indicates that the action was able to successfully deploy the project to the branch. |
-| `failed`      | The `failed` status indicates that the action encountered an error while trying to deploy the project.      |
+| ------------- |-------------|
+| `success`      | The `success` status indicates that the action was able to successfully deploy to the branch. |
+| `failed`      | The `failed` status indicates that the action encountered an error while trying to deploy.      |
 | `skipped` | The `skipped` status indicates that the action exited early as there was nothing new to deploy.      |
 
 ---
