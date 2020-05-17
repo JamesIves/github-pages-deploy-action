@@ -24,7 +24,7 @@ export async function init(action: ActionInterface): Promise<void | Error> {
       `git remote add origin ${action.repositoryPath}`,
       action.workspace
     )
-    await execute(`git fetch`, action.workspace)
+    await execute(`git fetch --no-recurse-submodules`, action.workspace)
 
     info('Git configured… 🔧')
   } catch (error) {
