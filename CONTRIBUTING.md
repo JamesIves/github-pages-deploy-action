@@ -29,6 +29,7 @@ Comment out the following in distribution branches:
 
 ```
 # node_modules/
+# lib/
 ```
 
 Build the project: 
