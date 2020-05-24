@@ -33,9 +33,9 @@ export default async function run(
     info(
       `${
         status === Status.FAILED
-          ? 'Deployment Failed ❌'
+          ? 'Deployment failed! ❌'
           : status === Status.SUCCESS
-          ? 'Completed Deployment Successfully! ✅'
+          ? 'Completed deployment successfully! ✅'
           : 'There is nothing to commit. Exiting early… 📭'
       }`
     )
