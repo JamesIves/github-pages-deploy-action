@@ -248,10 +248,6 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       `git worktree remove ${temporaryDeploymentDirectory} --force`,
       action.workspace
     )
-    await execute(
-      `git branch -d ${temporaryDeploymentBranch}`,
-      action.workspace
-    )
     await rmRF(temporaryDeploymentDirectory)
   }
 }
