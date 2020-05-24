@@ -245,7 +245,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     // Cleans up temporary files/folders and restores the git state.
     info('Running post deployment cleanup jobs… 🗑️')
     await execute(
-      `git worktree remove ${temporaryDeploymentDirectory}`,
+      `git worktree remove ${temporaryDeploymentDirectory} --force`,
       action.workspace
     )
     await rmRF(temporaryDeploymentDirectory)
