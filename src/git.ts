@@ -246,6 +246,10 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     )
   } finally {
     // Ensures the deployment directory is safely removed after each deployment.
+    await execute(
+      `git worktree remove ${temporaryDeploymentDirectory}`,
+      action.workspace
+    )
     await rmRF(temporaryDeploymentDirectory)
   }
 }
