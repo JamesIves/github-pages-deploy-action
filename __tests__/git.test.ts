@@ -341,7 +341,7 @@ describe('git', () => {
       const response = await deploy(action)
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(11)
+      expect(execute).toBeCalledTimes(12)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
@@ -361,7 +361,7 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(17)
+      expect(execute).toBeCalledTimes(18)
       expect(rmRF).toBeCalledTimes(1)
     })
 
@@ -382,7 +382,7 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(11)
+      expect(execute).toBeCalledTimes(12)
       expect(rmRF).toBeCalledTimes(1)
     })
 
@@ -402,7 +402,7 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(11)
+      expect(execute).toBeCalledTimes(12)
       expect(rmRF).toBeCalledTimes(1)
     })
 
@@ -421,7 +421,7 @@ describe('git', () => {
 
       await deploy(action)
 
-      expect(execute).toBeCalledTimes(11)
+      expect(execute).toBeCalledTimes(12)
       expect(rmRF).toBeCalledTimes(1)
       expect(mkdirP).toBeCalledTimes(1)
     })
@@ -439,7 +439,7 @@ describe('git', () => {
       })
 
       const response = await deploy(action)
-      expect(execute).toBeCalledTimes(12)
+      expect(execute).toBeCalledTimes(13)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SKIPPED)
     })
@@ -461,7 +461,7 @@ describe('git', () => {
       try {
         await deploy(action)
       } catch (e) {
-        expect(execute).toBeCalledTimes(0)
+        expect(execute).toBeCalledTimes(1)
         expect(rmRF).toBeCalledTimes(1)
         expect(e.message).toMatch(
           'The deploy step encountered an error: No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true. ❌'
