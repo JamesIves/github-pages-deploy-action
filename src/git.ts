@@ -93,8 +93,11 @@ export async function generateBranch(action: ActionInterface): Promise<void> {
 
 /* Runs the necessary steps to make the deployment. */
 export async function deploy(action: ActionInterface): Promise<Status> {
-  const temporaryDeploymentDirectory = 'gh-action-temp-deployment-folder'
-  const temporaryDeploymentBranch = 'gh-action-temp-deployment-branch'
+  const temporaryDeploymentDirectory =
+    'github-pages-deploy-action-temp-deployment-folder'
+  const temporaryDeploymentBranch = `github-pages-deploy-action/${Math.random()
+    .toString(36)
+    .substr(2, 9)}`
 
   info('Starting to commit changes…')
 
