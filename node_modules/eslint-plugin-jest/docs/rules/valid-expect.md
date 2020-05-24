@@ -30,13 +30,21 @@ This rule is enabled by default.
 
 ## Options
 
-```js
+```json5
 {
   type: 'object',
   properties: {
     alwaysAwait: {
       type: 'boolean',
       default: false,
+    },
+    minArgs: {
+      type: 'number',
+      minimum: 1,
+    },
+    maxArgs: {
+      type: 'number',
+      minimum: 1,
     },
   },
   additionalProperties: false,
@@ -69,6 +77,18 @@ test('test1', async () => {
 
 test('test2', () => expect(Promise.resolve(2)).resolves.toBe(2));
 ```
+
+### `minArgs` & `maxArgs`
+
+Enforces the minimum and maximum number of arguments that `expect` can take, and
+is required to take.
+
+Both of these properties have a default value of `1`, which is the number of
+arguments supported by vanilla `expect`.
+
+This is useful when you're using libraries that increase the number of arguments
+supported by `expect`, such as
+[`jest-expect-message`](https://www.npmjs.com/package/jest-expect-message).
 
 ### Default configuration
 

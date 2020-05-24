@@ -1,4 +1,4 @@
-# Disallow use of deprecated functions (no-deprecated-functions)
+# Disallow use of deprecated functions (`no-deprecated-functions`)
 
 Over the years Jest has accrued some debt in the form of functions that have
 either been renamed for clarity, or replaced with more powerful APIs.

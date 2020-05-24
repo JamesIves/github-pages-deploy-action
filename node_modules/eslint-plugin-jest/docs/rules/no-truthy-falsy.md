@@ -1,5 +1,26 @@
 # Disallow using `toBeTruthy()` & `toBeFalsy()` (`no-truthy-falsy`)
 
+## Deprecated
+
+This rule has been deprecated in favor of
+[`no-restricted-matchers`](no-restricted-matchers.md) with the following config:
+
+```json
+{
+  "rules": {
+    "jest/no-restricted-matchers": [
+      "error",
+      {
+        "toBeTruthy": "Avoid `toBeTruthy`",
+        "toBeFalsy": "Avoid `toBeFalsy`"
+      }
+    ]
+  }
+}
+```
+
+---
+
 Tests against boolean values should assert true or false. Asserting `toBeTruthy`
 or `toBeFalsy` matches non-boolean values as well and encourages weaker tests.
 
