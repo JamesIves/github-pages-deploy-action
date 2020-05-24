@@ -202,9 +202,6 @@ export async function deploy(action: ActionInterface): Promise<Status> {
 
     info(`Changes committed to the ${action.branch} branch… 📦`)
 
-    // Cleans up temporary files/folders and restores the git state.
-    info('Running post deployment cleanup jobs…')
-
     if (action.singleCommit) {
       await execute(`git fetch ${action.repositoryPath}`, action.workspace)
       await execute(
@@ -245,7 +242,8 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       )} ❌`
     )
   } finally {
-    // Ensures the deployment directory is safely removed after each deployment.
+    // Cleans up temporary files/folders and restores the git state.
+    info('Running post deployment cleanup jobs… 🗑️')
     await execute(
       `git worktree remove ${temporaryDeploymentDirectory}`,
       action.workspace
