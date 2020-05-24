@@ -233,6 +233,11 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       action.workspace
     )
 
+    await execute(
+      `git branch -D ${temporaryDeploymentBranch}`,
+      action.workspace
+    )
+
     return Status.SUCCESS
   } catch (error) {
     throw new Error(

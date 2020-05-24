@@ -19,9 +19,10 @@ export const generateTokenType = (action: ActionInterface): string =>
 export const generateRepositoryPath = (action: ActionInterface): string =>
   action.ssh
     ? `git@github.com:${action.repositoryName}`
-    : `https://${
-        action.accessToken || `x-access-token:${action.gitHubToken}`
-      }@github.com/${action.repositoryName}.git`
+    : `https://${action.accessToken ||
+        `x-access-token:${action.gitHubToken}`}@github.com/${
+        action.repositoryName
+      }.git`
 
 /* Checks for the required tokens and formatting. Throws an error if any case is matched. */
 export const hasRequiredParameters = (action: ActionInterface): void => {
