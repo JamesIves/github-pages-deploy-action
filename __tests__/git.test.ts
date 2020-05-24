@@ -341,7 +341,7 @@ describe('git', () => {
       const response = await deploy(action)
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(13)
+      expect(execute).toBeCalledTimes(12)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
@@ -361,7 +361,7 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(19)
+      expect(execute).toBeCalledTimes(18)
       expect(rmRF).toBeCalledTimes(1)
     })
 
@@ -382,7 +382,7 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(13)
+      expect(execute).toBeCalledTimes(12)
       expect(rmRF).toBeCalledTimes(1)
     })
 
@@ -402,7 +402,7 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(13)
+      expect(execute).toBeCalledTimes(12)
       expect(rmRF).toBeCalledTimes(1)
     })
 
@@ -421,7 +421,7 @@ describe('git', () => {
 
       await deploy(action)
 
-      expect(execute).toBeCalledTimes(13)
+      expect(execute).toBeCalledTimes(12)
       expect(rmRF).toBeCalledTimes(1)
       expect(mkdirP).toBeCalledTimes(1)
     })
