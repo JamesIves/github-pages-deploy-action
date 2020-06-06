@@ -123,6 +123,8 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       await generateBranch(action)
     }
 
+    info('Moving on...')
+
     // Checks out the base branch to begin the deployment process.
     await switchToBaseBranch(action)
     await execute(`git fetch ${action.repositoryPath}`, action.workspace)
