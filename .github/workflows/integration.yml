@@ -178,6 +178,7 @@ jobs:
 
   # Deploys to a branch that doesn't exist with SINGLE_COMMIT.
   integration-branch-creation:
+    needs: integration-clean
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
