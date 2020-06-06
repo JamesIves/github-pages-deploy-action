@@ -5,16 +5,14 @@
  * Released under the MIT License.
  */
 
-'use strict';
-
-var isObject = require('isobject');
+import isObject from 'isobject';
 
 function isObjectObject(o) {
   return isObject(o) === true
     && Object.prototype.toString.call(o) === '[object Object]';
 }
 
-module.exports = function isPlainObject(o) {
+export default function isPlainObject(o) {
   var ctor,prot;
 
   if (isObjectObject(o) === false) return false;

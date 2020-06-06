@@ -1,3 +1,10 @@
+## [23.13.2](https://github.com/jest-community/eslint-plugin-jest/compare/v23.13.1...v23.13.2) (2020-05-26)
+
+
+### Bug Fixes
+
+* add `fail` to globals ([#595](https://github.com/jest-community/eslint-plugin-jest/issues/595)) ([aadc5ec](https://github.com/jest-community/eslint-plugin-jest/commit/aadc5ec5610ec024eac4b0aa6077cc012a0ba98e))
+
 ## [23.13.1](https://github.com/jest-community/eslint-plugin-jest/compare/v23.13.0...v23.13.1) (2020-05-17)
 
 
