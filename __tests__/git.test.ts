@@ -34,7 +34,7 @@ describe('git', () => {
     it('should execute commands if a GitHub token is provided', async () => {
       Object.assign(action, {
         repositoryPath: 'JamesIves/github-pages-deploy-action',
-        folder: 'build',
+        folder: 'assets',
         branch: 'branch',
         gitHubToken: '123',
         pusher: {
@@ -50,7 +50,7 @@ describe('git', () => {
     it('should execute commands if an Access Token is provided', async () => {
       Object.assign(action, {
         repositoryPath: 'JamesIves/github-pages-deploy-action',
-        folder: 'build',
+        folder: 'assets',
         branch: 'branch',
         accessToken: '123',
         pusher: {
@@ -66,7 +66,7 @@ describe('git', () => {
     it('should execute commands if SSH is true', async () => {
       Object.assign(action, {
         repositoryPath: 'JamesIves/github-pages-deploy-action',
-        folder: 'build',
+        folder: 'assets',
         branch: 'branch',
         ssh: true,
         pusher: {
@@ -83,7 +83,7 @@ describe('git', () => {
     it('should fail if there is no provided GitHub Token, Access Token or SSH bool', async () => {
       Object.assign(action, {
         repositoryPath: null,
-        folder: 'build',
+        folder: 'assets',
         branch: 'branch',
         pusher: {
           name: 'asd',
@@ -104,7 +104,7 @@ describe('git', () => {
     it('should fail if access token is defined but it is an empty string', async () => {
       Object.assign(action, {
         repositoryPath: null,
-        folder: 'build',
+        folder: 'assets',
         branch: 'branch',
         pusher: {
           name: 'asd',
@@ -146,10 +146,33 @@ describe('git', () => {
       }
     })
 
+    it('should fail if the folder does not exist in the tree', async () => {
+      Object.assign(action, {
+        repositoryPath: 'JamesIves/github-pages-deploy-action',
+        gitHubToken: '123',
+        branch: 'branch',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        folder: 'notARealFolder',
+        ssh: true
+      })
+
+      try {
+        await init(action)
+      } catch (e) {
+        expect(execute).toBeCalledTimes(0)
+        expect(e.message).toMatch(
+          `There was an error initializing the repository: The notARealFolder directory you're trying to deploy doesn't exist. ❗ ❌`
+        )
+      }
+    })
+
     it('should fail if there is no provided repository path', async () => {
       Object.assign(action, {
         repositoryPath: null,
-        folder: 'build',
+        folder: 'assets',
         branch: 'branch',
         pusher: {
           name: 'asd',
@@ -329,7 +352,7 @@ describe('git', () => {
   describe('deploy', () => {
     it('should execute commands', async () => {
       Object.assign(action, {
-        folder: 'build',
+        folder: 'assets',
         branch: 'branch',
         gitHubToken: '123',
         pusher: {
@@ -348,7 +371,7 @@ describe('git', () => {
 
     it('should execute commands with single commit toggled', async () => {
       Object.assign(action, {
-        folder: 'build',
+        folder: 'assets',
         branch: 'branch',
         gitHubToken: '123',
         singleCommit: true,
@@ -368,7 +391,7 @@ describe('git', () => {
     it('should execute commands with clean options, ommits sha commit message', async () => {
       process.env.GITHUB_SHA = ''
       Object.assign(action, {
-        folder: 'build',
+        folder: 'assets',
         branch: 'branch',
         gitHubToken: '123',
         pusher: {
@@ -388,7 +411,7 @@ describe('git', () => {
 
     it('should execute commands with clean options stored as an array instead', async () => {
       Object.assign(action, {
-        folder: 'build',
+        folder: 'assets',
         branch: 'branch',
         gitHubToken: '123',
         pusher: {
@@ -428,7 +451,7 @@ describe('git', () => {
 
     it('should stop early if there is nothing to commit', async () => {
       Object.assign(action, {
-        folder: 'build',
+        folder: 'assets',
         branch: 'branch',
         gitHubToken: '123',
         pusher: {
@@ -446,7 +469,7 @@ describe('git', () => {
 
     it('should throw an error if one of the required parameters is not available', async () => {
       Object.assign(action, {
-        folder: 'build',
+        folder: 'assets',
         branch: 'branch',
         ssh: null,
         accessToken: null,
