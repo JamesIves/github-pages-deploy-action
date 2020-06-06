@@ -52,7 +52,7 @@ export const hasRequiredParameters = (action: ActionInterface): void => {
     )
   }
 
-  if (!existsSync(action.folder)) {
+  if (!existsSync(action.folder) && action.folder !== action.root) {
     throw new Error(
       `The ${action.folder} directory you're trying to deploy doesn't exist. ❗`
     )
