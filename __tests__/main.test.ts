@@ -36,7 +36,7 @@ describe('main', () => {
   it('should run through the commands', async () => {
     Object.assign(action, {
       repositoryPath: 'JamesIves/github-pages-deploy-action',
-      folder: 'build',
+      folder: 'assets',
       branch: 'branch',
       gitHubToken: '123',
       pusher: {
@@ -55,7 +55,7 @@ describe('main', () => {
   it('should run through the commands and succeed', async () => {
     Object.assign(action, {
       repositoryPath: 'JamesIves/github-pages-deploy-action',
-      folder: 'build',
+      folder: 'assets',
       branch: 'branch',
       gitHubToken: '123',
       pusher: {
@@ -71,7 +71,7 @@ describe('main', () => {
 
   it('should throw if an error is encountered', async () => {
     Object.assign(action, {
-      folder: 'build',
+      folder: 'assets',
       branch: 'branch',
       baseBranch: 'master',
       gitHubToken: null,
