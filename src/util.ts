@@ -1,5 +1,5 @@
 import {isDebug} from '@actions/core'
-// import {existsSync} from 'fs'
+import fs from 'fs'
 import {ActionInterface} from './constants'
 
 /* Utility function that checks to see if a value is undefined or not. */
@@ -52,11 +52,11 @@ export const hasRequiredParameters = (action: ActionInterface): void => {
     )
   }
 
-  // if (!existsSync(action.folder) && action.folder !== action.root) {
-  //   throw new Error(
-  //     `The ${action.folder} directory you're trying to deploy doesn't exist. ❗`
-  //   )
-  // }
+  if (!fs.existsSync(action.folder) && action.folder !== action.root) {
+    throw new Error(
+      `The ${action.folder} directory you're trying to deploy doesn't exist. ❗`
+    )
+  }
 }
 
 /* Suppresses sensitive information from being exposed in error messages. */
