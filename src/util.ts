@@ -1,5 +1,6 @@
 import {isDebug} from '@actions/core'
 import {ActionInterface} from './constants'
+import {existsSync} from 'fs'
 
 /* Utility function that checks to see if a value is undefined or not. */
 export const isNullOrUndefined = (value: any): boolean =>
@@ -49,6 +50,10 @@ export const hasRequiredParameters = (action: ActionInterface): void => {
     throw new Error(
       "Incorrectly formatted build folder. The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly."
     )
+  }
+
+  if (!existsSync(action.folder) && !action.isTest) {
+    throw new Error(`The directory you're trying to deploy doesn't exist. ❗`)
   }
 }
 

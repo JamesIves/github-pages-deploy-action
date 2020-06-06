@@ -7,7 +7,6 @@ import {
   isNullOrUndefined,
   suppressSensitiveInformation
 } from './util'
-import {existsSync} from 'fs'
 
 /* Initializes git in the workspace. */
 export async function init(action: ActionInterface): Promise<void | Error> {
@@ -149,11 +148,6 @@ export async function deploy(action: ActionInterface): Promise<Status> {
           'There was an error parsing your CLEAN_EXCLUDE items. Please refer to the README for more details. ❌'
         )
       }
-    }
-
-    if (!existsSync(action.folder) && !action.isTest) {
-      info(`The directory you're trying to deploy doesn't exist. ❗`)
-      return Status.FAILED
     }
 
     if (action.targetFolder) {
