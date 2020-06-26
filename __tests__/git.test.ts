@@ -33,6 +33,7 @@ describe('git', () => {
   describe('init', () => {
     it('should execute commands if a GitHub token is provided', async () => {
       Object.assign(action, {
+        silent: false,
         repositoryPath: 'JamesIves/github-pages-deploy-action',
         folder: 'assets',
         branch: 'branch',
@@ -49,6 +50,7 @@ describe('git', () => {
 
     it('should execute commands if an Access Token is provided', async () => {
       Object.assign(action, {
+        silent: false,
         repositoryPath: 'JamesIves/github-pages-deploy-action',
         folder: 'assets',
         branch: 'branch',
@@ -65,6 +67,7 @@ describe('git', () => {
 
     it('should execute commands if SSH is true', async () => {
       Object.assign(action, {
+        silent: false,
         repositoryPath: 'JamesIves/github-pages-deploy-action',
         folder: 'assets',
         branch: 'branch',
@@ -82,6 +85,7 @@ describe('git', () => {
 
     it('should fail if there is no provided GitHub Token, Access Token or SSH bool', async () => {
       Object.assign(action, {
+        silent: false,
         repositoryPath: null,
         folder: 'assets',
         branch: 'branch',
@@ -103,6 +107,7 @@ describe('git', () => {
 
     it('should fail if access token is defined but it is an empty string', async () => {
       Object.assign(action, {
+        silent: false,
         repositoryPath: null,
         folder: 'assets',
         branch: 'branch',
@@ -125,6 +130,7 @@ describe('git', () => {
 
     it('should fail if there is no folder', async () => {
       Object.assign(action, {
+        silent: false,
         repositoryPath: 'JamesIves/github-pages-deploy-action',
         gitHubToken: '123',
         branch: 'branch',
@@ -148,6 +154,7 @@ describe('git', () => {
 
     it('should fail if there is no provided repository path', async () => {
       Object.assign(action, {
+        silent: true,
         repositoryPath: null,
         folder: 'assets',
         branch: 'branch',
@@ -172,6 +179,7 @@ describe('git', () => {
 
     it('should fail if the build folder begins with a /', async () => {
       Object.assign(action, {
+        silent: false,
         accessToken: '123',
         repositoryPath: 'JamesIves/github-pages-deploy-action',
         branch: 'branch',
@@ -194,6 +202,7 @@ describe('git', () => {
 
     it('should fail if the build folder begins with a ./', async () => {
       Object.assign(action, {
+        silent: false,
         accessToken: '123',
         branch: 'branch',
         folder: './',
@@ -215,6 +224,7 @@ describe('git', () => {
 
     it('should not fail if root is used', async () => {
       Object.assign(action, {
+        silent: false,
         repositoryPath: 'JamesIves/github-pages-deploy-action',
         accessToken: '123',
         branch: 'branch',
@@ -235,6 +245,7 @@ describe('git', () => {
   describe('generateBranch', () => {
     it('should execute six commands', async () => {
       Object.assign(action, {
+        silent: false,
         accessToken: '123',
         branch: 'branch',
         folder: '.',
@@ -250,6 +261,7 @@ describe('git', () => {
 
     it('should fail if there is no branch', async () => {
       Object.assign(action, {
+        silent: false,
         accessToken: '123',
         branch: null,
         folder: '.',
@@ -272,6 +284,7 @@ describe('git', () => {
   describe('switchToBaseBranch', () => {
     it('should execute one command', async () => {
       Object.assign(action, {
+        silent: false,
         accessToken: '123',
         branch: 'branch',
         folder: '.',
@@ -287,6 +300,7 @@ describe('git', () => {
 
     it('should execute one command if using custom baseBranch', async () => {
       Object.assign(action, {
+        silent: false,
         baseBranch: '123',
         accessToken: '123',
         branch: 'branch',
@@ -303,6 +317,7 @@ describe('git', () => {
 
     it('should fail if one of the required parameters is not available', async () => {
       Object.assign(action, {
+        silent: false,
         baseBranch: '123',
         accessToken: null,
         gitHubToken: null,
@@ -329,6 +344,7 @@ describe('git', () => {
   describe('deploy', () => {
     it('should execute commands', async () => {
       Object.assign(action, {
+        silent: false,
         folder: 'assets',
         branch: 'branch',
         gitHubToken: '123',
@@ -348,6 +364,7 @@ describe('git', () => {
 
     it('should execute commands with single commit toggled', async () => {
       Object.assign(action, {
+        silent: false,
         folder: 'assets',
         branch: 'branch',
         gitHubToken: '123',
@@ -368,6 +385,7 @@ describe('git', () => {
     it('should execute commands with clean options, ommits sha commit message', async () => {
       process.env.GITHUB_SHA = ''
       Object.assign(action, {
+        silent: false,
         folder: 'assets',
         branch: 'branch',
         gitHubToken: '123',
@@ -388,6 +406,7 @@ describe('git', () => {
 
     it('should execute commands with clean options stored as an array instead', async () => {
       Object.assign(action, {
+        silent: false,
         folder: 'assets',
         branch: 'branch',
         gitHubToken: '123',
@@ -408,6 +427,7 @@ describe('git', () => {
 
     it('should gracefully handle incorrectly formatted clean exclude items', async () => {
       Object.assign(action, {
+        silent: false,
         folder: '.',
         branch: 'branch',
         gitHubToken: '123',
@@ -428,6 +448,7 @@ describe('git', () => {
 
     it('should stop early if there is nothing to commit', async () => {
       Object.assign(action, {
+        silent: false,
         folder: 'assets',
         branch: 'branch',
         gitHubToken: '123',
@@ -446,6 +467,7 @@ describe('git', () => {
 
     it('should throw an error if one of the required parameters is not available', async () => {
       Object.assign(action, {
+        silent: false,
         folder: 'assets',
         branch: 'branch',
         ssh: null,
