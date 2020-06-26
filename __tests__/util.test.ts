@@ -32,7 +32,8 @@ describe('util', () => {
         folder: 'build',
         gitHubToken: null,
         accessToken: null,
-        ssh: true
+        ssh: true,
+        silent: false
       }
       expect(generateTokenType(action)).toEqual('SSH Deploy Key')
     })
@@ -45,7 +46,8 @@ describe('util', () => {
         folder: 'build',
         gitHubToken: null,
         accessToken: '123',
-        ssh: null
+        ssh: null,
+        silent: false
       }
       expect(generateTokenType(action)).toEqual('Access Token')
     })
@@ -58,7 +60,8 @@ describe('util', () => {
         folder: 'build',
         gitHubToken: '123',
         accessToken: null,
-        ssh: null
+        ssh: null,
+        silent: false
       }
       expect(generateTokenType(action)).toEqual('GitHub Token')
     })
@@ -71,7 +74,8 @@ describe('util', () => {
         folder: 'build',
         gitHubToken: null,
         accessToken: null,
-        ssh: null
+        ssh: null,
+        silent: false
       }
       expect(generateTokenType(action)).toEqual('…')
     })
@@ -87,7 +91,8 @@ describe('util', () => {
         folder: 'build',
         gitHubToken: null,
         accessToken: null,
-        ssh: true
+        ssh: true,
+        silent: false
       }
       expect(generateRepositoryPath(action)).toEqual(
         'git@github.com:JamesIves/github-pages-deploy-action'
@@ -103,7 +108,8 @@ describe('util', () => {
         folder: 'build',
         gitHubToken: null,
         accessToken: '123',
-        ssh: null
+        ssh: null,
+        silent: false
       }
       expect(generateRepositoryPath(action)).toEqual(
         'https://123@github.com/JamesIves/github-pages-deploy-action.git'
@@ -119,7 +125,8 @@ describe('util', () => {
         folder: 'build',
         gitHubToken: '123',
         accessToken: null,
-        ssh: null
+        ssh: null,
+        silent: false
       }
       expect(generateRepositoryPath(action)).toEqual(
         'https://x-access-token:123@github.com/JamesIves/github-pages-deploy-action.git'
@@ -137,7 +144,8 @@ describe('util', () => {
           workspace: 'src/',
           folder: 'build',
           accessToken: 'supersecret999%%%',
-          gitHubToken: 'anothersecret123333'
+          gitHubToken: 'anothersecret123333',
+          silent: false
         }
 
         const string = `This is an error message! It contains ${action.accessToken} and ${action.gitHubToken} and ${action.repositoryPath}`
@@ -156,7 +164,8 @@ describe('util', () => {
           workspace: 'src/',
           folder: 'build',
           accessToken: 'supersecret999%%%',
-          gitHubToken: 'anothersecret123333'
+          gitHubToken: 'anothersecret123333',
+          silent: false
         }
 
         process.env['RUNNER_DEBUG'] = '1'
