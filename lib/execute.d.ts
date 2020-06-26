@@ -5,5 +5,5 @@
  * @param {string} cwd - The current working directory.
  * @param {boolean} silent - Determines if the in/out should be silenced or not.
  */
-export declare function execute(cmd: string, cwd: string, silent?: boolean): Promise<any>;
+export declare function execute(cmd: string, cwd: string, silent: boolean): Promise<any>;
 export declare function stdout(data: any): string | void;
