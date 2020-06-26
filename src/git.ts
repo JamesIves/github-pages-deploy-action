@@ -135,7 +135,8 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       */
     const branchExists = await execute(
       `git ls-remote --heads ${action.repositoryPath} ${action.branch} | wc -l`,
-      action.workspace
+      action.workspace,
+      action.silent
     )
 
     if (!branchExists && !action.isTest) {

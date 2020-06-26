@@ -68,6 +68,10 @@ inputs:
     description: "This option can be used if you'd prefer to have a single commit on the deployment branch instead of maintaining the full history."
     required: false
 
+  SILENT:
+    description: "Silences the action output preventing it from displaying git messages."
+    required: false
+
 outputs:
   DEPLOYMENT_STATUS:
     description: 'The status of the deployment that indicates if the run failed or passed. Possible outputs include: success|failed|skipped'

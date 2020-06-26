@@ -12,7 +12,7 @@ let output: string
 export async function execute(
   cmd: string,
   cwd: string,
-  silent?: boolean
+  silent: boolean
 ): Promise<any> {
   output = ''
 
