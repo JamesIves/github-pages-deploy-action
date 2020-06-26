@@ -6,9 +6,9 @@ jest.mock('@actions/exec', () => ({
 }))
 
 describe('execute', () => {
-  it('should be called with the correct arguments', async () => {
+  it('should be called with the correct arguments when silent mode is enabled', async () => {
     stdout('hello')
-    await execute('echo Montezuma', './')
+    await execute('echo Montezuma', './', true)
 
     expect(exec).toBeCalledWith('echo Montezuma', [], {
       cwd: './',
@@ -19,11 +19,11 @@ describe('execute', () => {
     })
   })
 
-  it('should not silence the input when INPUT_DEBUG is defined', async () => {
+  it('should not silence the input when action.silent is false', async () => {
     process.env['RUNNER_DEBUG'] = '1'
 
     stdout('hello')
-    await execute('echo Montezuma', './')
+    await execute('echo Montezuma', './', false)
 
     expect(exec).toBeCalledWith('echo Montezuma', [], {
       cwd: './',
