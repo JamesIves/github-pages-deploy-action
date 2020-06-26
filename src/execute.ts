@@ -1,4 +1,3 @@
-import {isDebug} from '@actions/core'
 import {exec} from '@actions/exec'
 
 let output: string
@@ -8,13 +7,18 @@ let output: string
  *
  * @param {string} cmd - The command to execute.
  * @param {string} cwd - The current working directory.
+ * @param {boolean} silent - Determines if the in/out should be silenced or not.
  */
-export async function execute(cmd: string, cwd: string): Promise<any> {
+export async function execute(
+  cmd: string,
+  cwd: string,
+  silent?: boolean
+): Promise<any> {
   output = ''
 
   await exec(cmd, [], {
     // Silences the input unless the INPUT_DEBUG flag is set.
-    silent: isDebug() ? false : true,
+    silent,
     cwd,
     listeners: {
       stdout

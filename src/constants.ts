@@ -38,6 +38,8 @@ export interface ActionInterface {
   root?: string
   /** Wipes the commit history from the deployment branch in favor of a single commit. */
   singleCommit?: boolean | null
+  /** Determines if the action should run in silent mode or not. */
+  silent?: boolean
   /** Set to true if you're using an ssh client in your build step. */
   ssh?: boolean | null
   /** If you'd like to push the contents of the deployment folder into a specific directory on the deployment branch you can specify it here. */
@@ -86,6 +88,9 @@ export const action: ActionInterface = {
   root: '.',
   singleCommit: !isNullOrUndefined(getInput('SINGLE_COMMIT'))
     ? getInput('SINGLE_COMMIT').toLowerCase() === 'true'
+    : false,
+  silent: !isNullOrUndefined(getInput('SILENT'))
+    ? getInput('SILENT').toLowerCase() === 'true'
     : false,
   ssh: !isNullOrUndefined(getInput('SSH'))
     ? getInput('SSH').toLowerCase() === 'true'
