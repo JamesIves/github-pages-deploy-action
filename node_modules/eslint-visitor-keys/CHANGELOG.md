@@ -1,3 +1,7 @@
+v1.2.0 - June 4, 2020
+
+* [`21f28bf`](https://github.com/eslint/eslint-visitor-keys/commit/21f28bf11be5329d740a8bf6bdbcd0ef13bbf1a2) Update: added exported in exportAllDeclaration key (#10) (Anix)
+
 v1.1.0 - August 13, 2019
 
 * [`9331cc0`](https://github.com/eslint/eslint-visitor-keys/commit/9331cc09e756e65b9044c9186445a474b037fac6) Update: add ImportExpression (#8) (Toru Nagashima)

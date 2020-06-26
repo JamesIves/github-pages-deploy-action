@@ -152,7 +152,12 @@ module.exports = {
         const filepath = context.getFilename();
         const source = sourceCode.text;
 
-        if (prettier && prettier.clearConfigCache) {
+        // This allows long-running ESLint processes (e.g. vscode-eslint) to
+        // pick up changes to .prettierrc without restarting the editor. This
+        // will invalidate the prettier plugin cache on every file as well which
+        // will make ESLint very slow, so it would probably be a good idea to
+        // find a better way to do this.
+        if (usePrettierrc && prettier && prettier.clearConfigCache) {
           prettier.clearConfigCache();
         }
 

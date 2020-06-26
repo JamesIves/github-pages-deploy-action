@@ -1,5 +1,12 @@
 # Prevent catch assertions in tests (`no-try-expect`)
 
+## Deprecated
+
+This rule has been deprecated in favor of
+[`no-conditional-expect`](no-conditional-expect.md).
+
+---
+
 This rule prevents the use of `expect` inside `catch` blocks.
 
 ## Rule Details

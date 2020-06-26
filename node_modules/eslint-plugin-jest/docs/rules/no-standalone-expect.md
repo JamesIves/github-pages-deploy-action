@@ -64,6 +64,36 @@ describe('a test', () => {
 thought the `expect` will not execute. Rely on a rule like no-unused-vars for
 this case.
 
+### Options
+
+#### `additionalTestBlockFunctions`
+
+This array can be used to specify the names of functions that should also be
+treated as test blocks:
+
+```json
+{
+  "rules": {
+    "jest/no-standalone-expect": [
+      "error",
+      { "additionalTestBlockFunctions": ["each.test"] }
+    ]
+  }
+}
+```
+
+The following is _correct_ when using the above configuration:
+
+```js
+each([
+  [1, 1, 2],
+  [1, 2, 3],
+  [2, 1, 3],
+]).test('returns the result of adding %d to %d', (a, b, expected) => {
+  expect(a + b).toBe(expected);
+});
+```
+
 ## When Not To Use It
 
 Don't use this rule on non-jest test files.

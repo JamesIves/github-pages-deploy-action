@@ -1,3 +1,7 @@
+v5.1.0 - June 4, 2020
+
+* [`d4a3764`](https://github.com/eslint/eslint-scope/commit/d4a376434b16289c1a428d7e304576e997520873) Update: support new export syntax (#56) (Toru Nagashima)
+
 v5.0.0 - July 20, 2019
 
 * [`e9fa22e`](https://github.com/eslint/eslint-scope/commit/e9fa22ea412c26cf2761fa98af7e715644bdb464) Upgrade: update dependencies after dropping support for Node <8 (#53) (Kai Cataldo)

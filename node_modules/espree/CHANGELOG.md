@@ -1,3 +1,8 @@
+v7.1.0 - June 4, 2020
+
+* [`75e80bc`](https://github.com/eslint/espree/commit/75e80bc1b5a100f64b09b2c7bf47c5168417d890) Update: support `??` operator, `import.meta`, and `export * as ns` (#441) (Toru Nagashima)
+* [`ad0543c`](https://github.com/eslint/espree/commit/ad0543c8b9f6981857ebebf23a37589a656e61a6) Chore: added fixlint in Makefile.js (#440) (Anix)
+
 v7.0.0 - May 7, 2020
 
 * [`8fe2efc`](https://github.com/eslint/espree/commit/8fe2efc00902e7f1680af00a6279e1aecb3c5b47) Breaking: drop Node v8 support (#429) (Kai Cataldo)

@@ -1,5 +1,15 @@
 # Changelog
 
+## v3.1.4 (2020-06-14)
+
+* Avoid clearing Prettier cache when not using prettierrc ([#303](git@github.com:prettier/eslint-plugin-prettier/issues/303)) ([3c8e2d9](git@github.com:prettier/eslint-plugin-prettier/commit/3c8e2d9871d86a82b10fe3d54f32bb5a54f2913b))
+* build(deps-dev): bump eslint-plugin-eslint-plugin from 2.2.1 to 2.2.2 ([93f7c8b](git@github.com:prettier/eslint-plugin-prettier/commit/93f7c8be7c99a0c3e4b11be6a5311316f76e6e08))
+* build(deps-dev): bump eslint from 7.1.0 to 7.2.0 ([650ac7a](git@github.com:prettier/eslint-plugin-prettier/commit/650ac7a40c1f4d46b0bd37efad3eed84f8155a44))
+* build(deps-dev): bump eslint-plugin-self from 1.2.0 to 1.2.1 ([6449ec1](git@github.com:prettier/eslint-plugin-prettier/commit/6449ec151f119e98d69da91ad6d10dbb374162d8))
+* build(deps-dev): bump eslint from 7.0.0 to 7.1.0 ([fd30022](git@github.com:prettier/eslint-plugin-prettier/commit/fd30022a51a57a4e96dd4ab3e04956b945886874))
+* Chore: Add CI tests for ESLint 7 ([#291](git@github.com:prettier/eslint-plugin-prettier/issues/291)) ([cc2979b](git@github.com:prettier/eslint-plugin-prettier/commit/cc2979b68258b8545931ce37168adfe17b1d3a7b))
+* build(deps-dev): bump eslint-config-prettier from 6.10.1 to 6.11.0 ([35a7ee6](git@github.com:prettier/eslint-plugin-prettier/commit/35a7ee68b02ea3088270210ac8dc85ff47ef65a9))
+
 ## v3.1.3 (2020-04-13)
 
 * Fix: Set `meta.type` to "layout" ([#283](git@github.com:prettier/eslint-plugin-prettier/issues/283)) ([97152e2](git@github.com:prettier/eslint-plugin-prettier/commit/97152e2787bf9bb27f053d6a91ccf826dc96a505))
