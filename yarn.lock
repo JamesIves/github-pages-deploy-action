@@ -12,18 +12,18 @@
   dependencies:
     "@actions/io" "^1.0.1"
 
-"@actions/github@3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@actions/github/-/github-3.0.0.tgz#ce1b721a266ad5ac522da0c9c013c999009604bf"
+"@actions/github@4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@actions/github/-/github-4.0.0.tgz#d520483151a2bf5d2dc9cd0f20f9ac3a2e458816"
   dependencies:
-    "@actions/http-client" "^1.0.3"
-    "@octokit/core" "^2.5.1"
-    "@octokit/plugin-paginate-rest" "^2.2.0"
-    "@octokit/plugin-rest-endpoint-methods" "^3.10.0"
+    "@actions/http-client" "^1.0.8"
+    "@octokit/core" "^3.0.0"
+    "@octokit/plugin-paginate-rest" "^2.2.3"
+    "@octokit/plugin-rest-endpoint-methods" "^4.0.0"
 
-"@actions/http-client@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@actions/http-client/-/http-client-1.0.3.tgz#b5239d3d8c72378bdcef4d26bb15fa2a01d537fd"
+"@actions/http-client@^1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@actions/http-client/-/http-client-1.0.8.tgz#8bd76e8eca89dc8bcf619aa128eba85f7a39af45"
   dependencies:
     tunnel "0.0.6"
 
@@ -576,14 +576,14 @@
   dependencies:
     "@octokit/types" "^2.0.0"
 
-"@octokit/core@^2.5.1":
-  version "2.5.3"
-  resolved "https://registry.yarnpkg.com/@octokit/core/-/core-2.5.3.tgz#dd754e6f5ad9b15631e9b276ae4f00ac2ea2cf9b"
+"@octokit/core@^3.0.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@octokit/core/-/core-3.1.0.tgz#9c3c9b23f7504668cfa057f143ccbf0c645a0ac9"
   dependencies:
     "@octokit/auth-token" "^2.4.0"
     "@octokit/graphql" "^4.3.1"
     "@octokit/request" "^5.4.0"
-    "@octokit/types" "^4.0.1"
+    "@octokit/types" "^5.0.0"
     before-after-hook "^2.1.0"
     universal-user-agent "^5.0.0"
 
@@ -611,17 +611,17 @@
     "@octokit/types" "^2.0.0"
     universal-user-agent "^4.0.0"
 
-"@octokit/plugin-paginate-rest@^2.2.0":
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/@octokit/plugin-paginate-rest/-/plugin-paginate-rest-2.2.1.tgz#b95ec46c841d51e5e625f383c579d132ab216d05"
+"@octokit/plugin-paginate-rest@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@octokit/plugin-paginate-rest/-/plugin-paginate-rest-2.2.3.tgz#a6ad4377e7e7832fb4bdd9d421e600cb7640ac27"
   dependencies:
-    "@octokit/types" "^4.0.1"
+    "@octokit/types" "^5.0.0"
 
-"@octokit/plugin-rest-endpoint-methods@^3.10.0":
-  version "3.14.0"
-  resolved "https://registry.yarnpkg.com/@octokit/plugin-rest-endpoint-methods/-/plugin-rest-endpoint-methods-3.14.0.tgz#5aa479ef73d07af80009497d0f78250b8efe7455"
+"@octokit/plugin-rest-endpoint-methods@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@octokit/plugin-rest-endpoint-methods/-/plugin-rest-endpoint-methods-4.0.0.tgz#b02a2006dda8e908c3f8ab381dd5475ef5a810a8"
   dependencies:
-    "@octokit/types" "^4.1.5"
+    "@octokit/types" "^5.0.0"
     deprecation "^2.3.1"
 
 "@octokit/request-error@^1.0.1":
@@ -672,9 +672,15 @@
   dependencies:
     "@types/node" ">= 8"
 
-"@octokit/types@^4.0.1", "@octokit/types@^4.1.5":
+"@octokit/types@^4.0.1":
   version "4.1.6"
   resolved "https://registry.yarnpkg.com/@octokit/types/-/types-4.1.6.tgz#03d3f277dee73086940578c2518c2ed700ac07a0"
+  dependencies:
+    "@types/node" ">= 8"
+
+"@octokit/types@^5.0.0":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@octokit/types/-/types-5.0.1.tgz#5459e9a5e9df8565dcc62c17a34491904d71971e"
   dependencies:
     "@types/node" ">= 8"
 
