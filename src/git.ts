@@ -43,7 +43,7 @@ export async function init(action: ActionInterface): Promise<void | Error> {
     info('Git configured… 🔧')
   } catch (error) {
     throw new Error(
-      `There was an error initializing the repository,: ${suppressSensitiveInformation(
+      `There was an error initializing the repository: ${suppressSensitiveInformation(
         error.message,
         action
       )} ❌`
