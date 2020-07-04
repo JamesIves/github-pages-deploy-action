@@ -18,6 +18,8 @@ A lightweight HTTP client optimized for use with actions, TypeScript with generi
   - Basic, Bearer and PAT Support out of the box.  Extensible handlers for others.
   - Redirects supported
 
+Features and releases [here](./RELEASES.md)
+
 ## Install
 
 ```
@@ -49,7 +51,11 @@ export NODE_DEBUG=http
 
 ## Node support
 
-The http-client is built using the latest LTS version of Node 12. We also support the latest LTS for Node 6, 8 and Node 10.
+The http-client is built using the latest LTS version of Node 12. It may work on previous node LTS versions but it's tested and officially supported on Node12+.
+
+## Support and Versioning
+
+We follow semver and will hold compatibility between major versions and increment the minor version with new features and capabilities (while holding compat).
 
 ## Contributing
 
