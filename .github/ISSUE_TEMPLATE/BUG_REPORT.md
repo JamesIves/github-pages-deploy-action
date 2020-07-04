@@ -6,6 +6,8 @@ labels:
 
 ---
 
+<!-- Please check the FAQ before posting an issue: https://github.com/JamesIves/github-pages-deploy-action/wiki -->
+
 **Describe the bug**
 <!-- Please provide a clear and concise description of what the bug is. -->
 
