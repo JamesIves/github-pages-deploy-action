@@ -16,7 +16,7 @@ export default async function run(
     info(`GitHub Pages Deploy Action 🚀
 
       ✈️ Getting Started Guide: https://github.com/marketplace/actions/deploy-to-github-pages
-      ❓ FAQ: https://github.com/JamesIves/github-pages-deploy-action/wiki
+      ❓ FAQ/Wiki: https://github.com/JamesIves/github-pages-deploy-action/wiki
       🔧 Support: https://github.com/JamesIves/github-pages-deploy-action/issues
       ⭐ Contribute: https://github.com/JamesIves/github-pages-deploy-action/blob/dev/CONTRIBUTING.md
     
