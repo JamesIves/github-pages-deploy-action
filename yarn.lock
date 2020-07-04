@@ -12,18 +12,18 @@
   dependencies:
     "@actions/io" "^1.0.1"
 
-"@actions/github@2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@actions/github/-/github-2.2.0.tgz#8952fe96b12b881fa39340f0e7202b04dc5c3e71"
-  integrity sha512-9UAZqn8ywdR70n3GwVle4N8ALosQs4z50N7XMXrSTUVOmVpaBC5kE3TRTT7qQdi3OaQV24mjGuJZsHUmhD+ZXw==
+"@actions/github@4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@actions/github/-/github-4.0.0.tgz#d520483151a2bf5d2dc9cd0f20f9ac3a2e458816"
   dependencies:
-    "@actions/http-client" "^1.0.3"
-    "@octokit/graphql" "^4.3.1"
-    "@octokit/rest" "^16.43.1"
+    "@actions/http-client" "^1.0.8"
+    "@octokit/core" "^3.0.0"
+    "@octokit/plugin-paginate-rest" "^2.2.3"
+    "@octokit/plugin-rest-endpoint-methods" "^4.0.0"
 
-"@actions/http-client@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@actions/http-client/-/http-client-1.0.3.tgz#b5239d3d8c72378bdcef4d26bb15fa2a01d537fd"
+"@actions/http-client@^1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@actions/http-client/-/http-client-1.0.8.tgz#8bd76e8eca89dc8bcf619aa128eba85f7a39af45"
   dependencies:
     tunnel "0.0.6"
 
@@ -576,6 +576,17 @@
   dependencies:
     "@octokit/types" "^2.0.0"
 
+"@octokit/core@^3.0.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@octokit/core/-/core-3.1.0.tgz#9c3c9b23f7504668cfa057f143ccbf0c645a0ac9"
+  dependencies:
+    "@octokit/auth-token" "^2.4.0"
+    "@octokit/graphql" "^4.3.1"
+    "@octokit/request" "^5.4.0"
+    "@octokit/types" "^5.0.0"
+    before-after-hook "^2.1.0"
+    universal-user-agent "^5.0.0"
+
 "@octokit/endpoint@^5.5.0":
   version "5.5.1"
   resolved "https://registry.yarnpkg.com/@octokit/endpoint/-/endpoint-5.5.1.tgz#2eea81e110ca754ff2de11c79154ccab4ae16b3f"
@@ -600,24 +611,17 @@
     "@octokit/types" "^2.0.0"
     universal-user-agent "^4.0.0"
 
-"@octokit/plugin-paginate-rest@^1.1.1":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@octokit/plugin-paginate-rest/-/plugin-paginate-rest-1.1.2.tgz#004170acf8c2be535aba26727867d692f7b488fc"
-  integrity sha512-jbsSoi5Q1pj63sC16XIUboklNw+8tL9VOnJsWycWYR78TKss5PVpIPb1TUUcMQ+bBh7cY579cVAWmf5qG+dw+Q==
+"@octokit/plugin-paginate-rest@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@octokit/plugin-paginate-rest/-/plugin-paginate-rest-2.2.3.tgz#a6ad4377e7e7832fb4bdd9d421e600cb7640ac27"
   dependencies:
-    "@octokit/types" "^2.0.1"
+    "@octokit/types" "^5.0.0"
 
-"@octokit/plugin-request-log@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@octokit/plugin-request-log/-/plugin-request-log-1.0.0.tgz#eef87a431300f6148c39a7f75f8cfeb218b2547e"
-  integrity sha512-ywoxP68aOT3zHCLgWZgwUJatiENeHE7xJzYjfz8WI0goynp96wETBF+d95b8g/uL4QmS6owPVlaxiz3wyMAzcw==
-
-"@octokit/plugin-rest-endpoint-methods@2.4.0":
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/@octokit/plugin-rest-endpoint-methods/-/plugin-rest-endpoint-methods-2.4.0.tgz#3288ecf5481f68c494dd0602fc15407a59faf61e"
-  integrity sha512-EZi/AWhtkdfAYi01obpX0DF7U6b1VRr30QNQ5xSFPITMdLSfhcBqjamE3F+sKcxPbD7eZuMHu3Qkk2V+JGxBDQ==
+"@octokit/plugin-rest-endpoint-methods@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@octokit/plugin-rest-endpoint-methods/-/plugin-rest-endpoint-methods-4.0.0.tgz#b02a2006dda8e908c3f8ab381dd5475ef5a810a8"
   dependencies:
-    "@octokit/types" "^2.0.1"
+    "@octokit/types" "^5.0.0"
     deprecation "^2.3.1"
 
 "@octokit/request-error@^1.0.1":
@@ -700,16 +704,15 @@
   dependencies:
     "@types/node" ">= 8"
 
-"@octokit/types@^2.0.1":
-  version "2.16.2"
-  resolved "https://registry.yarnpkg.com/@octokit/types/-/types-2.16.2.tgz#4c5f8da3c6fecf3da1811aef678fda03edac35d2"
-  integrity sha512-O75k56TYvJ8WpAakWwYRN8Bgu60KrmX0z1KqFp1kNiFNkgW+JW+9EBKZ+S33PU6SLvbihqd+3drvPxKK68Ee8Q==
-  dependencies:
-    "@types/node" ">= 8"
-
 "@octokit/types@^4.0.1":
   version "4.1.6"
   resolved "https://registry.yarnpkg.com/@octokit/types/-/types-4.1.6.tgz#03d3f277dee73086940578c2518c2ed700ac07a0"
+  dependencies:
+    "@types/node" ">= 8"
+
+"@octokit/types@^5.0.0":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@octokit/types/-/types-5.0.1.tgz#5459e9a5e9df8565dcc62c17a34491904d71971e"
   dependencies:
     "@types/node" ">= 8"
 
@@ -4858,9 +4861,9 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
-typescript@3.9.5:
-  version "3.9.5"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.5.tgz#586f0dba300cde8be52dd1ac4f7e1009c1b13f36"
+typescript@3.9.6:
+  version "3.9.6"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.6.tgz#8f3e0198a34c3ae17091b35571d3afd31999365a"
 
 union-value@^1.0.0:
   version "1.0.1"
