@@ -20,7 +20,7 @@ export default async function run(
       🔧 Support: https://github.com/JamesIves/github-pages-deploy-action/issues
       ⭐ Contribute: https://github.com/JamesIves/github-pages-deploy-action/blob/dev/CONTRIBUTING.md
     
-      Maintainer: James Ives (https://jamesiv.es)`)
+      Maintained by James Ives (https://jamesiv.es)`)
 
     info('Checking configuration and starting deployment… 🚦')
 
