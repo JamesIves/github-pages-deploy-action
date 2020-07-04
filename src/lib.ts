@@ -13,14 +13,15 @@ export default async function run(
   let status: Status = Status.RUNNING
 
   try {
-    info(`GitHub Pages Deploy Action 🚀
+    info(`
+    GitHub Pages Deploy Action 🚀
 
-      ✈️ Getting Started Guide: https://github.com/marketplace/actions/deploy-to-github-pages
-      ❓ FAQ/Wiki: https://github.com/JamesIves/github-pages-deploy-action/wiki
-      🔧 Support: https://github.com/JamesIves/github-pages-deploy-action/issues
-      ⭐ Contribute: https://github.com/JamesIves/github-pages-deploy-action/blob/dev/CONTRIBUTING.md
+    ✈️ Getting Started Guide: https://github.com/marketplace/actions/deploy-to-github-pages
+    ❓ FAQ/Wiki: https://github.com/JamesIves/github-pages-deploy-action/wiki
+    🔧 Support: https://github.com/JamesIves/github-pages-deploy-action/issues
+    ⭐ Contribute: https://github.com/JamesIves/github-pages-deploy-action/blob/dev/CONTRIBUTING.md
     
-      Maintained by James Ives (https://jamesiv.es)`)
+    Maintained by James Ives (https://jamesiv.es)`)
 
     info('Checking configuration and starting deployment… 🚦')
 
