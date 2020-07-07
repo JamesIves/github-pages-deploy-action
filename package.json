@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@types/jest": "26.0.3",
-    "@types/node": "14.0.14",
+    "@types/node": "14.0.19",
     "eslint": "7.3.1",
     "eslint-plugin-github": "3.4.1",
     "eslint-plugin-jest": "23.17.1",
