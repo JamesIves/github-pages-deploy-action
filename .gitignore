@@ -7,6 +7,10 @@ yarn-debug.log*
 yarn-error.log*
 #node_modules
 
+# Test Temp Files
+assets/.nojekyll
+assets/CNAME
+
 # Build
 # lib
 
