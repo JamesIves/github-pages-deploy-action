@@ -152,9 +152,11 @@ describe('foo', () => {
 ## Options
 
 ```ts
-interface {
+interface Options {
   ignoreTypeOfDescribeName?: boolean;
   disallowedWords?: string[];
+  mustNotMatch?: Partial<Record<'describe' | 'test' | 'it', string>> | string;
+  mustMatch?: Partial<Record<'describe' | 'test' | 'it', string>> | string;
 }
 ```
 
@@ -172,7 +174,7 @@ Default: `[]`
 A string array of words that are not allowed to be used in test titles. Matching
 is not case-sensitive, and looks for complete words:
 
-Examples of **incorrect** code using `disallowedWords`:
+Examples of **incorrect** code when using `disallowedWords`:
 
 ```js
 // with disallowedWords: ['correct', 'all', 'every', 'properly']
@@ -189,4 +191,38 @@ Examples of **correct** code when using `disallowedWords`:
 it('correctly sets the value', () => {});
 test('that everything is as it should be', () => {});
 describe('the proper way to handle things', () => {});
+```
+
+#### `mustMatch` & `mustNotMatch`
+
+Defaults: `{}`
+
+Allows enforcing that titles must match or must not match a given Regular
+Expression. An object can be provided to apply different Regular Expressions to
+specific Jest test function groups (`describe`, `test`, and `it`).
+
+Examples of **incorrect** code when using `mustMatch`:
+
+```js
+// with mustMatch: '$that'
+describe('the correct way to do things', () => {});
+fit('this there!', () => {});
+
+// with mustMatch: { test: '$that' }
+describe('the tests that will be run', () => {});
+test('the stuff works', () => {});
+xtest('errors that are thrown have messages', () => {});
+```
+
+Examples of **correct** code when using `mustMatch`:
+
+```js
+// with mustMatch: '$that'
+describe('that thing that needs to be done', () => {});
+fit('that this there!', () => {});
+
+// with mustMatch: { test: '$that' }
+describe('the tests that will be run', () => {});
+test('that the stuff works', () => {});
+xtest('that errors that thrown have messages', () => {});
 ```

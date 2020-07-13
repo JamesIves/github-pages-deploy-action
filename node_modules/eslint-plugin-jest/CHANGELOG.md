@@ -1,3 +1,10 @@
+# [23.18.0](https://github.com/jest-community/eslint-plugin-jest/compare/v23.17.1...v23.18.0) (2020-07-05)
+
+
+### Features
+
+* **valid-title:** support `mustMatch` & `mustNotMatch` options ([#608](https://github.com/jest-community/eslint-plugin-jest/issues/608)) ([4c7207e](https://github.com/jest-community/eslint-plugin-jest/commit/4c7207ebbb274f7b584225ad65ffb96a4328240e)), closes [#233](https://github.com/jest-community/eslint-plugin-jest/issues/233)
+
 ## [23.17.1](https://github.com/jest-community/eslint-plugin-jest/compare/v23.17.0...v23.17.1) (2020-06-23)
 
 
