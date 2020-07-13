@@ -1,5 +1,6 @@
 import {info} from '@actions/core'
-import {rmRF, mkdirP} from '@actions/io'
+import {mkdirP, rmRF} from '@actions/io'
+import fs from 'fs'
 import {ActionInterface, Status} from './constants'
 import {execute} from './execute'
 import {
@@ -193,7 +194,13 @@ export async function deploy(action: ActionInterface): Promise<Status> {
           : temporaryDeploymentDirectory
       } ${
         action.clean
-          ? `--delete ${excludes} --exclude CNAME --exclude .nojekyll`
+          ? `--delete ${excludes} ${
+              !fs.existsSync(`${action.folder}/CNAME`) ? '--exclude CNAME' : ''
+            } ${
+              !fs.existsSync(`${action.folder}/.nojekyll`)
+                ? '--exclude .nojekyll'
+                : ''
+            }`
           : ''
       }  --exclude .ssh --exclude .git --exclude .github ${
         action.folder === action.root

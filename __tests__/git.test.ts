@@ -6,6 +6,7 @@ import {mkdirP, rmRF} from '@actions/io'
 import {action, Status} from '../src/constants'
 import {execute} from '../src/execute'
 import {deploy, generateBranch, init, switchToBaseBranch} from '../src/git'
+import fs from 'fs';
 
 const originalAction = JSON.stringify(action)
 
@@ -362,6 +363,30 @@ describe('git', () => {
       expect(response).toBe(Status.SUCCESS)
     })
 
+    it('should not ignore CNAME or nojekyll if they exist in the deployment folder', async () => {
+      Object.assign(action, {
+        silent: false,
+        folder: 'assets',
+        branch: 'branch',
+        gitHubToken: '123',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        clean: true,
+      })
+
+      const response = await deploy(action)
+    
+      fs.createWriteStream("assets/.nojekyll");
+      fs.createWriteStream("assets/CNAME");
+
+      // Includes the call to generateBranch
+      expect(execute).toBeCalledTimes(12)
+      expect(rmRF).toBeCalledTimes(1)
+      expect(response).toBe(Status.SUCCESS)
+    })
+
     it('should execute commands with single commit toggled', async () => {
       Object.assign(action, {
         silent: false,
@@ -381,6 +406,7 @@ describe('git', () => {
       expect(execute).toBeCalledTimes(18)
       expect(rmRF).toBeCalledTimes(1)
     })
+    
 
     it('should execute commands with clean options, ommits sha commit message', async () => {
       process.env.GITHUB_SHA = ''

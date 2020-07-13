@@ -317,7 +317,9 @@ If you use a [container](https://help.github.com/en/actions/automating-your-work
 
 ### Additional Build Files 📁
 
-If you're using a custom domain and require a `CNAME` file, or if you require the use of a `.nojekyll` file, you can safely commit these files directly into deployment branch without them being overridden after each deployment.
+If you're using a custom domain and require a `CNAME` file, or if you require the use of a `.nojekyll` file, you can safely commit these files directly into deployment branch without them being overridden after each deployment. Additionally you can include these files in your deployment folder to update them.
+
+If you wish to remove these files you must go into the deployment branch directly to remove them. This is to prevent accidental changes in your deployment script from creating breaking changes.
 
 ---
 
