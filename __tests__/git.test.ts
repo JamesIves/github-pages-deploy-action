@@ -6,7 +6,7 @@ import {mkdirP, rmRF} from '@actions/io'
 import {action, Status} from '../src/constants'
 import {execute} from '../src/execute'
 import {deploy, generateBranch, init, switchToBaseBranch} from '../src/git'
-import fs from 'fs';
+import fs from 'fs'
 
 const originalAction = JSON.stringify(action)
 
@@ -373,13 +373,13 @@ describe('git', () => {
           name: 'asd',
           email: 'as@cat'
         },
-        clean: true,
+        clean: true
       })
 
       const response = await deploy(action)
-    
-      fs.createWriteStream("assets/.nojekyll");
-      fs.createWriteStream("assets/CNAME");
+
+      fs.createWriteStream('assets/.nojekyll')
+      fs.createWriteStream('assets/CNAME')
 
       // Includes the call to generateBranch
       expect(execute).toBeCalledTimes(12)
@@ -406,7 +406,6 @@ describe('git', () => {
       expect(execute).toBeCalledTimes(18)
       expect(rmRF).toBeCalledTimes(1)
     })
-    
 
     it('should execute commands with clean options, ommits sha commit message', async () => {
       process.env.GITHUB_SHA = ''
