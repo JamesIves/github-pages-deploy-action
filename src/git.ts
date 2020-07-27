@@ -91,7 +91,7 @@ export async function generateBranch(action: ActionInterface): Promise<void> {
     )
     await execute(`git reset --hard`, action.workspace, action.silent)
     await execute(
-      `git commit --allow-empty -m "Initial ${action.branch} commit"`,
+      `git commit --no-verify --allow-empty -m "Initial ${action.branch} commit"`,
       action.workspace,
       action.silent
     )
@@ -233,7 +233,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       action.silent
     )
     await execute(
-      `git commit -m "${commitMessage}" --quiet`,
+      `git commit -m "${commitMessage}" --quiet --no-verify`,
       `${action.workspace}/${temporaryDeploymentDirectory}`,
       action.silent
     )
@@ -262,7 +262,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
         action.silent
       )
       await execute(
-        `git commit -m "${commitMessage}" --quiet`,
+        `git commit -m "${commitMessage}" --quiet --no-verify`,
         `${action.workspace}/${temporaryDeploymentDirectory}`,
         action.silent
       )
