@@ -1,6 +1,9 @@
 import {isDebug} from '@actions/core'
 import {ActionInterface} from './constants'
 
+const replaceAll = (input: string, find: string, replace: string): string =>
+  input.split(find).join(replace)
+
 /* Utility function that checks to see if a value is undefined or not. */
 export const isNullOrUndefined = (value: any): boolean =>
   typeof value === 'undefined' || value === null || value === ''
@@ -64,16 +67,14 @@ export const suppressSensitiveInformation = (
     return value
   }
 
-  if (action.accessToken) {
-    value = value.replace(action.accessToken, '***')
-  }
+  const orderedByLength = ([
+    action.accessToken,
+    action.gitHubToken,
+    action.repositoryPath
+  ].filter(Boolean) as string[]).sort((a, b) => b.length - a.length)
 
-  if (action.gitHubToken) {
-    value = value.replace(action.gitHubToken, '***')
-  }
-
-  if (action.repositoryPath) {
-    value = value.replace(action.repositoryPath, '***')
+  for (const find of orderedByLength) {
+    value = replaceAll(value, find, '***')
   }
 
   return value
