@@ -43,6 +43,7 @@ inputs:
   CLEAN:
     description: 'If your project generates hashed files on build you can use this option to automatically delete them from the deployment branch with each deploy. This option can be toggled on by setting it to true.'
     required: false
+    default: 'true'
 
   CLEAN_EXCLUDE:
     description: "If you need to use CLEAN but you would like to preserve certain files or folders you can use this option. This should be formatted as an array but stored as a string."
