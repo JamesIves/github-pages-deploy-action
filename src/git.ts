@@ -149,20 +149,22 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     // Checks out the base branch to begin the deployment process.
     await switchToBaseBranch(action)
 
+    await execute(
+      `git fetch ${action.repositoryPath}`,
+      action.workspace,
+      action.silent
+    )
+
     if (action.lfs) {
       // Migrates data from LFS so it can be comitted the "normal" way.
+      info(`Migrating from Git LFS… ⚓`)
       await execute(
         `git lfs migrate export --include="*"`,
         action.workspace,
         action.silent
       )
     }
-
-    await execute(
-      `git fetch ${action.repositoryPath}`,
-      action.workspace,
-      action.silent
-    )
+  
     await execute(
       `git worktree add --checkout ${temporaryDeploymentDirectory} origin/${action.branch}`,
       action.workspace,
