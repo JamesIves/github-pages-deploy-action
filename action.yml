@@ -68,6 +68,10 @@ inputs:
   SINGLE_COMMIT:
     description: "This option can be used if you'd prefer to have a single commit on the deployment branch instead of maintaining the full history."
     required: false
+  
+  SINGLE_COMMIT:
+    description: "Migrates files from Git LFS so they can be comitted to the deployment branch."
+    required: false
 
   SILENT:
     description: "Silences the action output preventing it from displaying git messages."

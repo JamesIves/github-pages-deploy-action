@@ -28,6 +28,8 @@ export interface ActionInterface {
   gitHubToken?: string | null
   /** Determines if the action is running in test mode or not. */
   isTest?: boolean | null
+  /** Removes files from LFS if toggled to allow normal deployment. */
+  lfs?: boolean | null
   /** The git config name. */
   name?: string
   /** The repository path, for example JamesIves/github-pages-deploy-action. */
@@ -64,6 +66,9 @@ export const action: ActionInterface = {
   defaultBranch: process.env.GITHUB_SHA ? process.env.GITHUB_SHA : 'master',
   isTest: process.env.UNIT_TEST
     ? process.env.UNIT_TEST.toLowerCase() === 'true'
+    : false,
+  lfs: !isNullOrUndefined(getInput('LFS'))
+    ? getInput('LFS').toLowerCase() === 'true'
     : false,
   email: !isNullOrUndefined(getInput('GIT_CONFIG_EMAIL'))
     ? getInput('GIT_CONFIG_EMAIL')
