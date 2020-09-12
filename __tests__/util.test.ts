@@ -148,9 +148,9 @@ describe('util', () => {
           silent: false
         }
 
-        const string = `This is an error message! It contains ${action.accessToken} and ${action.gitHubToken} and ${action.repositoryPath}`
+        const string = `This is an error message! It contains ${action.accessToken} and ${action.gitHubToken} and ${action.repositoryPath} and ${action.accessToken} again!`
         expect(suppressSensitiveInformation(string, action)).toBe(
-          'This is an error message! It contains *** and *** and ***'
+          'This is an error message! It contains *** and *** and *** and *** again!'
         )
       })
 
