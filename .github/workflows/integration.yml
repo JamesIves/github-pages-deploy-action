@@ -25,6 +25,7 @@ jobs:
           FOLDER: integration
           BASE_BRANCH: dev
           TARGET_FOLDER: cat/montezuma
+          LFS: true 
           GIT_CONFIG_NAME: Montezuma
           GIT_CONFIG_EMAIL: montezuma@jamesiv.es
 
@@ -51,6 +52,7 @@ jobs:
           BRANCH: gh-pages
           FOLDER: integration
           BASE_BRANCH: dev
+          LFS: true 
           TARGET_FOLDER: cat/montezuma2
 
       - name: Cleanup Generated Branch
