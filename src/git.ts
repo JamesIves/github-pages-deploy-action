@@ -159,12 +159,12 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       // Migrates data from LFS so it can be comitted the "normal" way.
       info(`Migrating from Git LFS… ⚓`)
       await execute(
-        `git lfs migrate export --include="*"`,
+        `git lfs migrate export --include="*" --yes`,
         action.workspace,
         action.silent
       )
     }
-  
+
     await execute(
       `git worktree add --checkout ${temporaryDeploymentDirectory} origin/${action.branch}`,
       action.workspace,
