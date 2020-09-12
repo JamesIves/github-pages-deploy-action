@@ -1,12 +1,12 @@
 # Suggest using `toHaveLength()` (`prefer-to-have-length`)
 
 In order to have a better failure message, `toHaveLength()` should be used upon
-asserting expectations on object's length property.
+asserting expectations on objects length property.
 
 ## Rule details
 
 This rule triggers a warning if `toBe()`, `toEqual()` or `toStrictEqual()` is
-used to assert object's length property.
+used to assert objects length property.
 
 ```js
 expect(files.length).toBe(1);

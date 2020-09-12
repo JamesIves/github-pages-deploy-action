@@ -1,4 +1,4 @@
-# Don't use alias methods (`no-alias-methods`)
+# Disallow alias methods (`no-alias-methods`)
 
 Several Jest methods have alias names, such as `toThrow` having the alias of
 `toThrowError`. This rule ensures that only the canonical name as used in the

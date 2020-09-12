@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 import BaseWorkerPool from './base/BaseWorkerPool';
-import type { ChildMessage, OnEnd, OnStart, WorkerInterface, WorkerOptions, WorkerPoolInterface } from './types';
+import type { ChildMessage, OnCustomMessage, OnEnd, OnStart, WorkerInterface, WorkerOptions, WorkerPoolInterface } from './types';
 declare class WorkerPool extends BaseWorkerPool implements WorkerPoolInterface {
-    send(workerId: number, request: ChildMessage, onStart: OnStart, onEnd: OnEnd): void;
+    send(workerId: number, request: ChildMessage, onStart: OnStart, onEnd: OnEnd, onCustomMessage: OnCustomMessage): void;
     createWorker(workerOptions: WorkerOptions): WorkerInterface;
 }
 export default WorkerPool;

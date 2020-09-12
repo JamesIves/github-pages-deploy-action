@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 /// <reference types="node" />
-import { ChildMessage, OnEnd, OnStart, WorkerInterface, WorkerOptions } from '../types';
+import { ChildMessage, OnCustomMessage, OnEnd, OnStart, WorkerInterface, WorkerOptions } from '../types';
 /**
  * This class wraps the child process and provides a nice interface to
  * communicate with. It takes care of:
@@ -30,6 +30,7 @@ export default class ChildProcessWorker implements WorkerInterface {
     private _request;
     private _retries;
     private _onProcessEnd;
+    private _onCustomMessage;
     private _fakeStream;
     private _stdout;
     private _stderr;
@@ -40,7 +41,7 @@ export default class ChildProcessWorker implements WorkerInterface {
     private _shutdown;
     private _onMessage;
     private _onExit;
-    send(request: ChildMessage, onProcessStart: OnStart, onProcessEnd: OnEnd): void;
+    send(request: ChildMessage, onProcessStart: OnStart, onProcessEnd: OnEnd, onCustomMessage: OnCustomMessage): void;
     waitForExit(): Promise<void>;
     forceExit(): void;
     getWorkerId(): number;

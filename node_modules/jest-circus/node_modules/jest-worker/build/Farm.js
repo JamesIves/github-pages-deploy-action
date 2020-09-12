@@ -53,7 +53,20 @@ class Farm {
   }
 
   doWork(method, ...args) {
-    return new Promise((resolve, reject) => {
+    const customMessageListeners = new Set();
+
+    const addCustomMessageListener = listener => {
+      customMessageListeners.add(listener);
+      return () => {
+        customMessageListeners.delete(listener);
+      };
+    };
+
+    const onCustomMessage = message => {
+      customMessageListeners.forEach(listener => listener(message));
+    };
+
+    const promise = new Promise((resolve, reject) => {
       const computeWorkerKey = this._computeWorkerKey;
       const request = [_types.CHILD_MESSAGE_CALL, false, method, args];
       let worker = null;
@@ -71,6 +84,8 @@ class Farm {
       };
 
       const onEnd = (error, result) => {
+        customMessageListeners.clear();
+
         if (error) {
           reject(error);
         } else {
@@ -79,6 +94,7 @@ class Farm {
       };
 
       const task = {
+        onCustomMessage,
         onEnd,
         onStart,
         request
@@ -90,6 +106,8 @@ class Farm {
         this._push(task);
       }
     });
+    promise.UNSTABLE_onCustomMessage = addCustomMessageListener;
+    return promise;
   }
 
   _getNextTask(workerId) {
@@ -126,7 +144,13 @@ class Farm {
 
     this._lock(workerId);
 
-    this._callback(workerId, task.request, task.onStart, onEnd);
+    this._callback(
+      workerId,
+      task.request,
+      task.onStart,
+      onEnd,
+      task.onCustomMessage
+    );
 
     return this;
   }

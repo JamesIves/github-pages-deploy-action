@@ -5,10 +5,8 @@ promise
 
 ## Rule details
 
-This rule triggers a warning if,
-
-- test is having assertions in `then` or `catch` block of a promise
-- and that promise is not returned from the test
+This rule looks for tests that have assertions in `then` and `catch` methods on
+promises that are not returned by the test.
 
 ### Default configuration
 

@@ -15,7 +15,7 @@ body.
 
 // valid:
 
-it('noop', function() {});
+it('noop', function () {});
 
 test('noop', () => {});
 
@@ -27,7 +27,7 @@ test('one', () => {
   expect(1).toBe(1);
 });
 
-it('one', function() {
+it('one', function () {
   expect(1).toBe(1);
 });
 
@@ -41,7 +41,7 @@ test('return an expect', () => {
   return expect(1).toBe(1);
 });
 
-it('returning a promise', function() {
+it('returning a promise', function () {
   return new Promise(res => setTimeout(res, 100)).then(() => expect(1).toBe(1));
 });
 ```

@@ -21,9 +21,9 @@ This rule has been deprecated in favor of
 
 ---
 
-In order to make snapshot tests more managable and reviewable
+In order to make snapshot tests more manageable and reviewable
 `toMatchInlineSnapshot()` and `toThrowErrorMatchingInlineSnapshot` should be
-used to write the snapshots inline in the test file.
+used to write the snapshots' inline in the test file.
 
 ## Rule details
 

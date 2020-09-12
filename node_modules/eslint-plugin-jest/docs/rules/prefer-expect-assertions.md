@@ -32,13 +32,13 @@ test('my test', () => {
 The following patterns are considered warnings:
 
 ```js
-test("my test", () => {
-  expect.assertions("1");
-  expect(someThing()).toEqual("foo");
+test('my test', () => {
+  expect.assertions('1');
+  expect(someThing()).toEqual('foo');
 });
 
-test("my test", () => {
-  expect.(someThing()).toEqual("foo");
+test('my test', () => {
+  expect(someThing()).toEqual('foo');
 });
 ```
 

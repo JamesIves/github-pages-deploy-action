@@ -21,6 +21,8 @@ export interface ActionInterface {
     gitHubToken?: string | null;
     /** Determines if the action is running in test mode or not. */
     isTest?: boolean | null;
+    /** Removes files from LFS if toggled to allow normal deployment. */
+    lfs?: boolean | null;
     /** The git config name. */
     name?: string;
     /** The repository path, for example JamesIves/github-pages-deploy-action. */

@@ -37,8 +37,8 @@ it('adds 1 + 2 to equal 3', () => {
 
 ### `ignore`
 
-This array option whitelists function names so that this rule does not report
-their usage as being incorrect. There are three possible values:
+This array option controls which Jest functions are checked by this rule. There
+are three possible values:
 
 - `"describe"`
 - `"test"`
@@ -73,9 +73,9 @@ it('Uppercase description');
 
 ### `allowedPrefixes`
 
-This array option whitelists prefixes that titles can start with with capitals.
-This can be useful when writing tests for api endpoints, where you'd like to
-prefix with the HTTP method.
+This array option allows specifying prefixes which contain capitals that titles
+can start with. This can be useful when writing tests for api endpoints, where
+you'd like to prefix with the HTTP method.
 
 By default, nothing is allowed (the equivalent of `{ "allowedPrefixes": [] }`).
 

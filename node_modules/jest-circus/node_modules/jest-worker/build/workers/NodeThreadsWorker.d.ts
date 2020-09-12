@@ -5,13 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 /// <reference types="node" />
-import { ChildMessage, OnEnd, OnStart, WorkerInterface, WorkerOptions } from '../types';
+import { ChildMessage, OnCustomMessage, OnEnd, OnStart, WorkerInterface, WorkerOptions } from '../types';
 export default class ExperimentalWorker implements WorkerInterface {
     private _worker;
     private _options;
     private _request;
     private _retries;
     private _onProcessEnd;
+    private _onCustomMessage;
     private _fakeStream;
     private _stdout;
     private _stderr;
@@ -25,7 +26,7 @@ export default class ExperimentalWorker implements WorkerInterface {
     private _onExit;
     waitForExit(): Promise<void>;
     forceExit(): void;
-    send(request: ChildMessage, onProcessStart: OnStart, onProcessEnd: OnEnd): void;
+    send(request: ChildMessage, onProcessStart: OnStart, onProcessEnd: OnEnd, onCustomMessage: OnCustomMessage): void;
     getWorkerId(): number;
     getStdout(): NodeJS.ReadableStream | null;
     getStderr(): NodeJS.ReadableStream | null;

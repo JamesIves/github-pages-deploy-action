@@ -4,7 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import { FarmOptions } from './types';
+import { FarmOptions, PromiseWithCustomMessage } from './types';
 export default class Farm {
     private _computeWorkerKey;
     private _cacheKeys;
@@ -15,7 +15,7 @@ export default class Farm {
     private _offset;
     private _queue;
     constructor(numOfWorkers: number, callback: Function, computeWorkerKey?: FarmOptions['computeWorkerKey']);
-    doWork(method: string, ...args: Array<any>): Promise<unknown>;
+    doWork(method: string, ...args: Array<unknown>): PromiseWithCustomMessage<unknown>;
     private _getNextTask;
     private _process;
     private _enqueue;

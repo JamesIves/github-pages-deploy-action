@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 /// <reference types="node" />
-import type { FarmOptions, PoolExitResult } from './types';
+import type { FarmOptions, PoolExitResult, PromiseWithCustomMessage } from './types';
+export { default as messageParent } from './workers/messageParent';
 /**
  * The Jest farm (publicly called "Worker") is a class that allows you to queue
  * methods across multiple child processes, in order to parallelize work. This
@@ -43,3 +44,4 @@ export default class JestWorker {
     getStdout(): NodeJS.ReadableStream;
     end(): Promise<PoolExitResult>;
 }
+export type { PromiseWithCustomMessage };

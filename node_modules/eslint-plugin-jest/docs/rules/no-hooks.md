@@ -101,8 +101,8 @@ describe('foo', () => {
 
 ### `allow`
 
-This array option whitelists setup and teardown hooks so that this rule does not
-report their usage as being incorrect. There are four possible values:
+This array option controls which Jest hooks are checked by this rule. There are
+four possible values:
 
 - `"beforeAll"`
 - `"beforeEach"`

@@ -40,6 +40,17 @@ function isHandledLogicalOperator(operator) {
 }
 
 /**
+ * Checks whether the given assignment operator is a logical assignment operator.
+ * Logical assignments are taken into account for the code path analysis
+ * because of their short-circuiting semantics.
+ * @param {string} operator The operator found in the AssignmentExpression node
+ * @returns {boolean} `true` if the operator is "&&=" or "||=" or "??="
+ */
+function isLogicalAssignmentOperator(operator) {
+    return operator === "&&=" || operator === "||=" || operator === "??=";
+}
+
+/**
  * Gets the label if the parent node of a given node is a LabeledStatement.
  * @param {ASTNode} node A node to get.
  * @returns {string|null} The label or `null`.
@@ -70,6 +81,9 @@ function isForkingByTrueOrFalse(node) {
 
         case "LogicalExpression":
             return isHandledLogicalOperator(parent.operator);
+
+        case "AssignmentExpression":
+            return isLogicalAssignmentOperator(parent.operator);
 
         default:
             return false;
@@ -244,10 +258,32 @@ function preprocess(analyzer, node) {
     const parent = node.parent;
 
     switch (parent.type) {
+
+        // The `arguments.length == 0` case is in `postprocess` function.
+        case "CallExpression":
+            if (parent.optional === true && parent.arguments.length >= 1 && parent.arguments[0] === node) {
+                state.makeOptionalRight();
+            }
+            break;
+        case "MemberExpression":
+            if (parent.optional === true && parent.property === node) {
+                state.makeOptionalRight();
+            }
+            break;
+
         case "LogicalExpression":
             if (
                 parent.right === node &&
                 isHandledLogicalOperator(parent.operator)
+            ) {
+                state.makeLogicalRight();
+            }
+            break;
+
+        case "AssignmentExpression":
+            if (
+                parent.right === node &&
+                isLogicalAssignmentOperator(parent.operator)
             ) {
                 state.makeLogicalRight();
             }
@@ -377,10 +413,33 @@ function processCodePathToEnter(analyzer, node) {
             analyzer.emitter.emit("onCodePathStart", codePath, node);
             break;
 
+        case "ChainExpression":
+            state.pushChainContext();
+            break;
+        case "CallExpression":
+            if (node.optional === true) {
+                state.makeOptionalNode();
+            }
+            break;
+        case "MemberExpression":
+            if (node.optional === true) {
+                state.makeOptionalNode();
+            }
+            break;
+
         case "LogicalExpression":
             if (isHandledLogicalOperator(node.operator)) {
                 state.pushChoiceContext(
                     node.operator,
+                    isForkingByTrueOrFalse(node)
+                );
+            }
+            break;
+
+        case "AssignmentExpression":
+            if (isLogicalAssignmentOperator(node.operator)) {
+                state.pushChoiceContext(
+                    node.operator.slice(0, -1), // removes `=` from the end
                     isForkingByTrueOrFalse(node)
                 );
             }
@@ -449,6 +508,10 @@ function processCodePathToExit(analyzer, node) {
     let dontForward = false;
 
     switch (node.type) {
+        case "ChainExpression":
+            state.popChainContext();
+            break;
+
         case "IfStatement":
         case "ConditionalExpression":
             state.popChoiceContext();
@@ -456,6 +519,12 @@ function processCodePathToExit(analyzer, node) {
 
         case "LogicalExpression":
             if (isHandledLogicalOperator(node.operator)) {
+                state.popChoiceContext();
+            }
+            break;
+
+        case "AssignmentExpression":
+            if (isLogicalAssignmentOperator(node.operator)) {
                 state.popChoiceContext();
             }
             break;
@@ -582,6 +651,13 @@ function postprocess(analyzer, node) {
             }
             break;
         }
+
+        // The `arguments.length >= 1` case is in `preprocess` function.
+        case "CallExpression":
+            if (node.optional === true && node.arguments.length === 0) {
+                CodePath.getState(analyzer.codePath).makeOptionalRight();
+            }
+            break;
 
         default:
             break;

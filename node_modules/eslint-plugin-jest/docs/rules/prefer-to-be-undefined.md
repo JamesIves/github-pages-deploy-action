@@ -1,7 +1,7 @@
 # Suggest using `toBeUndefined()` (`prefer-to-be-undefined`)
 
 In order to have a better failure message, `toBeUndefined()` should be used upon
-asserting expections on undefined value.
+asserting expectations on undefined value.
 
 ## Rule details
 

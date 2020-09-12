@@ -1,4 +1,4 @@
-# Suggest using `toBeCalledWith` OR `toHaveBeenCalledWith` (`prefer-called-with`)
+# Suggest using `toBeCalledWith()` or `toHaveBeenCalledWith()` (`prefer-called-with`)
 
 The `toBeCalled()` matcher is used to assert that a mock function has been
 called one or more times, without checking the arguments passed. The assertion

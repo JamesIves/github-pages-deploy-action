@@ -1,0 +1,1 @@
+{"version":3,"file":"es2020.intl.js","sourceRoot":"","sources":["../../src/lib/es2020.intl.ts"],"names":[],"mappings":";AAAA,wCAAwC;AACxC,gCAAgC;AAChC,gDAAgD;;;AAInC,QAAA,WAAW,GAAG;IACzB,IAAI,EAAE;QACJ,2BAA2B,EAAE,UAAU;QACvC,cAAc,EAAE,IAAI;QACpB,eAAe,EAAE,IAAI;QACrB,IAAI,EAAE,MAAM;KACb;CAC4C,CAAC"}

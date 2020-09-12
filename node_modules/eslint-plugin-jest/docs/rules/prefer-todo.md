@@ -5,7 +5,7 @@ will be highlighted in the summary output.
 
 ## Rule details
 
-This rule triggers a warning if empty test case is used without 'test.todo'.
+This rule triggers a warning if empty test cases are used without 'test.todo'.
 
 ```js
 test('i need to write this test');

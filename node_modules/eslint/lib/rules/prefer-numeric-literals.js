@@ -29,19 +29,10 @@ const radixMap = new Map([
  * false otherwise.
  */
 function isParseInt(calleeNode) {
-    switch (calleeNode.type) {
-        case "Identifier":
-            return calleeNode.name === "parseInt";
-        case "MemberExpression":
-            return calleeNode.object.type === "Identifier" &&
-                calleeNode.object.name === "Number" &&
-                calleeNode.property.type === "Identifier" &&
-                calleeNode.property.name === "parseInt";
-
-        // no default
-    }
-
-    return false;
+    return (
+        astUtils.isSpecificId(calleeNode, "parseInt") ||
+        astUtils.isSpecificMemberAccess(calleeNode, "Number", "parseInt")
+    );
 }
 
 //------------------------------------------------------------------------------
@@ -112,6 +103,16 @@ module.exports = {
                                 /*
                                  * If the newly-produced literal would be invalid, (e.g. 0b1234),
                                  * or it would yield an incorrect parseInt result for some other reason, don't make a fix.
+                                 *
+                                 * If `str` had numeric separators, `+replacement` will evaluate to `NaN` because unary `+`
+                                 * per the specification doesn't support numeric separators. Thus, the above condition will be `true`
+                                 * (`NaN !== anything` is always `true`) regardless of the `parseInt(str, radix)` value.
+                                 * Consequently, no autofixes will be made. This is correct behavior because `parseInt` also
+                                 * doesn't support numeric separators, but it does parse part of the string before the first `_`,
+                                 * so the autofix would be invalid:
+                                 *
+                                 *   parseInt("1_1", 2) // === 1
+                                 *   0b1_1 // === 3
                                  */
                                 return null;
                             }

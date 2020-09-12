@@ -121,12 +121,13 @@ class BaseWorkerPool {
 
     const stdout = (0, _mergeStream().default)();
     const stderr = (0, _mergeStream().default)();
-    const {forkOptions, maxRetries, setupArgs} = options;
+    const {forkOptions, maxRetries, resourceLimits, setupArgs} = options;
 
     for (let i = 0; i < options.numWorkers; i++) {
       const workerOptions = {
         forkOptions,
         maxRetries,
+        resourceLimits,
         setupArgs,
         workerId: i,
         workerPath
@@ -176,6 +177,7 @@ class BaseWorkerPool {
     const workerExitPromises = this._workers.map(async worker => {
       worker.send(
         [_types().CHILD_MESSAGE_END, false],
+        emptyMethod,
         emptyMethod,
         emptyMethod
       ); // Schedule a force exit in case worker fails to exit gracefully so

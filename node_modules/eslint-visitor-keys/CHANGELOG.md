@@ -1,3 +1,7 @@
+v1.3.0 - June 19, 2020
+
+* [`c92dd7f`](https://github.com/eslint/eslint-visitor-keys/commit/c92dd7ff96f0044dba12d681406a025b92b4c437) Update: add `ChainExpression` node (#12) (Toru Nagashima)
+
 v1.2.0 - June 4, 2020
 
 * [`21f28bf`](https://github.com/eslint/eslint-visitor-keys/commit/21f28bf11be5329d740a8bf6bdbcd0ef13bbf1a2) Update: added exported in exportAllDeclaration key (#10) (Anix)

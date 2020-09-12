@@ -14,6 +14,6 @@ declare function clearCaches(): void;
  * @returns The programs corresponding to the supplied tsconfig paths
  */
 declare function getProgramsForProjects(code: string, filePathIn: string, extra: Extra): ts.Program[];
-declare function createWatchProgram(tsconfigPath: string, extra: Extra): ts.WatchOfConfigFile<ts.SemanticDiagnosticsBuilderProgram>;
+declare function createWatchProgram(tsconfigPath: string, extra: Extra): ts.WatchOfConfigFile<ts.BuilderProgram>;
 export { clearCaches, createWatchProgram, getProgramsForProjects };
 //# sourceMappingURL=createWatchProgram.d.ts.map

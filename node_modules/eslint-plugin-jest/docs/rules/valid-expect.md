@@ -95,33 +95,37 @@ supported by `expect`, such as
 The following patterns are considered warnings:
 
 ```js
-expect();
-expect().toEqual('something');
-expect('something', 'else');
-expect('something');
-await expect('something');
-expect(true).toBeDefined;
-expect(Promise.resolve('hello')).resolves;
-expect(Promise.resolve('hello')).resolves.toEqual('hello');
-Promise.resolve(expect(Promise.resolve('hello')).resolves.toEqual('hello'));
-Promise.all([
-  expect(Promise.resolve('hello')).resolves.toEqual('hello'),
-  expect(Promise.resolve('hi')).resolves.toEqual('hi'),
-]);
+test('all the things', async () => {
+  expect();
+  expect().toEqual('something');
+  expect('something', 'else');
+  expect('something');
+  await expect('something');
+  expect(true).toBeDefined;
+  expect(Promise.resolve('hello')).resolves;
+  expect(Promise.resolve('hello')).resolves.toEqual('hello');
+  Promise.resolve(expect(Promise.resolve('hello')).resolves.toEqual('hello'));
+  Promise.all([
+    expect(Promise.resolve('hello')).resolves.toEqual('hello'),
+    expect(Promise.resolve('hi')).resolves.toEqual('hi'),
+  ]);
+});
 ```
 
 The following patterns are not warnings:
 
 ```js
-expect('something').toEqual('something');
-expect([1, 2, 3]).toEqual([1, 2, 3]);
-expect(true).toBeDefined();
-await expect(Promise.resolve('hello')).resolves.toEqual('hello');
-await Promise.resolve(
-  expect(Promise.resolve('hello')).resolves.toEqual('hello'),
-);
-await Promise.all(
-  expect(Promise.resolve('hello')).resolves.toEqual('hello'),
-  expect(Promise.resolve('hi')).resolves.toEqual('hi'),
-);
+test('all the things', async () => {
+  expect('something').toEqual('something');
+  expect([1, 2, 3]).toEqual([1, 2, 3]);
+  expect(true).toBeDefined();
+  await expect(Promise.resolve('hello')).resolves.toEqual('hello');
+  await Promise.resolve(
+    expect(Promise.resolve('hello')).resolves.toEqual('hello'),
+  );
+  await Promise.all(
+    expect(Promise.resolve('hello')).resolves.toEqual('hello'),
+    expect(Promise.resolve('hi')).resolves.toEqual('hi'),
+  );
+});
 ```
