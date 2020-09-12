@@ -62,11 +62,12 @@ jobs:
           npm run build
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@3.5.8
+        uses: JamesIves/github-pages-deploy-action@3.6.0
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages # The branch the action should deploy to.
           FOLDER: build # The folder the action should deploy.
+          CLEAN: true # Automatically remove deleted files from the deploy branch
 ```
 
 If you'd like to make it so the workflow only triggers on push events to specific branches then you can modify the `on` section.
@@ -146,9 +147,10 @@ In addition to the deployment options you must also configure the following.
 | `TARGET_FOLDER`    | If you'd like to push the contents of the deployment folder into a specific directory on the deployment branch you can specify it here.                                                                                                                                                                                                               | `with` | **No**   |
 | `BASE_BRANCH`      | The base branch of your repository which you'd like to checkout prior to deploying. This defaults to the current commit [SHA](http://en.wikipedia.org/wiki/SHA-1) that triggered the build followed by `master` if it doesn't exist. This is useful for making deployments from another branch, and also may be necessary when using a scheduled job. | `with` | **No**   |
 | `COMMIT_MESSAGE`   | If you need to customize the commit message for an integration you can do so.                                                                                                                                                                                                                                                                         | `with` | **No**   |
-| `CLEAN`            | If your project generates hashed files on build you can use this option to automatically delete them from the deployment branch with each deploy. This option can be toggled on by setting it to `true`.                                                                                                                                              | `with` | **No**   |
+| `CLEAN`            | If your project generates hashed files on build you can use this option to automatically delete them from the deployment branch with each deploy. This option is turned on by default, and can be toggled off by setting it to `false`.                                                                                                                                              | `with` | **No**   |
 | `CLEAN_EXCLUDE`    | If you need to use `CLEAN` but you'd like to preserve certain files or folders you can use this option. This should be formatted as an array but stored as a string. For example: `'["filename.js", "folder"]'`                                                                                                                                       | `with` | **No**   |
 | `SINGLE_COMMIT`        | This option can be toggled to `true` if you'd prefer to have a single commit on the deployment branch instead of maintaining the full history. **Using this option will also cause any existing history to be wiped from the deployment branch**.                                                                                                                                            | `with` | **No**   |
+| `LFS`        | If toggled all files will be migrated from [Git LFS](https://git-lfs.github.com/) so they can be comitted to the deployment branch.                                                                                                                                            | `with` | **No**   |
 | `SILENT`        | Silences the action output preventing it from displaying git messages.                                                                                                                            | `with` | **No**   |
 | `WORKSPACE`        | This should point to where your project lives on the virtual machine. The GitHub Actions environment will set this for you. It is only neccersary to set this variable if you're using the node module.                                                                                                                                               | `with` | **No**   |
 

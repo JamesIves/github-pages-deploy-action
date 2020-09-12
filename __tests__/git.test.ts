@@ -349,6 +349,7 @@ describe('git', () => {
         folder: 'assets',
         branch: 'branch',
         gitHubToken: '123',
+        lfs: true,
         pusher: {
           name: 'asd',
           email: 'as@cat'
@@ -358,7 +359,7 @@ describe('git', () => {
       const response = await deploy(action)
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(12)
+      expect(execute).toBeCalledTimes(13)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
