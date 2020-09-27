@@ -32,6 +32,8 @@ export interface ActionInterface {
   lfs?: boolean | null
   /** The git config name. */
   name?: string
+  /** Determines if the workspace should be stashed/restored prior to comitting. */
+  preserve?: boolean | null
   /** The repository path, for example JamesIves/github-pages-deploy-action. */
   repositoryName?: string
   /** The fully qualified repositpory path, this gets auto generated if repositoryName is provided. */
@@ -85,6 +87,9 @@ export const action: ActionInterface = {
     : process.env.GITHUB_ACTOR
     ? process.env.GITHUB_ACTOR
     : 'GitHub Pages Deploy Action',
+  preserve: !isNullOrUndefined(getInput('PRESERVE'))
+    ? getInput('PRESERVE').toLowerCase() === 'true'
+    : false,
   repositoryName: !isNullOrUndefined(getInput('REPOSITORY_NAME'))
     ? getInput('REPOSITORY_NAME')
     : repository && repository.full_name
