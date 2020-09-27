@@ -57,6 +57,9 @@ doing:
 }
 ```
 
+This is included in all configs shared by this plugin, so can be omitted if
+extending them.
+
 The behaviour of some rules (specifically `no-deprecated-functions`) change
 depending on the version of `jest` being used.
 
