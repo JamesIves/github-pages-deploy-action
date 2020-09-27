@@ -62,7 +62,7 @@ jobs:
           npm run build
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@3.6.1
+        uses: JamesIves/github-pages-deploy-action@3.6.2
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages # The branch the action should deploy to.
@@ -188,7 +188,7 @@ With this configured you must add the `ssh-agent` step to your workflow and set 
     ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
 - name: Deploy 🚀
-  uses: JamesIves/github-pages-deploy-action@3.6.1
+  uses: JamesIves/github-pages-deploy-action@3.6.2
   with:
     SSH: true
     BRANCH: gh-pages
@@ -224,7 +224,7 @@ jobs:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@3.6.1
+        uses: JamesIves/github-pages-deploy-action@3.6.2
         with:
           BASE_BRANCH: master
           BRANCH: gh-pages
@@ -291,7 +291,7 @@ jobs:
           name: site
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@3.6.1
+        uses: JamesIves/github-pages-deploy-action@3.6.2
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages
@@ -313,7 +313,7 @@ If you use a [container](https://help.github.com/en/actions/automating-your-work
     apt-get update && apt-get install -y rsync
 
 - name: Deploy 🚀
-  uses: JamesIves/github-pages-deploy-action@3.6.1
+  uses: JamesIves/github-pages-deploy-action@3.6.2
 ```
 
 ---
