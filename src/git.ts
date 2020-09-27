@@ -29,7 +29,12 @@ export async function init(action: ActionInterface): Promise<void | Error> {
       action.silent
     )
 
-    await execute(`git remote rm origin`, action.workspace, action.silent) || true;
+    try {
+      await execute(`git remote rm origin`, action.workspace, action.silent)
+    } catch {
+      info('Unable to remove origin, skipping…')
+    }
+
     await execute(
       `git remote add origin ${action.repositoryPath}`,
       action.workspace,
@@ -173,7 +178,12 @@ export async function deploy(action: ActionInterface): Promise<Status> {
 
     if (action.preserve) {
       info(`Applying stashed workspace changes… ⬆️`)
-      await execute(`git stash apply`, action.workspace, action.silent) || true;
+
+      try {
+        await execute(`git stash apply`, action.workspace, action.silent)
+      } catch {
+        info('Unable to apply stash, skipping…')
+      }
     }
 
     await execute(
