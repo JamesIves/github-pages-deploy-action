@@ -77,6 +77,10 @@ inputs:
     description: "Silences the action output preventing it from displaying git messages."
     required: false
 
+  PRESERVE:
+    description: "Preserves and restores any workspace changes prior to deployment."
+    required: false
+
 outputs:
   DEPLOYMENT_STATUS:
     description: 'The status of the deployment that indicates if the run failed or passed. Possible outputs include: success|failed|skipped'
