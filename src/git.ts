@@ -31,10 +31,12 @@ export async function init(action: ActionInterface): Promise<void | Error> {
 
     try {
       await execute(`git remote rm origin`, action.workspace, action.silent)
-    } finally {
+
       if (action.isTest) {
-        info('Attempted to remove origin…')
+        throw new Error()
       }
+    } catch {
+      info('Attempted to remove origin but failed, continuing…')
     }
 
     await execute(
@@ -183,10 +185,12 @@ export async function deploy(action: ActionInterface): Promise<Status> {
 
       try {
         await execute(`git stash apply`, action.workspace, action.silent)
-      } finally {
+
         if (action.isTest) {
-          info('Attempted to apply stash…')
+          throw new Error()
         }
+      } catch {
+        info('Unable to apply from stash, continuing…')
       }
     }
 
