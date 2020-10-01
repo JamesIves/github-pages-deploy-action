@@ -1,7 +1,7 @@
 # Contributing ✏️
 
 When contributing to this repository, please first discuss the change you wish to make via issue,	
-[email, or any other method with the owners of this repository](https://jamesiv.es) before making a change.
+[email, or any other method with the owners of this repository](https://jamesiv.es) before making a change. If you are planning to work on an issue that already exists please let us know before writing nay code incase it's already in flight!
 
 ## Before Making a Pull Request	🎒
 
