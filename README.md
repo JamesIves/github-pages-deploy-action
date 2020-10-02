@@ -83,10 +83,14 @@ It's recommended that you use [Dependabot](https://dependabot.com/github-actions
 
 #### Install as a Node Module 📦
 
-If you'd like to use the functionality provided by this action in your own action you can install it using [yarn](https://yarnpkg.com/) by running the following command.
+If you'd like to use the functionality provided by this action in your own action you can install it using [yarn](https://yarnpkg.com/) or [npm](https://www.npmjs.com/get-npm) by running the following commands. It's available on both the [npm](https://www.npmjs.com/package/@jamesives/github-pages-deploy-action) and [GitHub registry](https://github.com/JamesIves/github-pages-deploy-action/packages/229985). 
 
 ```
 yarn add @jamesives/github-pages-deploy-action
+```
+
+```
+npm install @jamesives/github-pages-deploy-action
 ```
 
 It can then be imported into your project like so.
@@ -114,7 +118,7 @@ run({
 });
 ```
 
-For more information regarding the [action interface please click here](https://github.com/JamesIves/github-pages-deploy-action/blob/dev/src/constants.ts#L7). You can find the npm registry listing for the module [here](https://www.npmjs.com/package/@jamesives/github-pages-deploy-action), and the GitHub registry listing [here](https://github.com/JamesIves/github-pages-deploy-action/packages/229985).
+For more information regarding the [action interface please click here](https://github.com/JamesIves/github-pages-deploy-action/blob/dev/src/constants.ts#L7).
 
 ## Configuration 📁
 
