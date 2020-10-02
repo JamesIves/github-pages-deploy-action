@@ -17,16 +17,16 @@
     <img src="https://github.com/JamesIves/github-pages-deploy-action/workflows/integration-tests/badge.svg">
   </a>
   
-  <a href="https://github.com/marketplace/actions/deploy-to-github-pages">
-    <img src="https://img.shields.io/badge/action-marketplace-blue.svg?logo=github&color=orange">
+  <a href="https://codecov.io/gh/JamesIves/github-pages-deploy-action/branch/dev">
+    <img src="https://codecov.io/gh/JamesIves/github-pages-deploy-action/branch/dev/graph/badge.svg">
   </a>
   
   <a href="https://github.com/JamesIves/github-pages-deploy-action/releases">
     <img src="https://img.shields.io/github/v/release/JamesIves/github-pages-deploy-action.svg?logo=github">
   </a>
   
-  <a href="https://codecov.io/gh/JamesIves/github-pages-deploy-action/branch/dev">
-    <img src="https://codecov.io/gh/JamesIves/github-pages-deploy-action/branch/dev/graph/badge.svg">
+  <a href="https://github.com/marketplace/actions/deploy-to-github-pages">
+    <img src="https://img.shields.io/badge/action-marketplace-blue.svg?logo=github&color=orange">
   </a>
 </p>
 
