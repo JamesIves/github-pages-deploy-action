@@ -1,5 +1,6 @@
 import path from 'path'
 import {isDebug} from '@actions/core'
+import {existsSync} from 'fs'
 import {ActionInterface, ActionFolders} from './constants'
 
 const replaceAll = (input: string, find: string, replace: string): string =>
@@ -61,6 +62,12 @@ export const hasRequiredParameters = (action: ActionInterface): void => {
 
   if (!action.folder || isNullOrUndefined(action.folder)) {
     throw new Error('You must provide the action with a folder to deploy.')
+  }
+
+  if (!existsSync(action.folder) && action.folder !== action.root) {
+    throw new Error(
+      `The ${action.folder} directory you're trying to deploy doesn't exist. ❗`
+    )
   }
 }
 

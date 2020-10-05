@@ -153,6 +153,29 @@ describe('git', () => {
       }
     })
 
+    it('should fail if the folder does not exist in the tree', async () => {
+      Object.assign(action, {
+        repositoryPath: 'JamesIves/github-pages-deploy-action',
+        gitHubToken: '123',
+        branch: 'branch',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        folder: 'notARealFolder',
+        ssh: true
+      })
+
+      try {
+        await init(action)
+      } catch (e) {
+        expect(execute).toBeCalledTimes(0)
+        expect(e.message).toMatch(
+          `There was an error initializing the repository: The notARealFolder directory you're trying to deploy doesn't exist. ❗ ❌`
+        )
+      }
+    })
+
     it('should fail if there is no provided repository path', async () => {
       Object.assign(action, {
         silent: true,
