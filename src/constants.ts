@@ -39,7 +39,7 @@ export interface ActionInterface {
   /** The fully qualified repositpory path, this gets auto generated if repositoryName is provided. */
   repositoryPath?: string
   /** The root directory where your project lives. */
-  root?: string
+  root: string
   /** Wipes the commit history from the deployment branch in favor of a single commit. */
   singleCommit?: boolean | null
   /** Determines if the action should run in silent mode or not. */
@@ -108,6 +108,10 @@ export const action: ActionInterface = {
   targetFolder: getInput('TARGET_FOLDER'),
   workspace: process.env.GITHUB_WORKSPACE || ''
 }
+
+export type ActionFolders = NonNullable<
+  Pick<ActionInterface, 'folder' | 'root'>
+>
 
 /** Status codes for the action. */
 export enum Status {

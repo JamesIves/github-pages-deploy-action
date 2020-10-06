@@ -131,6 +131,8 @@ export async function generateBranch(action: ActionInterface): Promise<void> {
 
 /* Runs the necessary steps to make the deployment. */
 export async function deploy(action: ActionInterface): Promise<Status> {
+  const folderPath = generateFolderPath(action, 'folder')
+  const rootPath = generateFolderPath(action, 'root')
   const temporaryDeploymentDirectory =
     'github-pages-deploy-action-temp-deployment-folder'
   const temporaryDeploymentBranch = `github-pages-deploy-action/${Math.random()
@@ -229,7 +231,6 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       Pushes all of the build files into the deployment directory.
       Allows the user to specify the root if '.' is provided.
       rsync is used to prevent file duplication. */
-    const folderPath = generateFolderPath(action)
     await execute(
       `rsync -q -av --checksum --progress ${folderPath}/. ${
         action.targetFolder
@@ -246,7 +247,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
             }`
           : ''
       }  --exclude .ssh --exclude .git --exclude .github ${
-        folderPath === action.root
+        folderPath === rootPath
           ? `--exclude ${temporaryDeploymentDirectory}`
           : ''
       }`,

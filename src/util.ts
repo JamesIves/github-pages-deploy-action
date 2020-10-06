@@ -1,6 +1,6 @@
 import path from 'path'
 import {isDebug} from '@actions/core'
-import {ActionInterface} from './constants'
+import {ActionInterface, ActionFolders} from './constants'
 
 const replaceAll = (input: string, find: string, replace: string): string =>
   input.split(find).join(replace)
@@ -28,8 +28,11 @@ export const generateRepositoryPath = (action: ActionInterface): string =>
       }@github.com/${action.repositoryName}.git`
 
 /* Genetate absolute folder path by the provided folder name */
-export const generateFolderPath = (action: ActionInterface): string => {
-  const folderName = action.folder
+export const generateFolderPath = <K extends keyof ActionFolders>(
+  action: ActionInterface,
+  key: K
+): string => {
+  const folderName = action[key]
   const folderPath = path.isAbsolute(folderName)
     ? folderName
     : folderName.startsWith('~')

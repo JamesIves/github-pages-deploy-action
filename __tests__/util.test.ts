@@ -191,7 +191,7 @@ describe('util', () => {
         ssh: null,
         silent: false
       }
-      expect(generateFolderPath(action)).toEqual('src/build')
+      expect(generateFolderPath(action, 'folder')).toEqual('src/build')
     })
 
     it('should return original path if folder name begins with /', () => {
@@ -205,7 +205,9 @@ describe('util', () => {
         ssh: null,
         silent: false
       }
-      expect(generateFolderPath(action)).toEqual('/home/user/repo/build')
+      expect(generateFolderPath(action, 'folder')).toEqual(
+        '/home/user/repo/build'
+      )
     })
 
     it('should process as relative path if folder name begins with ./', () => {
@@ -219,7 +221,7 @@ describe('util', () => {
         ssh: null,
         silent: false
       }
-      expect(generateFolderPath(action)).toEqual('src/build')
+      expect(generateFolderPath(action, 'folder')).toEqual('src/build')
     })
 
     it('should return absolute path if folder name begins with ~', () => {
@@ -234,7 +236,9 @@ describe('util', () => {
         silent: false
       }
       process.env.HOME = '/home/user'
-      expect(generateFolderPath(action)).toEqual('/home/user/repo/build')
+      expect(generateFolderPath(action, 'folder')).toEqual(
+        '/home/user/repo/build'
+      )
     })
   })
 })
