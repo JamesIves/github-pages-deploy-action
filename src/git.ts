@@ -4,6 +4,7 @@ import fs from 'fs'
 import {ActionInterface, Status} from './constants'
 import {execute} from './execute'
 import {
+  generateFolderPath,
   hasRequiredParameters,
   isNullOrUndefined,
   suppressSensitiveInformation
@@ -228,23 +229,24 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       Pushes all of the build files into the deployment directory.
       Allows the user to specify the root if '.' is provided.
       rsync is used to prevent file duplication. */
+    const folderPath = generateFolderPath(action)
     await execute(
-      `rsync -q -av --checksum --progress ${action.folder}/. ${
+      `rsync -q -av --checksum --progress ${folderPath}/. ${
         action.targetFolder
           ? `${temporaryDeploymentDirectory}/${action.targetFolder}`
           : temporaryDeploymentDirectory
       } ${
         action.clean
           ? `--delete ${excludes} ${
-              !fs.existsSync(`${action.folder}/CNAME`) ? '--exclude CNAME' : ''
+              !fs.existsSync(`${folderPath}/CNAME`) ? '--exclude CNAME' : ''
             } ${
-              !fs.existsSync(`${action.folder}/.nojekyll`)
+              !fs.existsSync(`${folderPath}/.nojekyll`)
                 ? '--exclude .nojekyll'
                 : ''
             }`
           : ''
       }  --exclude .ssh --exclude .git --exclude .github ${
-        action.folder === action.root
+        folderPath === action.root
           ? `--exclude ${temporaryDeploymentDirectory}`
           : ''
       }`,

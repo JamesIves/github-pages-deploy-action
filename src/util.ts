@@ -1,3 +1,4 @@
+import path from 'path'
 import {isDebug} from '@actions/core'
 import {ActionInterface} from './constants'
 
@@ -26,6 +27,17 @@ export const generateRepositoryPath = (action: ActionInterface): string =>
         action.accessToken || `x-access-token:${action.gitHubToken}`
       }@github.com/${action.repositoryName}.git`
 
+/* Genetate absolute folder path by the provided folder name */
+export const generateFolderPath = (action: ActionInterface): string => {
+  const folderName = action.folder
+  const folderPath = path.isAbsolute(folderName)
+    ? folderName
+    : folderName.startsWith('~')
+    ? folderName.replace('~', process.env.HOME as string)
+    : path.join(action.workspace, folderName)
+  return folderPath
+}
+
 /* Checks for the required tokens and formatting. Throws an error if any case is matched. */
 export const hasRequiredParameters = (action: ActionInterface): void => {
   if (
@@ -46,12 +58,6 @@ export const hasRequiredParameters = (action: ActionInterface): void => {
 
   if (!action.folder || isNullOrUndefined(action.folder)) {
     throw new Error('You must provide the action with a folder to deploy.')
-  }
-
-  if (action.folder.startsWith('/') || action.folder.startsWith('./')) {
-    throw new Error(
-      "Incorrectly formatted build folder. The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly."
-    )
   }
 }
 

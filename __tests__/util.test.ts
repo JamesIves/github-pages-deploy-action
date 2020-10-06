@@ -2,6 +2,7 @@ import {
   isNullOrUndefined,
   generateTokenType,
   generateRepositoryPath,
+  generateFolderPath,
   suppressSensitiveInformation
 } from '../src/util'
 
@@ -175,6 +176,65 @@ describe('util', () => {
           'This is an error message! It contains supersecret999%%% and anothersecret123333 and https://x-access-token:supersecret999%%%@github.com/anothersecret123333'
         )
       })
+    })
+  })
+
+  describe('generateFolderPath', () => {
+    it('should return absolute path if folder name is provided', () => {
+      const action = {
+        branch: '123',
+        root: '.',
+        workspace: 'src/',
+        folder: 'build',
+        gitHubToken: null,
+        accessToken: null,
+        ssh: null,
+        silent: false
+      }
+      expect(generateFolderPath(action)).toEqual('src/build')
+    })
+
+    it('should return original path if folder name begins with /', () => {
+      const action = {
+        branch: '123',
+        root: '.',
+        workspace: 'src/',
+        folder: '/home/user/repo/build',
+        gitHubToken: null,
+        accessToken: null,
+        ssh: null,
+        silent: false
+      }
+      expect(generateFolderPath(action)).toEqual('/home/user/repo/build')
+    })
+
+    it('should process as relative path if folder name begins with ./', () => {
+      const action = {
+        branch: '123',
+        root: '.',
+        workspace: 'src/',
+        folder: './build',
+        gitHubToken: null,
+        accessToken: null,
+        ssh: null,
+        silent: false
+      }
+      expect(generateFolderPath(action)).toEqual('src/build')
+    })
+
+    it('should return absolute path if folder name begins with ~', () => {
+      const action = {
+        branch: '123',
+        root: '.',
+        workspace: 'src/',
+        folder: '~/repo/build',
+        gitHubToken: null,
+        accessToken: null,
+        ssh: null,
+        silent: false
+      }
+      process.env.HOME = '/home/user'
+      expect(generateFolderPath(action)).toEqual('/home/user/repo/build')
     })
   })
 })

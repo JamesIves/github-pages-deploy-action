@@ -178,7 +178,7 @@ describe('git', () => {
       }
     })
 
-    it('should fail if the build folder begins with a /', async () => {
+    it('should not fail if the build folder begins with a /', async () => {
       Object.assign(action, {
         silent: false,
         accessToken: '123',
@@ -191,17 +191,11 @@ describe('git', () => {
         }
       })
 
-      try {
-        await init(action)
-      } catch (e) {
-        expect(execute).toBeCalledTimes(0)
-        expect(e.message).toMatch(
-          "There was an error initializing the repository: Incorrectly formatted build folder. The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly. ❌"
-        )
-      }
+      await init(action)
+      expect(execute).toBeCalledTimes(6)
     })
 
-    it('should fail if the build folder begins with a ./', async () => {
+    it('should not fail if the build folder begins with a ./', async () => {
       Object.assign(action, {
         silent: false,
         accessToken: '123',
@@ -213,14 +207,24 @@ describe('git', () => {
         }
       })
 
-      try {
-        await init(action)
-      } catch (e) {
-        expect(execute).toBeCalledTimes(0)
-        expect(e.message).toMatch(
-          "There was an error initializing the repository: Incorrectly formatted build folder. The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly. ❌"
-        )
-      }
+      await init(action)
+      expect(execute).toBeCalledTimes(6)
+    })
+
+    it('should not fail if the build folder begins with a ~', async () => {
+      Object.assign(action, {
+        silent: false,
+        accessToken: '123',
+        branch: 'branch',
+        folder: '~/assets',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        }
+      })
+
+      await init(action)
+      expect(execute).toBeCalledTimes(6)
     })
 
     it('should not fail if root is used', async () => {
