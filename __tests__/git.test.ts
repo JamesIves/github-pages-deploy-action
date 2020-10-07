@@ -178,51 +178,6 @@ describe('git', () => {
       }
     })
 
-    it('should fail if the build folder begins with a /', async () => {
-      Object.assign(action, {
-        silent: false,
-        accessToken: '123',
-        repositoryPath: 'JamesIves/github-pages-deploy-action',
-        branch: 'branch',
-        folder: '/',
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }
-      })
-
-      try {
-        await init(action)
-      } catch (e) {
-        expect(execute).toBeCalledTimes(0)
-        expect(e.message).toMatch(
-          "There was an error initializing the repository: Incorrectly formatted build folder. The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly. ❌"
-        )
-      }
-    })
-
-    it('should fail if the build folder begins with a ./', async () => {
-      Object.assign(action, {
-        silent: false,
-        accessToken: '123',
-        branch: 'branch',
-        folder: './',
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }
-      })
-
-      try {
-        await init(action)
-      } catch (e) {
-        expect(execute).toBeCalledTimes(0)
-        expect(e.message).toMatch(
-          "There was an error initializing the repository: Incorrectly formatted build folder. The deployment folder cannot be prefixed with '/' or './'. Instead reference the folder name directly. ❌"
-        )
-      }
-    })
-
     it('should not fail if root is used', async () => {
       Object.assign(action, {
         silent: false,

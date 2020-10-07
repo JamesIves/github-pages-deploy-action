@@ -4,6 +4,7 @@ import fs from 'fs'
 import {ActionInterface, Status} from './constants'
 import {execute} from './execute'
 import {
+  generateFolderPath,
   hasRequiredParameters,
   isNullOrUndefined,
   suppressSensitiveInformation
@@ -130,6 +131,8 @@ export async function generateBranch(action: ActionInterface): Promise<void> {
 
 /* Runs the necessary steps to make the deployment. */
 export async function deploy(action: ActionInterface): Promise<Status> {
+  const folderPath = generateFolderPath(action, 'folder')
+  const rootPath = generateFolderPath(action, 'root')
   const temporaryDeploymentDirectory =
     'github-pages-deploy-action-temp-deployment-folder'
   const temporaryDeploymentBranch = `github-pages-deploy-action/${Math.random()
@@ -229,22 +232,22 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       Allows the user to specify the root if '.' is provided.
       rsync is used to prevent file duplication. */
     await execute(
-      `rsync -q -av --checksum --progress ${action.folder}/. ${
+      `rsync -q -av --checksum --progress ${folderPath}/. ${
         action.targetFolder
           ? `${temporaryDeploymentDirectory}/${action.targetFolder}`
           : temporaryDeploymentDirectory
       } ${
         action.clean
           ? `--delete ${excludes} ${
-              !fs.existsSync(`${action.folder}/CNAME`) ? '--exclude CNAME' : ''
+              !fs.existsSync(`${folderPath}/CNAME`) ? '--exclude CNAME' : ''
             } ${
-              !fs.existsSync(`${action.folder}/.nojekyll`)
+              !fs.existsSync(`${folderPath}/.nojekyll`)
                 ? '--exclude .nojekyll'
                 : ''
             }`
           : ''
       }  --exclude .ssh --exclude .git --exclude .github ${
-        action.folder === action.root
+        folderPath === rootPath
           ? `--exclude ${temporaryDeploymentDirectory}`
           : ''
       }`,

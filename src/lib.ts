@@ -1,6 +1,6 @@
 import {exportVariable, info, setFailed} from '@actions/core'
 import {action, ActionInterface, Status} from './constants'
-import {deploy, generateBranch, init} from './git'
+import {deploy, init} from './git'
 import {generateRepositoryPath, generateTokenType} from './util'
 
 /** Initializes and runs the action.
@@ -53,5 +53,3 @@ export default async function run(
     exportVariable('DEPLOYMENT_STATUS', status)
   }
 }
-
-export {init, deploy, generateBranch, ActionInterface}
