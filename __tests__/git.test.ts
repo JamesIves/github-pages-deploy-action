@@ -178,55 +178,6 @@ describe('git', () => {
       }
     })
 
-    it('should not fail if the build folder begins with a /', async () => {
-      Object.assign(action, {
-        silent: false,
-        accessToken: '123',
-        repositoryPath: 'JamesIves/github-pages-deploy-action',
-        branch: 'branch',
-        folder: '/',
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }
-      })
-
-      await init(action)
-      expect(execute).toBeCalledTimes(6)
-    })
-
-    it('should not fail if the build folder begins with a ./', async () => {
-      Object.assign(action, {
-        silent: false,
-        accessToken: '123',
-        branch: 'branch',
-        folder: './',
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }
-      })
-
-      await init(action)
-      expect(execute).toBeCalledTimes(6)
-    })
-
-    it('should not fail if the build folder begins with a ~', async () => {
-      Object.assign(action, {
-        silent: false,
-        accessToken: '123',
-        branch: 'branch',
-        folder: '~/assets',
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }
-      })
-
-      await init(action)
-      expect(execute).toBeCalledTimes(6)
-    })
-
     it('should not fail if root is used', async () => {
       Object.assign(action, {
         silent: false,
