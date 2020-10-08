@@ -7,7 +7,7 @@
   "main": "lib/lib.js",
   "types": "lib/lib.d.ts",
   "scripts": {
-    "build": "rm -rf lib && tsc --declaration",
+    "build": "rimraf lib && tsc --declaration",
     "test": "jest",
     "lint": "eslint src/**/*.ts",
     "format": "prettier --write './**/*.ts'"
@@ -48,6 +48,7 @@
     "jest": "25.5.4",
     "jest-circus": "26.5.2",
     "prettier": "2.1.2",
+    "rimraf": "^3.0.2",
     "ts-jest": "25.5.1",
     "typescript": "3.9.7"
   }
