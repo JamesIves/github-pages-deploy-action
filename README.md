@@ -344,4 +344,4 @@ This project would not be possible without all of our fantastic [contributors](h
   <img src="https://contributors-img.web.app/image?repo=JamesIves/github-pages-deploy-action" />
 </a>
 
-If you'd like to support the maintenance and upkeep of this project you can [donate via GitHub Sponsors](https://github.com/sponsors/JamesIves). This project is provided using the [MIT](https://github.com/JamesIves/github-pages-deploy-action/blob/dev/LICENSE) license.
+If you'd like to support the maintenance and upkeep of this project you can [donate via GitHub Sponsors](https://github.com/sponsors/JamesIves). This project is distributed under the [MIT](https://github.com/JamesIves/github-pages-deploy-action/blob/dev/LICENSE) license.
