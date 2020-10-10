@@ -333,3 +333,15 @@ If you wish to remove these files you must go into the deployment branch directl
 ### Debugging 🐝
 
 If you'd like to enable action debugging you can set the `ACTIONS_STEP_DEBUG` environment variable to true within the [Settings/Secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#creating-encrypted-secrets) menu.  If you're using this action in your own project as a node module via yarn or npm **you may expose your secrets if you toggle this on in a production environment**. You can learn more about debugging GitHub actions [here](https://github.com/actions/toolkit/blob/master/docs/action-debugging.md).
+
+---
+
+### Support 💖
+
+This project would not be possible without all of our fantastic [contributors](https://github.com/JamesIves/github-pages-deploy-action/graphs/contributors).
+
+<a href="https://github.com/JamesIves/github-pages-deploy-action/graphs/contributors">
+  <img src="https://contributors-img.web.app/image?repo=JamesIves/github-pages-deploy-action" />
+</a>
+
+This project is provided free using the MIT license. you'd like to support the maintenance and upkeep of this project you can [donate via GitHub Sponsors](https://github.com/sponsors/JamesIves).
