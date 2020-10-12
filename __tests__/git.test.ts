@@ -6,6 +6,7 @@ import {mkdirP, rmRF} from '@actions/io'
 import {action, Status} from '../src/constants'
 import {execute} from '../src/execute'
 import {deploy, generateBranch, init, switchToBaseBranch} from '../src/git'
+import {generateFolderPath} from '../src/util'
 import fs from 'fs'
 
 const originalAction = JSON.stringify(action)
@@ -190,7 +191,7 @@ describe('git', () => {
       } catch (e) {
         expect(execute).toBeCalledTimes(0)
         expect(e.message).toMatch(
-          "There was an error initializing the repository: The notARealFolder directory you're trying to deploy doesn't exist. ❗ ❌"
+          `There was an error initializing the repository: The ${action.folderPath} directory you're trying to deploy doesn't exist. ❗ ❌`
         )
       }
     })
