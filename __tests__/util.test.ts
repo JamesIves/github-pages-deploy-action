@@ -22,6 +22,11 @@ describe('util', () => {
       const value = 'montezuma'
       expect(isNullOrUndefined(value)).toBeFalsy()
     })
+
+    it('should return false if the value is empty string', async () => {
+      const value = ''
+      expect(isNullOrUndefined(value)).toBeTruthy()
+    })
   })
 
   describe('generateTokenType', () => {
