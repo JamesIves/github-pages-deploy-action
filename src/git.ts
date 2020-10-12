@@ -4,16 +4,26 @@ import fs from 'fs'
 import {ActionInterface, Status} from './constants'
 import {execute} from './execute'
 import {
-  generateFolderPath,
-  hasRequiredParameters,
+  checkParameters,
   isNullOrUndefined,
+  generateFolderPath,
+  generateRepositoryPath,
+  generateTokenType,
   suppressSensitiveInformation
 } from './util'
 
 /* Initializes git in the workspace. */
 export async function init(action: ActionInterface): Promise<void | Error> {
   try {
-    hasRequiredParameters(action)
+    // Defines the folder paths
+    action.folderPath = generateFolderPath(action, 'folder')
+    action.rootPath = generateFolderPath(action, 'root')
+
+    checkParameters(action)
+
+    // Defines the repository paths and token types.
+    action.repositoryPath = generateRepositoryPath(action)
+    action.tokenType = generateTokenType(action)
 
     info(`Deploying using ${action.tokenType}… 🔑`)
     info('Configuring git…')
@@ -73,8 +83,6 @@ export async function switchToBaseBranch(
   action: ActionInterface
 ): Promise<void> {
   try {
-    hasRequiredParameters(action)
-
     await execute(
       `git checkout --progress --force ${
         action.baseBranch ? action.baseBranch : action.defaultBranch
@@ -95,8 +103,6 @@ export async function switchToBaseBranch(
 /* Generates the branch if it doesn't exist on the remote. */
 export async function generateBranch(action: ActionInterface): Promise<void> {
   try {
-    hasRequiredParameters(action)
-
     info(`Creating the ${action.branch} branch…`)
 
     await switchToBaseBranch(action)
@@ -131,8 +137,6 @@ export async function generateBranch(action: ActionInterface): Promise<void> {
 
 /* Runs the necessary steps to make the deployment. */
 export async function deploy(action: ActionInterface): Promise<Status> {
-  const folderPath = generateFolderPath(action, 'folder')
-  const rootPath = generateFolderPath(action, 'root')
   const temporaryDeploymentDirectory =
     'github-pages-deploy-action-temp-deployment-folder'
   const temporaryDeploymentBranch = `github-pages-deploy-action/${Math.random()
@@ -142,8 +146,6 @@ export async function deploy(action: ActionInterface): Promise<Status> {
   info('Starting to commit changes…')
 
   try {
-    hasRequiredParameters(action)
-
     const commitMessage = !isNullOrUndefined(action.commitMessage)
       ? (action.commitMessage as string)
       : `Deploying to ${action.branch} from ${action.baseBranch} ${
@@ -232,22 +234,24 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       Allows the user to specify the root if '.' is provided.
       rsync is used to prevent file duplication. */
     await execute(
-      `rsync -q -av --checksum --progress ${folderPath}/. ${
+      `rsync -q -av --checksum --progress ${action.folderPath}/. ${
         action.targetFolder
           ? `${temporaryDeploymentDirectory}/${action.targetFolder}`
           : temporaryDeploymentDirectory
       } ${
         action.clean
           ? `--delete ${excludes} ${
-              !fs.existsSync(`${folderPath}/CNAME`) ? '--exclude CNAME' : ''
+              !fs.existsSync(`${action.folderPath}/CNAME`)
+                ? '--exclude CNAME'
+                : ''
             } ${
-              !fs.existsSync(`${folderPath}/.nojekyll`)
+              !fs.existsSync(`${action.folderPath}/.nojekyll`)
                 ? '--exclude .nojekyll'
                 : ''
             }`
           : ''
       }  --exclude .ssh --exclude .git --exclude .github ${
-        folderPath === rootPath
+        action.folderPath === action.rootPath
           ? `--exclude ${temporaryDeploymentDirectory}`
           : ''
       }`,

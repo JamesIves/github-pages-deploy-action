@@ -24,6 +24,7 @@ export interface ActionInterface {
   email?: string
   /** The folder to deploy. */
   folder: string
+  folderPath?: string
   /** GitHub deployment token. */
   gitHubToken?: string | null
   /** Determines if the action is running in test mode or not. */
@@ -40,6 +41,7 @@ export interface ActionInterface {
   repositoryPath?: string
   /** The root directory where your project lives. */
   root: string
+  rootPath?: string
   /** Wipes the commit history from the deployment branch in favor of a single commit. */
   singleCommit?: boolean | null
   /** Determines if the action should run in silent mode or not. */
@@ -111,6 +113,11 @@ export const action: ActionInterface = {
 
 export type ActionFolders = NonNullable<
   Pick<ActionInterface, 'folder' | 'root'>
+>
+
+export type RequiredActionParameters = Pick<
+  ActionInterface,
+  'accessToken' | 'gitHubToken' | 'ssh' | 'branch' | 'folder'
 >
 
 /** Status codes for the action. */
