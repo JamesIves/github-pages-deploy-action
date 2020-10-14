@@ -1,5 +1,5 @@
 blank_issues_enabled: false
 contact_links:
   - name: Support and Questions
-    url: https://github.community/
-    about: https://github.com/JamesIves/github-pages-deploy-action/discussions/category_choices
+    url: https://github.com/JamesIves/github-pages-deploy-action/discussions/category_choices
+    about: Need help or just have a general question? Please open a discussion thread here.
