@@ -1,11 +1,7 @@
 import {existsSync} from 'fs'
 import path from 'path'
 import {isDebug} from '@actions/core'
-import {
-  ActionInterface,
-  ActionFolders,
-  RequiredActionParameters
-} from './constants'
+import {ActionInterface, RequiredActionParameters} from './constants'
 
 const replaceAll = (input: string, find: string, replace: string): string =>
   input.split(find).join(replace)
@@ -33,17 +29,13 @@ export const generateRepositoryPath = (action: ActionInterface): string =>
       }@github.com/${action.repositoryName}.git`
 
 /* Genetate absolute folder path by the provided folder name */
-export const generateFolderPath = <K extends keyof ActionFolders>(
-  action: ActionInterface,
-  key: K
-): string => {
-  const folderName = action[key]
-  const folderPath = path.isAbsolute(folderName)
+export const generateFolderPath = (action: ActionInterface): string => {
+  const folderName = action['folder']
+  return path.isAbsolute(folderName)
     ? folderName
     : folderName.startsWith('~')
     ? folderName.replace('~', process.env.HOME as string)
     : path.join(action.workspace, folderName)
-  return folderPath
 }
 
 /* Checks for the required tokens and formatting. Throws an error if any case is matched. */
@@ -72,10 +64,7 @@ export const checkParameters = (action: ActionInterface): void => {
     throw new Error('You must provide the action with a folder to deploy.')
   }
 
-  if (
-    !existsSync(action.folderPath as string) &&
-    action.folderPath !== action.rootPath
-  ) {
+  if (!existsSync(action.folderPath as string)) {
     throw new Error(
       `The ${action.folderPath} directory you're trying to deploy doesn't exist. ❗`
     )

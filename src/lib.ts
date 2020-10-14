@@ -1,6 +1,12 @@
 import {exportVariable, info, setFailed} from '@actions/core'
 import {action, ActionInterface, Status} from './constants'
 import {deploy, init} from './git'
+import {
+  generateFolderPath,
+  checkParameters,
+  generateRepositoryPath,
+  generateTokenType
+} from './util'
 
 /** Initializes and runs the action.
  *
@@ -28,6 +34,15 @@ export default async function run(
       ...action,
       ...configuration
     }
+
+    // Defines the folder paths
+    settings.folderPath = generateFolderPath(settings)
+
+    checkParameters(settings)
+
+    // Defines the repository paths and token types.
+    settings.repositoryPath = generateRepositoryPath(settings)
+    settings.tokenType = generateTokenType(settings)
 
     await init(settings)
     status = await deploy(settings)

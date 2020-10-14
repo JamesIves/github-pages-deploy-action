@@ -3,28 +3,11 @@ import {mkdirP, rmRF} from '@actions/io'
 import fs from 'fs'
 import {ActionInterface, Status} from './constants'
 import {execute} from './execute'
-import {
-  checkParameters,
-  isNullOrUndefined,
-  generateFolderPath,
-  generateRepositoryPath,
-  generateTokenType,
-  suppressSensitiveInformation
-} from './util'
+import {isNullOrUndefined, suppressSensitiveInformation} from './util'
 
 /* Initializes git in the workspace. */
 export async function init(action: ActionInterface): Promise<void | Error> {
   try {
-    // Defines the folder paths
-    action.folderPath = generateFolderPath(action, 'folder')
-    action.rootPath = generateFolderPath(action, 'root')
-
-    checkParameters(action)
-
-    // Defines the repository paths and token types.
-    action.repositoryPath = generateRepositoryPath(action)
-    action.tokenType = generateTokenType(action)
-
     info(`Deploying using ${action.tokenType}… 🔑`)
     info('Configuring git…')
 
@@ -251,7 +234,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
             }`
           : ''
       }  --exclude .ssh --exclude .git --exclude .github ${
-        action.folderPath === action.rootPath
+        action.folderPath === action.workspace
           ? `--exclude ${temporaryDeploymentDirectory}`
           : ''
       }`,
