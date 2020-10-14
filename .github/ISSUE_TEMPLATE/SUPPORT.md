@@ -6,7 +6,7 @@ labels:
 
 ---
 
-<!-- Please check the FAQ before posting an issue: https://github.com/JamesIves/github-pages-deploy-action/wiki -->
+<!-- Please check the FAQ before posting an issue: https://github.com/JamesIves/github-pages-deploy-action/discussions?discussions_q=category%3AQ%26A -->
 
 **Describe the Issue**
 <!-- Please provide a clear and concise description of what the problem is. Please be sure to read the README first! -->
