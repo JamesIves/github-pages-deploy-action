@@ -1,6 +1,7 @@
+import {existsSync} from 'fs'
 import path from 'path'
 import {isDebug} from '@actions/core'
-import {ActionInterface, ActionFolders} from './constants'
+import {ActionInterface, RequiredActionParameters} from './constants'
 
 const replaceAll = (input: string, find: string, replace: string): string =>
   input.split(find).join(replace)
@@ -28,39 +29,45 @@ export const generateRepositoryPath = (action: ActionInterface): string =>
       }@github.com/${action.repositoryName}.git`
 
 /* Genetate absolute folder path by the provided folder name */
-export const generateFolderPath = <K extends keyof ActionFolders>(
-  action: ActionInterface,
-  key: K
-): string => {
-  const folderName = action[key]
-  const folderPath = path.isAbsolute(folderName)
+export const generateFolderPath = (action: ActionInterface): string => {
+  const folderName = action['folder']
+  return path.isAbsolute(folderName)
     ? folderName
     : folderName.startsWith('~')
     ? folderName.replace('~', process.env.HOME as string)
     : path.join(action.workspace, folderName)
-  return folderPath
 }
 
 /* Checks for the required tokens and formatting. Throws an error if any case is matched. */
-export const hasRequiredParameters = (action: ActionInterface): void => {
-  if (
-    (isNullOrUndefined(action.accessToken) &&
-      isNullOrUndefined(action.gitHubToken) &&
-      isNullOrUndefined(action.ssh)) ||
-    isNullOrUndefined(action.repositoryPath) ||
-    (action.accessToken && action.accessToken === '')
-  ) {
+const hasRequiredParameters = <K extends keyof RequiredActionParameters>(
+  action: ActionInterface,
+  params: K[]
+): boolean => {
+  const nonNullParams = params.filter(
+    param => !isNullOrUndefined(action[param])
+  )
+  return Boolean(nonNullParams.length)
+}
+
+export const checkParameters = (action: ActionInterface): void => {
+  if (!hasRequiredParameters(action, ['accessToken', 'gitHubToken', 'ssh'])) {
     throw new Error(
       'No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true.'
     )
   }
 
-  if (isNullOrUndefined(action.branch)) {
+  if (!hasRequiredParameters(action, ['branch'])) {
     throw new Error('Branch is required.')
   }
 
-  if (!action.folder || isNullOrUndefined(action.folder)) {
+  if (!hasRequiredParameters(action, ['folder'])) {
     throw new Error('You must provide the action with a folder to deploy.')
+  }
+
+  if (!existsSync(action.folderPath as string)) {
+    throw new Error(
+      `The ${action.folderPath} directory you're trying to deploy doesn't exist. ❗`
+    )
   }
 }
 

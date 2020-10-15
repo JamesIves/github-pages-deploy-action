@@ -32,171 +32,6 @@ describe('git', () => {
   })
 
   describe('init', () => {
-    it('should execute commands if a GitHub token is provided', async () => {
-      Object.assign(action, {
-        silent: false,
-        repositoryPath: 'JamesIves/github-pages-deploy-action',
-        folder: 'assets',
-        branch: 'branch',
-        gitHubToken: '123',
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }
-      })
-
-      await init(action)
-      expect(execute).toBeCalledTimes(6)
-    })
-
-    it('should execute commands if an Access Token is provided', async () => {
-      Object.assign(action, {
-        silent: false,
-        repositoryPath: 'JamesIves/github-pages-deploy-action',
-        folder: 'assets',
-        branch: 'branch',
-        accessToken: '123',
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }
-      })
-
-      await init(action)
-      expect(execute).toBeCalledTimes(6)
-    })
-
-    it('should execute commands if SSH is true', async () => {
-      Object.assign(action, {
-        silent: false,
-        repositoryPath: 'JamesIves/github-pages-deploy-action',
-        folder: 'assets',
-        branch: 'branch',
-        ssh: true,
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }
-      })
-
-      await init(action)
-
-      expect(execute).toBeCalledTimes(6)
-    })
-
-    it('should fail if there is no provided GitHub Token, Access Token or SSH bool', async () => {
-      Object.assign(action, {
-        silent: false,
-        repositoryPath: null,
-        folder: 'assets',
-        branch: 'branch',
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }
-      })
-
-      try {
-        await init(action)
-      } catch (e) {
-        expect(execute).toBeCalledTimes(0)
-        expect(e.message).toMatch(
-          'There was an error initializing the repository: No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true. ❌'
-        )
-      }
-    })
-
-    it('should fail if access token is defined but it is an empty string', async () => {
-      Object.assign(action, {
-        silent: false,
-        repositoryPath: null,
-        folder: 'assets',
-        branch: 'branch',
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        },
-        accessToken: ''
-      })
-
-      try {
-        await init(action)
-      } catch (e) {
-        expect(execute).toBeCalledTimes(0)
-        expect(e.message).toMatch(
-          'There was an error initializing the repository: No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true. ❌'
-        )
-      }
-    })
-
-    it('should fail if there is no folder', async () => {
-      Object.assign(action, {
-        silent: false,
-        repositoryPath: 'JamesIves/github-pages-deploy-action',
-        gitHubToken: '123',
-        branch: 'branch',
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        },
-        folder: null,
-        ssh: true
-      })
-
-      try {
-        await init(action)
-      } catch (e) {
-        expect(execute).toBeCalledTimes(0)
-        expect(e.message).toMatch(
-          'There was an error initializing the repository: You must provide the action with a folder to deploy. ❌'
-        )
-      }
-    })
-
-    it('should fail if there is no provided repository path', async () => {
-      Object.assign(action, {
-        silent: true,
-        repositoryPath: null,
-        folder: 'assets',
-        branch: 'branch',
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        },
-        gitHubToken: '123',
-        accessToken: null,
-        ssh: null
-      })
-
-      try {
-        await init(action)
-      } catch (e) {
-        expect(execute).toBeCalledTimes(0)
-        expect(e.message).toMatch(
-          'There was an error initializing the repository: No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true. '
-        )
-      }
-    })
-
-    it('should not fail if root is used', async () => {
-      Object.assign(action, {
-        silent: false,
-        repositoryPath: 'JamesIves/github-pages-deploy-action',
-        accessToken: '123',
-        branch: 'branch',
-        folder: '.',
-        root: '.',
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }
-      })
-
-      await init(action)
-
-      expect(execute).toBeCalledTimes(6)
-    })
-
     it('should stash changes if preserve is true', async () => {
       Object.assign(action, {
         silent: false,
@@ -213,7 +48,6 @@ describe('git', () => {
       })
 
       await init(action)
-
       expect(execute).toBeCalledTimes(7)
     })
   })
@@ -233,27 +67,6 @@ describe('git', () => {
 
       await generateBranch(action)
       expect(execute).toBeCalledTimes(6)
-    })
-
-    it('should fail if there is no branch', async () => {
-      Object.assign(action, {
-        silent: false,
-        accessToken: '123',
-        branch: null,
-        folder: '.',
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }
-      })
-
-      try {
-        await generateBranch(action)
-      } catch (e) {
-        expect(e.message).toMatch(
-          'There was an error creating the deployment branch: Branch is required. ❌'
-        )
-      }
     })
   })
 
@@ -289,31 +102,6 @@ describe('git', () => {
 
       await switchToBaseBranch(action)
       expect(execute).toBeCalledTimes(1)
-    })
-
-    it('should fail if one of the required parameters is not available', async () => {
-      Object.assign(action, {
-        silent: false,
-        baseBranch: '123',
-        accessToken: null,
-        gitHubToken: null,
-        ssh: null,
-        branch: 'branch',
-        folder: null,
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }
-      })
-
-      try {
-        await switchToBaseBranch(action)
-      } catch (e) {
-        expect(execute).toBeCalledTimes(0)
-        expect(e.message).toMatch(
-          'There was an error switching to the base branch: No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true. ❌'
-        )
-      }
     })
   })
 
@@ -487,32 +275,6 @@ describe('git', () => {
       expect(execute).toBeCalledTimes(13)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SKIPPED)
-    })
-
-    it('should throw an error if one of the required parameters is not available', async () => {
-      Object.assign(action, {
-        silent: false,
-        folder: 'assets',
-        branch: 'branch',
-        ssh: null,
-        accessToken: null,
-        gitHubToken: null,
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        },
-        isTest: false // Setting this env variable to false means there will never be anything to commit and the action will exit early.
-      })
-
-      try {
-        await deploy(action)
-      } catch (e) {
-        expect(execute).toBeCalledTimes(1)
-        expect(rmRF).toBeCalledTimes(1)
-        expect(e.message).toMatch(
-          'The deploy step encountered an error: No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true. ❌'
-        )
-      }
     })
   })
 })
