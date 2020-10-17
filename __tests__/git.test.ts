@@ -24,7 +24,7 @@ jest.mock('@actions/io', () => ({
 
 jest.mock('../src/execute', () => ({
   __esModule: true,
-  execute: jest.fn(),
+  execute: jest.fn()
 }))
 
 describe('git', () => {
@@ -53,10 +53,9 @@ describe('git', () => {
     })
 
     it('should catch when a function throws an error', async () => {
-
-      (execute as jest.Mock).mockImplementationOnce(() => {
-        throw new Error('Mocked throw');
-      });
+      ;(execute as jest.Mock).mockImplementationOnce(() => {
+        throw new Error('Mocked throw')
+      })
 
       Object.assign(action, {
         silent: false,
@@ -75,7 +74,9 @@ describe('git', () => {
       try {
         await init(action)
       } catch (error) {
-        expect(error.message).toBe('There was an error initializing the repository: Mocked throw ❌');
+        expect(error.message).toBe(
+          'There was an error initializing the repository: Mocked throw ❌'
+        )
       }
     })
   })
@@ -98,10 +99,9 @@ describe('git', () => {
     })
 
     it('should catch when a function throws an error', async () => {
-
-      (execute as jest.Mock).mockImplementationOnce(() => {
-        throw new Error('Mocked throw');
-      });
+      ;(execute as jest.Mock).mockImplementationOnce(() => {
+        throw new Error('Mocked throw')
+      })
 
       Object.assign(action, {
         silent: false,
@@ -117,7 +117,9 @@ describe('git', () => {
       try {
         await generateBranch(action)
       } catch (error) {
-        expect(error.message).toBe('There was an error creating the deployment branch: There was an error switching to the base branch: Mocked throw ❌ ❌');
+        expect(error.message).toBe(
+          'There was an error creating the deployment branch: There was an error switching to the base branch: Mocked throw ❌ ❌'
+        )
       }
     })
   })
@@ -156,12 +158,10 @@ describe('git', () => {
       expect(execute).toBeCalledTimes(1)
     })
 
-
     it('should catch when a function throws an error', async () => {
-
-      (execute as jest.Mock).mockImplementationOnce(() => {
-        throw new Error('Mocked throw');
-      });
+      ;(execute as jest.Mock).mockImplementationOnce(() => {
+        throw new Error('Mocked throw')
+      })
 
       Object.assign(action, {
         silent: false,
@@ -178,7 +178,9 @@ describe('git', () => {
       try {
         await switchToBaseBranch(action)
       } catch (error) {
-        expect(error.message).toBe('There was an error switching to the base branch: Mocked throw ❌');
+        expect(error.message).toBe(
+          'There was an error switching to the base branch: Mocked throw ❌'
+        )
       }
     })
   })
@@ -356,10 +358,9 @@ describe('git', () => {
     })
 
     it('should catch when a function throws an error', async () => {
-
-      (execute as jest.Mock).mockImplementationOnce(() => {
-        throw new Error('Mocked throw');
-      });
+      ;(execute as jest.Mock).mockImplementationOnce(() => {
+        throw new Error('Mocked throw')
+      })
 
       Object.assign(action, {
         silent: false,
@@ -376,7 +377,9 @@ describe('git', () => {
       try {
         await deploy(action)
       } catch (error) {
-        expect(error.message).toBe('The deploy step encountered an error: Mocked throw ❌');
+        expect(error.message).toBe(
+          'The deploy step encountered an error: Mocked throw ❌'
+        )
       }
     })
   })
