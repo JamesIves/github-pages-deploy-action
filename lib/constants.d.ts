@@ -17,6 +17,8 @@ export interface ActionInterface {
     email?: string;
     /** The folder to deploy. */
     folder: string;
+    /** The auto generated folder path. */
+    folderPath?: string;
     /** GitHub deployment token. */
     gitHubToken?: string | null;
     /** Determines if the action is running in test mode or not. */
@@ -31,8 +33,6 @@ export interface ActionInterface {
     repositoryName?: string;
     /** The fully qualified repositpory path, this gets auto generated if repositoryName is provided. */
     repositoryPath?: string;
-    /** The root directory where your project lives. */
-    root?: string;
     /** Wipes the commit history from the deployment branch in favor of a single commit. */
     singleCommit?: boolean | null;
     /** Determines if the action should run in silent mode or not. */
@@ -46,7 +46,28 @@ export interface ActionInterface {
     /** The folder where your deployment project lives. */
     workspace: string;
 }
+/** The minimum required values to run the action as a node module. */
+export interface NodeActionInterface {
+    /** Deployment access token. */
+    accessToken?: string | null;
+    /** The branch that the action should deploy to. */
+    branch: string;
+    /** The folder to deploy. */
+    folder: string;
+    /** GitHub deployment token. */
+    gitHubToken?: string | null;
+    /** The repository path, for example JamesIves/github-pages-deploy-action. */
+    repositoryName: string;
+    /** Determines if the action should run in silent mode or not. */
+    silent: boolean;
+    /** Set to true if you're using an ssh client in your build step. */
+    ssh?: boolean | null;
+    /** The folder where your deployment project lives. */
+    workspace: string;
+}
 export declare const action: ActionInterface;
+/** Types for the required action parameters. */
+export declare type RequiredActionParameters = Pick<ActionInterface, 'accessToken' | 'gitHubToken' | 'ssh' | 'branch' | 'folder'>;
 /** Status codes for the action. */
 export declare enum Status {
     SUCCESS = "success",

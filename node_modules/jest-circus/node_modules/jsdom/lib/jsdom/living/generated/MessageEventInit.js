@@ -12,7 +12,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "data";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["any"](value, { context: context + " has member data that" });
+      value = conversions["any"](value, { context: context + " has member 'data' that" });
 
       ret[key] = value;
     } else {
@@ -24,7 +24,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "lastEventId";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["DOMString"](value, { context: context + " has member lastEventId that" });
+      value = conversions["DOMString"](value, { context: context + " has member 'lastEventId' that" });
 
       ret[key] = value;
     } else {
@@ -36,7 +36,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "origin";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["USVString"](value, { context: context + " has member origin that" });
+      value = conversions["USVString"](value, { context: context + " has member 'origin' that" });
 
       ret[key] = value;
     } else {
@@ -49,7 +49,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
       if (!utils.isObject(value)) {
-        throw new TypeError(context + " has member ports that" + " is not an iterable object.");
+        throw new TypeError(context + " has member 'ports' that" + " is not an iterable object.");
       } else {
         const V = [];
         const tmp = value;

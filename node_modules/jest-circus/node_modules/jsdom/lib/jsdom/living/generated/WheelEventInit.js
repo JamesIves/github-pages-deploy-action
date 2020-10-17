@@ -12,7 +12,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "deltaMode";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["unsigned long"](value, { context: context + " has member deltaMode that" });
+      value = conversions["unsigned long"](value, { context: context + " has member 'deltaMode' that" });
 
       ret[key] = value;
     } else {
@@ -24,7 +24,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "deltaX";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["double"](value, { context: context + " has member deltaX that" });
+      value = conversions["double"](value, { context: context + " has member 'deltaX' that" });
 
       ret[key] = value;
     } else {
@@ -36,7 +36,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "deltaY";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["double"](value, { context: context + " has member deltaY that" });
+      value = conversions["double"](value, { context: context + " has member 'deltaY' that" });
 
       ret[key] = value;
     } else {
@@ -48,7 +48,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "deltaZ";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["double"](value, { context: context + " has member deltaZ that" });
+      value = conversions["double"](value, { context: context + " has member 'deltaZ' that" });
 
       ret[key] = value;
     } else {

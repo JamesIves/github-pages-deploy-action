@@ -10,7 +10,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "endings";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = EndingType.convert(value, { context: context + " has member endings that" });
+      value = EndingType.convert(value, { context: context + " has member 'endings' that" });
 
       ret[key] = value;
     } else {
@@ -22,7 +22,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "type";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["DOMString"](value, { context: context + " has member type that" });
+      value = conversions["DOMString"](value, { context: context + " has member 'type' that" });
 
       ret[key] = value;
     } else {

@@ -1,3 +1,9 @@
+v5.1.1 - September 12, 2020
+
+* [`9b528d7`](https://github.com/eslint/eslint-scope/commit/9b528d778c381718c12dabfb7f1c0e0dc6b36e49) Upgrade: esrecurse version to ^4.3.0 (#64) (Timofey Kachalov)
+* [`f758bbc`](https://github.com/eslint/eslint-scope/commit/f758bbc3d49b9b9ea2289a5d6a6bba8dcf2c4903) Chore: fix definiton -> definition typo in comments (#63) (Kevin Kirsche)
+* [`7513734`](https://github.com/eslint/eslint-scope/commit/751373473375b3f2edc4eaf1c8d2763d8435bb72) Chore: move to GitHub Actions (#62) (Kai Cataldo)
+
 v5.1.0 - June 4, 2020
 
 * [`d4a3764`](https://github.com/eslint/eslint-scope/commit/d4a376434b16289c1a428d7e304576e997520873) Update: support new export syntax (#56) (Toru Nagashima)

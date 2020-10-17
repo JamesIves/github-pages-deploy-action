@@ -13,7 +13,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
       if (!utils.isObject(value)) {
-        throw new TypeError(context + " has member changedTouches that" + " is not an iterable object.");
+        throw new TypeError(context + " has member 'changedTouches' that" + " is not an iterable object.");
       } else {
         const V = [];
         const tmp = value;
@@ -36,7 +36,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
       if (!utils.isObject(value)) {
-        throw new TypeError(context + " has member targetTouches that" + " is not an iterable object.");
+        throw new TypeError(context + " has member 'targetTouches' that" + " is not an iterable object.");
       } else {
         const V = [];
         const tmp = value;
@@ -59,7 +59,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
       if (!utils.isObject(value)) {
-        throw new TypeError(context + " has member touches that" + " is not an iterable object.");
+        throw new TypeError(context + " has member 'touches' that" + " is not an iterable object.");
       } else {
         const V = [];
         const tmp = value;

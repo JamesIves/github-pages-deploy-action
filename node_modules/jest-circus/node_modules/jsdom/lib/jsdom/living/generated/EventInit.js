@@ -8,7 +8,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "bubbles";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["boolean"](value, { context: context + " has member bubbles that" });
+      value = conversions["boolean"](value, { context: context + " has member 'bubbles' that" });
 
       ret[key] = value;
     } else {
@@ -20,7 +20,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "cancelable";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["boolean"](value, { context: context + " has member cancelable that" });
+      value = conversions["boolean"](value, { context: context + " has member 'cancelable' that" });
 
       ret[key] = value;
     } else {
@@ -32,7 +32,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "composed";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["boolean"](value, { context: context + " has member composed that" });
+      value = conversions["boolean"](value, { context: context + " has member 'composed' that" });
 
       ret[key] = value;
     } else {

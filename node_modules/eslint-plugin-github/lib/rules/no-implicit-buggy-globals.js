@@ -7,14 +7,14 @@ module.exports = {
   create(context) {
     return {
       Program() {
-        var scope = context.getScope()
+        const scope = context.getScope()
 
-        scope.variables.forEach(function(variable) {
+        for (const variable of scope.variables) {
           if (variable.writeable) {
             return
           }
 
-          variable.defs.forEach(function(def) {
+          for (const def of variable.defs) {
             if (
               def.type === 'FunctionName' ||
               def.type === 'ClassName' ||
@@ -23,8 +23,8 @@ module.exports = {
             ) {
               context.report(def.node, 'Implicit global variable, assign as global property instead.')
             }
-          })
-        })
+          }
+        }
       }
     }
   }

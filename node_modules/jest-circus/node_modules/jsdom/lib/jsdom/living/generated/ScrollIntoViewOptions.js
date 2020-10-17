@@ -13,7 +13,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "block";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = ScrollLogicalPosition.convert(value, { context: context + " has member block that" });
+      value = ScrollLogicalPosition.convert(value, { context: context + " has member 'block' that" });
 
       ret[key] = value;
     } else {
@@ -25,7 +25,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "inline";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = ScrollLogicalPosition.convert(value, { context: context + " has member inline that" });
+      value = ScrollLogicalPosition.convert(value, { context: context + " has member 'inline' that" });
 
       ret[key] = value;
     } else {

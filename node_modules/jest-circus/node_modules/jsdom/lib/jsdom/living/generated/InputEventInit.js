@@ -15,7 +15,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
       if (value === null || value === undefined) {
         value = null;
       } else {
-        value = conversions["DOMString"](value, { context: context + " has member data that" });
+        value = conversions["DOMString"](value, { context: context + " has member 'data' that" });
       }
       ret[key] = value;
     } else {
@@ -27,7 +27,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "isComposing";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["boolean"](value, { context: context + " has member isComposing that" });
+      value = conversions["boolean"](value, { context: context + " has member 'isComposing' that" });
 
       ret[key] = value;
     } else {

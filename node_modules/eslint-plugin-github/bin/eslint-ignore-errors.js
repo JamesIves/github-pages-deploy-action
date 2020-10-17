@@ -11,22 +11,22 @@ const fs = require('fs')
 const execFile = require('child_process').execFile
 
 execFile('eslint', ['--format', 'json', process.argv[2]], (error, stdout) => {
-  JSON.parse(stdout).forEach(result => {
+  for (const result of JSON.parse(stdout)) {
     const filename = result.filePath
     const jsLines = fs.readFileSync(filename, 'utf8').split('\n')
     const offensesByLine = {}
     let addedLines = 0
 
     // Produces {47: ['github/no-d-none', 'github/no-blur'], 83: ['github/no-blur']}
-    result.messages.forEach(message => {
+    for (const message of result.messages) {
       if (offensesByLine[message.line]) {
         offensesByLine[message.line].push(message.ruleId)
       } else {
         offensesByLine[message.line] = [message.ruleId]
       }
-    })
+    }
 
-    Object.keys(offensesByLine).forEach(line => {
+    for (const line of Object.keys(offensesByLine)) {
       const lineIndex = line - 1 + addedLines
       const previousLine = jsLines[lineIndex - 1]
       const ruleIds = offensesByLine[line].join(', ')
@@ -37,12 +37,12 @@ execFile('eslint', ['--format', 'json', process.argv[2]], (error, stdout) => {
         jsLines.splice(lineIndex, 0, `${leftPad}/* eslint-disable-next-line ${ruleIds} */`)
       }
       addedLines += 1
-    })
+    }
 
     if (result.messages.length !== 0) {
       fs.writeFileSync(filename, jsLines.join('\n'), 'utf8')
     }
-  })
+  }
 })
 
 function isDisableComment(line) {

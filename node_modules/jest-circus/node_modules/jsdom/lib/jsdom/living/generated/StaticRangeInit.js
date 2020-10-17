@@ -10,7 +10,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "endContainer";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = Node.convert(value, { context: context + " has member endContainer that" });
+      value = Node.convert(value, { context: context + " has member 'endContainer' that" });
 
       ret[key] = value;
     } else {
@@ -22,7 +22,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "endOffset";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["unsigned long"](value, { context: context + " has member endOffset that" });
+      value = conversions["unsigned long"](value, { context: context + " has member 'endOffset' that" });
 
       ret[key] = value;
     } else {
@@ -34,7 +34,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "startContainer";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = Node.convert(value, { context: context + " has member startContainer that" });
+      value = Node.convert(value, { context: context + " has member 'startContainer' that" });
 
       ret[key] = value;
     } else {
@@ -46,7 +46,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "startOffset";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["unsigned long"](value, { context: context + " has member startOffset that" });
+      value = conversions["unsigned long"](value, { context: context + " has member 'startOffset' that" });
 
       ret[key] = value;
     } else {

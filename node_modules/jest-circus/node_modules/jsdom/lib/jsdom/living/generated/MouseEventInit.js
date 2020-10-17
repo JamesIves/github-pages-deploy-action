@@ -13,7 +13,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "button";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["short"](value, { context: context + " has member button that" });
+      value = conversions["short"](value, { context: context + " has member 'button' that" });
 
       ret[key] = value;
     } else {
@@ -25,7 +25,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "buttons";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["unsigned short"](value, { context: context + " has member buttons that" });
+      value = conversions["unsigned short"](value, { context: context + " has member 'buttons' that" });
 
       ret[key] = value;
     } else {
@@ -37,7 +37,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "clientX";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["long"](value, { context: context + " has member clientX that" });
+      value = conversions["long"](value, { context: context + " has member 'clientX' that" });
 
       ret[key] = value;
     } else {
@@ -49,7 +49,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "clientY";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["long"](value, { context: context + " has member clientY that" });
+      value = conversions["long"](value, { context: context + " has member 'clientY' that" });
 
       ret[key] = value;
     } else {
@@ -64,7 +64,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
       if (value === null || value === undefined) {
         value = null;
       } else {
-        value = EventTarget.convert(value, { context: context + " has member relatedTarget that" });
+        value = EventTarget.convert(value, { context: context + " has member 'relatedTarget' that" });
       }
       ret[key] = value;
     } else {
@@ -76,7 +76,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "screenX";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["long"](value, { context: context + " has member screenX that" });
+      value = conversions["long"](value, { context: context + " has member 'screenX' that" });
 
       ret[key] = value;
     } else {
@@ -88,7 +88,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "screenY";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["long"](value, { context: context + " has member screenY that" });
+      value = conversions["long"](value, { context: context + " has member 'screenY' that" });
 
       ret[key] = value;
     } else {

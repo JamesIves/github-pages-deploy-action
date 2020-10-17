@@ -10,7 +10,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "behavior";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = ScrollBehavior.convert(value, { context: context + " has member behavior that" });
+      value = ScrollBehavior.convert(value, { context: context + " has member 'behavior' that" });
 
       ret[key] = value;
     } else {

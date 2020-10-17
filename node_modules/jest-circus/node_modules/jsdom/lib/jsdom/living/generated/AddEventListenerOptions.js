@@ -12,7 +12,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "once";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["boolean"](value, { context: context + " has member once that" });
+      value = conversions["boolean"](value, { context: context + " has member 'once' that" });
 
       ret[key] = value;
     } else {
@@ -24,7 +24,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "passive";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["boolean"](value, { context: context + " has member passive that" });
+      value = conversions["boolean"](value, { context: context + " has member 'passive' that" });
 
       ret[key] = value;
     } else {

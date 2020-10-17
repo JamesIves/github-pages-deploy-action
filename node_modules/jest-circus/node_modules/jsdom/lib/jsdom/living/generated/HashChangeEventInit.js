@@ -12,7 +12,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "newURL";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["USVString"](value, { context: context + " has member newURL that" });
+      value = conversions["USVString"](value, { context: context + " has member 'newURL' that" });
 
       ret[key] = value;
     } else {
@@ -24,7 +24,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "oldURL";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["USVString"](value, { context: context + " has member oldURL that" });
+      value = conversions["USVString"](value, { context: context + " has member 'oldURL' that" });
 
       ret[key] = value;
     } else {

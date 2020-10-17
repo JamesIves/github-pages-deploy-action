@@ -8,7 +8,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "clipped";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["boolean"](value, { context: context + " has member clipped that" });
+      value = conversions["boolean"](value, { context: context + " has member 'clipped' that" });
 
       ret[key] = value;
     } else {
@@ -20,7 +20,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "fill";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["boolean"](value, { context: context + " has member fill that" });
+      value = conversions["boolean"](value, { context: context + " has member 'fill' that" });
 
       ret[key] = value;
     } else {
@@ -32,7 +32,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "markers";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["boolean"](value, { context: context + " has member markers that" });
+      value = conversions["boolean"](value, { context: context + " has member 'markers' that" });
 
       ret[key] = value;
     } else {
@@ -44,7 +44,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "stroke";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["boolean"](value, { context: context + " has member stroke that" });
+      value = conversions["boolean"](value, { context: context + " has member 'stroke' that" });
 
       ret[key] = value;
     } else {

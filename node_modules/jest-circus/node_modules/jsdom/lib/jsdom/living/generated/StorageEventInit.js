@@ -16,7 +16,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
       if (value === null || value === undefined) {
         value = null;
       } else {
-        value = conversions["DOMString"](value, { context: context + " has member key that" });
+        value = conversions["DOMString"](value, { context: context + " has member 'key' that" });
       }
       ret[key] = value;
     } else {
@@ -31,7 +31,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
       if (value === null || value === undefined) {
         value = null;
       } else {
-        value = conversions["DOMString"](value, { context: context + " has member newValue that" });
+        value = conversions["DOMString"](value, { context: context + " has member 'newValue' that" });
       }
       ret[key] = value;
     } else {
@@ -46,7 +46,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
       if (value === null || value === undefined) {
         value = null;
       } else {
-        value = conversions["DOMString"](value, { context: context + " has member oldValue that" });
+        value = conversions["DOMString"](value, { context: context + " has member 'oldValue' that" });
       }
       ret[key] = value;
     } else {
@@ -61,7 +61,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
       if (value === null || value === undefined) {
         value = null;
       } else {
-        value = Storage.convert(value, { context: context + " has member storageArea that" });
+        value = Storage.convert(value, { context: context + " has member 'storageArea' that" });
       }
       ret[key] = value;
     } else {
@@ -73,7 +73,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "url";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["USVString"](value, { context: context + " has member url that" });
+      value = conversions["USVString"](value, { context: context + " has member 'url' that" });
 
       ret[key] = value;
     } else {

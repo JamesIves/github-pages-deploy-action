@@ -8,7 +8,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "extends";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["DOMString"](value, { context: context + " has member extends that" });
+      value = conversions["DOMString"](value, { context: context + " has member 'extends' that" });
 
       ret[key] = value;
     }

@@ -133,6 +133,11 @@ function execMethod(method, args) {
   execFunction(main.setup, main, setupArgs, execHelper, reportInitializeError);
 }
 
+const isPromise = obj =>
+  !!obj &&
+  (typeof obj === 'object' || typeof obj === 'function') &&
+  typeof obj.then === 'function';
+
 function execFunction(fn, ctx, args, onResult, onError) {
   let result;
 
@@ -143,7 +148,7 @@ function execFunction(fn, ctx, args, onResult, onError) {
     return;
   }
 
-  if (result && typeof result.then === 'function') {
+  if (isPromise(result)) {
     result.then(onResult, onError);
   } else {
     onResult(result);

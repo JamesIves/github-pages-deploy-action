@@ -12,7 +12,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "lengthComputable";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["boolean"](value, { context: context + " has member lengthComputable that" });
+      value = conversions["boolean"](value, { context: context + " has member 'lengthComputable' that" });
 
       ret[key] = value;
     } else {
@@ -24,7 +24,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "loaded";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["unsigned long long"](value, { context: context + " has member loaded that" });
+      value = conversions["unsigned long long"](value, { context: context + " has member 'loaded' that" });
 
       ret[key] = value;
     } else {
@@ -36,7 +36,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "total";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["unsigned long long"](value, { context: context + " has member total that" });
+      value = conversions["unsigned long long"](value, { context: context + " has member 'total' that" });
 
       ret[key] = value;
     } else {

@@ -12,7 +12,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "persisted";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["boolean"](value, { context: context + " has member persisted that" });
+      value = conversions["boolean"](value, { context: context + " has member 'persisted' that" });
 
       ret[key] = value;
     } else {

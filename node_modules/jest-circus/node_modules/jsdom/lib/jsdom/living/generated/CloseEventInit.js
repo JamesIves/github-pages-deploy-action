@@ -12,7 +12,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "code";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["unsigned short"](value, { context: context + " has member code that" });
+      value = conversions["unsigned short"](value, { context: context + " has member 'code' that" });
 
       ret[key] = value;
     } else {
@@ -24,7 +24,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "reason";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["USVString"](value, { context: context + " has member reason that" });
+      value = conversions["USVString"](value, { context: context + " has member 'reason' that" });
 
       ret[key] = value;
     } else {
@@ -36,7 +36,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "wasClean";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["boolean"](value, { context: context + " has member wasClean that" });
+      value = conversions["boolean"](value, { context: context + " has member 'wasClean' that" });
 
       ret[key] = value;
     } else {

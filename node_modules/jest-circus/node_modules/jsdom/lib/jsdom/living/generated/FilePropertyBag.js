@@ -12,7 +12,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "lastModified";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["long long"](value, { context: context + " has member lastModified that" });
+      value = conversions["long long"](value, { context: context + " has member 'lastModified' that" });
 
       ret[key] = value;
     }

@@ -12,7 +12,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "charCode";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["unsigned long"](value, { context: context + " has member charCode that" });
+      value = conversions["unsigned long"](value, { context: context + " has member 'charCode' that" });
 
       ret[key] = value;
     } else {
@@ -24,7 +24,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "code";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["DOMString"](value, { context: context + " has member code that" });
+      value = conversions["DOMString"](value, { context: context + " has member 'code' that" });
 
       ret[key] = value;
     } else {
@@ -36,7 +36,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "isComposing";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["boolean"](value, { context: context + " has member isComposing that" });
+      value = conversions["boolean"](value, { context: context + " has member 'isComposing' that" });
 
       ret[key] = value;
     } else {
@@ -48,7 +48,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "key";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["DOMString"](value, { context: context + " has member key that" });
+      value = conversions["DOMString"](value, { context: context + " has member 'key' that" });
 
       ret[key] = value;
     } else {
@@ -60,7 +60,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "keyCode";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["unsigned long"](value, { context: context + " has member keyCode that" });
+      value = conversions["unsigned long"](value, { context: context + " has member 'keyCode' that" });
 
       ret[key] = value;
     } else {
@@ -72,7 +72,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "location";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["unsigned long"](value, { context: context + " has member location that" });
+      value = conversions["unsigned long"](value, { context: context + " has member 'location' that" });
 
       ret[key] = value;
     } else {
@@ -84,7 +84,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "repeat";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["boolean"](value, { context: context + " has member repeat that" });
+      value = conversions["boolean"](value, { context: context + " has member 'repeat' that" });
 
       ret[key] = value;
     } else {

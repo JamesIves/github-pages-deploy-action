@@ -9,13 +9,13 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
       if (!utils.isObject(value)) {
-        throw new TypeError(context + " has member attributeFilter that" + " is not an iterable object.");
+        throw new TypeError(context + " has member 'attributeFilter' that" + " is not an iterable object.");
       } else {
         const V = [];
         const tmp = value;
         for (let nextItem of tmp) {
           nextItem = conversions["DOMString"](nextItem, {
-            context: context + " has member attributeFilter that" + "'s element"
+            context: context + " has member 'attributeFilter' that" + "'s element"
           });
 
           V.push(nextItem);
@@ -31,7 +31,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "attributeOldValue";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["boolean"](value, { context: context + " has member attributeOldValue that" });
+      value = conversions["boolean"](value, { context: context + " has member 'attributeOldValue' that" });
 
       ret[key] = value;
     }
@@ -41,7 +41,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "attributes";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["boolean"](value, { context: context + " has member attributes that" });
+      value = conversions["boolean"](value, { context: context + " has member 'attributes' that" });
 
       ret[key] = value;
     }
@@ -51,7 +51,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "characterData";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["boolean"](value, { context: context + " has member characterData that" });
+      value = conversions["boolean"](value, { context: context + " has member 'characterData' that" });
 
       ret[key] = value;
     }
@@ -61,7 +61,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "characterDataOldValue";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["boolean"](value, { context: context + " has member characterDataOldValue that" });
+      value = conversions["boolean"](value, { context: context + " has member 'characterDataOldValue' that" });
 
       ret[key] = value;
     }
@@ -71,7 +71,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "childList";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["boolean"](value, { context: context + " has member childList that" });
+      value = conversions["boolean"](value, { context: context + " has member 'childList' that" });
 
       ret[key] = value;
     } else {
@@ -83,7 +83,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "subtree";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["boolean"](value, { context: context + " has member subtree that" });
+      value = conversions["boolean"](value, { context: context + " has member 'subtree' that" });
 
       ret[key] = value;
     } else {

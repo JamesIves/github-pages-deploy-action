@@ -12,7 +12,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "detail";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["any"](value, { context: context + " has member detail that" });
+      value = conversions["any"](value, { context: context + " has member 'detail' that" });
 
       ret[key] = value;
     } else {

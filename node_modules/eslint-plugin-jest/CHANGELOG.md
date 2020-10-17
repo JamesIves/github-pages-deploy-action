@@ -1,3 +1,10 @@
+# [24.1.0](https://github.com/jest-community/eslint-plugin-jest/compare/v24.0.2...v24.1.0) (2020-10-05)
+
+
+### Features
+
+* **prefer-expect-assertions:** add `onlyFunctionsWithAsyncKeyword` option ([#677](https://github.com/jest-community/eslint-plugin-jest/issues/677)) ([d0cea37](https://github.com/jest-community/eslint-plugin-jest/commit/d0cea37ae0a8ab07b8082cedbaaf161bcc94c405))
+
 ## [24.0.2](https://github.com/jest-community/eslint-plugin-jest/compare/v24.0.1...v24.0.2) (2020-09-20)
 
 

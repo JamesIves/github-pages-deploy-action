@@ -8,7 +8,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "capture";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["boolean"](value, { context: context + " has member capture that" });
+      value = conversions["boolean"](value, { context: context + " has member 'capture' that" });
 
       ret[key] = value;
     } else {

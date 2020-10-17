@@ -16,7 +16,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
       if (value === null || value === undefined) {
         value = null;
       } else {
-        value = EventTarget.convert(value, { context: context + " has member relatedTarget that" });
+        value = EventTarget.convert(value, { context: context + " has member 'relatedTarget' that" });
       }
       ret[key] = value;
     } else {

@@ -12,7 +12,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "detail";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["long"](value, { context: context + " has member detail that" });
+      value = conversions["long"](value, { context: context + " has member 'detail' that" });
 
       ret[key] = value;
     } else {
@@ -39,7 +39,7 @@ exports._convertInherit = (obj, ret, { context = "The provided value" } = {}) =>
     const key = "which";
     let value = obj === undefined || obj === null ? undefined : obj[key];
     if (value !== undefined) {
-      value = conversions["unsigned long"](value, { context: context + " has member which that" });
+      value = conversions["unsigned long"](value, { context: context + " has member 'which' that" });
 
       ret[key] = value;
     } else {
