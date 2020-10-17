@@ -128,7 +128,7 @@ export const action: ActionInterface = {
   workspace: process.env.GITHUB_WORKSPACE || ''
 }
 
-/**  */
+/** Types for the required action parameters. */
 export type RequiredActionParameters = Pick<
   ActionInterface,
   'accessToken' | 'gitHubToken' | 'ssh' | 'branch' | 'folder'
