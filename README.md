@@ -313,7 +313,7 @@ If you use a [container](https://help.github.com/en/actions/automating-your-work
     apt-get update && apt-get install -y rsync
 
 - name: Deploy 🚀
-  uses: JamesIves/github-pages-deploy-action@3.6.2
+  uses: JamesIves/github-pages-deploy-action@3.7.1
 ```
 
 ---
