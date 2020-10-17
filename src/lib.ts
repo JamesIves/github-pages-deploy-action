@@ -24,10 +24,9 @@ export default async function run(
     🚀 Getting Started Guide: https://github.com/marketplace/actions/deploy-to-github-pages
     ❓ Discussions / Q&A: https://github.com/JamesIves/github-pages-deploy-action/discussions
     🔧 Report a Bug: https://github.com/JamesIves/github-pages-deploy-action/issues
-    ⭐ Contribute: https://github.com/JamesIves/github-pages-deploy-action/blob/dev/CONTRIBUTING.md
 
-    📣 Maintained by James Ives (https://jamesiv.es)
-    ❤  Support: https://github.com/sponsors/JamesIves`)
+    📣 Maintained by James Ives: https://jamesiv.es
+    💖 Support: https://github.com/sponsors/JamesIves`)
 
     info('Checking configuration and starting deployment… 🚦')
 
