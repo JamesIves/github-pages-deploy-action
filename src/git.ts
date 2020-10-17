@@ -173,10 +173,6 @@ export async function deploy(action: ActionInterface): Promise<Status> {
 
       try {
         await execute(`git stash apply`, action.workspace, action.silent)
-
-        if (action.isTest) {
-          throw new Error()
-        }
       } catch {
         info('Unable to apply from stash, continuing…')
       }

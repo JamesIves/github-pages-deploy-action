@@ -211,6 +211,7 @@ describe('git', () => {
       Object.assign(action, {
         silent: false,
         folder: 'assets',
+        folderPath: 'assets',
         branch: 'branch',
         gitHubToken: '123',
         lfs: true,
@@ -230,26 +231,33 @@ describe('git', () => {
       expect(response).toBe(Status.SUCCESS)
     })
 
-    it('should not ignore CNAME or nojekyll if they exist in the deployment folder', async () => {
+    it('should appropriately move along if git stash errors', async () => {
+      ;(execute as jest.Mock).mockImplementation(cmd => {
+        if (cmd === 'git stash apply') {
+          // Mocks the case where git stash apply errors.
+          throw new Error()
+        }
+      })
+
       Object.assign(action, {
         silent: false,
         folder: 'assets',
+        folderPath: 'assets',
         branch: 'branch',
         gitHubToken: '123',
+        lfs: true,
+        preserve: true,
+        isTest: true,
         pusher: {
           name: 'asd',
           email: 'as@cat'
-        },
-        clean: true
+        }
       })
 
       const response = await deploy(action)
 
-      fs.createWriteStream('assets/.nojekyll')
-      fs.createWriteStream('assets/CNAME')
-
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(12)
+      expect(execute).toBeCalledTimes(14)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
@@ -257,14 +265,16 @@ describe('git', () => {
     it('should execute commands with single commit toggled', async () => {
       Object.assign(action, {
         silent: false,
-        folder: 'assets',
+        folder: 'other',
+        folderPath: 'other',
         branch: 'branch',
         gitHubToken: '123',
         singleCommit: true,
         pusher: {
           name: 'asd',
           email: 'as@cat'
-        }
+        },
+        clean: true
       })
 
       await deploy(action)
@@ -274,11 +284,37 @@ describe('git', () => {
       expect(rmRF).toBeCalledTimes(1)
     })
 
+    it('should not ignore CNAME or nojekyll if they exist in the deployment folder', async () => {
+      Object.assign(action, {
+        silent: false,
+        folder: 'assets',
+        folderPath: 'assets',
+        branch: 'branch',
+        gitHubToken: '123',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        clean: true
+      })
+
+      fs.createWriteStream('assets/.nojekyll')
+      fs.createWriteStream('assets/CNAME')
+
+      const response = await deploy(action)
+
+      // Includes the call to generateBranch
+      expect(execute).toBeCalledTimes(12)
+      expect(rmRF).toBeCalledTimes(1)
+      expect(response).toBe(Status.SUCCESS)
+    })
+
     it('should execute commands with clean options, ommits sha commit message', async () => {
       process.env.GITHUB_SHA = ''
       Object.assign(action, {
         silent: false,
-        folder: 'assets',
+        folder: 'other',
+        folderPath: 'other',
         branch: 'branch',
         gitHubToken: '123',
         pusher: {
@@ -286,7 +322,8 @@ describe('git', () => {
           email: 'as@cat'
         },
         clean: true,
-        cleanExclude: '["cat", "montezuma"]'
+        cleanExclude: '["cat", "montezuma"]',
+        workspace: 'other'
       })
 
       await deploy(action)
@@ -300,6 +337,7 @@ describe('git', () => {
       Object.assign(action, {
         silent: false,
         folder: 'assets',
+        folderPath: 'assets',
         branch: 'branch',
         gitHubToken: '123',
         pusher: {
