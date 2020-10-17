@@ -1,0 +1,10 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Feature Request and Ideas
+    url: https://github.com/JamesIves/github-pages-deploy-action/discussions?discussions_q=category%3AIdeas
+    about: If you have an idea or would like to make a feature request please open a discussion thread.
+    
+  - name: Support and Questions
+    url: https://github.com/JamesIves/github-pages-deploy-action/discussions?discussions_q=category%3AQ%26A
+    about: Need help or just have a general question? Please open a discussion thread.
+ 

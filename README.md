@@ -17,16 +17,16 @@
     <img src="https://github.com/JamesIves/github-pages-deploy-action/workflows/integration-tests/badge.svg">
   </a>
   
-  <a href="https://github.com/marketplace/actions/deploy-to-github-pages">
-    <img src="https://img.shields.io/badge/action-marketplace-blue.svg?logo=github&color=orange">
+  <a href="https://codecov.io/gh/JamesIves/github-pages-deploy-action/branch/dev">
+    <img src="https://codecov.io/gh/JamesIves/github-pages-deploy-action/branch/dev/graph/badge.svg">
   </a>
   
   <a href="https://github.com/JamesIves/github-pages-deploy-action/releases">
     <img src="https://img.shields.io/github/v/release/JamesIves/github-pages-deploy-action.svg?logo=github">
   </a>
   
-  <a href="https://codecov.io/gh/JamesIves/github-pages-deploy-action/branch/dev">
-    <img src="https://codecov.io/gh/JamesIves/github-pages-deploy-action/branch/dev/graph/badge.svg">
+  <a href="https://github.com/marketplace/actions/deploy-to-github-pages">
+    <img src="https://img.shields.io/badge/action-marketplace-blue.svg?logo=github&color=orange">
   </a>
 </p>
 
@@ -62,7 +62,7 @@ jobs:
           npm run build
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@3.6.1
+        uses: JamesIves/github-pages-deploy-action@3.6.2
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages # The branch the action should deploy to.
@@ -83,21 +83,20 @@ It's recommended that you use [Dependabot](https://dependabot.com/github-actions
 
 #### Install as a Node Module 📦
 
-If you'd like to use the functionality provided by this action in your own action you can install it using [yarn](https://yarnpkg.com/) by running the following command.
+If you'd like to use the functionality provided by this action in your own action you can install it using [yarn](https://yarnpkg.com/) or [npm](https://www.npmjs.com/get-npm) by running the following commands. It's available on both the [npm](https://www.npmjs.com/package/@jamesives/github-pages-deploy-action) and [GitHub registry](https://github.com/JamesIves/github-pages-deploy-action/packages/229985). 
 
 ```
 yarn add @jamesives/github-pages-deploy-action
 ```
 
+```
+npm install @jamesives/github-pages-deploy-action
+```
+
 It can then be imported into your project like so.
 
 ```javascript
-import run, {
-  init,
-  deploy,
-  generateBranch,
-  ActionInterface
-} from "github-pages-deploy-action";
+import run from "github-pages-deploy-action";
 ```
 
 Calling the functions directly will require you to pass in an object containing the variables found in the configuration section, you'll also need to provide a `workspace` with a path to your project.
@@ -110,11 +109,12 @@ run({
   branch: "gh-pages",
   folder: "build",
   repositoryName: "JamesIves/github-pages-deploy-action",
+  silent: true,
   workspace: "src/project/location",
 });
 ```
 
-For more information regarding the [action interface please click here](https://github.com/JamesIves/github-pages-deploy-action/blob/dev/src/constants.ts#L7). You can find the npm registry listing for the module [here](https://www.npmjs.com/package/@jamesives/github-pages-deploy-action), and the GitHub registry listing [here](https://github.com/JamesIves/github-pages-deploy-action/packages/229985).
+For more information regarding the [action interface please click here](https://github.com/JamesIves/github-pages-deploy-action/blob/dev/src/constants.ts#L7). 
 
 ## Configuration 📁
 
@@ -135,7 +135,7 @@ In addition to the deployment options you must also configure the following.
 | Key      | Value Information                                                                                                                                                                                                                                             | Type   | Required |
 | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | -------- |
 | `BRANCH` | This is the branch you wish to deploy to, for example `gh-pages` or `docs`.                                                                                                                                                                                   | `with` | **Yes**  |
-| `FOLDER` | The folder in your repository that you want to deploy. If your build script compiles into a directory named `build` you'd put it here. **Folder paths cannot have a leading `/` or `./`**. If you wish to deploy the root directory you can place a `.` here. | `with` | **Yes**  |
+| `FOLDER` | The folder in your repository that you want to deploy. If your build script compiles into a directory named `build` you'd put it here. If you wish to deploy the root directory you can place a `.` here. You can also utilize absolute file paths by appending `~` to your folder path. | `with` | **Yes**  |
 
 #### Optional Choices
 
@@ -174,7 +174,7 @@ The action will export an environment variable called `DEPLOYMENT_STATUS` that y
 If you'd prefer to use an SSH deploy key as opposed to a token you must first generate a new SSH key by running the following terminal command, replacing the email with one connected to your GitHub account.
 
 ```bash
-ssh-keygen -t rsa -b 4096 -C "youremailhere@example.com" -N ""
+ssh-keygen -t rsa -m pem -b 4096 -C "youremailhere@example.com" -N ""
 ```
 
 Once you've generated the key pair you must add the contents of the public key within your repository's [deploy keys menu](https://developer.github.com/v3/guides/managing-deploy-keys/). You can find this option by going to `Settings > Deploy Keys`, you can name the public key whatever you want, but you **do** need to give it write access. Afterwards add the contents of the private key to the `Settings > Secrets` menu as `DEPLOY_KEY`.
@@ -183,12 +183,12 @@ With this configured you must add the `ssh-agent` step to your workflow and set 
 
 ```yml
 - name: Install SSH Client 🔑
-  uses: webfactory/ssh-agent@v0.2.0
+  uses: webfactory/ssh-agent@v0.4.1
   with:
     ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
 - name: Deploy 🚀
-  uses: JamesIves/github-pages-deploy-action@3.6.1
+  uses: JamesIves/github-pages-deploy-action@3.6.2
   with:
     SSH: true
     BRANCH: gh-pages
@@ -224,7 +224,7 @@ jobs:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@3.6.1
+        uses: JamesIves/github-pages-deploy-action@3.6.2
         with:
           BASE_BRANCH: master
           BRANCH: gh-pages
@@ -291,7 +291,7 @@ jobs:
           name: site
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@3.6.1
+        uses: JamesIves/github-pages-deploy-action@3.6.2
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages
@@ -313,7 +313,7 @@ If you use a [container](https://help.github.com/en/actions/automating-your-work
     apt-get update && apt-get install -y rsync
 
 - name: Deploy 🚀
-  uses: JamesIves/github-pages-deploy-action@3.6.1
+  uses: JamesIves/github-pages-deploy-action@3.6.2
 ```
 
 ---
@@ -329,3 +329,11 @@ If you wish to remove these files you must go into the deployment branch directl
 ### Debugging 🐝
 
 If you'd like to enable action debugging you can set the `ACTIONS_STEP_DEBUG` environment variable to true within the [Settings/Secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#creating-encrypted-secrets) menu.  If you're using this action in your own project as a node module via yarn or npm **you may expose your secrets if you toggle this on in a production environment**. You can learn more about debugging GitHub actions [here](https://github.com/actions/toolkit/blob/master/docs/action-debugging.md).
+
+---
+
+## Support 💖
+
+This project would not be possible without all of our fantastic [contributors](https://github.com/JamesIves/github-pages-deploy-action/graphs/contributors).
+
+If you'd like to support the maintenance and upkeep of this project you can [donate via GitHub Sponsors](https://github.com/sponsors/JamesIves). This project is distributed under the [MIT](https://github.com/JamesIves/github-pages-deploy-action/blob/dev/LICENSE) license.

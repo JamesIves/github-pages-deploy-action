@@ -24,6 +24,8 @@ export interface ActionInterface {
   email?: string
   /** The folder to deploy. */
   folder: string
+  /** The auto generated folder path. */
+  folderPath?: string
   /** GitHub deployment token. */
   gitHubToken?: string | null
   /** Determines if the action is running in test mode or not. */
@@ -38,8 +40,6 @@ export interface ActionInterface {
   repositoryName?: string
   /** The fully qualified repositpory path, this gets auto generated if repositoryName is provided. */
   repositoryPath?: string
-  /** The root directory where your project lives. */
-  root?: string
   /** Wipes the commit history from the deployment branch in favor of a single commit. */
   singleCommit?: boolean | null
   /** Determines if the action should run in silent mode or not. */
@@ -50,6 +50,26 @@ export interface ActionInterface {
   targetFolder?: string
   /** The token type, ie ssh/github token/access token, this gets automatically generated. */
   tokenType?: string
+  /** The folder where your deployment project lives. */
+  workspace: string
+}
+
+/** The minimum required values to run the action as a node module. */
+export interface NodeActionInterface {
+  /** Deployment access token. */
+  accessToken?: string | null
+  /** The branch that the action should deploy to. */
+  branch: string
+  /** The folder to deploy. */
+  folder: string
+  /** GitHub deployment token. */
+  gitHubToken?: string | null
+  /** The repository path, for example JamesIves/github-pages-deploy-action. */
+  repositoryName: string
+  /** Determines if the action should run in silent mode or not. */
+  silent: boolean
+  /** Set to true if you're using an ssh client in your build step. */
+  ssh?: boolean | null
   /** The folder where your deployment project lives. */
   workspace: string
 }
@@ -95,7 +115,6 @@ export const action: ActionInterface = {
     : repository && repository.full_name
     ? repository.full_name
     : process.env.GITHUB_REPOSITORY,
-  root: '.',
   singleCommit: !isNullOrUndefined(getInput('SINGLE_COMMIT'))
     ? getInput('SINGLE_COMMIT').toLowerCase() === 'true'
     : false,
@@ -108,6 +127,12 @@ export const action: ActionInterface = {
   targetFolder: getInput('TARGET_FOLDER'),
   workspace: process.env.GITHUB_WORKSPACE || ''
 }
+
+/** Types for the required action parameters. */
+export type RequiredActionParameters = Pick<
+  ActionInterface,
+  'accessToken' | 'gitHubToken' | 'ssh' | 'branch' | 'folder'
+>
 
 /** Status codes for the action. */
 export enum Status {
