@@ -1,5 +1,5 @@
 import {exportVariable, info, setFailed} from '@actions/core'
-import {action, ActionInterface, Status} from './constants'
+import {ActionInterface, Status, NodeActionInterface} from './constants'
 import {deploy, init} from './git'
 import {
   generateFolderPath,
@@ -13,7 +13,7 @@ import {
  * @param {object} configuration - The action configuration.
  */
 export default async function run(
-  configuration: ActionInterface
+  configuration: ActionInterface | NodeActionInterface
 ): Promise<void> {
   let status: Status = Status.RUNNING
 
@@ -22,25 +22,25 @@ export default async function run(
     GitHub Pages Deploy Action 🚀
 
     🚀 Getting Started Guide: https://github.com/marketplace/actions/deploy-to-github-pages
-    ❓ FAQ/Wiki: https://github.com/JamesIves/github-pages-deploy-action/wiki
-    🔧 Support: https://github.com/JamesIves/github-pages-deploy-action/issues
+    ❓ Discussions / Q&A: https://github.com/JamesIves/github-pages-deploy-action/discussions
+    🔧 Report a Bug: https://github.com/JamesIves/github-pages-deploy-action/issues
     ⭐ Contribute: https://github.com/JamesIves/github-pages-deploy-action/blob/dev/CONTRIBUTING.md
-    
-    📣 Maintained by James Ives (https://jamesiv.es)`)
+
+    📣 Maintained by James Ives (https://jamesiv.es)
+    ❤  Support: https://github.com/sponsors/JamesIves`)
 
     info('Checking configuration and starting deployment… 🚦')
 
-    const settings = {
-      ...action,
+    const settings: ActionInterface = {
       ...configuration
     }
 
-    // Defines the folder paths
+    // Defines the repository/folder paths and token types.
+    // Also verifies that the action has all of the required parameters.
     settings.folderPath = generateFolderPath(settings)
 
     checkParameters(settings)
 
-    // Defines the repository paths and token types.
     settings.repositoryPath = generateRepositoryPath(settings)
     settings.tokenType = generateTokenType(settings)
 

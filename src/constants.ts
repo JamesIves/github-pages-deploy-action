@@ -24,6 +24,7 @@ export interface ActionInterface {
   email?: string
   /** The folder to deploy. */
   folder: string
+  /** The auto generated folder path. */
   folderPath?: string
   /** GitHub deployment token. */
   gitHubToken?: string | null
@@ -49,6 +50,26 @@ export interface ActionInterface {
   targetFolder?: string
   /** The token type, ie ssh/github token/access token, this gets automatically generated. */
   tokenType?: string
+  /** The folder where your deployment project lives. */
+  workspace: string
+}
+
+/** The minimum required values to run the action as a node module. */
+export interface NodeActionInterface {
+  /** Deployment access token. */
+  accessToken?: string | null
+  /** The branch that the action should deploy to. */
+  branch: string
+  /** The folder to deploy. */
+  folder: string
+  /** GitHub deployment token. */
+  gitHubToken?: string | null
+  /** The repository path, for example JamesIves/github-pages-deploy-action. */
+  repositoryName: string
+  /** Determines if the action should run in silent mode or not. */
+  silent: boolean
+  /** Set to true if you're using an ssh client in your build step. */
+  ssh?: boolean | null
   /** The folder where your deployment project lives. */
   workspace: string
 }
@@ -107,6 +128,7 @@ export const action: ActionInterface = {
   workspace: process.env.GITHUB_WORKSPACE || ''
 }
 
+/**  */
 export type RequiredActionParameters = Pick<
   ActionInterface,
   'accessToken' | 'gitHubToken' | 'ssh' | 'branch' | 'folder'

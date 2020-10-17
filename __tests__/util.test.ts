@@ -321,7 +321,7 @@ describe('util', () => {
         checkParameters(action)
       } catch (e) {
         expect(e.message).toMatch(
-          `The ${action.folderPath} directory you're trying to deploy doesn't exist.`
+          `The directory you're trying to deploy named notARealFolder doesn't exist. Please double check the path and any prerequisite build scripts and try again. ❗`
         )
       }
     })

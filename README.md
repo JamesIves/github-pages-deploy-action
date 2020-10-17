@@ -96,7 +96,7 @@ npm install @jamesives/github-pages-deploy-action
 It can then be imported into your project like so.
 
 ```javascript
-import run, {ActionInterface} from "github-pages-deploy-action";
+import run from "github-pages-deploy-action";
 ```
 
 Calling the functions directly will require you to pass in an object containing the variables found in the configuration section, you'll also need to provide a `workspace` with a path to your project.
@@ -109,11 +109,12 @@ run({
   branch: "gh-pages",
   folder: "build",
   repositoryName: "JamesIves/github-pages-deploy-action",
+  silent: true,
   workspace: "src/project/location",
 });
 ```
 
-For more information regarding the [action interface please click here](https://github.com/JamesIves/github-pages-deploy-action/blob/dev/src/constants.ts#L7).
+For more information regarding the [action interface please click here](https://github.com/JamesIves/github-pages-deploy-action/blob/dev/src/constants.ts#L7). 
 
 ## Configuration 📁
 
@@ -334,9 +335,5 @@ If you'd like to enable action debugging you can set the `ACTIONS_STEP_DEBUG` en
 ## Support 💖
 
 This project would not be possible without all of our fantastic [contributors](https://github.com/JamesIves/github-pages-deploy-action/graphs/contributors).
-
-<a href="https://github.com/JamesIves/github-pages-deploy-action/graphs/contributors">
-  <img src="https://contributors-img.web.app/image?repo=JamesIves/github-pages-deploy-action" />
-</a>
 
 If you'd like to support the maintenance and upkeep of this project you can [donate via GitHub Sponsors](https://github.com/sponsors/JamesIves). This project is distributed under the [MIT](https://github.com/JamesIves/github-pages-deploy-action/blob/dev/LICENSE) license.

@@ -3,6 +3,7 @@ import path from 'path'
 import {isDebug} from '@actions/core'
 import {ActionInterface, RequiredActionParameters} from './constants'
 
+/* Replaces all instances of a match in a string. */
 const replaceAll = (input: string, find: string, replace: string): string =>
   input.split(find).join(replace)
 
@@ -49,6 +50,7 @@ const hasRequiredParameters = <K extends keyof RequiredActionParameters>(
   return Boolean(nonNullParams.length)
 }
 
+/* Verifies the action has the required parameters to run, otherwise throw an error. */
 export const checkParameters = (action: ActionInterface): void => {
   if (!hasRequiredParameters(action, ['accessToken', 'gitHubToken', 'ssh'])) {
     throw new Error(
@@ -66,7 +68,7 @@ export const checkParameters = (action: ActionInterface): void => {
 
   if (!existsSync(action.folderPath as string)) {
     throw new Error(
-      `The ${action.folderPath} directory you're trying to deploy doesn't exist. ❗`
+      `The directory you're trying to deploy named ${action.folderPath} doesn't exist. Please double check the path and any prerequisite build scripts and try again. ❗`
     )
   }
 }
