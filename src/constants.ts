@@ -30,12 +30,8 @@ export interface ActionInterface {
   gitHubToken?: string | null
   /** Determines if the action is running in test mode or not. */
   isTest?: boolean | null
-  /** Removes files from LFS if toggled to allow normal deployment. */
-  lfs?: boolean | null
   /** The git config name. */
   name?: string
-  /** Determines if the workspace should be stashed/restored prior to comitting. */
-  preserve?: boolean | null
   /** The repository path, for example JamesIves/github-pages-deploy-action. */
   repositoryName?: string
   /** The fully qualified repositpory path, this gets auto generated if repositoryName is provided. */
@@ -89,9 +85,6 @@ export const action: ActionInterface = {
   isTest: process.env.UNIT_TEST
     ? process.env.UNIT_TEST.toLowerCase() === 'true'
     : false,
-  lfs: !isNullOrUndefined(getInput('LFS'))
-    ? getInput('LFS').toLowerCase() === 'true'
-    : false,
   email: !isNullOrUndefined(getInput('GIT_CONFIG_EMAIL'))
     ? getInput('GIT_CONFIG_EMAIL')
     : pusher && pusher.email
@@ -107,9 +100,6 @@ export const action: ActionInterface = {
     : process.env.GITHUB_ACTOR
     ? process.env.GITHUB_ACTOR
     : 'GitHub Pages Deploy Action',
-  preserve: !isNullOrUndefined(getInput('PRESERVE'))
-    ? getInput('PRESERVE').toLowerCase() === 'true'
-    : false,
   repositoryName: !isNullOrUndefined(getInput('REPOSITORY_NAME'))
     ? getInput('REPOSITORY_NAME')
     : repository && repository.full_name

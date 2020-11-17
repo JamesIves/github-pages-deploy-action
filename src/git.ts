@@ -39,10 +39,8 @@ export async function init(action: ActionInterface): Promise<void | Error> {
       action.silent
     )
 
-    if (action.preserve) {
-      info(`Stashing workspace changes… ⬆️`)
-      await execute(`git stash`, action.workspace, action.silent)
-    }
+    info(`Stashing any workspace changes… ⬆️`)
+    await execute(`git stash`, action.workspace, action.silent)
 
     await execute(
       `git fetch --no-recurse-submodules`,
@@ -158,24 +156,21 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       action.silent
     )
 
-    if (action.lfs) {
-      // Migrates data from LFS so it can be comitted the "normal" way.
-      info(`Migrating from Git LFS… ⚓`)
-      await execute(
-        `git lfs migrate export --include="*" --yes`,
-        action.workspace,
-        action.silent
+    info(`Migrating from Git LFS… ⚓`)
+    await execute(
+      `git lfs migrate export --include="*" --yes`,
+      action.workspace,
+      action.silent
+    )
+
+    info(`Applying stashed workspace changes… ⬆️`)
+
+    try {
+      await execute(`git stash apply`, action.workspace, action.silent)
+    } catch {
+      info(
+        'Unable to apply from stash. This could simply be because there are no stashed changes. Continuing…'
       )
-    }
-
-    if (action.preserve) {
-      info(`Applying stashed workspace changes… ⬆️`)
-
-      try {
-        await execute(`git stash apply`, action.workspace, action.silent)
-      } catch {
-        info('Unable to apply from stash, continuing…')
-      }
     }
 
     await execute(

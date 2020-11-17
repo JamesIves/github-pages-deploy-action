@@ -33,25 +33,6 @@ describe('git', () => {
   })
 
   describe('init', () => {
-    it('should stash changes if preserve is true', async () => {
-      Object.assign(action, {
-        silent: false,
-        repositoryPath: 'JamesIves/github-pages-deploy-action',
-        accessToken: '123',
-        branch: 'branch',
-        folder: '.',
-        preserve: true,
-        isTest: true,
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }
-      })
-
-      await init(action)
-      expect(execute).toBeCalledTimes(7)
-    })
-
     it('should catch when a function throws an error', async () => {
       ;(execute as jest.Mock).mockImplementationOnce(() => {
         throw new Error('Mocked throw')
@@ -63,7 +44,6 @@ describe('git', () => {
         accessToken: '123',
         branch: 'branch',
         folder: '.',
-        preserve: true,
         isTest: true,
         pusher: {
           name: 'asd',
@@ -192,7 +172,6 @@ describe('git', () => {
         folder: 'assets',
         branch: 'branch',
         gitHubToken: '123',
-        lfs: true,
         pusher: {
           name: 'asd',
           email: 'as@cat'
@@ -214,8 +193,6 @@ describe('git', () => {
         folderPath: 'assets',
         branch: 'branch',
         gitHubToken: '123',
-        lfs: true,
-        preserve: true,
         isTest: true,
         pusher: {
           name: 'asd',
@@ -245,8 +222,6 @@ describe('git', () => {
         folderPath: 'assets',
         branch: 'branch',
         gitHubToken: '123',
-        lfs: true,
-        preserve: true,
         isTest: true,
         pusher: {
           name: 'asd',
@@ -405,7 +380,6 @@ describe('git', () => {
         folder: 'assets',
         branch: 'branch',
         gitHubToken: '123',
-        lfs: true,
         pusher: {
           name: 'asd',
           email: 'as@cat'
