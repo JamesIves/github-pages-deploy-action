@@ -181,28 +181,6 @@ describe('git', () => {
       const response = await deploy(action)
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(13)
-      expect(rmRF).toBeCalledTimes(1)
-      expect(response).toBe(Status.SUCCESS)
-    })
-
-    it('should execute stash apply commands if preserve is true', async () => {
-      Object.assign(action, {
-        silent: false,
-        folder: 'assets',
-        folderPath: 'assets',
-        branch: 'branch',
-        gitHubToken: '123',
-        isTest: true,
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }
-      })
-
-      const response = await deploy(action)
-
-      // Includes the call to generateBranch
       expect(execute).toBeCalledTimes(14)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
@@ -255,7 +233,7 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(18)
+      expect(execute).toBeCalledTimes(20)
       expect(rmRF).toBeCalledTimes(1)
     })
 
@@ -279,7 +257,7 @@ describe('git', () => {
       const response = await deploy(action)
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(12)
+      expect(execute).toBeCalledTimes(14)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
@@ -304,7 +282,7 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(12)
+      expect(execute).toBeCalledTimes(14)
       expect(rmRF).toBeCalledTimes(1)
     })
 
@@ -326,7 +304,7 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(12)
+      expect(execute).toBeCalledTimes(14)
       expect(rmRF).toBeCalledTimes(1)
     })
 
@@ -346,7 +324,7 @@ describe('git', () => {
 
       await deploy(action)
 
-      expect(execute).toBeCalledTimes(12)
+      expect(execute).toBeCalledTimes(14)
       expect(rmRF).toBeCalledTimes(1)
       expect(mkdirP).toBeCalledTimes(1)
     })
@@ -365,7 +343,7 @@ describe('git', () => {
       })
 
       const response = await deploy(action)
-      expect(execute).toBeCalledTimes(13)
+      expect(execute).toBeCalledTimes(15)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SKIPPED)
     })
