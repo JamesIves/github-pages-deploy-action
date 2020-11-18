@@ -34,3 +34,35 @@ jobs:
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - uses: actions/setup-node@v1.4.4
+        with:
+          node-version: 'v12.18.4'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install Yarn
+        run: npm install -g yarn
+
+      - name: Build lib
+        run: |
+          yarn install
+          yarn build
+
+      - name: Rebuild production node_modules
+        run: |
+          yarn install --production
+          ls node_modules
+
+      - name: artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: |
+            lib
+            node_modules
