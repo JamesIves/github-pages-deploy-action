@@ -64,7 +64,7 @@ describe('main', () => {
       }
     })
     await run(action)
-    expect(execute).toBeCalledTimes(17)
+    expect(execute).toBeCalledTimes(16)
     expect(rmRF).toBeCalledTimes(1)
     expect(exportVariable).toBeCalledTimes(1)
   })

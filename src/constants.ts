@@ -16,8 +16,6 @@ export interface ActionInterface {
   cleanExclude?: string | string[]
   /** If you need to customize the commit message for an integration you can do so. */
   commitMessage?: string
-  /** The default branch of the deployment. Similar to baseBranch if you're using this action as a module. */
-  defaultBranch?: string
   /** The git config email. */
   email?: string
   /** The folder to deploy. */
@@ -82,7 +80,6 @@ export const action: ActionInterface = {
     ? getInput('CLEAN').toLowerCase() === 'true'
     : false,
   cleanExclude: getInput('CLEAN_EXCLUDE'),
-  defaultBranch: process.env.GITHUB_SHA ? process.env.GITHUB_SHA : 'master',
   isTest: process.env.UNIT_TEST
     ? process.env.UNIT_TEST.toLowerCase() === 'true'
     : false,

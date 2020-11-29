@@ -281,12 +281,6 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       info('Cleared git history… 🚿')
     }
 
-    await execute(
-      `git checkout --progress --force ${action.defaultBranch}`,
-      action.workspace,
-      action.silent
-    )
-
     return Status.SUCCESS
   } catch (error) {
     throw new Error(
