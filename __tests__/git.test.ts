@@ -5,7 +5,7 @@ process.env['GITHUB_SHA'] = '123'
 import {mkdirP, rmRF} from '@actions/io'
 import {action, Status} from '../src/constants'
 import {execute} from '../src/execute'
-import {deploy, generateBranch, init, switchToBaseBranch} from '../src/git'
+import {deploy, generateBranch, init} from '../src/git'
 import fs from 'fs'
 
 const originalAction = JSON.stringify(action)
@@ -82,7 +82,7 @@ describe('git', () => {
   })
 
   describe('generateBranch', () => {
-    it('should execute six commands', async () => {
+    it('should execute five commands', async () => {
       Object.assign(action, {
         silent: false,
         accessToken: '123',
@@ -95,7 +95,7 @@ describe('git', () => {
       })
 
       await generateBranch(action)
-      expect(execute).toBeCalledTimes(6)
+      expect(execute).toBeCalledTimes(5)
     })
 
     it('should catch when a function throws an error', async () => {
@@ -118,68 +118,7 @@ describe('git', () => {
         await generateBranch(action)
       } catch (error) {
         expect(error.message).toBe(
-          'There was an error creating the deployment branch: There was an error switching to the base branch: Mocked throw ❌ ❌'
-        )
-      }
-    })
-  })
-
-  describe('switchToBaseBranch', () => {
-    it('should execute one command', async () => {
-      Object.assign(action, {
-        silent: false,
-        accessToken: '123',
-        branch: 'branch',
-        folder: '.',
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }
-      })
-
-      await switchToBaseBranch(action)
-      expect(execute).toBeCalledTimes(1)
-    })
-
-    it('should execute one command if using custom baseBranch', async () => {
-      Object.assign(action, {
-        silent: false,
-        baseBranch: '123',
-        accessToken: '123',
-        branch: 'branch',
-        folder: '.',
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }
-      })
-
-      await switchToBaseBranch(action)
-      expect(execute).toBeCalledTimes(1)
-    })
-
-    it('should catch when a function throws an error', async () => {
-      ;(execute as jest.Mock).mockImplementationOnce(() => {
-        throw new Error('Mocked throw')
-      })
-
-      Object.assign(action, {
-        silent: false,
-        baseBranch: '123',
-        accessToken: '123',
-        branch: 'branch',
-        folder: '.',
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }
-      })
-
-      try {
-        await switchToBaseBranch(action)
-      } catch (error) {
-        expect(error.message).toBe(
-          'There was an error switching to the base branch: Mocked throw ❌'
+          'There was an error creating the deployment branch: Mocked throw ❌'
         )
       }
     })
@@ -202,7 +141,7 @@ describe('git', () => {
       const response = await deploy(action)
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(13)
+      expect(execute).toBeCalledTimes(12)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
@@ -226,7 +165,7 @@ describe('git', () => {
       const response = await deploy(action)
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(14)
+      expect(execute).toBeCalledTimes(13)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
@@ -257,7 +196,7 @@ describe('git', () => {
       const response = await deploy(action)
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(14)
+      expect(execute).toBeCalledTimes(13)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
@@ -280,7 +219,7 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(18)
+      expect(execute).toBeCalledTimes(17)
       expect(rmRF).toBeCalledTimes(1)
     })
 
@@ -304,7 +243,7 @@ describe('git', () => {
       const response = await deploy(action)
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(12)
+      expect(execute).toBeCalledTimes(11)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
@@ -329,7 +268,7 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(12)
+      expect(execute).toBeCalledTimes(11)
       expect(rmRF).toBeCalledTimes(1)
     })
 
@@ -351,7 +290,7 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(12)
+      expect(execute).toBeCalledTimes(11)
       expect(rmRF).toBeCalledTimes(1)
     })
 
@@ -371,7 +310,7 @@ describe('git', () => {
 
       await deploy(action)
 
-      expect(execute).toBeCalledTimes(12)
+      expect(execute).toBeCalledTimes(11)
       expect(rmRF).toBeCalledTimes(1)
       expect(mkdirP).toBeCalledTimes(1)
     })
@@ -390,7 +329,7 @@ describe('git', () => {
       })
 
       const response = await deploy(action)
-      expect(execute).toBeCalledTimes(13)
+      expect(execute).toBeCalledTimes(11)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SKIPPED)
     })

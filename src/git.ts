@@ -61,34 +61,11 @@ export async function init(action: ActionInterface): Promise<void | Error> {
   }
 }
 
-/* Switches to the base branch. */
-export async function switchToBaseBranch(
-  action: ActionInterface
-): Promise<void> {
-  try {
-    await execute(
-      `git checkout --progress --force ${
-        action.baseBranch ? action.baseBranch : action.defaultBranch
-      }`,
-      action.workspace,
-      action.silent
-    )
-  } catch (error) {
-    throw new Error(
-      `There was an error switching to the base branch: ${suppressSensitiveInformation(
-        error.message,
-        action
-      )} ❌`
-    )
-  }
-}
-
 /* Generates the branch if it doesn't exist on the remote. */
 export async function generateBranch(action: ActionInterface): Promise<void> {
   try {
     info(`Creating the ${action.branch} branch…`)
 
-    await switchToBaseBranch(action)
     await execute(
       `git checkout --orphan ${action.branch}`,
       action.workspace,
@@ -131,8 +108,8 @@ export async function deploy(action: ActionInterface): Promise<Status> {
   try {
     const commitMessage = !isNullOrUndefined(action.commitMessage)
       ? (action.commitMessage as string)
-      : `Deploying to ${action.branch} from ${action.baseBranch} ${
-          process.env.GITHUB_SHA ? `@ ${process.env.GITHUB_SHA}` : ''
+      : `Deploying to ${action.branch}${
+          process.env.GITHUB_SHA ? ` from @ ${process.env.GITHUB_SHA}` : ''
         } 🚀`
 
     /*
@@ -148,9 +125,6 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     if (!branchExists && !action.isTest) {
       await generateBranch(action)
     }
-
-    // Checks out the base branch to begin the deployment process.
-    await switchToBaseBranch(action)
 
     await execute(
       `git fetch ${action.repositoryPath}`,

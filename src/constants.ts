@@ -8,8 +8,6 @@ const {pusher, repository} = github.context.payload
 export interface ActionInterface {
   /** Deployment access token. */
   accessToken?: string | null
-  /** The base branch that the deploy should be made from. */
-  baseBranch?: string
   /** The branch that the action should deploy to. */
   branch: string
   /** If your project generates hashed files on build you can use this option to automatically delete them from the deployment branch with each deploy. This option can be toggled on by setting it to true. */
@@ -77,7 +75,6 @@ export interface NodeActionInterface {
 /* Required action data that gets initialized when running within the GitHub Actions environment. */
 export const action: ActionInterface = {
   accessToken: getInput('ACCESS_TOKEN'),
-  baseBranch: getInput('BASE_BRANCH'),
   folder: getInput('FOLDER'),
   branch: getInput('BRANCH'),
   commitMessage: getInput('COMMIT_MESSAGE'),

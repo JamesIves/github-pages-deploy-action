@@ -47,7 +47,7 @@ describe('main', () => {
       debug: true
     })
     await run(action)
-    expect(execute).toBeCalledTimes(19)
+    expect(execute).toBeCalledTimes(17)
     expect(rmRF).toBeCalledTimes(1)
     expect(exportVariable).toBeCalledTimes(1)
   })
@@ -64,7 +64,7 @@ describe('main', () => {
       }
     })
     await run(action)
-    expect(execute).toBeCalledTimes(18)
+    expect(execute).toBeCalledTimes(17)
     expect(rmRF).toBeCalledTimes(1)
     expect(exportVariable).toBeCalledTimes(1)
   })
@@ -73,7 +73,6 @@ describe('main', () => {
     Object.assign(action, {
       folder: 'assets',
       branch: 'branch',
-      baseBranch: 'master',
       gitHubToken: null,
       ssh: null,
       accessToken: null,
