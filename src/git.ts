@@ -39,11 +39,6 @@ export async function init(action: ActionInterface): Promise<void | Error> {
       action.silent
     )
 
-    if (action.preserve) {
-      info(`Stashing workspace changes… ⬆️`)
-      await execute(`git stash`, action.workspace, action.silent)
-    }
-
     await execute(
       `git fetch --no-recurse-submodules`,
       action.workspace,
@@ -140,16 +135,6 @@ export async function deploy(action: ActionInterface): Promise<Status> {
         action.workspace,
         action.silent
       )
-    }
-
-    if (action.preserve) {
-      info(`Applying stashed workspace changes… ⬆️`)
-
-      try {
-        await execute(`git stash apply`, action.workspace, action.silent)
-      } catch {
-        info('Unable to apply from stash, continuing…')
-      }
     }
 
     await execute(

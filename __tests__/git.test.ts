@@ -33,25 +33,6 @@ describe('git', () => {
   })
 
   describe('init', () => {
-    it('should stash changes if preserve is true', async () => {
-      Object.assign(action, {
-        silent: false,
-        repositoryPath: 'JamesIves/github-pages-deploy-action',
-        accessToken: '123',
-        branch: 'branch',
-        folder: '.',
-        preserve: true,
-        isTest: true,
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }
-      })
-
-      await init(action)
-      expect(execute).toBeCalledTimes(7)
-    })
-
     it('should catch when a function throws an error', async () => {
       ;(execute as jest.Mock).mockImplementationOnce(() => {
         throw new Error('Mocked throw')
@@ -63,7 +44,6 @@ describe('git', () => {
         accessToken: '123',
         branch: 'branch',
         folder: '.',
-        preserve: true,
         isTest: true,
         pusher: {
           name: 'asd',
@@ -142,61 +122,6 @@ describe('git', () => {
 
       // Includes the call to generateBranch
       expect(execute).toBeCalledTimes(11)
-      expect(rmRF).toBeCalledTimes(1)
-      expect(response).toBe(Status.SUCCESS)
-    })
-
-    it('should execute stash apply commands if preserve is true', async () => {
-      Object.assign(action, {
-        silent: false,
-        folder: 'assets',
-        folderPath: 'assets',
-        branch: 'branch',
-        gitHubToken: '123',
-        lfs: true,
-        preserve: true,
-        isTest: true,
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }
-      })
-
-      const response = await deploy(action)
-
-      // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(12)
-      expect(rmRF).toBeCalledTimes(1)
-      expect(response).toBe(Status.SUCCESS)
-    })
-
-    it('should appropriately move along if git stash errors', async () => {
-      ;(execute as jest.Mock).mockImplementation(cmd => {
-        if (cmd === 'git stash apply') {
-          // Mocks the case where git stash apply errors.
-          throw new Error()
-        }
-      })
-
-      Object.assign(action, {
-        silent: false,
-        folder: 'assets',
-        folderPath: 'assets',
-        branch: 'branch',
-        gitHubToken: '123',
-        lfs: true,
-        preserve: true,
-        isTest: true,
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }
-      })
-
-      const response = await deploy(action)
-
-      // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(12)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
