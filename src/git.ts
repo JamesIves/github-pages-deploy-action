@@ -49,8 +49,9 @@ export async function generateBranch(action: ActionInterface): Promise<void> {
       action.workspace,
       action.silent
     )
+    const dry = action.dryRun ? '--dry-run ' : ''
     await execute(
-      `git push --force ${action.repositoryPath} ${action.branch}`,
+      `git push --force ${dry}${action.repositoryPath} ${action.branch}`,
       action.workspace,
       action.silent
     )
@@ -74,6 +75,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
   const temporaryDeploymentBranch = `github-pages-deploy-action/${Math.random()
     .toString(36)
     .substr(2, 9)}`
+  const dry = action.dryRun ? '--dry-run ' : ''
 
   info('Starting to commit changes…')
 
@@ -191,7 +193,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       action.silent
     )
     await execute(
-      `git push --force ${action.repositoryPath} ${temporaryDeploymentBranch}:${action.branch}`,
+      `git push --force ${dry}${action.repositoryPath} ${temporaryDeploymentBranch}:${action.branch}`,
       `${action.workspace}/${temporaryDeploymentDirectory}`,
       action.silent
     )
@@ -225,7 +227,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
         action.silent
       )
       await execute(
-        `git push origin ${action.branch} --force`,
+        `git push origin ${action.branch} ${dry}--force`,
         `${action.workspace}/${temporaryDeploymentDirectory}`,
         action.silent
       )

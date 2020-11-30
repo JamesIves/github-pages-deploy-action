@@ -123,6 +123,39 @@ describe('git', () => {
 
       // Includes the call to generateBranch
       expect(execute).toBeCalledTimes(10)
+      expect(execute).toHaveBeenNthCalledWith(
+        9,
+        expect.not.stringContaining('--dry-run'),
+        expect.anything(),
+        false
+      )
+      expect(rmRF).toBeCalledTimes(1)
+      expect(response).toBe(Status.SUCCESS)
+    })
+
+    it('should push with --dry-run', async () => {
+      Object.assign(action, {
+        silent: false,
+        dryRun: true,
+        folder: 'assets',
+        branch: 'branch',
+        gitHubToken: '123',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        }
+      })
+
+      const response = await deploy(action)
+
+      // Includes the call to generateBranch
+      expect(execute).toBeCalledTimes(10)
+      expect(execute).toHaveBeenNthCalledWith(
+        9,
+        expect.stringContaining('--dry-run'),
+        expect.anything(),
+        false
+      )
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
