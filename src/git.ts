@@ -22,12 +22,6 @@ export async function init(action: ActionInterface): Promise<void | Error> {
       action.silent
     )
 
-    await execute(
-      `git fetch --no-recurse-submodules`,
-      action.workspace,
-      action.silent
-    )
-
     info('Git configured… 🔧')
   } catch (error) {
     throw new Error(
@@ -102,13 +96,13 @@ export async function deploy(action: ActionInterface): Promise<Status> {
 
     if (!branchExists && !action.isTest) {
       await generateBranch(action)
+    } else {
+      await execute(
+        `git fetch --no-recurse-submodules --depth=0 origin ${action.branch}`,
+        action.workspace,
+        action.silent
+      )
     }
-
-    await execute(
-      `git fetch ${action.repositoryPath}`,
-      action.workspace,
-      action.silent
-    )
 
     if (action.lfs) {
       // Migrates data from LFS so it can be comitted the "normal" way.
