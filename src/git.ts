@@ -98,17 +98,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       await generateBranch(action)
     } else {
       await execute(
-        `git fetch --no-recurse-submodules --depth=0 origin ${action.branch}`,
-        action.workspace,
-        action.silent
-      )
-    }
-
-    if (action.lfs) {
-      // Migrates data from LFS so it can be comitted the "normal" way.
-      info(`Migrating from Git LFS… ⚓`)
-      await execute(
-        `git lfs migrate export --include="*" --yes`,
+        `git fetch --no-recurse-submodules --depth=1 origin ${action.branch}`,
         action.workspace,
         action.silent
       )
