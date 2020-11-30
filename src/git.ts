@@ -11,7 +11,6 @@ export async function init(action: ActionInterface): Promise<void | Error> {
     info(`Deploying using ${action.tokenType}… 🔑`)
     info('Configuring git…')
 
-    await execute(`git init`, action.workspace, action.silent)
     await execute(
       `git config user.name "${action.name}"`,
       action.workspace,
@@ -19,22 +18,6 @@ export async function init(action: ActionInterface): Promise<void | Error> {
     )
     await execute(
       `git config user.email "${action.email}"`,
-      action.workspace,
-      action.silent
-    )
-
-    try {
-      await execute(`git remote rm origin`, action.workspace, action.silent)
-
-      if (action.isTest) {
-        throw new Error()
-      }
-    } catch {
-      info('Attempted to remove origin but failed, continuing…')
-    }
-
-    await execute(
-      `git remote add origin ${action.repositoryPath}`,
       action.workspace,
       action.silent
     )
