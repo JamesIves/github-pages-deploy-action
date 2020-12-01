@@ -5,7 +5,7 @@
   "parserOptions": {
     "ecmaVersion": 9,
     "sourceType": "module",
-    "project": "./tsconfig.json"
+    "project": "./tsconfig.lint.json"
   },
   "globals": {
     "fetch": true
