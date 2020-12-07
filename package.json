@@ -9,7 +9,7 @@
   "scripts": {
     "build": "rimraf lib && tsc --declaration",
     "test": "jest",
-    "lint": "eslint src/**/*.ts",
+    "lint": "eslint src/**/*.ts __tests__/**/*.ts",
     "format": "prettier --write './**/*.ts'"
   },
   "repository": {
