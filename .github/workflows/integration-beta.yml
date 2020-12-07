@@ -21,7 +21,6 @@ jobs:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages-test
           FOLDER: integration
-          BASE_BRANCH: dev
           TARGET_FOLDER: cat/montezuma
           GIT_CONFIG_NAME: Montezuma
           GIT_CONFIG_EMAIL: montezuma@jamesiv.es
@@ -49,7 +48,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages-test
           FOLDER: integration
-          BASE_BRANCH: dev
           TARGET_FOLDER: cat/montezuma2
 
       - name: Cleanup Generated Branch
@@ -83,7 +81,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages-test
           FOLDER: integration
-          BASE_BRANCH: dev
           TARGET_FOLDER: cat/montezuma2
 
       - name: Cleanup Generated Branch
@@ -114,7 +111,6 @@ jobs:
           SSH: true
           BRANCH: gh-pages-test
           FOLDER: integration
-          BASE_BRANCH: dev
           TARGET_FOLDER: cat/montezuma3
 
       - name: Cleanup Generated Branch
@@ -149,7 +145,6 @@ jobs:
           SSH: true
           BRANCH: gh-pages-test
           FOLDER: integration
-          BASE_BRANCH: dev
           TARGET_FOLDER: cat/montezuma4
 
       - name: Cleanup Generated Branch
@@ -175,7 +170,6 @@ jobs:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages-test
           FOLDER: integration
-          BASE_BRANCH: dev
           CLEAN: true
 
   # Deploys to a branch that doesn't exist with SINGLE_COMMIT.
@@ -193,7 +187,6 @@ jobs:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: integration-test-delete-beta
           FOLDER: integration
-          BASE_BRANCH: dev
           SINGLE_COMMIT: true
 
       - name: Cleanup Generated Branch

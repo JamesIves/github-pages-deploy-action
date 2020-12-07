@@ -11,7 +11,6 @@ export async function init(action: ActionInterface): Promise<void | Error> {
     info(`Deploying using ${action.tokenType}… 🔑`)
     info('Configuring git…')
 
-    await execute(`git init`, action.workspace, action.silent)
     await execute(
       `git config user.name "${action.name}"`,
       action.workspace,
@@ -19,33 +18,6 @@ export async function init(action: ActionInterface): Promise<void | Error> {
     )
     await execute(
       `git config user.email "${action.email}"`,
-      action.workspace,
-      action.silent
-    )
-
-    try {
-      await execute(`git remote rm origin`, action.workspace, action.silent)
-
-      if (action.isTest) {
-        throw new Error()
-      }
-    } catch {
-      info('Attempted to remove origin but failed, continuing…')
-    }
-
-    await execute(
-      `git remote add origin ${action.repositoryPath}`,
-      action.workspace,
-      action.silent
-    )
-
-    if (action.preserve) {
-      info(`Stashing workspace changes… ⬆️`)
-      await execute(`git stash`, action.workspace, action.silent)
-    }
-
-    await execute(
-      `git fetch --no-recurse-submodules`,
       action.workspace,
       action.silent
     )
@@ -61,34 +33,11 @@ export async function init(action: ActionInterface): Promise<void | Error> {
   }
 }
 
-/* Switches to the base branch. */
-export async function switchToBaseBranch(
-  action: ActionInterface
-): Promise<void> {
-  try {
-    await execute(
-      `git checkout --progress --force ${
-        action.baseBranch ? action.baseBranch : action.defaultBranch
-      }`,
-      action.workspace,
-      action.silent
-    )
-  } catch (error) {
-    throw new Error(
-      `There was an error switching to the base branch: ${suppressSensitiveInformation(
-        error.message,
-        action
-      )} ❌`
-    )
-  }
-}
-
 /* Generates the branch if it doesn't exist on the remote. */
 export async function generateBranch(action: ActionInterface): Promise<void> {
   try {
     info(`Creating the ${action.branch} branch…`)
 
-    await switchToBaseBranch(action)
     await execute(
       `git checkout --orphan ${action.branch}`,
       action.workspace,
@@ -131,8 +80,8 @@ export async function deploy(action: ActionInterface): Promise<Status> {
   try {
     const commitMessage = !isNullOrUndefined(action.commitMessage)
       ? (action.commitMessage as string)
-      : `Deploying to ${action.branch} from ${action.baseBranch} ${
-          process.env.GITHUB_SHA ? `@ ${process.env.GITHUB_SHA}` : ''
+      : `Deploying to ${action.branch}${
+          process.env.GITHUB_SHA ? ` from @ ${process.env.GITHUB_SHA}` : ''
         } 🚀`
 
     /*
@@ -147,35 +96,12 @@ export async function deploy(action: ActionInterface): Promise<Status> {
 
     if (!branchExists && !action.isTest) {
       await generateBranch(action)
-    }
-
-    // Checks out the base branch to begin the deployment process.
-    await switchToBaseBranch(action)
-
-    await execute(
-      `git fetch ${action.repositoryPath}`,
-      action.workspace,
-      action.silent
-    )
-
-    if (action.lfs) {
-      // Migrates data from LFS so it can be comitted the "normal" way.
-      info(`Migrating from Git LFS… ⚓`)
+    } else {
       await execute(
-        `git lfs migrate export --include="*" --yes`,
+        `git fetch --no-recurse-submodules --depth=1 origin ${action.branch}`,
         action.workspace,
         action.silent
       )
-    }
-
-    if (action.preserve) {
-      info(`Applying stashed workspace changes… ⬆️`)
-
-      try {
-        await execute(`git stash apply`, action.workspace, action.silent)
-      } catch {
-        info('Unable to apply from stash, continuing…')
-      }
     }
 
     await execute(
@@ -306,12 +232,6 @@ export async function deploy(action: ActionInterface): Promise<Status> {
 
       info('Cleared git history… 🚿')
     }
-
-    await execute(
-      `git checkout --progress --force ${action.defaultBranch}`,
-      action.workspace,
-      action.silent
-    )
 
     return Status.SUCCESS
   } catch (error) {
