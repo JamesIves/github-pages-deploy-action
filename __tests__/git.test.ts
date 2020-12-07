@@ -1,3 +1,4 @@
+/* eslint-disable import/first */
 // Initial env variable setup for tests.
 process.env['INPUT_FOLDER'] = 'build'
 process.env['GITHUB_SHA'] = '123'
@@ -5,7 +6,7 @@ process.env['GITHUB_SHA'] = '123'
 import {mkdirP, rmRF} from '@actions/io'
 import {action, Status} from '../src/constants'
 import {execute} from '../src/execute'
-import {deploy, generateBranch, init, switchToBaseBranch} from '../src/git'
+import {deploy, generateBranch, init} from '../src/git'
 import fs from 'fs'
 
 const originalAction = JSON.stringify(action)
@@ -23,6 +24,7 @@ jest.mock('@actions/io', () => ({
 }))
 
 jest.mock('../src/execute', () => ({
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   __esModule: true,
   execute: jest.fn()
 }))
@@ -33,25 +35,6 @@ describe('git', () => {
   })
 
   describe('init', () => {
-    it('should stash changes if preserve is true', async () => {
-      Object.assign(action, {
-        silent: false,
-        repositoryPath: 'JamesIves/github-pages-deploy-action',
-        accessToken: '123',
-        branch: 'branch',
-        folder: '.',
-        preserve: true,
-        isTest: true,
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }
-      })
-
-      await init(action)
-      expect(execute).toBeCalledTimes(7)
-    })
-
     it('should catch when a function throws an error', async () => {
       ;(execute as jest.Mock).mockImplementationOnce(() => {
         throw new Error('Mocked throw')
@@ -63,7 +46,6 @@ describe('git', () => {
         accessToken: '123',
         branch: 'branch',
         folder: '.',
-        preserve: true,
         isTest: true,
         pusher: {
           name: 'asd',
@@ -82,7 +64,7 @@ describe('git', () => {
   })
 
   describe('generateBranch', () => {
-    it('should execute six commands', async () => {
+    it('should execute five commands', async () => {
       Object.assign(action, {
         silent: false,
         accessToken: '123',
@@ -95,7 +77,7 @@ describe('git', () => {
       })
 
       await generateBranch(action)
-      expect(execute).toBeCalledTimes(6)
+      expect(execute).toBeCalledTimes(5)
     })
 
     it('should catch when a function throws an error', async () => {
@@ -118,68 +100,7 @@ describe('git', () => {
         await generateBranch(action)
       } catch (error) {
         expect(error.message).toBe(
-          'There was an error creating the deployment branch: There was an error switching to the base branch: Mocked throw ❌ ❌'
-        )
-      }
-    })
-  })
-
-  describe('switchToBaseBranch', () => {
-    it('should execute one command', async () => {
-      Object.assign(action, {
-        silent: false,
-        accessToken: '123',
-        branch: 'branch',
-        folder: '.',
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }
-      })
-
-      await switchToBaseBranch(action)
-      expect(execute).toBeCalledTimes(1)
-    })
-
-    it('should execute one command if using custom baseBranch', async () => {
-      Object.assign(action, {
-        silent: false,
-        baseBranch: '123',
-        accessToken: '123',
-        branch: 'branch',
-        folder: '.',
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }
-      })
-
-      await switchToBaseBranch(action)
-      expect(execute).toBeCalledTimes(1)
-    })
-
-    it('should catch when a function throws an error', async () => {
-      ;(execute as jest.Mock).mockImplementationOnce(() => {
-        throw new Error('Mocked throw')
-      })
-
-      Object.assign(action, {
-        silent: false,
-        baseBranch: '123',
-        accessToken: '123',
-        branch: 'branch',
-        folder: '.',
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }
-      })
-
-      try {
-        await switchToBaseBranch(action)
-      } catch (error) {
-        expect(error.message).toBe(
-          'There was an error switching to the base branch: Mocked throw ❌'
+          'There was an error creating the deployment branch: Mocked throw ❌'
         )
       }
     })
@@ -192,7 +113,6 @@ describe('git', () => {
         folder: 'assets',
         branch: 'branch',
         gitHubToken: '123',
-        lfs: true,
         pusher: {
           name: 'asd',
           email: 'as@cat'
@@ -202,62 +122,7 @@ describe('git', () => {
       const response = await deploy(action)
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(13)
-      expect(rmRF).toBeCalledTimes(1)
-      expect(response).toBe(Status.SUCCESS)
-    })
-
-    it('should execute stash apply commands if preserve is true', async () => {
-      Object.assign(action, {
-        silent: false,
-        folder: 'assets',
-        folderPath: 'assets',
-        branch: 'branch',
-        gitHubToken: '123',
-        lfs: true,
-        preserve: true,
-        isTest: true,
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }
-      })
-
-      const response = await deploy(action)
-
-      // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(14)
-      expect(rmRF).toBeCalledTimes(1)
-      expect(response).toBe(Status.SUCCESS)
-    })
-
-    it('should appropriately move along if git stash errors', async () => {
-      ;(execute as jest.Mock).mockImplementation(cmd => {
-        if (cmd === 'git stash apply') {
-          // Mocks the case where git stash apply errors.
-          throw new Error()
-        }
-      })
-
-      Object.assign(action, {
-        silent: false,
-        folder: 'assets',
-        folderPath: 'assets',
-        branch: 'branch',
-        gitHubToken: '123',
-        lfs: true,
-        preserve: true,
-        isTest: true,
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }
-      })
-
-      const response = await deploy(action)
-
-      // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(14)
+      expect(execute).toBeCalledTimes(10)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
@@ -280,7 +145,7 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(18)
+      expect(execute).toBeCalledTimes(16)
       expect(rmRF).toBeCalledTimes(1)
     })
 
@@ -304,7 +169,7 @@ describe('git', () => {
       const response = await deploy(action)
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(12)
+      expect(execute).toBeCalledTimes(10)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
@@ -329,7 +194,7 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(12)
+      expect(execute).toBeCalledTimes(10)
       expect(rmRF).toBeCalledTimes(1)
     })
 
@@ -351,7 +216,7 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(12)
+      expect(execute).toBeCalledTimes(10)
       expect(rmRF).toBeCalledTimes(1)
     })
 
@@ -371,7 +236,7 @@ describe('git', () => {
 
       await deploy(action)
 
-      expect(execute).toBeCalledTimes(12)
+      expect(execute).toBeCalledTimes(10)
       expect(rmRF).toBeCalledTimes(1)
       expect(mkdirP).toBeCalledTimes(1)
     })
@@ -390,7 +255,7 @@ describe('git', () => {
       })
 
       const response = await deploy(action)
-      expect(execute).toBeCalledTimes(13)
+      expect(execute).toBeCalledTimes(10)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SKIPPED)
     })
@@ -405,7 +270,6 @@ describe('git', () => {
         folder: 'assets',
         branch: 'branch',
         gitHubToken: '123',
-        lfs: true,
         pusher: {
           name: 'asd',
           email: 'as@cat'

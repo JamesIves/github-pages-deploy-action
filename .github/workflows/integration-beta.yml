@@ -21,7 +21,6 @@ jobs:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages-test
           FOLDER: integration
-          BASE_BRANCH: dev
           TARGET_FOLDER: cat/montezuma
           GIT_CONFIG_NAME: Montezuma
           GIT_CONFIG_EMAIL: montezuma@jamesiv.es
@@ -49,7 +48,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages-test
           FOLDER: integration
-          BASE_BRANCH: dev
           TARGET_FOLDER: cat/montezuma2
 
       - name: Cleanup Generated Branch
@@ -83,7 +81,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages-test
           FOLDER: integration
-          BASE_BRANCH: dev
           TARGET_FOLDER: cat/montezuma2
 
       - name: Cleanup Generated Branch
@@ -104,7 +101,7 @@ jobs:
           persist-credentials: false
 
       - name: Install SSH Client
-        uses: webfactory/ssh-agent@v0.2.0
+        uses: webfactory/ssh-agent@v0.4.1
         with:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
@@ -114,7 +111,6 @@ jobs:
           SSH: true
           BRANCH: gh-pages-test
           FOLDER: integration
-          BASE_BRANCH: dev
           TARGET_FOLDER: cat/montezuma3
 
       - name: Cleanup Generated Branch
@@ -129,7 +125,7 @@ jobs:
     needs: integration-ssh
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v1.4.4
         with:
           node-version: '10.x'
 
@@ -139,7 +135,7 @@ jobs:
           persist-credentials: false
 
       - name: Install SSH Client
-        uses: webfactory/ssh-agent@v0.2.0
+        uses: webfactory/ssh-agent@v0.4.1
         with:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
@@ -149,7 +145,6 @@ jobs:
           SSH: true
           BRANCH: gh-pages-test
           FOLDER: integration
-          BASE_BRANCH: dev
           TARGET_FOLDER: cat/montezuma4
 
       - name: Cleanup Generated Branch
@@ -175,7 +170,6 @@ jobs:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages-test
           FOLDER: integration
-          BASE_BRANCH: dev
           CLEAN: true
 
   # Deploys to a branch that doesn't exist with SINGLE_COMMIT.
@@ -193,7 +187,6 @@ jobs:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: integration-test-delete-beta
           FOLDER: integration
-          BASE_BRANCH: dev
           SINGLE_COMMIT: true
 
       - name: Cleanup Generated Branch

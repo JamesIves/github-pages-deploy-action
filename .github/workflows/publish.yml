@@ -12,7 +12,7 @@ jobs:
         ref: dev
 
     # Setup .npmrc file to publish to npm
-    - uses: actions/setup-node@v1.4.2
+    - uses: actions/setup-node@v1.4.4
       with:
         node-version: '10.15.1'
         registry-url: 'https://registry.npmjs.org'
@@ -37,7 +37,7 @@ jobs:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
     # Setup .npmrc file to publish to GitHub Packages
-    - uses: actions/setup-node@v1.4.2
+    - uses: actions/setup-node@v1.4.4
       with:
         node-version: 12
         registry-url: 'https://npm.pkg.github.com'
