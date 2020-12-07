@@ -40,8 +40,13 @@ const getGlobParent = require("glob-parent");
 const isGlob = require("is-glob");
 const { escapeRegExp } = require("lodash");
 const { Minimatch } = require("minimatch");
-const { IgnorePattern } = require("./config-array");
-const { CascadingConfigArrayFactory } = require("./cascading-config-array-factory");
+
+const {
+    Legacy: {
+        IgnorePattern,
+        CascadingConfigArrayFactory
+    }
+} = require("@eslint/eslintrc");
 const debug = require("debug")("eslint:file-enumerator");
 
 //------------------------------------------------------------------------------
@@ -208,7 +213,11 @@ class FileEnumerator {
      */
     constructor({
         cwd = process.cwd(),
-        configArrayFactory = new CascadingConfigArrayFactory({ cwd }),
+        configArrayFactory = new CascadingConfigArrayFactory({
+            cwd,
+            eslintRecommendedPath: path.resolve(__dirname, "../../conf/eslint-recommended.js"),
+            eslintAllPath: path.resolve(__dirname, "../../conf/eslint-all.js")
+        }),
         extensions = null,
         globInputPaths = true,
         errorOnUnmatchedPattern = true,

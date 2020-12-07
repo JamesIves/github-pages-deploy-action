@@ -1,5 +1,17 @@
 # Changelog
 
+## v3.2.0 (2020-12-03)
+
+* Skip CI for eslint 6 + node 8 ([#364](git@github.com:prettier/eslint-plugin-prettier/issues/364)) ([f8f08e4](git@github.com:prettier/eslint-plugin-prettier/commit/f8f08e483522d74bc4dd93d9813914aa7ba9314b))
+* Turn off problematic rules in recommended config (prepare for next eslint-config-prettier version) ([#360](git@github.com:prettier/eslint-plugin-prettier/issues/360)) ([a1e5591](git@github.com:prettier/eslint-plugin-prettier/commit/a1e559112073eedfb0dd2041b9c2f6ef775844ec))
+* Create dependabot.yml ([f58b6c7](git@github.com:prettier/eslint-plugin-prettier/commit/f58b6c7c356a37b437593cd6ff8d1dca1c437b13))
+* docs(README): fix prettier getFileInfo link ([#335](git@github.com:prettier/eslint-plugin-prettier/issues/335)) ([5a690f1](git@github.com:prettier/eslint-plugin-prettier/commit/5a690f14d793ba5a08c55287fa3d6338dcda21ba))
+* build(deps-dev): bump eslint-plugin-eslint-plugin from 2.2.2 to 2.3.0 ([8614c45](git@github.com:prettier/eslint-plugin-prettier/commit/8614c458ed284bc126034d432b49b07d7d67ef06))
+* build(deps-dev): bump eslint from 7.3.0 to 7.3.1 ([12d9ed8](git@github.com:prettier/eslint-plugin-prettier/commit/12d9ed877aacfad2c27f01161cc2eb28a445725f))
+* build(deps-dev): bump eslint from 7.2.0 to 7.3.0 ([5a6f42e](git@github.com:prettier/eslint-plugin-prettier/commit/5a6f42e4eda871a294da1eb55f214c475450faa6))
+* chore: update CI badge in readme ([5012b66](git@github.com:prettier/eslint-plugin-prettier/commit/5012b665f981edbc21feaaccb3cd297f49ca40d3))
+* Use Github Actions for CI ([#305](git@github.com:prettier/eslint-plugin-prettier/issues/305)) ([41eb64f](git@github.com:prettier/eslint-plugin-prettier/commit/41eb64fda33663ed1c43a85218f390c6cd4b6191))
+
 ## v3.1.4 (2020-06-14)
 
 * Avoid clearing Prettier cache when not using prettierrc ([#303](git@github.com:prettier/eslint-plugin-prettier/issues/303)) ([3c8e2d9](git@github.com:prettier/eslint-plugin-prettier/commit/3c8e2d9871d86a82b10fe3d54f32bb5a54f2913b))

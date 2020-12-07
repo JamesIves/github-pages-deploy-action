@@ -1,3 +1,9 @@
+v7.3.1 - December 5, 2020
+
+* [`fef6f4a`](https://github.com/eslint/espree/commit/fef6f4a2803d959304c6961527044bd9da39ac92) Upgrade: acorn-jsx@5.3.1 (#459) (Milos Djermanovic)
+* [`0e09d9a`](https://github.com/eslint/espree/commit/0e09d9a4f213cb87073a6a87cb7d6317b77d1a23) Chore: Add tests for ecmaVersion default value (#460) (Milos Djermanovic)
+* [`4c70052`](https://github.com/eslint/espree/commit/4c70052df0b0ba903602c1f838918cbc07ee5eca) Docs: Fix some minor typos in the READMEs (#455) (Noah Doersing)
+
 v7.3.0 - August 22, 2020
 
 * [`4ba3eef`](https://github.com/eslint/espree/commit/4ba3eefdc4b32784565822b34f11977e99ca1a19) Chore: move to GitHub Actions (#449) (Kai Cataldo)
