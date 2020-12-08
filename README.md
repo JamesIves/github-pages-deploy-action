@@ -105,7 +105,7 @@ Calling the functions directly will require you to pass in an object containing 
 import run from "github-pages-deploy-action";
 
 run({
-  accessToken: process.env["ACCESS_TOKEN"],
+  token: process.env["ACCESS_TOKEN"],
   branch: "gh-pages",
   folder: "build",
   repositoryName: "JamesIves/github-pages-deploy-action",
