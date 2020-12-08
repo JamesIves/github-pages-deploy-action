@@ -4,7 +4,6 @@ author: 'James Ives <iam@jamesiv.es>'
 runs:
   using: 'node12'
   main: 'lib/main.js'
-  post: 'lb'
 branding:
   icon: 'git-commit'
   color: 'orange'
