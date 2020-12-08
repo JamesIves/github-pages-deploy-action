@@ -10,6 +10,8 @@ export interface ActionInterface {
   accessToken?: string | null
   /** The branch that the action should deploy to. */
   branch: string
+  /** git push with --dry-run */
+  dryRun?: boolean | null
   /** If your project generates hashed files on build you can use this option to automatically delete them from the deployment branch with each deploy. This option can be toggled on by setting it to true. */
   clean?: boolean | null
   /** If you need to use CLEAN but you'd like to preserve certain files or folders you can use this option. */
@@ -72,6 +74,9 @@ export const action: ActionInterface = {
   folder: getInput('FOLDER'),
   branch: getInput('BRANCH'),
   commitMessage: getInput('COMMIT_MESSAGE'),
+  dryRun: !isNullOrUndefined(getInput('DRY_RUN'))
+    ? getInput('DRY_RUN').toLowerCase() === 'true'
+    : false,
   clean: !isNullOrUndefined(getInput('CLEAN'))
     ? getInput('CLEAN').toLowerCase() === 'true'
     : false,
