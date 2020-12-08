@@ -4,6 +4,7 @@ author: 'James Ives <iam@jamesiv.es>'
 runs:
   using: 'node12'
   main: 'lib/main.js'
+  post: 'lb'
 branding:
   icon: 'git-commit'
   color: 'orange'
@@ -12,13 +13,17 @@ inputs:
     description: 'You can configure the action to deploy using SSH by setting this option to true. More more information on how to add your ssh key pair please refer to the Using a Deploy Key section of this README.'
     required: false
 
-  ACCESS_TOKEN:
-    description: 'Depending on the repository permissions you may need to provide the action with a GitHub personal access token instead of the provided GitHub token in order to deploy. This should be stored as a secret.'
+  TOKEN:
+    description: >
+      This option defaults to the repository scoped GitHub Token. 
+      However if you need more permissions for things such as deploying to another repository, you can add a Personal Acess Token (PAT) here. 
+      This should be stored in the `secrets / with` menu **as a secret**. 
+      We reccomend using a service account with the least permissions neccersary. 
+      We also reccomend when generating a new PAT that you select the least permission scipes neccersary. 
+      
+      Learn more about creating and using encrypted secrets here.](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets)
     required: false
-
-  GITHUB_TOKEN:
-    description: 'In order for GitHub to trigger the rebuild of your page you must provide the action with the repositories provided GitHub token.'
-    required: false
+    default: ${{ github.token }}
 
   BRANCH:
     description: 'This is the branch you wish to deploy to, for example gh-pages or docs.'

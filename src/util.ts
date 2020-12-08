@@ -15,10 +15,8 @@ export const isNullOrUndefined = (value: any): boolean =>
 export const generateTokenType = (action: ActionInterface): string =>
   action.ssh
     ? 'SSH Deploy Key'
-    : action.accessToken
-    ? 'Access Token'
-    : action.gitHubToken
-    ? 'GitHub Token'
+    : action.token
+    ? 'Deploy Token'
     : '…'
 
 /* Generates a the repository path used to make the commits. */
@@ -26,7 +24,7 @@ export const generateRepositoryPath = (action: ActionInterface): string =>
   action.ssh
     ? `git@github.com:${action.repositoryName}`
     : `https://${
-        action.accessToken || `x-access-token:${action.gitHubToken}`
+        `x-access-token:${action.token}`
       }@github.com/${action.repositoryName}.git`
 
 /* Genetate absolute folder path by the provided folder name */
@@ -52,7 +50,7 @@ const hasRequiredParameters = <K extends keyof RequiredActionParameters>(
 
 /* Verifies the action has the required parameters to run, otherwise throw an error. */
 export const checkParameters = (action: ActionInterface): void => {
-  if (!hasRequiredParameters(action, ['accessToken', 'gitHubToken', 'ssh'])) {
+  if (!hasRequiredParameters(action, ['token', 'ssh'])) {
     throw new Error(
       'No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true.'
     )
@@ -86,8 +84,7 @@ export const suppressSensitiveInformation = (
   }
 
   const orderedByLength = ([
-    action.accessToken,
-    action.gitHubToken,
+    action.token,
     action.repositoryPath
   ].filter(Boolean) as string[]).sort((a, b) => b.length - a.length)
 
