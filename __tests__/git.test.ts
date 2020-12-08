@@ -43,7 +43,7 @@ describe('git', () => {
       Object.assign(action, {
         silent: false,
         repositoryPath: 'JamesIves/github-pages-deploy-action',
-        accessToken: '123',
+        token: '123',
         branch: 'branch',
         folder: '.',
         isTest: true,
@@ -67,7 +67,7 @@ describe('git', () => {
     it('should execute five commands', async () => {
       Object.assign(action, {
         silent: false,
-        accessToken: '123',
+        token: '123',
         branch: 'branch',
         folder: '.',
         pusher: {
@@ -87,7 +87,7 @@ describe('git', () => {
 
       Object.assign(action, {
         silent: false,
-        accessToken: '123',
+        token: '123',
         branch: 'branch',
         folder: '.',
         pusher: {
@@ -112,7 +112,7 @@ describe('git', () => {
         silent: false,
         folder: 'assets',
         branch: 'branch',
-        gitHubToken: '123',
+        token: '123',
         pusher: {
           name: 'asd',
           email: 'as@cat'
@@ -139,7 +139,7 @@ describe('git', () => {
         dryRun: true,
         folder: 'assets',
         branch: 'branch',
-        gitHubToken: '123',
+        token: '123',
         pusher: {
           name: 'asd',
           email: 'as@cat'
@@ -166,7 +166,7 @@ describe('git', () => {
         folder: 'other',
         folderPath: 'other',
         branch: 'branch',
-        gitHubToken: '123',
+        token: '123',
         singleCommit: true,
         pusher: {
           name: 'asd',
@@ -188,7 +188,7 @@ describe('git', () => {
         folder: 'assets',
         folderPath: 'assets',
         branch: 'branch',
-        gitHubToken: '123',
+        token: '123',
         pusher: {
           name: 'asd',
           email: 'as@cat'
@@ -214,7 +214,7 @@ describe('git', () => {
         folder: 'other',
         folderPath: 'other',
         branch: 'branch',
-        gitHubToken: '123',
+        token: '123',
         pusher: {
           name: 'asd',
           email: 'as@cat'
@@ -237,7 +237,7 @@ describe('git', () => {
         folder: 'assets',
         folderPath: 'assets',
         branch: 'branch',
-        gitHubToken: '123',
+        token: '123',
         pusher: {
           name: 'asd',
           email: 'as@cat'
@@ -258,7 +258,7 @@ describe('git', () => {
         silent: false,
         folder: '.',
         branch: 'branch',
-        gitHubToken: '123',
+        token: '123',
         pusher: {},
         clean: true,
         targetFolder: 'new_folder',
@@ -279,7 +279,7 @@ describe('git', () => {
         silent: false,
         folder: 'assets',
         branch: 'branch',
-        gitHubToken: '123',
+        token: '123',
         pusher: {
           name: 'asd',
           email: 'as@cat'
@@ -302,7 +302,7 @@ describe('git', () => {
         silent: false,
         folder: 'assets',
         branch: 'branch',
-        gitHubToken: '123',
+        token: '123',
         pusher: {
           name: 'asd',
           email: 'as@cat'

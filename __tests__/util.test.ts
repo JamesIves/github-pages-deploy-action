@@ -37,38 +37,23 @@ describe('util', () => {
         branch: '123',
         workspace: 'src/',
         folder: 'build',
-        gitHubToken: null,
-        accessToken: null,
+        token: null,
         ssh: true,
         silent: false
       }
       expect(generateTokenType(action)).toEqual('SSH Deploy Key')
     })
 
-    it('should return access token if access token is provided', async () => {
+    it('should return deploy token if token is provided', async () => {
       const action = {
         branch: '123',
         workspace: 'src/',
         folder: 'build',
-        gitHubToken: null,
-        accessToken: '123',
+        token: '123',
         ssh: null,
         silent: false
       }
-      expect(generateTokenType(action)).toEqual('Access Token')
-    })
-
-    it('should return github token if github token is provided', async () => {
-      const action = {
-        branch: '123',
-        workspace: 'src/',
-        folder: 'build',
-        gitHubToken: '123',
-        accessToken: null,
-        ssh: null,
-        silent: false
-      }
-      expect(generateTokenType(action)).toEqual('GitHub Token')
+      expect(generateTokenType(action)).toEqual('Deploy Token')
     })
 
     it('should return ... if no token is provided', async () => {
@@ -76,8 +61,7 @@ describe('util', () => {
         branch: '123',
         workspace: 'src/',
         folder: 'build',
-        gitHubToken: null,
-        accessToken: null,
+        token: null,
         ssh: null,
         silent: false
       }
@@ -92,8 +76,7 @@ describe('util', () => {
         branch: '123',
         workspace: 'src/',
         folder: 'build',
-        gitHubToken: null,
-        accessToken: null,
+        token: null,
         ssh: true,
         silent: false
       }
@@ -102,30 +85,13 @@ describe('util', () => {
       )
     })
 
-    it('should return https if access token is provided', async () => {
+    it('should return https with x-access-token if deploy token is provided', async () => {
       const action = {
         repositoryName: 'JamesIves/github-pages-deploy-action',
         branch: '123',
         workspace: 'src/',
         folder: 'build',
-        gitHubToken: null,
-        accessToken: '123',
-        ssh: null,
-        silent: false
-      }
-      expect(generateRepositoryPath(action)).toEqual(
-        'https://123@github.com/JamesIves/github-pages-deploy-action.git'
-      )
-    })
-
-    it('should return https with x-access-token if github token is provided', async () => {
-      const action = {
-        repositoryName: 'JamesIves/github-pages-deploy-action',
-        branch: '123',
-        workspace: 'src/',
-        folder: 'build',
-        gitHubToken: '123',
-        accessToken: null,
+        token: '123',
         ssh: null,
         silent: false
       }
@@ -143,14 +109,13 @@ describe('util', () => {
           branch: '123',
           workspace: 'src/',
           folder: 'build',
-          accessToken: 'supersecret999%%%',
-          gitHubToken: 'anothersecret123333',
+          token: 'anothersecret123333',
           silent: false
         }
 
-        const string = `This is an error message! It contains ${action.accessToken} and ${action.gitHubToken} and ${action.repositoryPath} and ${action.accessToken} again!`
+        const string = `This is an error message! It contains ${action.token} and ${action.repositoryPath} and ${action.token} again!`
         expect(suppressSensitiveInformation(string, action)).toBe(
-          'This is an error message! It contains *** and *** and *** and *** again!'
+          'This is an error message! It contains *** and *** and *** again!'
         )
       })
 
@@ -162,16 +127,15 @@ describe('util', () => {
           branch: '123',
           workspace: 'src/',
           folder: 'build',
-          accessToken: 'supersecret999%%%',
-          gitHubToken: 'anothersecret123333',
+          token: 'anothersecret123333',
           silent: false
         }
 
         process.env['RUNNER_DEBUG'] = '1'
 
-        const string = `This is an error message! It contains ${action.accessToken} and ${action.gitHubToken} and ${action.repositoryPath}`
+        const string = `This is an error message! It contains ${action.token} and ${action.repositoryPath}`
         expect(suppressSensitiveInformation(string, action)).toBe(
-          'This is an error message! It contains supersecret999%%% and anothersecret123333 and https://x-access-token:supersecret999%%%@github.com/anothersecret123333'
+          'This is an error message! It contains anothersecret123333 and https://x-access-token:supersecret999%%%@github.com/anothersecret123333'
         )
       })
     })
@@ -183,8 +147,7 @@ describe('util', () => {
         branch: '123',
         workspace: 'src/',
         folder: 'build',
-        gitHubToken: null,
-        accessToken: null,
+        token: null,
         ssh: null,
         silent: false
       }
@@ -196,8 +159,7 @@ describe('util', () => {
         branch: '123',
         workspace: 'src/',
         folder: '/home/user/repo/build',
-        gitHubToken: null,
-        accessToken: null,
+        token: null,
         ssh: null,
         silent: false
       }
@@ -209,8 +171,7 @@ describe('util', () => {
         branch: '123',
         workspace: 'src/',
         folder: './build',
-        gitHubToken: null,
-        accessToken: null,
+        token: null,
         ssh: null,
         silent: false
       }
@@ -222,8 +183,7 @@ describe('util', () => {
         branch: '123',
         workspace: 'src/',
         folder: '~/repo/build',
-        gitHubToken: null,
-        accessToken: null,
+        token: null,
         ssh: null,
         silent: false
       }
@@ -251,11 +211,11 @@ describe('util', () => {
       }
     })
 
-    it('should fail if access token is defined but it is an empty string', () => {
+    it('should fail if token is defined but it is an empty string', () => {
       const action = {
         silent: false,
         repositoryPath: undefined,
-        accessToken: '',
+        token: '',
         branch: 'branch',
         folder: 'build',
         workspace: 'src/'
@@ -274,7 +234,7 @@ describe('util', () => {
       const action = {
         silent: false,
         repositoryPath: undefined,
-        accessToken: '123',
+        token: '123',
         branch: '',
         folder: 'build',
         workspace: 'src/'
@@ -291,7 +251,7 @@ describe('util', () => {
       const action = {
         silent: false,
         repositoryPath: undefined,
-        gitHubToken: '123',
+        token: '123',
         branch: 'branch',
         folder: '',
         workspace: 'src/'
@@ -310,7 +270,7 @@ describe('util', () => {
       const action: ActionInterface = {
         silent: false,
         repositoryPath: undefined,
-        gitHubToken: '123',
+        token: '123',
         branch: 'branch',
         folder: 'notARealFolder',
         workspace: '.'

@@ -13,19 +13,15 @@ export const isNullOrUndefined = (value: any): boolean =>
 
 /* Generates a token type used for the action. */
 export const generateTokenType = (action: ActionInterface): string =>
-  action.ssh
-    ? 'SSH Deploy Key'
-    : action.token
-    ? 'Deploy Token'
-    : '…'
+  action.ssh ? 'SSH Deploy Key' : action.token ? 'Deploy Token' : '…'
 
 /* Generates a the repository path used to make the commits. */
 export const generateRepositoryPath = (action: ActionInterface): string =>
   action.ssh
     ? `git@github.com:${action.repositoryName}`
-    : `https://${
-        `x-access-token:${action.token}`
-      }@github.com/${action.repositoryName}.git`
+    : `https://${`x-access-token:${action.token}`}@github.com/${
+        action.repositoryName
+      }.git`
 
 /* Genetate absolute folder path by the provided folder name */
 export const generateFolderPath = (action: ActionInterface): string => {
@@ -83,10 +79,9 @@ export const suppressSensitiveInformation = (
     return value
   }
 
-  const orderedByLength = ([
-    action.token,
-    action.repositoryPath
-  ].filter(Boolean) as string[]).sort((a, b) => b.length - a.length)
+  const orderedByLength = ([action.token, action.repositoryPath].filter(
+    Boolean
+  ) as string[]).sort((a, b) => b.length - a.length)
 
   for (const find of orderedByLength) {
     value = replaceAll(value, find, '***')
