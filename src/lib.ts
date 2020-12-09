@@ -5,7 +5,8 @@ import {
   generateFolderPath,
   checkParameters,
   generateRepositoryPath,
-  generateTokenType
+  generateTokenType,
+  getLastestCommit
 } from './util'
 
 /** Initializes and runs the action.
@@ -42,6 +43,9 @@ export default async function run(
 
     settings.repositoryPath = generateRepositoryPath(settings)
     settings.tokenType = generateTokenType(settings)
+
+    const lastestCommitHash = await getLastestCommit()
+    settings.defaultBranch = settings.defaultBranch === 'master' ? 'master' : lastestCommitHash
 
     await init(settings)
     status = await deploy(settings)
