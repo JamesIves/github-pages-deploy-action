@@ -2,6 +2,7 @@ import {existsSync} from 'fs'
 import path from 'path'
 import {isDebug} from '@actions/core'
 import {ActionInterface, RequiredActionParameters} from './constants'
+import childProcess from 'child_process'
 
 /* Replaces all instances of a match in a string. */
 const replaceAll = (input: string, find: string, replace: string): string =>
@@ -96,4 +97,11 @@ export const suppressSensitiveInformation = (
   }
 
   return value
+}
+
+/**Get lastest commit hash before use this action */
+export const getLastestCommit = async () => {
+  const lastCommitHash = await childProcess.execSync('git log -1 --format=%H')
+
+  return lastCommitHash.toString().trim()
 }
