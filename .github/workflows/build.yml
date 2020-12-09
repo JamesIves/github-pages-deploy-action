@@ -2,8 +2,8 @@ name: unit-tests
 on:
   pull_request:
     branches:
-      - dev
-      - releases/v3
+      - 'dev*'
+      - 'releases/v*'
   push:
     branches:
       - dev
@@ -14,11 +14,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - uses: actions/setup-node@v1.4.4
         with:
-          node-version: '10.15.1'
+          node-version: 'v12.18.4'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install Yarn
@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - uses: actions/setup-node@v1.4.4
         with:
@@ -90,6 +90,6 @@ jobs:
         uses: ./
         with:
           FOLDER: integration
-          BASE_BRANCH: ${{ github.event.pull_request.head.sha || github.sha }}
           BRANCH: gh-pages-pr
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DRY_RUN: true
