@@ -308,7 +308,9 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     }
 
     await execute(
-      `git checkout --progress --force ${action.defaultBranch}`,
+      `git checkout --progress --force ${
+        action.baseBranch ? action.baseBranch : action.defaultBranch
+      }`,
       action.workspace,
       action.silent
     )
