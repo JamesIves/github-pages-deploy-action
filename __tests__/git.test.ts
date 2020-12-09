@@ -64,7 +64,7 @@ describe('git', () => {
   })
 
   describe('generateBranch', () => {
-    it('should execute five commands', async () => {
+    it('should execute four commands', async () => {
       Object.assign(action, {
         silent: false,
         token: '123',
@@ -77,10 +77,10 @@ describe('git', () => {
       })
 
       await generateBranch(action)
-      expect(execute).toBeCalledTimes(5)
+      expect(execute).toBeCalledTimes(4)
     })
 
-    it('should execute four commands when dryRun', async () => {
+    it('should execute three commands when dryRun', async () => {
       Object.assign(action, {
         silent: false,
         dryRun: true,
@@ -94,7 +94,7 @@ describe('git', () => {
       })
 
       await generateBranch(action)
-      expect(execute).toBeCalledTimes(4)
+      expect(execute).toBeCalledTimes(3)
     })
 
     it('should catch when a function throws an error', async () => {

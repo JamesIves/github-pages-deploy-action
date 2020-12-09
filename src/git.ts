@@ -56,7 +56,6 @@ export async function generateBranch(action: ActionInterface): Promise<void> {
         action.silent
       )
     }
-    await execute(`git fetch`, action.workspace, action.silent)
 
     info(`Created the ${action.branch} branch… 🔧`)
   } catch (error) {
@@ -96,18 +95,20 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       action.silent
     )
 
+    let origin = 'origin/'
     if (!branchExists && !action.isTest) {
       await generateBranch(action)
-    } else {
-      await execute(
-        `git fetch --no-recurse-submodules --depth=1 origin ${action.branch}`,
-        action.workspace,
-        action.silent
-      )
+      // Check out local branch
+      origin = ''
     }
+    await execute(
+      `git fetch --no-recurse-submodules --depth=1 origin ${action.branch}`,
+      action.workspace,
+      action.silent
+    )
 
     await execute(
-      `git worktree add --checkout ${temporaryDeploymentDirectory} origin/${action.branch}`,
+      `git worktree add --checkout ${temporaryDeploymentDirectory} ${origin}${action.branch}`,
       action.workspace,
       action.silent
     )
