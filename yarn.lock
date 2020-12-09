@@ -820,10 +820,10 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
-"@types/jest@26.0.17":
-  version "26.0.17"
-  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-26.0.17.tgz#c63b44af7528bbc05974dfacc2c90fe13ed5534d"
-  integrity sha512-5sy3dHuiT/nJGM0XZ8ozFgdR4Y/gmi89n2OCDthTULSi8nG3YdcSDVuxYT3X7eN62NGXWJYz2oNOpDp/aIaynQ==
+"@types/jest@26.0.18":
+  version "26.0.18"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-26.0.18.tgz#3c5f9228e9ac15bd42f903f1acf2ad6ea5ed73d9"
+  integrity sha512-scDPs+mELZgsFetTgBSsIxKGrlitn9t/d2ecP+S1QSIGD+31fkMBEftLfOAX5k3tU06/0PjreJIQ+gWEbbHqpw==
   dependencies:
     jest-diff "^26.0.0"
     pretty-format "^26.0.0"
@@ -837,10 +837,10 @@
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
 
-"@types/node@*", "@types/node@14.14.10", "@types/node@>= 8":
-  version "14.14.10"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.10.tgz#5958a82e41863cfc71f2307b3748e3491ba03785"
-  integrity sha512-J32dgx2hw8vXrSbu4ZlVhn1Nm3GbeCFNw2FWL8S5QKucHGY0cyNwjdQdO+KMBZ4wpmC7KhLCiNsdk1RFRIYUQQ==
+"@types/node@*", "@types/node@14.14.11", "@types/node@>= 8":
+  version "14.14.11"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.11.tgz#fc25a4248a5e8d0837019b1d170146d07334abe0"
+  integrity sha512-BJ97wAUuU3NUiUCp44xzUFquQEvnk1wu7q4CMEUYKJWjdkr0YWYDsm4RFtAvxYsNjLsKcrFt6RvK8r+mnzMbEQ==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
