@@ -98,14 +98,18 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     let origin = 'origin/'
     if (!branchExists && !action.isTest) {
       await generateBranch(action)
+    }
+    // Remote branch won't be created with dryRun, don't fetch it if it doesn't exist
+    if (!action.dryRun || branchExists) {
+      await execute(
+        `git fetch --no-recurse-submodules --depth=1 origin ${action.branch}`,
+        action.workspace,
+        action.silent
+      )
+    } else {
       // Check out local branch
       origin = ''
     }
-    await execute(
-      `git fetch --no-recurse-submodules --depth=1 origin ${action.branch}`,
-      action.workspace,
-      action.silent
-    )
 
     await execute(
       `git worktree add --checkout ${temporaryDeploymentDirectory} ${origin}${action.branch}`,
