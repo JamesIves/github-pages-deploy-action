@@ -80,6 +80,23 @@ describe('git', () => {
       expect(execute).toBeCalledTimes(5)
     })
 
+    it('should execute four commands when dryRun', async () => {
+      Object.assign(action, {
+        silent: false,
+        dryRun: true,
+        accessToken: '123',
+        branch: 'branch',
+        folder: '.',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        }
+      })
+
+      await generateBranch(action)
+      expect(execute).toBeCalledTimes(4)
+    })
+
     it('should catch when a function throws an error', async () => {
       ;(execute as jest.Mock).mockImplementationOnce(() => {
         throw new Error('Mocked throw')
@@ -123,17 +140,11 @@ describe('git', () => {
 
       // Includes the call to generateBranch
       expect(execute).toBeCalledTimes(10)
-      expect(execute).toHaveBeenNthCalledWith(
-        9,
-        expect.not.stringContaining('--dry-run'),
-        expect.anything(),
-        false
-      )
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
 
-    it('should push with --dry-run', async () => {
+    it('should not push when asked to dryRun', async () => {
       Object.assign(action, {
         silent: false,
         dryRun: true,
@@ -149,13 +160,7 @@ describe('git', () => {
       const response = await deploy(action)
 
       // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(10)
-      expect(execute).toHaveBeenNthCalledWith(
-        9,
-        expect.stringContaining('--dry-run'),
-        expect.anything(),
-        false
-      )
+      expect(execute).toBeCalledTimes(9)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
@@ -179,6 +184,29 @@ describe('git', () => {
 
       // Includes the call to generateBranch
       expect(execute).toBeCalledTimes(16)
+      expect(rmRF).toBeCalledTimes(1)
+    })
+
+    it('should execute commands with single commit and dryRun toggled', async () => {
+      Object.assign(action, {
+        silent: false,
+        folder: 'other',
+        folderPath: 'other',
+        branch: 'branch',
+        gitHubToken: '123',
+        singleCommit: true,
+        dryRun: true,
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        clean: true
+      })
+
+      await deploy(action)
+
+      // Includes the call to generateBranch
+      expect(execute).toBeCalledTimes(14)
       expect(rmRF).toBeCalledTimes(1)
     })
 
