@@ -33,34 +33,79 @@ export async function init(action: ActionInterface): Promise<void | Error> {
   }
 }
 
-/* Generates the branch if it doesn't exist on the remote. */
-export async function generateBranch(action: ActionInterface): Promise<void> {
-  try {
-    info(`Creating the ${action.branch} branch…`)
+export class GitCheckout {
+  orphan = false
+  commitish?: string | null = null
+  branch: string
+  constructor(branch: string) {
+    this.branch = branch
+  }
+  toString(): string {
+    return [
+      'git',
+      'checkout',
+      this.orphan ? '--orphan' : '-b',
+      this.branch,
+      this.commitish || ''
+    ].join(' ')
+  }
+}
 
-    await execute(
-      `git checkout --orphan ${action.branch}`,
-      action.workspace,
-      action.silent
-    )
-    await execute(`git reset --hard`, action.workspace, action.silent)
-    await execute(
-      `git commit --no-verify --allow-empty -m "Initial ${action.branch} commit"`,
-      action.workspace,
-      action.silent
-    )
-    if (!action.dryRun) {
+/* Generate the worktree and set initial content if it exists */
+export async function generateWorktree(
+  action: ActionInterface,
+  worktreedir: string,
+  branchExists: boolean
+): Promise<void> {
+  try {
+    info('Creating worktree…')
+
+    if (branchExists) {
       await execute(
-        `git push --force ${action.repositoryPath} ${action.branch}`,
+        `git fetch --no-recurse-submodules --depth=1 origin ${action.branch}`,
         action.workspace,
         action.silent
       )
     }
 
-    info(`Created the ${action.branch} branch… 🔧`)
+    await execute(
+      `git worktree add --no-checkout --detach ${worktreedir}`,
+      action.workspace,
+      action.silent
+    )
+    const checkout = new GitCheckout(action.branch)
+    if (branchExists) {
+      // There's existing data on the branch to check out
+      checkout.commitish = `origin/${action.branch}`
+    }
+    if (!branchExists || action.singleCommit) {
+      // Create a new history if we don't have the branch, or if we want to reset it
+      checkout.orphan = true
+    }
+    await execute(
+      checkout.toString(),
+      `${action.workspace}/${worktreedir}`,
+      action.silent
+    )
+    if (!branchExists) {
+      // Our index is in HEAD state, reset
+      await execute(
+        'git reset --hard',
+        `${action.workspace}/${worktreedir}`,
+        action.silent
+      )
+      if (!action.singleCommit) {
+        // New history isn't singleCommit, create empty initial commit
+        await execute(
+          `git commit --no-verify --allow-empty -m "Initial ${action.branch} commit"`,
+          `${action.workspace}/${worktreedir}`,
+          action.silent
+        )
+      }
+    }
   } catch (error) {
     throw new Error(
-      `There was an error creating the deployment branch: ${suppressSensitiveInformation(
+      `There was an error creating the worktree: ${suppressSensitiveInformation(
         error.message,
         action
       )} ❌`
@@ -95,27 +140,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       action.silent
     )
 
-    let origin = 'origin/'
-    if (!branchExists && !action.isTest) {
-      await generateBranch(action)
-    }
-    // Remote branch won't be created with dryRun, don't fetch it if it doesn't exist
-    if (!action.dryRun || branchExists) {
-      await execute(
-        `git fetch --no-recurse-submodules --depth=1 origin ${action.branch}`,
-        action.workspace,
-        action.silent
-      )
-    } else {
-      // Check out local branch
-      origin = ''
-    }
-
-    await execute(
-      `git worktree add --checkout ${temporaryDeploymentDirectory} ${origin}${action.branch}`,
-      action.workspace,
-      action.silent
-    )
+    await generateWorktree(action, temporaryDeploymentDirectory, branchExists)
 
     // Ensures that items that need to be excluded from the clean job get parsed.
     let excludes = ''
@@ -171,8 +196,16 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       action.silent
     )
 
+    // Use git status to check if we have something to commit.
+    // Special case is singleCommit with existing history, when
+    // we're really interested if the diff against the upstream branch
+    // changed.
+    const checkCmd =
+      branchExists && action.singleCommit
+        ? `git diff origin/${action.branch}`
+        : `git status --porcelain`
     const hasFilesToCommit = await execute(
-      `git status --porcelain`,
+      checkCmd,
       `${action.workspace}/${temporaryDeploymentDirectory}`,
       action.silent
     )
@@ -206,43 +239,6 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     }
 
     info(`Changes committed to the ${action.branch} branch… 📦`)
-
-    if (action.singleCommit) {
-      await execute(
-        `git fetch ${action.repositoryPath}`,
-        action.workspace,
-        action.silent
-      )
-      await execute(
-        `git checkout --orphan ${action.branch}-temp`,
-        `${action.workspace}/${temporaryDeploymentDirectory}`,
-        action.silent
-      )
-      await execute(
-        `git add --all .`,
-        `${action.workspace}/${temporaryDeploymentDirectory}`,
-        action.silent
-      )
-      await execute(
-        `git commit -m "${commitMessage}" --quiet --no-verify`,
-        `${action.workspace}/${temporaryDeploymentDirectory}`,
-        action.silent
-      )
-      await execute(
-        `git branch -M ${action.branch}-temp ${action.branch}`,
-        `${action.workspace}/${temporaryDeploymentDirectory}`,
-        action.silent
-      )
-      if (!action.dryRun) {
-        await execute(
-          `git push origin ${action.branch} --force`,
-          `${action.workspace}/${temporaryDeploymentDirectory}`,
-          action.silent
-        )
-      }
-
-      info('Cleared git history… 🚿')
-    }
 
     return Status.SUCCESS
   } catch (error) {
