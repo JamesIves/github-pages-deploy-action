@@ -73,7 +73,7 @@ jobs:
     strategy:
       matrix:
         branch: ["gh-pages", "no-pages"]
-        singleCommit: [true, false]
+        commit: ["singleCommit", "add commits"]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -95,7 +95,7 @@ jobs:
         with:
           FOLDER: integration
           BRANCH: ${{ matrix.branch }}
-          SINGLE_COMMIT: ${{ matrix.singleCommit }}
+          SINGLE_COMMIT: ${{ matrix.commit == 'singleCommit' }}
           DRY_RUN: true
 
       - name: Tweak content to publish to existing branch
@@ -109,5 +109,5 @@ jobs:
         with:
           FOLDER: integration
           BRANCH: ${{ matrix.branch }}
-          SINGLE_COMMIT: ${{ matrix.singleCommit }}
+          SINGLE_COMMIT: ${{ matrix.commit == 'singleCommit' }}
           DRY_RUN: true
