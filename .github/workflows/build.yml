@@ -97,3 +97,17 @@ jobs:
           BRANCH: ${{ matrix.branch }}
           SINGLE_COMMIT: ${{ matrix.singleCommit }}
           DRY_RUN: true
+
+      - name: Tweak content to publish to existing branch
+        if: ${{ matrix.branch == 'gh-pages' }}
+        run: |
+          echo "<!-- just sayin -->" >> integration/index.html
+
+      - name: Deploy with modifications to existing branch
+        uses: ./
+        if: ${{ matrix.branch == 'gh-pages' }}
+        with:
+          FOLDER: integration
+          BRANCH: ${{ matrix.branch }}
+          SINGLE_COMMIT: ${{ matrix.singleCommit }}
+          DRY_RUN: true
