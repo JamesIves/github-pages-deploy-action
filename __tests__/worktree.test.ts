@@ -16,38 +16,44 @@ describe('generateWorktree', () => {
   let tempdir: string | null = null
   let clonedir: string | null = null
   beforeAll(async () => {
+    const silent = true
     tempdir = fs.mkdtempSync(path.join(os.tmpdir(), 'gh-deploy-'))
     const origin = path.join(tempdir, 'origin')
-    await execute('git init origin', tempdir, true)
-    await execute('git checkout -b main', origin, true)
+    await execute('git init origin', tempdir, silent)
+    await execute('git config user.email "you@example.com"', origin, silent)
+    await execute('git config user.name "Jane Doe"', origin, silent)
+    await execute('git checkout -b main', origin, silent)
     fs.writeFileSync(path.join(origin, 'f1'), 'hello world\n')
-    await execute('git add .', origin, true)
-    await execute('git commit -mc0', origin, true)
+    await execute('git add .', origin, silent)
+    await execute('git commit -mc0', origin, silent)
     fs.writeFileSync(path.join(origin, 'f1'), 'hello world\nonce more\n')
-    await execute('git add .', origin, true)
-    await execute('git commit -mc1', origin, true)
-    await execute('git checkout --orphan gh-pages', origin, true)
-    await execute('git reset --hard', origin, true)
+    await execute('git add .', origin, silent)
+    await execute('git commit -mc1', origin, silent)
+    await execute('git checkout --orphan gh-pages', origin, silent)
+    await execute('git reset --hard', origin, silent)
     await fs.promises.writeFile(path.join(origin, 'gh1'), 'pages content\n')
-    await execute('git add .', origin, true)
-    await execute('git commit -mgh0', origin, true)
+    await execute('git add .', origin, silent)
+    await execute('git commit -mgh0', origin, silent)
     await fs.promises.writeFile(
       path.join(origin, 'gh1'),
       'pages content\ngoes on\n'
     )
-    await execute('git add .', origin, true)
-    await execute('git commit -mgh1', origin, true)
+    await execute('git add .', origin, silent)
+    await execute('git commit -mgh1', origin, silent)
   })
   beforeEach(async () => {
+    const silent = true
     clonedir = path.join(tempdir as string, 'clone')
-    await execute('git init clone', tempdir as string, true)
+    await execute('git init clone', tempdir as string, silent)
+    await execute('git config user.email "you@example.com"', clonedir, silent)
+    await execute('git config user.name "Jane Doe"', clonedir, silent)
     await execute(
       `git remote add origin ${path.join(tempdir as string, 'origin')}`,
       clonedir,
-      true
+      silent
     )
-    await execute('git fetch --depth=1 origin main', clonedir, true)
-    await execute('git checkout main', clonedir, true)
+    await execute('git fetch --depth=1 origin main', clonedir, silent)
+    await execute('git checkout main', clonedir, silent)
   })
   afterEach(async () => {
     await rmRF(clonedir as string)
