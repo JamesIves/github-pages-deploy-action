@@ -39,7 +39,7 @@ describe('main', () => {
       repositoryPath: 'JamesIves/github-pages-deploy-action',
       folder: 'assets',
       branch: 'branch',
-      gitHubToken: '123',
+      token: '123',
       pusher: {
         name: 'asd',
         email: 'as@cat'
@@ -58,7 +58,7 @@ describe('main', () => {
       repositoryPath: 'JamesIves/github-pages-deploy-action',
       folder: 'assets',
       branch: 'branch',
-      gitHubToken: '123',
+      token: '123',
       pusher: {
         name: 'asd',
         email: 'as@cat'
@@ -74,9 +74,8 @@ describe('main', () => {
     Object.assign(action, {
       folder: 'assets',
       branch: 'branch',
-      gitHubToken: null,
+      token: null,
       ssh: null,
-      accessToken: null,
       pusher: {
         name: 'asd',
         email: 'as@cat'
