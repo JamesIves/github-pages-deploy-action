@@ -70,6 +70,9 @@ jobs:
   integration:
     runs-on: ubuntu-latest
     needs: build
+    strategy:
+      matrix:
+        branch: ["gh-pages", "no-pages"]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -90,6 +93,6 @@ jobs:
         uses: ./
         with:
           FOLDER: integration
-          BRANCH: gh-pages-pr
+          BRANCH: ${{ matrix.branch }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DRY_RUN: true
