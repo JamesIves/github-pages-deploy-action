@@ -73,6 +73,7 @@ jobs:
     strategy:
       matrix:
         branch: ["gh-pages", "no-pages"]
+        singleCommit: [true, false]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -94,5 +95,6 @@ jobs:
         with:
           FOLDER: integration
           BRANCH: ${{ matrix.branch }}
+          SINGLE_COMMIT: ${{ matrix.singleCommit }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DRY_RUN: true
