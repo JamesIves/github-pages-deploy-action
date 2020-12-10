@@ -50,6 +50,10 @@ inputs:
     description: "If you need to use CLEAN but you would like to preserve certain files or folders you can use this option. This should be formatted as an array but stored as a string."
     required: false
 
+  DRY_RUN:
+    description: "Do not actually push back, but use `--dry-run` on `git push` invocations insead."
+    required: false
+
   GIT_CONFIG_NAME:
     description: "Allows you to customize the name that is attached to the GitHub config which is used when pushing the deployment commits. If this is not included it will use the name in the GitHub context, followed by the name of the action."
     required: false
