@@ -44,7 +44,7 @@ export class GitCheckout {
     return [
       'git',
       'checkout',
-      this.orphan ? '--orphan' : '-b',
+      this.orphan ? '--orphan' : '-B',
       this.branch,
       this.commitish || ''
     ].join(' ')
