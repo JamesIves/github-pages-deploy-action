@@ -1,0 +1,50 @@
+name: Land production js and modules
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'releases/v*'
+    tags-ignore:
+      - '*.*'
+
+jobs:
+  build:
+    name: Build production
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v1.4.4
+        with:
+          node-version: 'v12.18.4'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install Yarn
+        run: npm install -g yarn
+
+      - name: Clobber lib
+        run:  rm -rf lib
+
+      - name: Set up .gitignore
+        run: |
+          sed -i -e's/^lib/# lib/' -e's/^node_module/# node_modules/' .gitignore
+
+      - name: Build
+        run: |
+          yarn install
+          yarn build
+
+      - name: Production node_modules
+        run: |
+          yarn install --production
+
+      - name: Commit and push
+        # keep the run green if the commit fails for the lack of changes
+        continue-on-error: True
+        run: |
+          git config user.email "iam@jamesiv.es"
+          git config user.name "James Ives"
+          git add .
+          git commit -m"Deploy production js code for ${{ github.sha }}"
+          git push
