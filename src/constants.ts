@@ -24,6 +24,8 @@ export interface ActionInterface {
   folderPath?: string
   /** Determines if the action is running in test mode or not. */
   isTest?: boolean | null
+  /** Determines if the action assumes an existig branch in tests or not. */
+  hasBranchForTest?: boolean | null
   /** The git config name. */
   name?: string
   /** The repository path, for example JamesIves/github-pages-deploy-action. */
@@ -79,6 +81,7 @@ export const action: ActionInterface = {
   isTest: process.env.UNIT_TEST
     ? process.env.UNIT_TEST.toLowerCase() === 'true'
     : false,
+  hasBranchForTest: false,
   email: !isNullOrUndefined(getInput('GIT_CONFIG_EMAIL'))
     ? getInput('GIT_CONFIG_EMAIL')
     : pusher && pusher.email

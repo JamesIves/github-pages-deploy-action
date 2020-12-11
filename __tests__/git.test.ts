@@ -127,6 +127,29 @@ describe('git', () => {
       expect(rmRF).toBeCalledTimes(1)
     })
 
+    it('should execute commands with single commit toggled and existing branch', async () => {
+      Object.assign(action, {
+        silent: false,
+        folder: 'other',
+        folderPath: 'other',
+        branch: 'branch',
+        token: '123',
+        singleCommit: true,
+        hasBranchForTest: true,
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        clean: true
+      })
+
+      await deploy(action)
+
+      // Includes the call to generateWorktree
+      expect(execute).toBeCalledTimes(10)
+      expect(rmRF).toBeCalledTimes(1)
+    })
+
     it('should execute commands with single commit and dryRun toggled', async () => {
       Object.assign(action, {
         silent: false,

@@ -53,13 +53,15 @@ export async function deploy(action: ActionInterface): Promise<Status> {
 
     /*
         Checks to see if the remote exists prior to deploying.
-        If the branch doesn't exist it gets created here as an orphan.
+        Tests can overwrite this check via `action.hasBranchForTest`.
       */
-    const branchExists = await execute(
-      `git ls-remote --heads ${action.repositoryPath} ${action.branch} | wc -l`,
-      action.workspace,
-      action.silent
-    )
+    const branchExists =
+      action.hasBranchForTest ||
+      (await execute(
+        `git ls-remote --heads ${action.repositoryPath} ${action.branch} | wc -l`,
+        action.workspace,
+        action.silent
+      ))
 
     await generateWorktree(action, temporaryDeploymentDirectory, branchExists)
 
