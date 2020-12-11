@@ -1,5 +1,5 @@
 import {rmRF} from '@actions/io'
-import {generateWorktree} from '../src/git'
+import {generateWorktree} from '../src/worktree'
 import {execute} from '../src/execute'
 import fs from 'fs'
 import os from 'os'
@@ -12,10 +12,18 @@ jest.mock('@actions/core', () => ({
   info: jest.fn()
 }))
 
+/*
+ Test generateWorktree against a known git repository.
+ The upstream repository `origin` is set up once for the test suite,
+ and for each test run, a new clone is created.
+
+ See workstree.error.test.ts for testing mocked errors from git.*/
+
 describe('generateWorktree', () => {
   let tempdir: string | null = null
   let clonedir: string | null = null
   beforeAll(async () => {
+    // Set up origin repository
     const silent = true
     tempdir = fs.mkdtempSync(path.join(os.tmpdir(), 'gh-deploy-'))
     const origin = path.join(tempdir, 'origin')
@@ -26,7 +34,7 @@ describe('generateWorktree', () => {
     fs.writeFileSync(path.join(origin, 'f1'), 'hello world\n')
     await execute('git add .', origin, silent)
     await execute('git commit -mc0', origin, silent)
-    fs.writeFileSync(path.join(origin, 'f1'), 'hello world\nonce more\n')
+    fs.writeFileSync(path.join(origin, 'f1'), 'hello world\nand planets\n')
     await execute('git add .', origin, silent)
     await execute('git commit -mc1', origin, silent)
     await execute('git checkout --orphan gh-pages', origin, silent)
@@ -42,6 +50,7 @@ describe('generateWorktree', () => {
     await execute('git commit -mgh1', origin, silent)
   })
   beforeEach(async () => {
+    // Clone origin to our workspace for each test
     const silent = true
     clonedir = path.join(tempdir as string, 'clone')
     await execute('git init clone', tempdir as string, silent)
@@ -56,9 +65,11 @@ describe('generateWorktree', () => {
     await execute('git checkout main', clonedir, silent)
   })
   afterEach(async () => {
+    // Tear down workspace
     await rmRF(clonedir as string)
   })
   afterAll(async () => {
+    // Tear down origin repository
     if (tempdir) {
       await rmRF(tempdir)
       // console.log(tempdir)

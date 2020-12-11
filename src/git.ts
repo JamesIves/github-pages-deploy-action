@@ -3,6 +3,7 @@ import {mkdirP, rmRF} from '@actions/io'
 import fs from 'fs'
 import {ActionInterface, Status} from './constants'
 import {execute} from './execute'
+import {generateWorktree} from './worktree'
 import {isNullOrUndefined, suppressSensitiveInformation} from './util'
 
 /* Initializes git in the workspace. */
@@ -26,86 +27,6 @@ export async function init(action: ActionInterface): Promise<void | Error> {
   } catch (error) {
     throw new Error(
       `There was an error initializing the repository: ${suppressSensitiveInformation(
-        error.message,
-        action
-      )} ❌`
-    )
-  }
-}
-
-export class GitCheckout {
-  orphan = false
-  commitish?: string | null = null
-  branch: string
-  constructor(branch: string) {
-    this.branch = branch
-  }
-  toString(): string {
-    return [
-      'git',
-      'checkout',
-      this.orphan ? '--orphan' : '-B',
-      this.branch,
-      this.commitish || ''
-    ].join(' ')
-  }
-}
-
-/* Generate the worktree and set initial content if it exists */
-export async function generateWorktree(
-  action: ActionInterface,
-  worktreedir: string,
-  branchExists: boolean
-): Promise<void> {
-  try {
-    info('Creating worktree…')
-
-    if (branchExists) {
-      await execute(
-        `git fetch --no-recurse-submodules --depth=1 origin ${action.branch}`,
-        action.workspace,
-        action.silent
-      )
-    }
-
-    await execute(
-      `git worktree add --no-checkout --detach ${worktreedir}`,
-      action.workspace,
-      action.silent
-    )
-    const checkout = new GitCheckout(action.branch)
-    if (branchExists) {
-      // There's existing data on the branch to check out
-      checkout.commitish = `origin/${action.branch}`
-    }
-    if (!branchExists || action.singleCommit) {
-      // Create a new history if we don't have the branch, or if we want to reset it
-      checkout.orphan = true
-    }
-    await execute(
-      checkout.toString(),
-      `${action.workspace}/${worktreedir}`,
-      action.silent
-    )
-    if (!branchExists) {
-      // Our index is in HEAD state, reset
-      await execute(
-        'git reset --hard',
-        `${action.workspace}/${worktreedir}`,
-        action.silent
-      )
-      if (!action.singleCommit) {
-        // New history isn't singleCommit, create empty initial commit
-        await execute(
-          `git commit --no-verify --allow-empty -m "Initial ${action.branch} commit"`,
-          `${action.workspace}/${worktreedir}`,
-          action.silent
-        )
-      }
-    }
-  } catch (error) {
-    throw new Error(
-      `There was an error creating the worktree: ${suppressSensitiveInformation(
         error.message,
         action
       )} ❌`
@@ -200,12 +121,12 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     // Special case is singleCommit with existing history, when
     // we're really interested if the diff against the upstream branch
     // changed.
-    const checkCmd =
+    const checkGitStatus =
       branchExists && action.singleCommit
         ? `git diff origin/${action.branch}`
         : `git status --porcelain`
     const hasFilesToCommit = await execute(
-      checkCmd,
+      checkGitStatus,
       `${action.workspace}/${temporaryDeploymentDirectory}`,
       action.silent
     )
