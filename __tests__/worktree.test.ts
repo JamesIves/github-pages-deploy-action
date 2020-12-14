@@ -1,4 +1,5 @@
 import {rmRF} from '@actions/io'
+import {TestFlag} from '../src/constants'
 import {generateWorktree} from '../src/worktree'
 import {execute} from '../src/execute'
 import fs from 'fs'
@@ -84,7 +85,8 @@ describe('generateWorktree', () => {
           singleCommit: false,
           branch: 'gh-pages',
           folder: '',
-          silent: true
+          silent: true,
+          isTest: TestFlag.NONE
         },
         'worktree',
         true
@@ -113,7 +115,8 @@ describe('generateWorktree', () => {
           singleCommit: false,
           branch: 'no-pages',
           folder: '',
-          silent: true
+          silent: true,
+          isTest: TestFlag.NONE
         },
         'worktree',
         false
@@ -139,7 +142,8 @@ describe('generateWorktree', () => {
           singleCommit: true,
           branch: 'gh-pages',
           folder: '',
-          silent: true
+          silent: true,
+          isTest: TestFlag.NONE
         },
         'worktree',
         true
@@ -169,7 +173,8 @@ describe('generateWorktree', () => {
           singleCommit: true,
           branch: 'no-pages',
           folder: '',
-          silent: true
+          silent: true,
+          isTest: TestFlag.NONE
         },
         'worktree',
         false

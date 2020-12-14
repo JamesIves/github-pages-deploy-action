@@ -1,3 +1,4 @@
+import {TestFlag} from '../src/constants'
 import {execute} from '../src/execute'
 import {generateWorktree} from '../src/worktree'
 
@@ -19,7 +20,8 @@ describe('generateWorktree', () => {
           singleCommit: false,
           branch: 'gh-pages',
           folder: '',
-          silent: true
+          silent: true,
+          isTest: TestFlag.HAS_CHANGED_FILES
         },
         'worktree',
         true

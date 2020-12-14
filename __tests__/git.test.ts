@@ -4,7 +4,7 @@ process.env['INPUT_FOLDER'] = 'build'
 process.env['GITHUB_SHA'] = '123'
 
 import {mkdirP, rmRF} from '@actions/io'
-import {action, Status} from '../src/constants'
+import {action, Status, TestFlag} from '../src/constants'
 import {execute} from '../src/execute'
 import {deploy, init} from '../src/git'
 import fs from 'fs'
@@ -46,11 +46,11 @@ describe('git', () => {
         token: '123',
         branch: 'branch',
         folder: '.',
-        isTest: true,
         pusher: {
           name: 'asd',
           email: 'as@cat'
-        }
+        },
+        isTest: TestFlag.HAS_CHANGED_FILES
       })
 
       try {
@@ -73,13 +73,14 @@ describe('git', () => {
         pusher: {
           name: 'asd',
           email: 'as@cat'
-        }
+        },
+        isTest: TestFlag.HAS_CHANGED_FILES
       })
 
       const response = await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(12)
+      expect(execute).toBeCalledTimes(11)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
@@ -94,13 +95,14 @@ describe('git', () => {
         pusher: {
           name: 'asd',
           email: 'as@cat'
-        }
+        },
+        isTest: TestFlag.HAS_CHANGED_FILES
       })
 
       const response = await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(11)
+      expect(execute).toBeCalledTimes(10)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
@@ -117,13 +119,14 @@ describe('git', () => {
           name: 'asd',
           email: 'as@cat'
         },
-        clean: true
+        clean: true,
+        isTest: TestFlag.HAS_CHANGED_FILES
       })
 
       await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(11)
+      expect(execute).toBeCalledTimes(10)
       expect(rmRF).toBeCalledTimes(1)
     })
 
@@ -135,18 +138,18 @@ describe('git', () => {
         branch: 'branch',
         token: '123',
         singleCommit: true,
-        hasBranchForTest: true,
         pusher: {
           name: 'asd',
           email: 'as@cat'
         },
-        clean: true
+        clean: true,
+        isTest: TestFlag.HAS_CHANGED_FILES | TestFlag.HAS_REMOTE_BRANCH
       })
 
       await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(10)
+      expect(execute).toBeCalledTimes(9)
       expect(rmRF).toBeCalledTimes(1)
     })
 
@@ -163,13 +166,14 @@ describe('git', () => {
           name: 'asd',
           email: 'as@cat'
         },
-        clean: true
+        clean: true,
+        isTest: TestFlag.HAS_CHANGED_FILES
       })
 
       await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(10)
+      expect(execute).toBeCalledTimes(9)
       expect(rmRF).toBeCalledTimes(1)
     })
 
@@ -184,7 +188,8 @@ describe('git', () => {
           name: 'asd',
           email: 'as@cat'
         },
-        clean: true
+        clean: true,
+        isTest: TestFlag.HAS_CHANGED_FILES
       })
 
       fs.createWriteStream('assets/.nojekyll')
@@ -193,7 +198,7 @@ describe('git', () => {
       const response = await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(12)
+      expect(execute).toBeCalledTimes(11)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
@@ -212,13 +217,14 @@ describe('git', () => {
         },
         clean: true,
         cleanExclude: '["cat", "montezuma"]',
-        workspace: 'other'
+        workspace: 'other',
+        isTest: TestFlag.NONE
       })
 
       await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(12)
+      expect(execute).toBeCalledTimes(8)
       expect(rmRF).toBeCalledTimes(1)
     })
 
@@ -234,13 +240,14 @@ describe('git', () => {
           email: 'as@cat'
         },
         clean: true,
-        cleanExclude: ['cat', 'montezuma']
+        cleanExclude: ['cat', 'montezuma'],
+        isTest: TestFlag.NONE
       })
 
       await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(12)
+      expect(execute).toBeCalledTimes(8)
       expect(rmRF).toBeCalledTimes(1)
     })
 
@@ -254,13 +261,13 @@ describe('git', () => {
         clean: true,
         targetFolder: 'new_folder',
         commitMessage: 'Hello!',
-        isTest: true,
+        isTest: TestFlag.NONE,
         cleanExclude: '["cat, "montezuma"]' // There is a syntax errror in the string.
       })
 
       await deploy(action)
 
-      expect(execute).toBeCalledTimes(12)
+      expect(execute).toBeCalledTimes(8)
       expect(rmRF).toBeCalledTimes(1)
       expect(mkdirP).toBeCalledTimes(1)
     })
@@ -275,7 +282,7 @@ describe('git', () => {
           name: 'asd',
           email: 'as@cat'
         },
-        isTest: false // Setting this env variable to false means there will never be anything to commit and the action will exit early.
+        isTest: TestFlag.NONE // Setting this flag to None means there will never be anything to commit and the action will exit early.
       })
 
       const response = await deploy(action)
@@ -297,7 +304,8 @@ describe('git', () => {
         pusher: {
           name: 'asd',
           email: 'as@cat'
-        }
+        },
+        isTest: TestFlag.HAS_CHANGED_FILES
       })
 
       try {

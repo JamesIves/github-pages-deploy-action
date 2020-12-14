@@ -1,7 +1,7 @@
 import {info} from '@actions/core'
 import {mkdirP, rmRF} from '@actions/io'
 import fs from 'fs'
-import {ActionInterface, Status} from './constants'
+import {ActionInterface, Status, TestFlag} from './constants'
 import {execute} from './execute'
 import {generateWorktree} from './worktree'
 import {isNullOrUndefined, suppressSensitiveInformation} from './util'
@@ -51,12 +51,9 @@ export async function deploy(action: ActionInterface): Promise<Status> {
           process.env.GITHUB_SHA ? ` from @ ${process.env.GITHUB_SHA}` : ''
         } 🚀`
 
-    /*
-        Checks to see if the remote exists prior to deploying.
-        Tests can overwrite this check via `action.hasBranchForTest`.
-      */
+    // Checks to see if the remote exists prior to deploying.
     const branchExists =
-      action.hasBranchForTest ||
+      action.isTest & TestFlag.HAS_REMOTE_BRANCH ||
       (await execute(
         `git ls-remote --heads ${action.repositoryPath} ${action.branch} | wc -l`,
         action.workspace,
@@ -127,13 +124,15 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       branchExists && action.singleCommit
         ? `git diff origin/${action.branch}`
         : `git status --porcelain`
-    const hasFilesToCommit = await execute(
-      checkGitStatus,
-      `${action.workspace}/${temporaryDeploymentDirectory}`,
-      action.silent
-    )
+    const hasFilesToCommit =
+      action.isTest & TestFlag.HAS_CHANGED_FILES ||
+      (await execute(
+        checkGitStatus,
+        `${action.workspace}/${temporaryDeploymentDirectory}`,
+        action.silent
+      ))
 
-    if (!hasFilesToCommit && !action.isTest) {
+    if (!hasFilesToCommit) {
       return Status.SKIPPED
     }
 
