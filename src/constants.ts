@@ -4,10 +4,15 @@ import {isNullOrUndefined} from './util'
 
 const {pusher, repository} = github.context.payload
 
+/* Flags to signal different scenarios to test cases */
+export enum TestFlag {
+  NONE = 0,
+  HAS_CHANGED_FILES = 1 << 1, // Assume changes to commit
+  HAS_REMOTE_BRANCH = 1 << 2 // Assume remote repository has existing commits
+}
+
 /* For more information please refer to the README: https://github.com/JamesIves/github-pages-deploy-action */
 export interface ActionInterface {
-  /** Deployment access token. */
-  accessToken?: string | null
   /** The branch that the action should deploy to. */
   branch: string
   /** git push with --dry-run */
@@ -24,10 +29,8 @@ export interface ActionInterface {
   folder: string
   /** The auto generated folder path. */
   folderPath?: string
-  /** GitHub deployment token. */
-  gitHubToken?: string | null
-  /** Determines if the action is running in test mode or not. */
-  isTest?: boolean | null
+  /** Determines test scenarios the action is running in. */
+  isTest: TestFlag
   /** The git config name. */
   name?: string
   /** The repository path, for example JamesIves/github-pages-deploy-action. */
@@ -42,7 +45,9 @@ export interface ActionInterface {
   ssh?: boolean | null
   /** If you'd like to push the contents of the deployment folder into a specific directory on the deployment branch you can specify it here. */
   targetFolder?: string
-  /** The token type, ie ssh/github token/access token, this gets automatically generated. */
+  /** Deployment token. */
+  token?: string | null
+  /** The token type, ie ssh/token, this gets automatically generated. */
   tokenType?: string
   /** The folder where your deployment project lives. */
   workspace: string
@@ -50,27 +55,25 @@ export interface ActionInterface {
 
 /** The minimum required values to run the action as a node module. */
 export interface NodeActionInterface {
-  /** Deployment access token. */
-  accessToken?: string | null
   /** The branch that the action should deploy to. */
   branch: string
   /** The folder to deploy. */
   folder: string
-  /** GitHub deployment token. */
-  gitHubToken?: string | null
   /** The repository path, for example JamesIves/github-pages-deploy-action. */
   repositoryName: string
+  /** GitHub deployment token. */
+  token?: string | null
   /** Determines if the action should run in silent mode or not. */
   silent: boolean
   /** Set to true if you're using an ssh client in your build step. */
   ssh?: boolean | null
   /** The folder where your deployment project lives. */
   workspace: string
+  isTest: TestFlag
 }
 
 /* Required action data that gets initialized when running within the GitHub Actions environment. */
 export const action: ActionInterface = {
-  accessToken: getInput('ACCESS_TOKEN'),
   folder: getInput('FOLDER'),
   branch: getInput('BRANCH'),
   commitMessage: getInput('COMMIT_MESSAGE'),
@@ -81,9 +84,7 @@ export const action: ActionInterface = {
     ? getInput('CLEAN').toLowerCase() === 'true'
     : false,
   cleanExclude: getInput('CLEAN_EXCLUDE'),
-  isTest: process.env.UNIT_TEST
-    ? process.env.UNIT_TEST.toLowerCase() === 'true'
-    : false,
+  isTest: TestFlag.NONE,
   email: !isNullOrUndefined(getInput('GIT_CONFIG_EMAIL'))
     ? getInput('GIT_CONFIG_EMAIL')
     : pusher && pusher.email
@@ -91,7 +92,6 @@ export const action: ActionInterface = {
     : `${
         process.env.GITHUB_ACTOR || 'github-pages-deploy-action'
       }@users.noreply.github.com`,
-  gitHubToken: getInput('GITHUB_TOKEN'),
   name: !isNullOrUndefined(getInput('GIT_CONFIG_NAME'))
     ? getInput('GIT_CONFIG_NAME')
     : pusher && pusher.name
@@ -104,6 +104,7 @@ export const action: ActionInterface = {
     : repository && repository.full_name
     ? repository.full_name
     : process.env.GITHUB_REPOSITORY,
+  token: getInput('TOKEN'),
   singleCommit: !isNullOrUndefined(getInput('SINGLE_COMMIT'))
     ? getInput('SINGLE_COMMIT').toLowerCase() === 'true'
     : false,
@@ -120,7 +121,7 @@ export const action: ActionInterface = {
 /** Types for the required action parameters. */
 export type RequiredActionParameters = Pick<
   ActionInterface,
-  'accessToken' | 'gitHubToken' | 'ssh' | 'branch' | 'folder'
+  'token' | 'ssh' | 'branch' | 'folder' | 'isTest'
 >
 
 /** Status codes for the action. */

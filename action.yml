@@ -12,13 +12,18 @@ inputs:
     description: 'You can configure the action to deploy using SSH by setting this option to true. More more information on how to add your ssh key pair please refer to the Using a Deploy Key section of this README.'
     required: false
 
-  ACCESS_TOKEN:
-    description: 'Depending on the repository permissions you may need to provide the action with a GitHub personal access token instead of the provided GitHub token in order to deploy. This should be stored as a secret.'
-    required: false
+  TOKEN:
+    description: >
+      This option defaults to the repository scoped GitHub Token. 
+      However if you need more permissions for things such as deploying to another repository, you can add a Personal Access Token (PAT) here. 
+      This should be stored in the `secrets / with` menu **as a secret**.
 
-  GITHUB_TOKEN:
-    description: 'In order for GitHub to trigger the rebuild of your page you must provide the action with the repositories provided GitHub token.'
+      We recommend using a service account with the least permissions neccersary
+      and when generating a new PAT that you select the least permission scopes required.
+      
+      [Learn more about creating and using encrypted secrets here.](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets)
     required: false
+    default: ${{ github.token }}
 
   BRANCH:
     description: 'This is the branch you wish to deploy to, for example gh-pages or docs.'
@@ -43,6 +48,10 @@ inputs:
 
   CLEAN_EXCLUDE:
     description: "If you need to use CLEAN but you would like to preserve certain files or folders you can use this option. This should be formatted as an array but stored as a string."
+    required: false
+
+  DRY_RUN:
+    description: "Do not actually push back, but use `--dry-run` on `git push` invocations insead."
     required: false
 
   GIT_CONFIG_NAME:

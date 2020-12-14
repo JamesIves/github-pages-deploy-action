@@ -1,0 +1,50 @@
+name: Deploy Production Dependencies and Code
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'releases/v*'
+    tags-ignore:
+      - '*.*'
+
+jobs:
+  build:
+    name: Build production
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v1.4.4
+        with:
+          node-version: 'v12.18.4'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install Yarn
+        run: npm install -g yarn
+
+      - name: Clobber lib
+        run:  rm -rf lib
+
+      - name: Set up .gitignore
+        run: |
+          sed -i -e's/^lib/# lib/' -e's/^node_module/# node_modules/' .gitignore
+
+      - name: Build
+        run: |
+          yarn install
+          yarn build
+
+      - name: Install Production node_modules
+        run: |
+          yarn install --production
+
+      - name: Commit and Push
+        # Keep the run green if the commit fails for the lack of changes
+        continue-on-error: True
+        run: |
+          git config user.email "${{ secrets.GIT_CONFIG_EMAIL }}"
+          git config user.name "${{ secrets.GIT_CONFIG_NAME }}"
+          git add .
+          git commit -m "Deploy Production Code for Commit ${{ github.sha }} 🚀"
+          git push

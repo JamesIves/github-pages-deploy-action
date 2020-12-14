@@ -4,9 +4,9 @@ process.env['INPUT_FOLDER'] = 'build'
 process.env['GITHUB_SHA'] = '123'
 
 import {mkdirP, rmRF} from '@actions/io'
-import {action, Status} from '../src/constants'
+import {action, Status, TestFlag} from '../src/constants'
 import {execute} from '../src/execute'
-import {deploy, generateBranch, init} from '../src/git'
+import {deploy, init} from '../src/git'
 import fs from 'fs'
 
 const originalAction = JSON.stringify(action)
@@ -43,14 +43,14 @@ describe('git', () => {
       Object.assign(action, {
         silent: false,
         repositoryPath: 'JamesIves/github-pages-deploy-action',
-        accessToken: '123',
+        token: '123',
         branch: 'branch',
         folder: '.',
-        isTest: true,
         pusher: {
           name: 'asd',
           email: 'as@cat'
-        }
+        },
+        isTest: TestFlag.HAS_CHANGED_FILES
       })
 
       try {
@@ -63,99 +63,46 @@ describe('git', () => {
     })
   })
 
-  describe('generateBranch', () => {
-    it('should execute five commands', async () => {
-      Object.assign(action, {
-        silent: false,
-        accessToken: '123',
-        branch: 'branch',
-        folder: '.',
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }
-      })
-
-      await generateBranch(action)
-      expect(execute).toBeCalledTimes(5)
-    })
-
-    it('should catch when a function throws an error', async () => {
-      ;(execute as jest.Mock).mockImplementationOnce(() => {
-        throw new Error('Mocked throw')
-      })
-
-      Object.assign(action, {
-        silent: false,
-        accessToken: '123',
-        branch: 'branch',
-        folder: '.',
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }
-      })
-
-      try {
-        await generateBranch(action)
-      } catch (error) {
-        expect(error.message).toBe(
-          'There was an error creating the deployment branch: Mocked throw ❌'
-        )
-      }
-    })
-  })
-
   describe('deploy', () => {
     it('should execute commands', async () => {
       Object.assign(action, {
         silent: false,
         folder: 'assets',
         branch: 'branch',
-        gitHubToken: '123',
+        token: '123',
         pusher: {
           name: 'asd',
           email: 'as@cat'
-        }
+        },
+        isTest: TestFlag.HAS_CHANGED_FILES
       })
 
       const response = await deploy(action)
 
-      // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(10)
-      expect(execute).toHaveBeenNthCalledWith(
-        9,
-        expect.not.stringContaining('--dry-run'),
-        expect.anything(),
-        false
-      )
+      // Includes the call to generateWorktree
+      expect(execute).toBeCalledTimes(11)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
 
-    it('should push with --dry-run', async () => {
+    it('should not push when asked to dryRun', async () => {
       Object.assign(action, {
         silent: false,
         dryRun: true,
         folder: 'assets',
         branch: 'branch',
-        gitHubToken: '123',
+        token: '123',
         pusher: {
           name: 'asd',
           email: 'as@cat'
-        }
+        },
+        isTest: TestFlag.HAS_CHANGED_FILES
       })
 
       const response = await deploy(action)
 
-      // Includes the call to generateBranch
+      // Includes the call to generateWorktree
       expect(execute).toBeCalledTimes(10)
-      expect(execute).toHaveBeenNthCalledWith(
-        9,
-        expect.stringContaining('--dry-run'),
-        expect.anything(),
-        false
-      )
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
@@ -166,19 +113,67 @@ describe('git', () => {
         folder: 'other',
         folderPath: 'other',
         branch: 'branch',
-        gitHubToken: '123',
+        token: '123',
         singleCommit: true,
         pusher: {
           name: 'asd',
           email: 'as@cat'
         },
-        clean: true
+        clean: true,
+        isTest: TestFlag.HAS_CHANGED_FILES
       })
 
       await deploy(action)
 
-      // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(16)
+      // Includes the call to generateWorktree
+      expect(execute).toBeCalledTimes(10)
+      expect(rmRF).toBeCalledTimes(1)
+    })
+
+    it('should execute commands with single commit toggled and existing branch', async () => {
+      Object.assign(action, {
+        silent: false,
+        folder: 'other',
+        folderPath: 'other',
+        branch: 'branch',
+        token: '123',
+        singleCommit: true,
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        clean: true,
+        isTest: TestFlag.HAS_CHANGED_FILES | TestFlag.HAS_REMOTE_BRANCH
+      })
+
+      await deploy(action)
+
+      // Includes the call to generateWorktree
+      expect(execute).toBeCalledTimes(9)
+      expect(rmRF).toBeCalledTimes(1)
+    })
+
+    it('should execute commands with single commit and dryRun toggled', async () => {
+      Object.assign(action, {
+        silent: false,
+        folder: 'other',
+        folderPath: 'other',
+        branch: 'branch',
+        gitHubToken: '123',
+        singleCommit: true,
+        dryRun: true,
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        clean: true,
+        isTest: TestFlag.HAS_CHANGED_FILES
+      })
+
+      await deploy(action)
+
+      // Includes the call to generateWorktree
+      expect(execute).toBeCalledTimes(9)
       expect(rmRF).toBeCalledTimes(1)
     })
 
@@ -188,12 +183,13 @@ describe('git', () => {
         folder: 'assets',
         folderPath: 'assets',
         branch: 'branch',
-        gitHubToken: '123',
+        token: '123',
         pusher: {
           name: 'asd',
           email: 'as@cat'
         },
-        clean: true
+        clean: true,
+        isTest: TestFlag.HAS_CHANGED_FILES
       })
 
       fs.createWriteStream('assets/.nojekyll')
@@ -201,33 +197,34 @@ describe('git', () => {
 
       const response = await deploy(action)
 
-      // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(10)
+      // Includes the call to generateWorktree
+      expect(execute).toBeCalledTimes(11)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
 
-    it('should execute commands with clean options, ommits sha commit message', async () => {
+    it('should execute commands with clean options, commits sha commit message', async () => {
       process.env.GITHUB_SHA = ''
       Object.assign(action, {
         silent: false,
         folder: 'other',
         folderPath: 'other',
         branch: 'branch',
-        gitHubToken: '123',
+        token: '123',
         pusher: {
           name: 'asd',
           email: 'as@cat'
         },
         clean: true,
         cleanExclude: '["cat", "montezuma"]',
-        workspace: 'other'
+        workspace: 'other',
+        isTest: TestFlag.NONE
       })
 
       await deploy(action)
 
-      // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(10)
+      // Includes the call to generateWorktree
+      expect(execute).toBeCalledTimes(8)
       expect(rmRF).toBeCalledTimes(1)
     })
 
@@ -237,19 +234,20 @@ describe('git', () => {
         folder: 'assets',
         folderPath: 'assets',
         branch: 'branch',
-        gitHubToken: '123',
+        token: '123',
         pusher: {
           name: 'asd',
           email: 'as@cat'
         },
         clean: true,
-        cleanExclude: ['cat', 'montezuma']
+        cleanExclude: ['cat', 'montezuma'],
+        isTest: TestFlag.NONE
       })
 
       await deploy(action)
 
-      // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(10)
+      // Includes the call to generateWorktree
+      expect(execute).toBeCalledTimes(8)
       expect(rmRF).toBeCalledTimes(1)
     })
 
@@ -258,18 +256,18 @@ describe('git', () => {
         silent: false,
         folder: '.',
         branch: 'branch',
-        gitHubToken: '123',
+        token: '123',
         pusher: {},
         clean: true,
         targetFolder: 'new_folder',
         commitMessage: 'Hello!',
-        isTest: true,
+        isTest: TestFlag.NONE,
         cleanExclude: '["cat, "montezuma"]' // There is a syntax errror in the string.
       })
 
       await deploy(action)
 
-      expect(execute).toBeCalledTimes(10)
+      expect(execute).toBeCalledTimes(8)
       expect(rmRF).toBeCalledTimes(1)
       expect(mkdirP).toBeCalledTimes(1)
     })
@@ -279,16 +277,16 @@ describe('git', () => {
         silent: false,
         folder: 'assets',
         branch: 'branch',
-        gitHubToken: '123',
+        token: '123',
         pusher: {
           name: 'asd',
           email: 'as@cat'
         },
-        isTest: false // Setting this env variable to false means there will never be anything to commit and the action will exit early.
+        isTest: TestFlag.NONE // Setting this flag to None means there will never be anything to commit and the action will exit early.
       })
 
       const response = await deploy(action)
-      expect(execute).toBeCalledTimes(10)
+      expect(execute).toBeCalledTimes(8)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SKIPPED)
     })
@@ -302,11 +300,12 @@ describe('git', () => {
         silent: false,
         folder: 'assets',
         branch: 'branch',
-        gitHubToken: '123',
+        token: '123',
         pusher: {
           name: 'asd',
           email: 'as@cat'
-        }
+        },
+        isTest: TestFlag.HAS_CHANGED_FILES
       })
 
       try {

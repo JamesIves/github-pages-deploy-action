@@ -1,8 +1,9 @@
 import {info} from '@actions/core'
 import {mkdirP, rmRF} from '@actions/io'
 import fs from 'fs'
-import {ActionInterface, Status} from './constants'
+import {ActionInterface, Status, TestFlag} from './constants'
 import {execute} from './execute'
+import {generateWorktree} from './worktree'
 import {isNullOrUndefined, suppressSensitiveInformation} from './util'
 
 /* Initializes git in the workspace. */
@@ -33,41 +34,6 @@ export async function init(action: ActionInterface): Promise<void | Error> {
   }
 }
 
-/* Generates the branch if it doesn't exist on the remote. */
-export async function generateBranch(action: ActionInterface): Promise<void> {
-  try {
-    info(`Creating the ${action.branch} branch…`)
-
-    await execute(
-      `git checkout --orphan ${action.branch}`,
-      action.workspace,
-      action.silent
-    )
-    await execute(`git reset --hard`, action.workspace, action.silent)
-    await execute(
-      `git commit --no-verify --allow-empty -m "Initial ${action.branch} commit"`,
-      action.workspace,
-      action.silent
-    )
-    const dry = action.dryRun ? '--dry-run ' : ''
-    await execute(
-      `git push --force ${dry}${action.repositoryPath} ${action.branch}`,
-      action.workspace,
-      action.silent
-    )
-    await execute(`git fetch`, action.workspace, action.silent)
-
-    info(`Created the ${action.branch} branch… 🔧`)
-  } catch (error) {
-    throw new Error(
-      `There was an error creating the deployment branch: ${suppressSensitiveInformation(
-        error.message,
-        action
-      )} ❌`
-    )
-  }
-}
-
 /* Runs the necessary steps to make the deployment. */
 export async function deploy(action: ActionInterface): Promise<Status> {
   const temporaryDeploymentDirectory =
@@ -75,7 +41,6 @@ export async function deploy(action: ActionInterface): Promise<Status> {
   const temporaryDeploymentBranch = `github-pages-deploy-action/${Math.random()
     .toString(36)
     .substr(2, 9)}`
-  const dry = action.dryRun ? '--dry-run ' : ''
 
   info('Starting to commit changes…')
 
@@ -86,31 +51,16 @@ export async function deploy(action: ActionInterface): Promise<Status> {
           process.env.GITHUB_SHA ? ` from @ ${process.env.GITHUB_SHA}` : ''
         } 🚀`
 
-    /*
-        Checks to see if the remote exists prior to deploying.
-        If the branch doesn't exist it gets created here as an orphan.
-      */
-    const branchExists = await execute(
-      `git ls-remote --heads ${action.repositoryPath} ${action.branch} | wc -l`,
-      action.workspace,
-      action.silent
-    )
-
-    if (!branchExists && !action.isTest) {
-      await generateBranch(action)
-    } else {
-      await execute(
-        `git fetch --no-recurse-submodules --depth=1 origin ${action.branch}`,
+    // Checks to see if the remote exists prior to deploying.
+    const branchExists =
+      action.isTest & TestFlag.HAS_REMOTE_BRANCH ||
+      (await execute(
+        `git ls-remote --heads ${action.repositoryPath} ${action.branch} | wc -l`,
         action.workspace,
         action.silent
-      )
-    }
+      ))
 
-    await execute(
-      `git worktree add --checkout ${temporaryDeploymentDirectory} origin/${action.branch}`,
-      action.workspace,
-      action.silent
-    )
+    await generateWorktree(action, temporaryDeploymentDirectory, branchExists)
 
     // Ensures that items that need to be excluded from the clean job get parsed.
     let excludes = ''
@@ -166,13 +116,23 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       action.silent
     )
 
-    const hasFilesToCommit = await execute(
-      `git status --porcelain`,
-      `${action.workspace}/${temporaryDeploymentDirectory}`,
-      action.silent
-    )
+    // Use git status to check if we have something to commit.
+    // Special case is singleCommit with existing history, when
+    // we're really interested if the diff against the upstream branch
+    // changed.
+    const checkGitStatus =
+      branchExists && action.singleCommit
+        ? `git diff origin/${action.branch}`
+        : `git status --porcelain`
+    const hasFilesToCommit =
+      action.isTest & TestFlag.HAS_CHANGED_FILES ||
+      (await execute(
+        checkGitStatus,
+        `${action.workspace}/${temporaryDeploymentDirectory}`,
+        action.silent
+      ))
 
-    if (!hasFilesToCommit && !action.isTest) {
+    if (!hasFilesToCommit) {
       return Status.SKIPPED
     }
 
@@ -192,48 +152,15 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       `${action.workspace}/${temporaryDeploymentDirectory}`,
       action.silent
     )
-    await execute(
-      `git push --force ${dry}${action.repositoryPath} ${temporaryDeploymentBranch}:${action.branch}`,
-      `${action.workspace}/${temporaryDeploymentDirectory}`,
-      action.silent
-    )
+    if (!action.dryRun) {
+      await execute(
+        `git push --force ${action.repositoryPath} ${temporaryDeploymentBranch}:${action.branch}`,
+        `${action.workspace}/${temporaryDeploymentDirectory}`,
+        action.silent
+      )
+    }
 
     info(`Changes committed to the ${action.branch} branch… 📦`)
-
-    if (action.singleCommit) {
-      await execute(
-        `git fetch ${action.repositoryPath}`,
-        action.workspace,
-        action.silent
-      )
-      await execute(
-        `git checkout --orphan ${action.branch}-temp`,
-        `${action.workspace}/${temporaryDeploymentDirectory}`,
-        action.silent
-      )
-      await execute(
-        `git add --all .`,
-        `${action.workspace}/${temporaryDeploymentDirectory}`,
-        action.silent
-      )
-      await execute(
-        `git commit -m "${commitMessage}" --quiet --no-verify`,
-        `${action.workspace}/${temporaryDeploymentDirectory}`,
-        action.silent
-      )
-      await execute(
-        `git branch -M ${action.branch}-temp ${action.branch}`,
-        `${action.workspace}/${temporaryDeploymentDirectory}`,
-        action.silent
-      )
-      await execute(
-        `git push origin ${action.branch} ${dry}--force`,
-        `${action.workspace}/${temporaryDeploymentDirectory}`,
-        action.silent
-      )
-
-      info('Cleared git history… 🚿')
-    }
 
     return Status.SUCCESS
   } catch (error) {
