@@ -1,4 +1,4 @@
-import {ActionInterface} from '../src/constants'
+import {ActionInterface, TestFlag} from '../src/constants'
 import {
   isNullOrUndefined,
   generateTokenType,
@@ -39,7 +39,8 @@ describe('util', () => {
         folder: 'build',
         token: null,
         ssh: true,
-        silent: false
+        silent: false,
+        isTest: TestFlag.NONE
       }
       expect(generateTokenType(action)).toEqual('SSH Deploy Key')
     })
@@ -51,7 +52,8 @@ describe('util', () => {
         folder: 'build',
         token: '123',
         ssh: null,
-        silent: false
+        silent: false,
+        isTest: TestFlag.NONE
       }
       expect(generateTokenType(action)).toEqual('Deploy Token')
     })
@@ -63,7 +65,8 @@ describe('util', () => {
         folder: 'build',
         token: null,
         ssh: null,
-        silent: false
+        silent: false,
+        isTest: TestFlag.NONE
       }
       expect(generateTokenType(action)).toEqual('…')
     })
@@ -78,7 +81,8 @@ describe('util', () => {
         folder: 'build',
         token: null,
         ssh: true,
-        silent: false
+        silent: false,
+        isTest: TestFlag.NONE
       }
       expect(generateRepositoryPath(action)).toEqual(
         'git@github.com:JamesIves/github-pages-deploy-action'
@@ -93,7 +97,8 @@ describe('util', () => {
         folder: 'build',
         token: '123',
         ssh: null,
-        silent: false
+        silent: false,
+        isTest: TestFlag.NONE
       }
       expect(generateRepositoryPath(action)).toEqual(
         'https://x-access-token:123@github.com/JamesIves/github-pages-deploy-action.git'
@@ -110,7 +115,8 @@ describe('util', () => {
           workspace: 'src/',
           folder: 'build',
           token: 'anothersecret123333',
-          silent: false
+          silent: false,
+          isTest: TestFlag.NONE
         }
 
         const string = `This is an error message! It contains ${action.token} and ${action.repositoryPath} and ${action.token} again!`
@@ -128,7 +134,8 @@ describe('util', () => {
           workspace: 'src/',
           folder: 'build',
           token: 'anothersecret123333',
-          silent: false
+          silent: false,
+          isTest: TestFlag.NONE
         }
 
         process.env['RUNNER_DEBUG'] = '1'
@@ -149,7 +156,8 @@ describe('util', () => {
         folder: 'build',
         token: null,
         ssh: null,
-        silent: false
+        silent: false,
+        isTest: TestFlag.NONE
       }
       expect(generateFolderPath(action)).toEqual('src/build')
     })
@@ -161,7 +169,8 @@ describe('util', () => {
         folder: '/home/user/repo/build',
         token: null,
         ssh: null,
-        silent: false
+        silent: false,
+        isTest: TestFlag.NONE
       }
       expect(generateFolderPath(action)).toEqual('/home/user/repo/build')
     })
@@ -173,7 +182,8 @@ describe('util', () => {
         folder: './build',
         token: null,
         ssh: null,
-        silent: false
+        silent: false,
+        isTest: TestFlag.NONE
       }
       expect(generateFolderPath(action)).toEqual('src/build')
     })
@@ -185,7 +195,8 @@ describe('util', () => {
         folder: '~/repo/build',
         token: null,
         ssh: null,
-        silent: false
+        silent: false,
+        isTest: TestFlag.NONE
       }
       process.env.HOME = '/home/user'
       expect(generateFolderPath(action)).toEqual('/home/user/repo/build')
@@ -199,7 +210,8 @@ describe('util', () => {
         repositoryPath: undefined,
         branch: 'branch',
         folder: 'build',
-        workspace: 'src/'
+        workspace: 'src/',
+        isTest: TestFlag.NONE
       }
 
       try {
@@ -218,7 +230,8 @@ describe('util', () => {
         token: '',
         branch: 'branch',
         folder: 'build',
-        workspace: 'src/'
+        workspace: 'src/',
+        isTest: TestFlag.NONE
       }
 
       try {
@@ -237,7 +250,8 @@ describe('util', () => {
         token: '123',
         branch: '',
         folder: 'build',
-        workspace: 'src/'
+        workspace: 'src/',
+        isTest: TestFlag.NONE
       }
 
       try {
@@ -254,7 +268,8 @@ describe('util', () => {
         token: '123',
         branch: 'branch',
         folder: '',
-        workspace: 'src/'
+        workspace: 'src/',
+        isTest: TestFlag.NONE
       }
 
       try {
@@ -273,7 +288,8 @@ describe('util', () => {
         token: '123',
         branch: 'branch',
         folder: 'notARealFolder',
-        workspace: '.'
+        workspace: '.',
+        isTest: TestFlag.NONE
       }
 
       try {
