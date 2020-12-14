@@ -1,4 +1,4 @@
-name: Land production js and modules
+name: Deploy Production Dependencies and Code
 on:
   workflow_dispatch:
   push:
@@ -35,16 +35,16 @@ jobs:
           yarn install
           yarn build
 
-      - name: Production node_modules
+      - name: Install Production node_modules
         run: |
           yarn install --production
 
-      - name: Commit and push
-        # keep the run green if the commit fails for the lack of changes
+      - name: Commit and Push
+        # Keep the run green if the commit fails for the lack of changes
         continue-on-error: True
         run: |
-          git config user.email "iam@jamesiv.es"
-          git config user.name "James Ives"
+          git config user.email "${{ secrets.GIT_CONFIG_EMAIL }}"
+          git config user.name "${{ secrets.GIT_CONFIG_NAME }}"
           git add .
-          git commit -m"Deploy production js code for ${{ github.sha }}"
+          git commit -m "Deploy Production Code for Commit ${{ github.sha }} 🚀"
           git push
