@@ -1,1 +1,0 @@
-{"version":3,"file":"es2015.promise.js","sourceRoot":"","sources":["../../src/lib/es2015.promise.ts"],"names":[],"mappings":";AAAA,wCAAwC;AACxC,gCAAgC;AAChC,gDAAgD;;;AAInC,QAAA,cAAc,GAAG;IAC5B,kBAAkB,EAAE;QAClB,2BAA2B,EAAE,UAAU;QACvC,cAAc,EAAE,IAAI;QACpB,eAAe,EAAE,KAAK;QACtB,IAAI,EAAE,oBAAoB;KAC3B;CAC4C,CAAC"}
