@@ -5,7 +5,7 @@ process.env['GITHUB_SHA'] = '123'
 process.env['INPUT_DEBUG'] = 'debug'
 
 import '../src/main'
-import {action} from '../src/constants'
+import {action, TestFlag} from '../src/constants'
 import run from '../src/lib'
 import {execute} from '../src/execute'
 import {rmRF} from '@actions/io'
@@ -44,11 +44,11 @@ describe('main', () => {
         name: 'asd',
         email: 'as@cat'
       },
-      isTest: false,
+      isTest: TestFlag.NONE,
       debug: true
     })
     await run(action)
-    expect(execute).toBeCalledTimes(12)
+    expect(execute).toBeCalledTimes(10)
     expect(rmRF).toBeCalledTimes(1)
     expect(exportVariable).toBeCalledTimes(1)
   })
@@ -62,10 +62,11 @@ describe('main', () => {
       pusher: {
         name: 'asd',
         email: 'as@cat'
-      }
+      },
+      isTest: TestFlag.HAS_CHANGED_FILES
     })
     await run(action)
-    expect(execute).toBeCalledTimes(12)
+    expect(execute).toBeCalledTimes(13)
     expect(rmRF).toBeCalledTimes(1)
     expect(exportVariable).toBeCalledTimes(1)
   })
@@ -80,7 +81,7 @@ describe('main', () => {
         name: 'asd',
         email: 'as@cat'
       },
-      isTest: true
+      isTest: TestFlag.HAS_CHANGED_FILES
     })
     await run(action)
     expect(execute).toBeCalledTimes(0)

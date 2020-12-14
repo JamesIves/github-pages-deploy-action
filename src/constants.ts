@@ -4,6 +4,13 @@ import {isNullOrUndefined} from './util'
 
 const {pusher, repository} = github.context.payload
 
+/* Flags to signal different scenarios to test cases */
+export enum TestFlag {
+  NONE = 0,
+  HAS_CHANGED_FILES = 1 << 1, // Assume changes to commit
+  HAS_REMOTE_BRANCH = 1 << 2 // Assume remote repository has existing commits
+}
+
 /* For more information please refer to the README: https://github.com/JamesIves/github-pages-deploy-action */
 export interface ActionInterface {
   /** The branch that the action should deploy to. */
@@ -22,8 +29,8 @@ export interface ActionInterface {
   folder: string
   /** The auto generated folder path. */
   folderPath?: string
-  /** Determines if the action is running in test mode or not. */
-  isTest?: boolean | null
+  /** Determines test scenarios the action is running in. */
+  isTest: TestFlag
   /** The git config name. */
   name?: string
   /** The repository path, for example JamesIves/github-pages-deploy-action. */
@@ -62,6 +69,7 @@ export interface NodeActionInterface {
   ssh?: boolean | null
   /** The folder where your deployment project lives. */
   workspace: string
+  isTest: TestFlag
 }
 
 /* Required action data that gets initialized when running within the GitHub Actions environment. */
@@ -76,9 +84,7 @@ export const action: ActionInterface = {
     ? getInput('CLEAN').toLowerCase() === 'true'
     : false,
   cleanExclude: getInput('CLEAN_EXCLUDE'),
-  isTest: process.env.UNIT_TEST
-    ? process.env.UNIT_TEST.toLowerCase() === 'true'
-    : false,
+  isTest: TestFlag.NONE,
   email: !isNullOrUndefined(getInput('GIT_CONFIG_EMAIL'))
     ? getInput('GIT_CONFIG_EMAIL')
     : pusher && pusher.email
@@ -115,7 +121,7 @@ export const action: ActionInterface = {
 /** Types for the required action parameters. */
 export type RequiredActionParameters = Pick<
   ActionInterface,
-  'token' | 'ssh' | 'branch' | 'folder'
+  'token' | 'ssh' | 'branch' | 'folder' | 'isTest'
 >
 
 /** Status codes for the action. */
