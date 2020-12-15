@@ -64,8 +64,8 @@ jobs:
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
-          BRANCH: gh-pages # The branch the action should deploy to.
-          FOLDER: build # The folder the action should deploy.
+          branch: gh-pages # The branch the action should deploy to.
+          folder: build # The folder the action should deploy.
 ```
 
 If you'd like to make it so the workflow only triggers on push events to specific branches then you can modify the `on` section.
@@ -124,31 +124,31 @@ The following options must be configured in order to make a deployment.
 
 | Key      | Value Information                                                                                                                                                                                                                                             | Type   | Required |
 | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | -------- |
-| `BRANCH` | This is the branch you wish to deploy to, for example `gh-pages` or `docs`.                                                                                                                                                                                   | `with` | **Yes**  |
-| `FOLDER` | The folder in your repository that you want to deploy. If your build script compiles into a directory named `build` you'd put it here. If you wish to deploy the root directory you can place a `.` here. You can also utilize absolute file paths by appending `~` to your folder path. | `with` | **Yes**  |
+| `branch` | This is the branch you wish to deploy to, for example `gh-pages` or `docs`.                                                                                                                                                                                   | `with` | **Yes**  |
+| `folder` | The folder in your repository that you want to deploy. If your build script compiles into a directory named `build` you'd put it here. If you wish to deploy the root directory you can place a `.` here. You can also utilize absolute file paths by appending `~` to your folder path. | `with` | **Yes**  |
 
 By default the action does not need any token configuration and uses the provided repository scoped GitHub token to make the deployment. If you require most customization you can modify the deployment type using the following options.
 
 | Key            | Value Information                                                                                                                                                                                                                                                                                                                                                                                                                                              | Type             | Required |
 | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | -------- |
-| `TOKEN` | This option defaults to the repository scoped GitHub Token. However if you need more permissions for things such as deploying to another repository, you can add a Personal Access Token (PAT) here. This should be stored in the `secrets / with` menu **as a secret**. We reccomend using a service account with the least permissions neccersary and recommend when generating a new PAT that you select the least permission scopes neccersary. [Learn more about creating and using encrypted secrets here.](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets)  | **No**  |
-| `SSH`          | You can configure the action to deploy using SSH by setting this option to `true`. For more information on how to add your ssh key pair please refer to the [Using a Deploy Key section of this README](https://github.com/JamesIves/github-pages-deploy-action/tree/dev#using-an-ssh-deploy-key-).                                                                                                                                                            | `with`           | **No**  |
+| `token` | This option defaults to the repository scoped GitHub Token. However if you need more permissions for things such as deploying to another repository, you can add a Personal Access Token (PAT) here. This should be stored in the `secrets / with` menu **as a secret**. We reccomend using a service account with the least permissions neccersary and recommend when generating a new PAT that you select the least permission scopes neccersary. [Learn more about creating and using encrypted secrets here.](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets)  | **No**  |
+| `ssh`          | You can configure the action to deploy using SSH by setting this option to `true`. For more information on how to add your ssh key pair please refer to the [Using a Deploy Key section of this README](https://github.com/JamesIves/github-pages-deploy-action/tree/dev#using-an-ssh-deploy-key-).                                                                                                                                                            | `with`           | **No**  |
 
 #### Optional Choices
 
 | Key                | Value Information                                                                                                                                                                                                                                                                                                                                     | Type   | Required |
 | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | -------- |
-| `GIT_CONFIG_NAME`  | Allows you to customize the name that is attached to the git config which is used when pushing the deployment commits. If this is not included it will use the name in the GitHub context, followed by the name of the action.                                                                                                                     | `with` | **No**   |
-| `GIT_CONFIG_EMAIL` | Allows you to customize the email that is attached to the git config which is used when pushing the deployment commits. If this is not included it will use the email in the GitHub context, followed by a generic noreply GitHub email.                                                                                                           | `with` | **No**   |
-| `REPOSITORY_NAME`       | Allows you to specify a different repository path so long as you have permissions to push to it. This should be formatted like so: `JamesIves/github-pages-deploy-action`. You'll need to use a PAT in the `TOKEN` input for this configuration option to work properly.                                                                                                                                                                          | `with` | **No**   |
-| `TARGET_FOLDER`    | If you'd like to push the contents of the deployment folder into a specific directory on the deployment branch you can specify it here.                                                                                                                                                                                                               | `with` | **No**   |
-| `COMMIT_MESSAGE`   | If you need to customize the commit message for an integration you can do so.                                                                                                                                                                                                                                                                         | `with` | **No**   |
-| `CLEAN`            | If your project generates hashed files on build you can use this option to automatically delete them from the deployment branch with each deploy. This option is turned on by default, and can be toggled off by setting it to `false`.                                                                                                                                              | `with` | **No**   |
-| `CLEAN_EXCLUDE`    | If you need to use `CLEAN` but you'd like to preserve certain files or folders you can use this option. This should be formatted as an array but stored as a string. For example: `'["filename.js", "folder"]'`                                                                                                                                       | `with` | **No**   |
-| `DRY_RUN`          | Do not actually push back, but use `--dry-run` on `git push` invocations insead.                                                                                                               | `with` | **No**   |
-| `SINGLE_COMMIT`        | This option can be toggled to `true` if you'd prefer to have a single commit on the deployment branch instead of maintaining the full history. **Using this option will also cause any existing history to be wiped from the deployment branch**.                                                                                                                                            | `with` | **No**   |
-| `SILENT`        | Silences the action output preventing it from displaying git messages.                                                                                                                            | `with` | **No**   |
-| `WORKSPACE`        | This should point to where your project lives on the virtual machine. The GitHub Actions environment will set this for you. It is only necessary to set this variable if you're using the node module.                                                                                                                                               | `with` | **No**   |
+| `git_config_name`  | Allows you to customize the name that is attached to the git config which is used when pushing the deployment commits. If this is not included it will use the name in the GitHub context, followed by the name of the action.                                                                                                                     | `with` | **No**   |
+| `git_config_email` | Allows you to customize the email that is attached to the git config which is used when pushing the deployment commits. If this is not included it will use the email in the GitHub context, followed by a generic noreply GitHub email.                                                                                                           | `with` | **No**   |
+| `repository_name`       | Allows you to specify a different repository path so long as you have permissions to push to it. This should be formatted like so: `JamesIves/github-pages-deploy-action`. You'll need to use a PAT in the `token` input for this configuration option to work properly.                                                                                                                                                                          | `with` | **No**   |
+| `target_folder`    | If you'd like to push the contents of the deployment folder into a specific directory on the deployment branch you can specify it here.                                                                                                                                                                                                               | `with` | **No**   |
+| `commit_message`   | If you need to customize the commit message for an integration you can do so.                                                                                                                                                                                                                                                                         | `with` | **No**   |
+| `clean`            | If your project generates hashed files on build you can use this option to automatically delete them from the deployment branch with each deploy. This option is turned on by default, and can be toggled off by setting it to `false`.                                                                                                                                              | `with` | **No**   |
+| `clean_exclude`    | If you need to use `clean` but you'd like to preserve certain files or folders you can use this option. This should be formatted as an array but stored as a string. For example: `'["filename.js", "folder"]'`                                                                                                                                       | `with` | **No**   |
+| `dry_run`          | Do not actually push back, but use `--dry-run` on `git push` invocations insead.                                                                                                               | `with` | **No**   |
+| `single_commit`        | This option can be toggled to `true` if you'd prefer to have a single commit on the deployment branch instead of maintaining the full history. **Using this option will also cause any existing history to be wiped from the deployment branch**.                                                                                                                                            | `with` | **No**   |
+| `silent`        | Silences the action output preventing it from displaying git messages.                                                                                                                            | `with` | **No**   |
+| `workspace`        | This should point to where your project lives on the virtual machine. The GitHub Actions environment will set this for you. It is only necessary to set this variable if you're using the node module.                                                                                                                                               | `with` | **No**   |
 
 With the action correctly configured you should see the workflow trigger the deployment under the configured conditions.
 
@@ -174,7 +174,7 @@ ssh-keygen -t rsa -m pem -b 4096 -C "youremailhere@example.com" -N ""
 
 Once you've generated the key pair you must add the contents of the public key within your repository's [deploy keys menu](https://developer.github.com/v3/guides/managing-deploy-keys/). You can find this option by going to `Settings > Deploy Keys`, you can name the public key whatever you want, but you **do** need to give it write access. Afterwards add the contents of the private key to the `Settings > Secrets` menu as `DEPLOY_KEY`.
 
-With this configured you must add the `ssh-agent` step to your workflow and set `SSH` to `true` within the deploy action. There are several SSH actions available on the [GitHub marketplace](https://github.com/marketplace?type=actions) for you to choose from.
+With this configured you must add the `ssh-agent` step to your workflow and set `ssh` to `true` within the deploy action. There are several SSH actions available on the [GitHub marketplace](https://github.com/marketplace?type=actions) for you to choose from.
 
 ```yml
 - name: Install SSH Client 🔑
@@ -185,9 +185,9 @@ With this configured you must add the `ssh-agent` step to your workflow and set 
 - name: Deploy 🚀
   uses: JamesIves/github-pages-deploy-action@3.7.1
   with:
-    SSH: true
-    BRANCH: gh-pages
-    FOLDER: site
+    ssh: true
+    branch: gh-pages
+    folder: site
 ```
 
 <details><summary>You can view a full example of this here.</summary>
@@ -221,10 +221,10 @@ jobs:
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
-          BRANCH: gh-pages
-          FOLDER: build
-          CLEAN: true
-          SSH: true # SSH must be set to true so the deploy action knows which protocol to deploy with.
+          branch: gh-pages
+          folder: build
+          clean: true
+          ssh: true # SSH must be set to true so the deploy action knows which protocol to deploy with.
 ```
 
 </p>
@@ -287,9 +287,9 @@ jobs:
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: "site" # The deployment folder should match the name of the artifact. Even though our project builds into the 'build' folder the artifact name of 'site' must be placed here.
+          token: ${{ secrets.ACCESS_TOKEN }}
+          branch: gh-pages
+          folder: "site" # The deployment folder should match the name of the artifact. Even though our project builds into the 'build' folder the artifact name of 'site' must be placed here.
 ```
 
 </p>
