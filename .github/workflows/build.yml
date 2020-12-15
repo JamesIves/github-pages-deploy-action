@@ -6,7 +6,7 @@ on:
       - 'releases/v*'
   push:
     branches:
-      - dev
+      - 'dev*'
     tags-ignore:
       - '*.*'
 jobs:

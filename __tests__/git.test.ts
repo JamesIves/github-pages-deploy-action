@@ -11,6 +11,10 @@ import fs from 'fs'
 
 const originalAction = JSON.stringify(action)
 
+jest.mock('fs', () => ({
+  existsSync: jest.fn()
+}))
+
 jest.mock('@actions/core', () => ({
   setFailed: jest.fn(),
   getInput: jest.fn(),
@@ -178,6 +182,14 @@ describe('git', () => {
     })
 
     it('should not ignore CNAME or nojekyll if they exist in the deployment folder', async () => {
+      ;(fs.existsSync as jest.Mock)
+        .mockImplementationOnce(() => {
+          return true
+        })
+        .mockImplementationOnce(() => {
+          return true
+        })
+
       Object.assign(action, {
         silent: false,
         folder: 'assets',
@@ -192,40 +204,44 @@ describe('git', () => {
         isTest: TestFlag.HAS_CHANGED_FILES
       })
 
-      fs.createWriteStream('assets/.nojekyll')
-      fs.createWriteStream('assets/CNAME')
-
       const response = await deploy(action)
 
       // Includes the call to generateWorktree
       expect(execute).toBeCalledTimes(11)
       expect(rmRF).toBeCalledTimes(1)
+      expect(fs.existsSync).toBeCalledTimes(2)
       expect(response).toBe(Status.SUCCESS)
     })
 
-    it('should execute commands with clean options, commits sha commit message', async () => {
-      process.env.GITHUB_SHA = ''
-      Object.assign(action, {
-        silent: false,
-        folder: 'other',
-        folderPath: 'other',
-        branch: 'branch',
-        token: '123',
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        },
-        clean: true,
-        cleanExclude: '["cat", "montezuma"]',
-        workspace: 'other',
-        isTest: TestFlag.NONE
+    describe('', () => {
+      const oldSha = process.env.GITHUB_SHA
+      afterAll(() => {
+        process.env.GITHUB_SHA = oldSha
       })
+      it('should execute commands with clean options, commits sha commit message', async () => {
+        process.env.GITHUB_SHA = ''
+        Object.assign(action, {
+          silent: false,
+          folder: 'other',
+          folderPath: 'other',
+          branch: 'branch',
+          token: '123',
+          pusher: {
+            name: 'asd',
+            email: 'as@cat'
+          },
+          clean: true,
+          cleanExclude: '["cat", "montezuma"]',
+          workspace: 'other',
+          isTest: TestFlag.NONE
+        })
 
-      await deploy(action)
+        await deploy(action)
 
-      // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(8)
-      expect(rmRF).toBeCalledTimes(1)
+        // Includes the call to generateWorktree
+        expect(execute).toBeCalledTimes(8)
+        expect(rmRF).toBeCalledTimes(1)
+      })
     })
 
     it('should execute commands with clean options stored as an array instead', async () => {
