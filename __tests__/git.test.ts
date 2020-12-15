@@ -213,12 +213,12 @@ describe('git', () => {
       expect(response).toBe(Status.SUCCESS)
     })
 
-    describe('', () => {
+    describe('with empty GITHUB_SHA', () => {
       const oldSha = process.env.GITHUB_SHA
       afterAll(() => {
         process.env.GITHUB_SHA = oldSha
       })
-      it('should execute commands with clean options, commits sha commit message', async () => {
+      it('should execute commands with clean options', async () => {
         process.env.GITHUB_SHA = ''
         Object.assign(action, {
           silent: false,
