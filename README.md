@@ -154,7 +154,7 @@ With the action correctly configured you should see the workflow trigger the dep
 
 #### Deployment Status
 
-The action will export an environment variable called `DEPLOYMENT_STATUS` that you can use in your workflow to determine if the deployment was successful or not. You can find an explanation of each status type below.
+The action will export an environment variable called `deployment_status` that you can use in your workflow to determine if the deployment was successful or not. You can find an explanation of each status type below.
 
 | Status        | Description           |
 | ------------- |-------------|

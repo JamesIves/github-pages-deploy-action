@@ -93,10 +93,10 @@ jobs:
       - name: Deploy
         uses: ./
         with:
-          FOLDER: integration
-          BRANCH: ${{ matrix.branch }}
+          folder: integration
+          branch: ${{ matrix.branch }}
           SINGLE_COMMIT: ${{ matrix.commit == 'singleCommit' }}
-          DRY_RUN: true
+          dry_run: true
 
       - name: Tweak content to publish to existing branch
         if: ${{ matrix.branch == 'gh-pages' }}
@@ -107,7 +107,7 @@ jobs:
         uses: ./
         if: ${{ matrix.branch == 'gh-pages' }}
         with:
-          FOLDER: integration
-          BRANCH: ${{ matrix.branch }}
-          SINGLE_COMMIT: ${{ matrix.commit == 'singleCommit' }}
-          DRY_RUN: true
+          folder: integration
+          branch: ${{ matrix.branch }} 
+          single_commit: ${{ matrix.commit == 'singleCommit' }}
+          dry_run: true
