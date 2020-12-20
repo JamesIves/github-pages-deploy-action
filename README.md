@@ -144,7 +144,7 @@ By default the action does not need any token configuration and uses the provide
 | `target_folder`    | If you'd like to push the contents of the deployment folder into a specific directory on the deployment branch you can specify it here.                                                                                                                                                                                                               | `with` | **No**   |
 | `commit_message`   | If you need to customize the commit message for an integration you can do so.                                                                                                                                                                                                                                                                         | `with` | **No**   |
 | `clean`            | If your project generates hashed files on build you can use this option to automatically delete them from the deployment branch with each deploy. This option is turned on by default, and can be toggled off by setting it to `false`.                                                                                                                                              | `with` | **No**   |
-| `clean_exclude`    | If you need to use `clean` but you'd like to preserve certain files or folders you can use this option. This should be formatted as an array but stored as a string. For example: `'["filename.js", "folder"]'`                                                                                                                                       | `with` | **No**   |
+| `clean-exclude`    | If you need to use `clean` but you'd like to preserve certain files or folders you can use this option. This should contain each pattern as a single line in a multiline string.                                                                                                                                       | `with` | **No**   |
 | `dry_run`          | Do not actually push back, but use `--dry-run` on `git push` invocations insead.                                                                                                               | `with` | **No**   |
 | `single_commit`        | This option can be toggled to `true` if you'd prefer to have a single commit on the deployment branch instead of maintaining the full history. **Using this option will also cause any existing history to be wiped from the deployment branch**.                                                                                                                                            | `with` | **No**   |
 | `silent`        | Silences the action output preventing it from displaying git messages.                                                                                                                            | `with` | **No**   |
@@ -224,6 +224,9 @@ jobs:
           branch: gh-pages
           folder: build
           clean: true
+          clean-exclude: |
+            special-file.txt
+            some/*.txt
           ssh: true # SSH must be set to true so the deploy action knows which protocol to deploy with.
 ```
 
