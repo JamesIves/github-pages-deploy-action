@@ -231,7 +231,6 @@ describe('git', () => {
             email: 'as@cat'
           },
           clean: true,
-          cleanExclude: '["cat", "montezuma"]',
           workspace: 'other',
           isTest: TestFlag.NONE
         })
@@ -244,7 +243,7 @@ describe('git', () => {
       })
     })
 
-    it('should execute commands with clean options stored as an array instead', async () => {
+    it('should execute commands with clean options stored as an array', async () => {
       Object.assign(action, {
         silent: false,
         folder: 'assets',
@@ -267,7 +266,7 @@ describe('git', () => {
       expect(rmRF).toBeCalledTimes(1)
     })
 
-    it('should gracefully handle incorrectly formatted clean exclude items', async () => {
+    it('should gracefully handle target folder', async () => {
       Object.assign(action, {
         silent: false,
         folder: '.',
@@ -277,8 +276,7 @@ describe('git', () => {
         clean: true,
         targetFolder: 'new_folder',
         commitMessage: 'Hello!',
-        isTest: TestFlag.NONE,
-        cleanExclude: '["cat, "montezuma"]' // There is a syntax errror in the string.
+        isTest: TestFlag.NONE
       })
 
       await deploy(action)
