@@ -23,9 +23,9 @@ jobs:
           token: ${{ secrets.ACCESS_TOKEN }}
           branch: gh-pages
           folder: integration
-          target_folder: cat/montezuma
-          git_config_name: Montezuma
-          git_config_email: montezuma@jamesiv.es
+          target-folder: cat/montezuma
+          git-config-name: Montezuma
+          git-config-email: montezuma@jamesiv.es
 
       - name: Cleanup Generated Branch
         uses: dawidd6/action-delete-branch@v2.0.1
@@ -48,7 +48,7 @@ jobs:
         with:
           branch: gh-pages
           folder: integration
-          target_folder: cat/montezuma2
+          target-folder: cat/montezuma2
 
       - name: Cleanup Generated Branch
         uses: dawidd6/action-delete-branch@v2.0.1
@@ -80,7 +80,7 @@ jobs:
         with:
           branch: gh-pages
           folder: integration
-          target_folder: cat/montezuma2
+          target-folder: cat/montezuma2
 
       - name: Cleanup Generated Branch
         uses: dawidd6/action-delete-branch@v2.0.1
@@ -109,7 +109,7 @@ jobs:
           ssh: true
           branch: gh-pages
           folder: integration
-          target_folder: cat/montezuma3
+          target-folder: cat/montezuma3
 
       - name: Cleanup Generated Branch
         uses: dawidd6/action-delete-branch@v2.0.1
@@ -142,7 +142,7 @@ jobs:
           ssh: true
           branch: gh-pages
           folder: integration
-          target_folder: cat/montezuma4
+          target-folder: cat/montezuma4
 
       - name: Cleanup Generated Branch
         uses: dawidd6/action-delete-branch@v2.0.1
@@ -184,7 +184,7 @@ jobs:
           token: ${{ secrets.ACCESS_TOKEN }}
           branch: integration-test-delete-prod
           folder: integration
-          single_commit: true
+          single-commit: true
 
       - name: Cleanup Generated Branch
         uses: dawidd6/action-delete-branch@v2.0.1

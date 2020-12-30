@@ -76,9 +76,9 @@ export interface NodeActionInterface {
 export const action: ActionInterface = {
   folder: getInput('folder'),
   branch: getInput('branch'),
-  commitMessage: getInput('commit_message'),
-  dryRun: !isNullOrUndefined(getInput('dry_run'))
-    ? getInput('dry_run').toLowerCase() === 'true'
+  commitMessage: getInput('commit-message'),
+  dryRun: !isNullOrUndefined(getInput('dry-run'))
+    ? getInput('dry-run').toLowerCase() === 'true'
     : false,
   clean: !isNullOrUndefined(getInput('clean'))
     ? getInput('clean').toLowerCase() === 'true'
@@ -87,28 +87,28 @@ export const action: ActionInterface = {
     .split('\n')
     .filter(l => l !== ''),
   isTest: TestFlag.NONE,
-  email: !isNullOrUndefined(getInput('git_config_email'))
-    ? getInput('git_config_email')
+  email: !isNullOrUndefined(getInput('git-config-email'))
+    ? getInput('git-config-email')
     : pusher && pusher.email
     ? pusher.email
     : `${
         process.env.GITHUB_ACTOR || 'github-pages-deploy-action'
       }@users.noreply.github.com`,
-  name: !isNullOrUndefined(getInput('git_config_name'))
-    ? getInput('git_config_name')
+  name: !isNullOrUndefined(getInput('git-config-name'))
+    ? getInput('git-config-name')
     : pusher && pusher.name
     ? pusher.name
     : process.env.GITHUB_ACTOR
     ? process.env.GITHUB_ACTOR
     : 'GitHub Pages Deploy Action',
-  repositoryName: !isNullOrUndefined(getInput('repository_name'))
-    ? getInput('repository_name')
+  repositoryName: !isNullOrUndefined(getInput('repository-name'))
+    ? getInput('repository-name')
     : repository && repository.full_name
     ? repository.full_name
     : process.env.GITHUB_REPOSITORY,
   token: getInput('token'),
-  singleCommit: !isNullOrUndefined(getInput('single_commit'))
-    ? getInput('single_commit').toLowerCase() === 'true'
+  singleCommit: !isNullOrUndefined(getInput('single-commit'))
+    ? getInput('single-commit').toLowerCase() === 'true'
     : false,
   silent: !isNullOrUndefined(getInput('silent'))
     ? getInput('silent').toLowerCase() === 'true'
@@ -116,7 +116,7 @@ export const action: ActionInterface = {
   ssh: !isNullOrUndefined(getInput('ssh'))
     ? getInput('ssh').toLowerCase() === 'true'
     : false,
-  targetFolder: getInput('target_folder'),
+  targetFolder: getInput('target-folder'),
   workspace: process.env.GITHUB_WORKSPACE || ''
 }
 

@@ -95,8 +95,8 @@ jobs:
         with:
           folder: integration
           branch: ${{ matrix.branch }}
-          SINGLE_COMMIT: ${{ matrix.commit == 'singleCommit' }}
-          dry_run: true
+          single-commit: ${{ matrix.commit == 'singleCommit' }}
+          dry-run: true
 
       - name: Tweak content to publish to existing branch
         if: ${{ matrix.branch == 'gh-pages' }}
@@ -109,5 +109,5 @@ jobs:
         with:
           folder: integration
           branch: ${{ matrix.branch }} 
-          single_commit: ${{ matrix.commit == 'singleCommit' }}
-          dry_run: true
+          single-commit: ${{ matrix.commit == 'singleCommit' }}
+          dry-run: true
