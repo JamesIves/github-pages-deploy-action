@@ -91,6 +91,7 @@ jobs:
           name: dist
 
       - name: Deploy
+        id: unmodified
         uses: ./
         with:
           folder: integration
@@ -98,12 +99,22 @@ jobs:
           single-commit: ${{ matrix.commit == 'singleCommit' }}
           dry-run: true
 
+      # Usually, this should be skipped, but if the upstream gh-pages
+      # branch doesn't match ours, it should still be a success.
+      - name: Check step output
+        run: |
+          [[ \
+          ${{steps.unmodified.outputs.deployment-status}} = skipped || \
+          ${{steps.unmodified.outputs.deployment-status}} = success \
+          ]]
+
       - name: Tweak content to publish to existing branch
         if: ${{ matrix.branch == 'gh-pages' }}
         run: |
           echo "<!-- just sayin -->" >> integration/index.html
 
       - name: Deploy with modifications to existing branch
+        id: modified
         uses: ./
         if: ${{ matrix.branch == 'gh-pages' }}
         with:
@@ -111,3 +122,11 @@ jobs:
           branch: ${{ matrix.branch }} 
           single-commit: ${{ matrix.commit == 'singleCommit' }}
           dry-run: true
+
+      # The modified deployment should be a success, and not skipped.
+      - name: Check step output
+        if: ${{ matrix.branch == 'gh-pages' }}
+        run: |
+          [[ \
+          ${{steps.modified.outputs.deployment-status}} = success \
+          ]]
