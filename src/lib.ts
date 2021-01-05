@@ -1,4 +1,4 @@
-import {exportVariable, info, setFailed} from '@actions/core'
+import {exportVariable, info, setFailed, setOutput} from '@actions/core'
 import {ActionInterface, Status, NodeActionInterface} from './constants'
 import {deploy, init} from './git'
 import {
@@ -60,5 +60,6 @@ export default async function run(
     )
 
     exportVariable('deployment_status', status)
+    setOutput('deployment-status', status)
   }
 }

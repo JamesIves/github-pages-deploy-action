@@ -24,6 +24,7 @@ jest.mock('@actions/io', () => ({
 jest.mock('@actions/core', () => ({
   setFailed: jest.fn(),
   getInput: jest.fn(),
+  setOutput: jest.fn(),
   exportVariable: jest.fn(),
   isDebug: jest.fn(),
   info: jest.fn()
