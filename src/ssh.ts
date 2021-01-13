@@ -23,10 +23,12 @@ export async function configureSSH(action: ActionInterface): Promise<void> {
     appendFileSync(sshKnownHostsDirectory, sshGitHubKnownHostRsa)
     appendFileSync(sshKnownHostsDirectory, sshGitHubKnownHostDss)
 
+    // Initializes SSH agent.
     await execute(`ssh-agent`, sshDirectory, action.silent)
 
-    action.sshKey?.split(/(?=-----BEGIN)/).map(async key => {
-      await execute(`ssh-add - ${key.trim()}\n`, sshDirectory, action.silent)
+    // Adds the SSH key to the agent.
+    action.sshKey?.split(/(?=-----BEGIN)/).map(async line => {
+      await execute(`ssh-add - ${line.trim()}\n`, sshDirectory, action.silent)
     })
 
     await execute(`ssh-add -l`, sshDirectory, action.silent)
