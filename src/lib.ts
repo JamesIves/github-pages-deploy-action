@@ -1,9 +1,10 @@
 import {exportVariable, info, setFailed, setOutput} from '@actions/core'
-import {ActionInterface, Status, NodeActionInterface} from './constants'
+import {ActionInterface, NodeActionInterface, Status} from './constants'
 import {deploy, init} from './git'
+import {configureSSH} from './ssh'
 import {
-  generateFolderPath,
   checkParameters,
+  generateFolderPath,
   generateRepositoryPath,
   generateTokenType
 } from './util'
@@ -42,6 +43,10 @@ export default async function run(
 
     settings.repositoryPath = generateRepositoryPath(settings)
     settings.tokenType = generateTokenType(settings)
+
+    if (settings.sshKey) {
+      await configureSSH(settings)
+    }
 
     await init(settings)
     status = await deploy(settings)
