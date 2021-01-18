@@ -7,7 +7,8 @@ import {configureSSH} from '../src/ssh'
 const originalAction = JSON.stringify(action)
 
 jest.mock('fs', () => ({
-  appendFileSync: jest.fn()
+  appendFileSync: jest.fn(),
+  existsSync: jest.fn(),
 }))
 
 jest.mock('@actions/io', () => ({
