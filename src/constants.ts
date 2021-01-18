@@ -42,7 +42,7 @@ export interface ActionInterface {
   /** Determines if the action should run in silent mode or not. */
   silent: boolean
   /** Defines an SSH private key that can be used during deployment. This can also be set to true to use SSH deployment endpoints if you've already configured the SSH client outside of this package. */
-  sshKey?: string | boolean
+  sshKey?: string | boolean | null
   /** If you'd like to push the contents of the deployment folder into a specific directory on the deployment branch you can specify it here. */
   targetFolder?: string
   /** Deployment token. */
@@ -66,7 +66,7 @@ export interface NodeActionInterface {
   /** Determines if the action should run in silent mode or not. */
   silent: boolean
   /** Defines an SSH private key that can be used during deployment. This can also be set to true to use SSH deployment endpoints if you've already configured the SSH client outside of this package. */
-  sshKey?: string | boolean
+  sshKey?: string | boolean | null
   /** The folder where your deployment project lives. */
   workspace: string
   /** Determines test scenarios the action is running in. */

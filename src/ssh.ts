@@ -28,7 +28,7 @@ export async function configureSSH(action: ActionInterface): Promise<void> {
       await execute(`ssh-agent`, sshDirectory, action.silent)
 
       // Adds the SSH key to the agent.
-      action.sshKey?.split(/(?=-----BEGIN)/).map(async line => {
+      action.sshKey.split(/(?=-----BEGIN)/).map(async line => {
         await execute(`ssh-add - ${line.trim()}\n`, sshDirectory, action.silent)
       })
 
@@ -38,7 +38,7 @@ export async function configureSSH(action: ActionInterface): Promise<void> {
     }
   } catch (error) {
     throw new Error(
-      `The ssh token configured encountered an error: ${suppressSensitiveInformation(
+      `The ssh client configuration encountered an error: ${suppressSensitiveInformation(
         error.message,
         action
       )} ❌`
