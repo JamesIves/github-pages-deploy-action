@@ -182,7 +182,6 @@ With this configured you can then set the `ssh-key` part of the action to your p
 - name: Deploy 🚀
   uses: JamesIves/github-pages-deploy-action@3.7.1
   with:
-    ssh: true
     branch: gh-pages
     folder: site
     ssh-key: ${{ secrets.DEPLOY_KEY }}
@@ -220,7 +219,7 @@ jobs:
           clean-exclude: |
             special-file.txt
             some/*.txt
-          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+          ssh-key: ${{ secrets.DEPLOY_KEY }}
 ```
 
 </p>
