@@ -41,8 +41,8 @@ export interface ActionInterface {
   singleCommit?: boolean | null
   /** Determines if the action should run in silent mode or not. */
   silent: boolean
-  /** TODO: Write SSH key description */
-  sshKey?: string
+  /** Defines an SSH private key that can be used during deployment. This can also be set to true to use SSH deployment endpoints if you've already configured the SSH client outside of this package. */
+  sshKey?: string | boolean
   /** If you'd like to push the contents of the deployment folder into a specific directory on the deployment branch you can specify it here. */
   targetFolder?: string
   /** Deployment token. */
@@ -65,8 +65,8 @@ export interface NodeActionInterface {
   token?: string | null
   /** Determines if the action should run in silent mode or not. */
   silent: boolean
-  /** TODO: Write SSH key description */
-  sshKey?: string
+  /** Defines an SSH private key that can be used during deployment. This can also be set to true to use SSH deployment endpoints if you've already configured the SSH client outside of this package. */
+  sshKey?: string | boolean
   /** The folder where your deployment project lives. */
   workspace: string
   /** Determines test scenarios the action is running in. */
@@ -114,7 +114,12 @@ export const action: ActionInterface = {
   silent: !isNullOrUndefined(getInput('silent'))
     ? getInput('silent').toLowerCase() === 'true'
     : false,
-  sshKey: getInput('ssh-key'),
+  sshKey: isNullOrUndefined(getInput('ssh-key'))
+    ? false
+    : !isNullOrUndefined(getInput('ssh-key')) &&
+      getInput('ssh-key').toLowerCase() === 'true'
+    ? true
+    : getInput('ssh-key'),
   targetFolder: getInput('target-folder'),
   workspace: process.env.GITHUB_WORKSPACE || ''
 }
