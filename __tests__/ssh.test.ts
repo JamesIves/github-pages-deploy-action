@@ -7,7 +7,8 @@ import {configureSSH} from '../src/ssh'
 const originalAction = JSON.stringify(action)
 
 jest.mock('fs', () => ({
-  appendFileSync: jest.fn()
+  appendFileSync: jest.fn(),
+  existsSync: jest.fn()
 }))
 
 jest.mock('@actions/io', () => ({
@@ -19,6 +20,10 @@ jest.mock('../src/execute', () => ({
   // eslint-disable-next-line @typescript-eslint/naming-convention
   __esModule: true,
   execute: jest.fn()
+}))
+
+jest.mock('@actions/core', () => ({
+  info: jest.fn()
 }))
 
 describe('configureSSH', () => {
