@@ -16,14 +16,18 @@ jest.mock('@actions/io', () => ({
   mkdirP: jest.fn()
 }))
 
+jest.mock('@actions/core', () => ({
+  setFailed: jest.fn(),
+  getInput: jest.fn(),
+  setOutput: jest.fn(),
+  isDebug: jest.fn(),
+  info: jest.fn()
+}))
+
 jest.mock('../src/execute', () => ({
   // eslint-disable-next-line @typescript-eslint/naming-convention
   __esModule: true,
   execute: jest.fn()
-}))
-
-jest.mock('@actions/core', () => ({
-  info: jest.fn()
 }))
 
 describe('configureSSH', () => {
