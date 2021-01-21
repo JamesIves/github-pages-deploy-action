@@ -2,12 +2,12 @@
 
 ## Supported Versions
 
-The current versions are actively maintained and will receieve frequent updates and security patches.
+The current version is actively maintained and will receive frequent updates and security patches.
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 3.0.x   | :white_check_mark: |
-| < 2.0   | :x:                |
+| 4.0.x   | :white_check_mark: |
+| < 3.0   | :x:                |
 
 ## Reporting a Vulnerability
 

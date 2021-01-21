@@ -20,7 +20,7 @@ export interface ActionInterface {
   /** If your project generates hashed files on build you can use this option to automatically delete them from the deployment branch with each deploy. This option can be toggled on by setting it to true. */
   clean?: boolean | null
   /** If you need to use CLEAN but you'd like to preserve certain files or folders you can use this option. */
-  cleanExclude?: string | string[]
+  cleanExclude?: string[]
   /** If you need to customize the commit message for an integration you can do so. */
   commitMessage?: string
   /** The git config email. */
@@ -74,47 +74,49 @@ export interface NodeActionInterface {
 
 /* Required action data that gets initialized when running within the GitHub Actions environment. */
 export const action: ActionInterface = {
-  folder: getInput('FOLDER'),
-  branch: getInput('BRANCH'),
-  commitMessage: getInput('COMMIT_MESSAGE'),
-  dryRun: !isNullOrUndefined(getInput('DRY_RUN'))
-    ? getInput('DRY_RUN').toLowerCase() === 'true'
+  folder: getInput('folder'),
+  branch: getInput('branch'),
+  commitMessage: getInput('commit-message'),
+  dryRun: !isNullOrUndefined(getInput('dry-run'))
+    ? getInput('dry-run').toLowerCase() === 'true'
     : false,
-  clean: !isNullOrUndefined(getInput('CLEAN'))
-    ? getInput('CLEAN').toLowerCase() === 'true'
+  clean: !isNullOrUndefined(getInput('clean'))
+    ? getInput('clean').toLowerCase() === 'true'
     : false,
-  cleanExclude: getInput('CLEAN_EXCLUDE'),
+  cleanExclude: (getInput('clean-exclude') || '')
+    .split('\n')
+    .filter(l => l !== ''),
   isTest: TestFlag.NONE,
-  email: !isNullOrUndefined(getInput('GIT_CONFIG_EMAIL'))
-    ? getInput('GIT_CONFIG_EMAIL')
+  email: !isNullOrUndefined(getInput('git-config-email'))
+    ? getInput('git-config-email')
     : pusher && pusher.email
     ? pusher.email
     : `${
         process.env.GITHUB_ACTOR || 'github-pages-deploy-action'
       }@users.noreply.github.com`,
-  name: !isNullOrUndefined(getInput('GIT_CONFIG_NAME'))
-    ? getInput('GIT_CONFIG_NAME')
+  name: !isNullOrUndefined(getInput('git-config-name'))
+    ? getInput('git-config-name')
     : pusher && pusher.name
     ? pusher.name
     : process.env.GITHUB_ACTOR
     ? process.env.GITHUB_ACTOR
     : 'GitHub Pages Deploy Action',
-  repositoryName: !isNullOrUndefined(getInput('REPOSITORY_NAME'))
-    ? getInput('REPOSITORY_NAME')
+  repositoryName: !isNullOrUndefined(getInput('repository-name'))
+    ? getInput('repository-name')
     : repository && repository.full_name
     ? repository.full_name
     : process.env.GITHUB_REPOSITORY,
-  token: getInput('TOKEN'),
-  singleCommit: !isNullOrUndefined(getInput('SINGLE_COMMIT'))
-    ? getInput('SINGLE_COMMIT').toLowerCase() === 'true'
+  token: getInput('token'),
+  singleCommit: !isNullOrUndefined(getInput('single-commit'))
+    ? getInput('single-commit').toLowerCase() === 'true'
     : false,
-  silent: !isNullOrUndefined(getInput('SILENT'))
-    ? getInput('SILENT').toLowerCase() === 'true'
+  silent: !isNullOrUndefined(getInput('silent'))
+    ? getInput('silent').toLowerCase() === 'true'
     : false,
-  ssh: !isNullOrUndefined(getInput('SSH'))
-    ? getInput('SSH').toLowerCase() === 'true'
+  ssh: !isNullOrUndefined(getInput('ssh'))
+    ? getInput('ssh').toLowerCase() === 'true'
     : false,
-  targetFolder: getInput('TARGET_FOLDER'),
+  targetFolder: getInput('target-folder'),
   workspace: process.env.GITHUB_WORKSPACE || ''
 }
 

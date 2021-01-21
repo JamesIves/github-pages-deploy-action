@@ -55,7 +55,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     const branchExists =
       action.isTest & TestFlag.HAS_REMOTE_BRANCH ||
       (await execute(
-        `git ls-remote --heads ${action.repositoryPath} ${action.branch} | wc -l`,
+        `git ls-remote --heads ${action.repositoryPath} ${action.branch}`,
         action.workspace,
         action.silent
       ))
@@ -65,19 +65,8 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     // Ensures that items that need to be excluded from the clean job get parsed.
     let excludes = ''
     if (action.clean && action.cleanExclude) {
-      try {
-        const excludedItems =
-          typeof action.cleanExclude === 'string'
-            ? JSON.parse(action.cleanExclude)
-            : action.cleanExclude
-
-        for (const item of excludedItems) {
-          excludes += `--exclude ${item} `
-        }
-      } catch {
-        info(
-          'There was an error parsing your CLEAN_EXCLUDE items. Please refer to the README for more details. ❌'
-        )
+      for (const item of action.cleanExclude) {
+        excludes += `--exclude ${item} `
       }
     }
 

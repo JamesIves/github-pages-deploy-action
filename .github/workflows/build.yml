@@ -6,7 +6,7 @@ on:
       - 'releases/v*'
   push:
     branches:
-      - dev
+      - 'dev*'
     tags-ignore:
       - '*.*'
 jobs:
@@ -91,12 +91,22 @@ jobs:
           name: dist
 
       - name: Deploy
+        id: unmodified
         uses: ./
         with:
-          FOLDER: integration
-          BRANCH: ${{ matrix.branch }}
-          SINGLE_COMMIT: ${{ matrix.commit == 'singleCommit' }}
-          DRY_RUN: true
+          folder: integration
+          branch: ${{ matrix.branch }}
+          single-commit: ${{ matrix.commit == 'singleCommit' }}
+          dry-run: true
+
+      # Usually, this should be skipped, but if the upstream gh-pages
+      # branch doesn't match ours, it should still be a success.
+      - name: Check step output
+        run: |
+          [[ \
+          ${{steps.unmodified.outputs.deployment-status}} = skipped || \
+          ${{steps.unmodified.outputs.deployment-status}} = success \
+          ]]
 
       - name: Tweak content to publish to existing branch
         if: ${{ matrix.branch == 'gh-pages' }}
@@ -104,10 +114,19 @@ jobs:
           echo "<!-- just sayin -->" >> integration/index.html
 
       - name: Deploy with modifications to existing branch
+        id: modified
         uses: ./
         if: ${{ matrix.branch == 'gh-pages' }}
         with:
-          FOLDER: integration
-          BRANCH: ${{ matrix.branch }}
-          SINGLE_COMMIT: ${{ matrix.commit == 'singleCommit' }}
-          DRY_RUN: true
+          folder: integration
+          branch: ${{ matrix.branch }} 
+          single-commit: ${{ matrix.commit == 'singleCommit' }}
+          dry-run: true
+
+      # The modified deployment should be a success, and not skipped.
+      - name: Check step output
+        if: ${{ matrix.branch == 'gh-pages' }}
+        run: |
+          [[ \
+          ${{steps.modified.outputs.deployment-status}} = success \
+          ]]
