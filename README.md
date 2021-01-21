@@ -132,7 +132,7 @@ By default the action does not need any token configuration and uses the provide
 | Key            | Value Information                                                                                                                                                                                                                                                                                                                                                                                                                                              | Type             | Required |
 | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | -------- |
 | `token` | This option defaults to the repository scoped GitHub Token. However if you need more permissions for things such as deploying to another repository, you can add a Personal Access Token (PAT) here. This should be stored in the `secrets / with` menu **as a secret**. We reccomend using a service account with the least permissions neccersary and recommend when generating a new PAT that you select the least permission scopes neccersary. [Learn more about creating and using encrypted secrets here.](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets)  | **No**  |
-| `ssh`          | You can configure the action to deploy using SSH by setting this option to `true`. For more information on how to add your ssh key pair please refer to the [Using a Deploy Key section of this README](https://github.com/JamesIves/github-pages-deploy-action/tree/dev#using-an-ssh-deploy-key-).                                                                                                                                                            | `with`           | **No**  |
+| `ssh-key`          | You can configure the action to deploy using SSH by setting this option to a private SSH key stored **as a secret**. It can also be set to `true` to use an existing SSH client configuration. For more detailed information on how to add your ssh key pair please refer to the [Using a Deploy Key section of this README](https://github.com/JamesIves/github-pages-deploy-action/tree/dev#using-an-ssh-deploy-key-).                                                                                                                                                            | `with`           | **No**  |
 
 #### Optional Choices
 
@@ -176,20 +176,15 @@ ssh-keygen -t rsa -m pem -b 4096 -C "youremailhere@example.com" -N ""
 
 Once you've generated the key pair you must add the contents of the public key within your repository's [deploy keys menu](https://developer.github.com/v3/guides/managing-deploy-keys/). You can find this option by going to `Settings > Deploy Keys`, you can name the public key whatever you want, but you **do** need to give it write access. Afterwards add the contents of the private key to the `Settings > Secrets` menu as `DEPLOY_KEY`.
 
-With this configured you must add the `ssh-agent` step to your workflow and set `ssh` to `true` within the deploy action. There are several SSH actions available on the [GitHub marketplace](https://github.com/marketplace?type=actions) for you to choose from.
+With this configured you can then set the `ssh-key` part of the action to your private key stored as a secret.
 
 ```yml
-- name: Install SSH Client 🔑
-  uses: webfactory/ssh-agent@v0.4.1
-  with:
-    ssh-private-key: ${{ secrets.DEPLOY_KEY }}
-
 - name: Deploy 🚀
   uses: JamesIves/github-pages-deploy-action@3.7.1
   with:
-    ssh: true
     branch: gh-pages
     folder: site
+    ssh-key: ${{ secrets.DEPLOY_KEY }}
 ```
 
 <details><summary>You can view a full example of this here.</summary>
@@ -215,11 +210,6 @@ jobs:
           npm install
           npm run build
 
-      - name: Install SSH Client 🔑
-        uses: webfactory/ssh-agent@v0.4.1 # This step installs the ssh client into the workflow run. There's many options available for this on the action marketplace.
-        with:
-          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
-
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
@@ -229,11 +219,13 @@ jobs:
           clean-exclude: |
             special-file.txt
             some/*.txt
-          ssh: true # SSH must be set to true so the deploy action knows which protocol to deploy with.
+          ssh-key: ${{ secrets.DEPLOY_KEY }}
 ```
 
 </p>
 </details>
+
+Alternatively if you've already configured the SSH client within a previous step you can set the `ssh-key` option to `true` to allow it to deploy using an existing SSH client. Instead of adjusting the client configuration it will simply switch to using GitHub's SSH endpoints.
 
 ---
 

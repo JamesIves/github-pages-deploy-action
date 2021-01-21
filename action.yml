@@ -8,8 +8,14 @@ branding:
   icon: 'git-commit'
   color: 'orange'
 inputs:
-  ssh:
-    description: 'You can configure the action to deploy using SSH by setting this option to true. More more information on how to add your ssh key pair please refer to the Using a Deploy Key section of this README.'
+  ssh-key:
+    description: >
+      This option allows you to define a private SSH key to be used in conjunction with a repository deployment key to deploy using SSH.
+      The private key should be stored in the `secrets / with` menu **as a secret**. The public should be stored in the repositories deployment
+      keys menu and be given write access.
+
+      Alternatively you can set this field to `true` to enable SSH endpoints for deployment without configuring the ssh client. This can be useful if you've
+      already setup the SSH client using another package or action in a previous step.
     required: false
 
   token:

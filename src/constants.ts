@@ -41,8 +41,8 @@ export interface ActionInterface {
   singleCommit?: boolean | null
   /** Determines if the action should run in silent mode or not. */
   silent: boolean
-  /** Set to true if you're using an ssh client in your build step. */
-  ssh?: boolean | null
+  /** Defines an SSH private key that can be used during deployment. This can also be set to true to use SSH deployment endpoints if you've already configured the SSH client outside of this package. */
+  sshKey?: string | boolean | null
   /** If you'd like to push the contents of the deployment folder into a specific directory on the deployment branch you can specify it here. */
   targetFolder?: string
   /** Deployment token. */
@@ -65,10 +65,11 @@ export interface NodeActionInterface {
   token?: string | null
   /** Determines if the action should run in silent mode or not. */
   silent: boolean
-  /** Set to true if you're using an ssh client in your build step. */
-  ssh?: boolean | null
+  /** Defines an SSH private key that can be used during deployment. This can also be set to true to use SSH deployment endpoints if you've already configured the SSH client outside of this package. */
+  sshKey?: string | boolean | null
   /** The folder where your deployment project lives. */
   workspace: string
+  /** Determines test scenarios the action is running in. */
   isTest: TestFlag
 }
 
@@ -113,9 +114,12 @@ export const action: ActionInterface = {
   silent: !isNullOrUndefined(getInput('silent'))
     ? getInput('silent').toLowerCase() === 'true'
     : false,
-  ssh: !isNullOrUndefined(getInput('ssh'))
-    ? getInput('ssh').toLowerCase() === 'true'
-    : false,
+  sshKey: isNullOrUndefined(getInput('ssh-key'))
+    ? false
+    : !isNullOrUndefined(getInput('ssh-key')) &&
+      getInput('ssh-key').toLowerCase() === 'true'
+    ? true
+    : getInput('ssh-key'),
   targetFolder: getInput('target-folder'),
   workspace: process.env.GITHUB_WORKSPACE || ''
 }
@@ -123,7 +127,7 @@ export const action: ActionInterface = {
 /** Types for the required action parameters. */
 export type RequiredActionParameters = Pick<
   ActionInterface,
-  'token' | 'ssh' | 'branch' | 'folder' | 'isTest'
+  'token' | 'sshKey' | 'branch' | 'folder' | 'isTest'
 >
 
 /** Status codes for the action. */

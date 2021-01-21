@@ -98,6 +98,30 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v4
+        with:
+          ssh-key: ${{ secrets.DEPLOY_KEY }}
+          branch: gh-pages
+          folder: integration
+          target-folder: cat/montezuma3
+
+      - name: Cleanup Generated Branch
+        uses: dawidd6/action-delete-branch@v2.0.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branches: gh-pages
+
+  # Deploys using an SSH key.
+  integration-ssh-third-party-client:
+    needs: integration-container
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
       - name: Install SSH Client
         uses: webfactory/ssh-agent@v0.4.1
         with:
@@ -109,7 +133,7 @@ jobs:
           ssh: true
           branch: gh-pages
           folder: integration
-          target-folder: cat/montezuma3
+          target-folder: cat/montezuma4
 
       - name: Cleanup Generated Branch
         uses: dawidd6/action-delete-branch@v2.0.1
@@ -131,15 +155,10 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Install SSH Client
-        uses: webfactory/ssh-agent@v0.4.1
-        with:
-          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
-
       - name: Build and Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v4
         with:
-          ssh: true
+          ssh-key: ${{ secrets.DEPLOY_KEY }}
           branch: gh-pages
           folder: integration
           target-folder: cat/montezuma4

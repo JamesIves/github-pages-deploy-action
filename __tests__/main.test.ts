@@ -60,6 +60,7 @@ describe('main', () => {
       folder: 'assets',
       branch: 'branch',
       token: '123',
+      sshKey: true,
       pusher: {
         name: 'asd',
         email: 'as@cat'
@@ -77,7 +78,7 @@ describe('main', () => {
       folder: 'assets',
       branch: 'branch',
       token: null,
-      ssh: null,
+      sshKey: null,
       pusher: {
         name: 'asd',
         email: 'as@cat'

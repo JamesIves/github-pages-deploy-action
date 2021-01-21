@@ -38,7 +38,7 @@ describe('util', () => {
         workspace: 'src/',
         folder: 'build',
         token: null,
-        ssh: true,
+        sshKey: 'real_token',
         silent: false,
         isTest: TestFlag.NONE
       }
@@ -51,7 +51,7 @@ describe('util', () => {
         workspace: 'src/',
         folder: 'build',
         token: '123',
-        ssh: null,
+        sshKey: null,
         silent: false,
         isTest: TestFlag.NONE
       }
@@ -64,7 +64,7 @@ describe('util', () => {
         workspace: 'src/',
         folder: 'build',
         token: null,
-        ssh: null,
+        sshKey: null,
         silent: false,
         isTest: TestFlag.NONE
       }
@@ -80,7 +80,7 @@ describe('util', () => {
         workspace: 'src/',
         folder: 'build',
         token: null,
-        ssh: true,
+        sshKey: 'real_token',
         silent: false,
         isTest: TestFlag.NONE
       }
@@ -96,7 +96,7 @@ describe('util', () => {
         workspace: 'src/',
         folder: 'build',
         token: '123',
-        ssh: null,
+        sshKey: null,
         silent: false,
         isTest: TestFlag.NONE
       }
@@ -155,7 +155,7 @@ describe('util', () => {
         workspace: 'src/',
         folder: 'build',
         token: null,
-        ssh: null,
+        sshKey: null,
         silent: false,
         isTest: TestFlag.NONE
       }
@@ -168,7 +168,7 @@ describe('util', () => {
         workspace: 'src/',
         folder: '/home/user/repo/build',
         token: null,
-        ssh: null,
+        sshKey: null,
         silent: false,
         isTest: TestFlag.NONE
       }
@@ -181,7 +181,7 @@ describe('util', () => {
         workspace: 'src/',
         folder: './build',
         token: null,
-        ssh: null,
+        sshKey: null,
         silent: false,
         isTest: TestFlag.NONE
       }
@@ -194,7 +194,7 @@ describe('util', () => {
         workspace: 'src/',
         folder: '~/repo/build',
         token: null,
-        ssh: null,
+        sshKey: null,
         silent: false,
         isTest: TestFlag.NONE
       }
