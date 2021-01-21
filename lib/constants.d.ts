@@ -11,7 +11,7 @@ export interface ActionInterface {
     /** If your project generates hashed files on build you can use this option to automatically delete them from the deployment branch with each deploy. This option can be toggled on by setting it to true. */
     clean?: boolean | null;
     /** If you need to use CLEAN but you'd like to preserve certain files or folders you can use this option. */
-    cleanExclude?: string | string[];
+    cleanExclude?: string[];
     /** If you need to customize the commit message for an integration you can do so. */
     commitMessage?: string;
     /** The git config email. */
