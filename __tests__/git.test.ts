@@ -40,6 +40,24 @@ describe('git', () => {
   })
 
   describe('init', () => {
+    it('should execute commands', async () => {
+      Object.assign(action, {
+        silent: false,
+        repositoryPath: 'JamesIves/github-pages-deploy-action',
+        token: '123',
+        branch: 'branch',
+        folder: '.',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        isTest: TestFlag.HAS_CHANGED_FILES
+      })
+
+      await init(action)
+      expect(execute).toBeCalledTimes(4)
+    })
+
     it('should catch when a function throws an error', async () => {
       ;(execute as jest.Mock).mockImplementationOnce(() => {
         throw new Error('Mocked throw')
@@ -65,6 +83,24 @@ describe('git', () => {
           'There was an error initializing the repository: Mocked throw ❌'
         )
       }
+    })
+
+    it('should correctly continue when it cannot remove origin', async () => {
+      Object.assign(action, {
+        silent: false,
+        repositoryPath: 'JamesIves/github-pages-deploy-action',
+        token: '123',
+        branch: 'branch',
+        folder: '.',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        isTest: TestFlag.UNABLE_TO_REMOVE_ORIGIN
+      })
+
+      await init(action)
+      expect(execute).toBeCalledTimes(4)
     })
   })
 

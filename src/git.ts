@@ -23,10 +23,10 @@ export async function init(action: ActionInterface): Promise<void | Error> {
       action.silent
     )
 
-    await execute(`git remote rm origin`, action.workspace, action.silent)
-
     try {
-      if (action.isTest === TestFlag.HAS_CHANGED_FILES) {
+      await execute(`git remote rm origin`, action.workspace, action.silent)
+
+      if (action.isTest === TestFlag.UNABLE_TO_REMOVE_ORIGIN) {
         throw new Error()
       }
     } catch {
@@ -65,9 +65,9 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       ? (action.commitMessage as string)
       : `Deploying to ${action.branch}${
           process.env.GITHUB_SHA
-            ? ` from @ ${action.repositoryName ? action.repositoryName : ''}${
-                process.env.GITHUB_SHA
-              }`
+            ? ` from @ ${
+                action.repositoryName ? `${action.repositoryName}@` : ''
+              }${process.env.GITHUB_SHA}`
             : ''
         } 🚀`
 

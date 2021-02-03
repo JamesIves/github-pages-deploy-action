@@ -8,7 +8,8 @@ const {pusher, repository} = github.context.payload
 export enum TestFlag {
   NONE = 0,
   HAS_CHANGED_FILES = 1 << 1, // Assume changes to commit
-  HAS_REMOTE_BRANCH = 1 << 2 // Assume remote repository has existing commits
+  HAS_REMOTE_BRANCH = 1 << 2, // Assume remote repository has existing commits
+  UNABLE_TO_REMOVE_ORIGIN = 1 << 3 // Assume we can't remove origin
 }
 
 /* For more information please refer to the README: https://github.com/JamesIves/github-pages-deploy-action */
@@ -92,8 +93,9 @@ export const action: ActionInterface = {
     ? getInput('git-config-email')
     : pusher && pusher.email
     ? pusher.email
-    : `${process.env.GITHUB_ACTOR ||
-        'github-pages-deploy-action'}@users.noreply.github.com`,
+    : `${
+        process.env.GITHUB_ACTOR || 'github-pages-deploy-action'
+      }@users.noreply.github.com`,
   name: !isNullOrUndefined(getInput('git-config-name'))
     ? getInput('git-config-name')
     : pusher && pusher.name
