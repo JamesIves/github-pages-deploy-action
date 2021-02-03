@@ -65,7 +65,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       ? (action.commitMessage as string)
       : `Deploying to ${action.branch}${
           process.env.GITHUB_SHA
-            ? ` from @ ${action.repositoryName ? action.repositoryName : ''}${
+            ? ` from ${action.repositoryName ? action.repositoryName : ''}@${
                 process.env.GITHUB_SHA
               }`
             : ''
