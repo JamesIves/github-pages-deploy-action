@@ -75,6 +75,7 @@ describe('git', () => {
         folder: 'assets',
         branch: 'branch',
         token: '123',
+        repositoryName: 'JamesIves/montezuma',
         pusher: {
           name: 'asd',
           email: 'as@cat'
