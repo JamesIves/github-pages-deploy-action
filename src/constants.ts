@@ -92,9 +92,8 @@ export const action: ActionInterface = {
     ? getInput('git-config-email')
     : pusher && pusher.email
     ? pusher.email
-    : `${
-        process.env.GITHUB_ACTOR || 'github-pages-deploy-action'
-      }@users.noreply.github.com`,
+    : `${process.env.GITHUB_ACTOR ||
+        'github-pages-deploy-action'}@users.noreply.github.com`,
   name: !isNullOrUndefined(getInput('git-config-name'))
     ? getInput('git-config-name')
     : pusher && pusher.name
