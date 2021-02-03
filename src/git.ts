@@ -133,6 +133,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       branchExists && action.singleCommit
         ? `git diff origin/${action.branch}`
         : `git status --porcelain`
+    info(`Checking if there are files to commit…`)
     const hasFilesToCommit =
       action.isTest & TestFlag.HAS_CHANGED_FILES ||
       (await execute(
