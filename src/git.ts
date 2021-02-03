@@ -26,7 +26,7 @@ export async function init(action: ActionInterface): Promise<void | Error> {
     await execute(`git remote rm origin`, action.workspace, action.silent)
 
     try {
-      if (action.isTest) {
+      if (action.isTest === TestFlag.HAS_CHANGED_FILES) {
         throw new Error()
       }
     } catch {
