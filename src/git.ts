@@ -23,6 +23,22 @@ export async function init(action: ActionInterface): Promise<void | Error> {
       action.silent
     )
 
+    await execute(`git remote rm origin`, action.workspace, action.silent)
+
+    try {
+      if (action.isTest) {
+        throw new Error()
+      }
+    } catch {
+      info('Attempted to remove origin but failed, continuing…')
+    }
+
+    await execute(
+      `git remote add origin ${action.repositoryPath}`,
+      action.workspace,
+      action.silent
+    )
+
     info('Git configured… 🔧')
   } catch (error) {
     throw new Error(
@@ -48,7 +64,11 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     const commitMessage = !isNullOrUndefined(action.commitMessage)
       ? (action.commitMessage as string)
       : `Deploying to ${action.branch}${
-          process.env.GITHUB_SHA ? ` from @ ${process.env.GITHUB_SHA}` : ''
+          process.env.GITHUB_SHA
+            ? ` from @ ${action.repositoryName ? action.repositoryName : ''}${
+                process.env.GITHUB_SHA
+              }`
+            : ''
         } 🚀`
 
     // Checks to see if the remote exists prior to deploying.
