@@ -1,0 +1,18 @@
+// https://github.com/microsoft/vscode-dev-containers/tree/master/containers/typescript-node
+{
+	"name": "Node.js & TypeScript",
+	"build": {
+		"dockerfile": "Dockerfile",
+		// Update 'VARIANT' to pick a Node version: 10, 12, 14
+		"args": { 
+			"VARIANT": "14"
+		}
+	},
+	"settings": { 
+		"terminal.integrated.shell.linux": "/bin/bash"
+	},
+	"extensions": [
+		"dbaeumer.vscode-eslint"
+	],
+	"remoteUser": "node"
+}
