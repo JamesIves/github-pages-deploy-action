@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/marketplace/actions/deploy-to-github-pages">
-    <img width="300px" src="https://github.com/JamesIves/github-pages-deploy-action/raw/dev-v4/.github/logo.png">
+    <img alt="" width="300px" src="https://github.com/JamesIves/github-pages-deploy-action/raw/dev-v4/.github/logo.png">
   </a>
 </p>
 
@@ -10,23 +10,23 @@
 
 <p align="center">
   <a href="https://github.com/JamesIves/github-pages-deploy-action/actions">
-    <img src="https://github.com/JamesIves/github-pages-deploy-action/workflows/unit-tests/badge.svg">
+    <img src="https://github.com/JamesIves/github-pages-deploy-action/workflows/unit-tests/badge.svg" alt="Unit test status badge">
   </a>
   
   <a href="https://github.com/JamesIves/github-pages-deploy-action/actions">
-    <img src="https://github.com/JamesIves/github-pages-deploy-action/workflows/integration-tests/badge.svg">
+    <img src="https://github.com/JamesIves/github-pages-deploy-action/workflows/integration-tests/badge.svg" alt="Integration test status badge">
   </a>
   
   <a href="https://codecov.io/gh/JamesIves/github-pages-deploy-action/branch/dev">
-    <img src="https://codecov.io/gh/JamesIves/github-pages-deploy-action/branch/dev/graph/badge.svg">
+    <img src="https://codecov.io/gh/JamesIves/github-pages-deploy-action/branch/dev/graph/badge.svg" alt="Code coverage status badge">
   </a>
   
   <a href="https://github.com/JamesIves/github-pages-deploy-action/releases">
-    <img src="https://img.shields.io/github/v/release/JamesIves/github-pages-deploy-action.svg?logo=github">
+    <img src="https://img.shields.io/github/v/release/JamesIves/github-pages-deploy-action.svg?logo=github" alt="Release version badge">
   </a>
   
   <a href="https://github.com/marketplace/actions/deploy-to-github-pages">
-    <img src="https://img.shields.io/badge/action-marketplace-blue.svg?logo=github&color=orange">
+    <img src="https://img.shields.io/badge/action-marketplace-blue.svg?logo=github&color=orange" alt=">
   </a>
 </p>
 
@@ -131,7 +131,7 @@ By default the action does not need any token configuration and uses the provide
 
 | Key            | Value Information                                                                                                                                                                                                                                                                                                                                                                                                                                              | Type             | Required |
 | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | -------- |
-| `token` | This option defaults to the repository scoped GitHub Token. However if you need more permissions for things such as deploying to another repository, you can add a Personal Access Token (PAT) here. This should be stored in the `secrets / with` menu **as a secret**. We reccomend using a service account with the least permissions neccersary and recommend when generating a new PAT that you select the least permission scopes neccersary. [Learn more about creating and using encrypted secrets here.](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets)  | **No**  |
+| `token` | This option defaults to the repository scoped GitHub Token. However if you need more permissions for things such as deploying to another repository, you can add a Personal Access Token (PAT) here. This should be stored in the `secrets / with` menu **as a secret**. We reccomend using a service account with the least permissions neccersary and recommend when generating a new PAT that you select the least permission scopes neccersary. [Learn more about creating and using encrypted secrets here.](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets)  | `with` | **No**  |
 | `ssh-key`          | You can configure the action to deploy using SSH by setting this option to a private SSH key stored **as a secret**. It can also be set to `true` to use an existing SSH client configuration. For more detailed information on how to add your ssh key pair please refer to the [Using a Deploy Key section of this README](https://github.com/JamesIves/github-pages-deploy-action/tree/dev#using-an-ssh-deploy-key-).                                                                                                                                                            | `with`           | **No**  |
 
 #### Optional Choices
