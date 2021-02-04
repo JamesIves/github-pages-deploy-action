@@ -24,7 +24,7 @@ export async function init(action: ActionInterface): Promise<void | Error> {
     )
 
     try {
-      if (!action.sshKey || action.isTest) {
+      if ((process.env.CI && !action.sshKey) || action.isTest) {
         /* Ensures that previously set Git configs do not interfere with the deployment.
           Only runs in the GitHub Actions CI environment if a user is not using an SSH key.
         */
