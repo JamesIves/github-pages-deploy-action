@@ -55,7 +55,7 @@ describe('git', () => {
       })
 
       await init(action)
-      expect(execute).toBeCalledTimes(4)
+      expect(execute).toBeCalledTimes(5)
     })
 
     it('should catch when a function throws an error', async () => {
@@ -85,6 +85,47 @@ describe('git', () => {
       }
     })
 
+    it('should correctly continue when it cannot unset a git config value', async () => {
+      Object.assign(action, {
+        silent: false,
+        repositoryPath: 'JamesIves/github-pages-deploy-action',
+        token: '123',
+        branch: 'branch',
+        folder: '.',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        isTest: TestFlag.UNABLE_TO_UNSET_GIT_CONFIG
+      })
+
+      await init(action)
+      expect(execute).toBeCalledTimes(5)
+    })
+
+    it('should not unset git config if a user is using ssh', async () => {
+      // Sets and unsets the CI condition.
+      process.env.CI = 'true'
+
+      Object.assign(action, {
+        silent: false,
+        repositoryPath: 'JamesIves/github-pages-deploy-action',
+        sshKey: true,
+        branch: 'branch',
+        folder: '.',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        isTest: false
+      })
+
+      await init(action)
+      expect(execute).toBeCalledTimes(4)
+
+      process.env.CI = undefined
+    })
+
     it('should correctly continue when it cannot remove origin', async () => {
       Object.assign(action, {
         silent: false,
@@ -100,7 +141,7 @@ describe('git', () => {
       })
 
       await init(action)
-      expect(execute).toBeCalledTimes(4)
+      expect(execute).toBeCalledTimes(5)
     })
   })
 

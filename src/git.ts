@@ -24,8 +24,10 @@ export async function init(action: ActionInterface): Promise<void | Error> {
     )
 
     try {
-      if ((process.env.CI && !action.sshKey) || action.isTest) {
-        // Ensures that previously set Git configs do not interfere with the deployment.
+      if (!action.sshKey || action.isTest) {
+        /* Ensures that previously set Git configs do not interfere with the deployment.
+          Only runs in the GitHub Actions CI environment if a user is not using an SSH key.
+        */
         await execute(
           `git config --local --unset-all http.https://github.com/.extraheader`,
           action.workspace,
@@ -33,7 +35,7 @@ export async function init(action: ActionInterface): Promise<void | Error> {
         )
       }
 
-      if (action.isTest === TestFlag.UNABLE_TO_UNSET_CONFIG) {
+      if (action.isTest === TestFlag.UNABLE_TO_UNSET_GIT_CONFIG) {
         throw new Error()
       }
     } catch {
@@ -57,7 +59,6 @@ export async function init(action: ActionInterface): Promise<void | Error> {
       action.workspace,
       action.silent
     )
-
     info('Git configured… 🔧')
   } catch (error) {
     throw new Error(

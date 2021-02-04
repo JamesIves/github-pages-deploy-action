@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/marketplace/actions/deploy-to-github-pages">
-    <img alt="" width="300px" src="https://github.com/JamesIves/github-pages-deploy-action/raw/dev-v4/.github/logo.png">
+    <img alt="" width="300px" src="https://github.com/JamesIves/github-pages-deploy-action/raw/dev-v4/assets/icon.png">
   </a>
 </p>
 
@@ -35,7 +35,7 @@
 </p>
 
 <p align="center">
-  <img src="https://github.com/JamesIves/github-pages-deploy-action/raw/dev-v4/.github/screenshot.png">
+  <img src="https://github.com/JamesIves/github-pages-deploy-action/raw/dev-v4/assets/screenshot.png">
 </p>
 
 ## Getting Started :airplane:
