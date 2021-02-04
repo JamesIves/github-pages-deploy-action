@@ -1,4 +1,6 @@
+import {exportVariable} from '@actions/core'
 import {mkdirP} from '@actions/io'
+import child_process, {execFileSync, execSync} from 'child_process'
 import {appendFileSync} from 'fs'
 import {action, TestFlag} from '../src/constants'
 import {execute} from '../src/execute'
@@ -11,6 +13,11 @@ jest.mock('fs', () => ({
   existsSync: jest.fn()
 }))
 
+jest.mock('child_process', () => ({
+  execFileSync: jest.fn(),
+  execSync: jest.fn()
+}))
+
 jest.mock('@actions/io', () => ({
   rmRF: jest.fn(),
   mkdirP: jest.fn()
@@ -21,12 +28,11 @@ jest.mock('@actions/core', () => ({
   getInput: jest.fn(),
   setOutput: jest.fn(),
   isDebug: jest.fn(),
-  info: jest.fn()
+  info: jest.fn(),
+  exportVariable: jest.fn()
 }))
 
 jest.mock('../src/execute', () => ({
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  __esModule: true,
   execute: jest.fn()
 }))
 
@@ -56,6 +62,10 @@ describe('configureSSH', () => {
   })
 
   it('should configure the ssh client if a key is defined', async () => {
+    ;(child_process.execFileSync as jest.Mock).mockImplementationOnce(() => {
+      return 'SSH_AUTH_SOCK=/some/random/folder/agent.123; export SSH_AUTH_SOCK;\nSSH_AGENT_PID=123; export SSH_AGENT_PID;'
+    })
+
     Object.assign(action, {
       silent: false,
       folder: 'assets',
@@ -70,13 +80,37 @@ describe('configureSSH', () => {
 
     await configureSSH(action)
 
-    expect(execute).toBeCalledTimes(4)
-    expect(mkdirP).toBeCalledTimes(1)
-    expect(appendFileSync).toBeCalledTimes(2)
+    expect(execFileSync).toBeCalledTimes(1)
+    expect(exportVariable).toBeCalledTimes(2)
+    expect(execSync).toBeCalledTimes(3)
+  })
+
+  it('should not export variables if the return from ssh-agent is skewed', async () => {
+    ;(child_process.execFileSync as jest.Mock).mockImplementationOnce(() => {
+      return 'useless nonsense here;'
+    })
+
+    Object.assign(action, {
+      silent: false,
+      folder: 'assets',
+      branch: 'branch',
+      sshKey: '?=-----BEGIN 123 456\n 789',
+      pusher: {
+        name: 'asd',
+        email: 'as@cat'
+      },
+      isTest: TestFlag.HAS_CHANGED_FILES
+    })
+
+    await configureSSH(action)
+
+    expect(execFileSync).toBeCalledTimes(1)
+    expect(exportVariable).toBeCalledTimes(0)
+    expect(execSync).toBeCalledTimes(3)
   })
 
   it('should throw if something errors', async () => {
-    ;(execute as jest.Mock).mockImplementationOnce(() => {
+    ;(child_process.execFileSync as jest.Mock).mockImplementationOnce(() => {
       throw new Error('Mocked throw')
     })
 
