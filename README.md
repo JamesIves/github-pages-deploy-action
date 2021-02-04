@@ -26,7 +26,7 @@
   </a>
   
   <a href="https://github.com/marketplace/actions/deploy-to-github-pages">
-    <img src="https://img.shields.io/badge/action-marketplace-blue.svg?logo=github&color=orange" alt=">
+    <img src="https://img.shields.io/badge/action-marketplace-blue.svg?logo=github&color=orange" alt="Github marketplace badge">
   </a>
 </p>
 
