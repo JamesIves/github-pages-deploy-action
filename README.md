@@ -35,7 +35,7 @@
 </p>
 
 <p align="center">
-  <img src="https://github.com/JamesIves/github-pages-deploy-action/raw/dev/assets/screenshot.png">
+  <img src="https://github.com/JamesIves/github-pages-deploy-action/raw/dev-v4/.github/screenshot.png">
 </p>
 
 ## Getting Started :airplane:
