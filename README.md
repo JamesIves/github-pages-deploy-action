@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/marketplace/actions/deploy-to-github-pages">
-    <img width="150px" src="https://github.com/JamesIves/github-pages-deploy-action/raw/dev/assets/icon.png">
+    <img  src="https://github.com/JamesIves/github-pages-deploy-action/raw/dev-v4/.github/logo.png">
   </a>
 </p>
 
