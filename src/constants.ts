@@ -8,7 +8,8 @@ const {pusher, repository} = github.context.payload
 export enum TestFlag {
   NONE = 0,
   HAS_CHANGED_FILES = 1 << 1, // Assume changes to commit
-  HAS_REMOTE_BRANCH = 1 << 2 // Assume remote repository has existing commits
+  HAS_REMOTE_BRANCH = 1 << 2, // Assume remote repository has existing commits
+  UNABLE_TO_REMOVE_ORIGIN = 1 << 3 // Assume we can't remove origin
 }
 
 /* For more information please refer to the README: https://github.com/JamesIves/github-pages-deploy-action */

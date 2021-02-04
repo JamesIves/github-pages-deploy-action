@@ -23,6 +23,22 @@ export async function init(action: ActionInterface): Promise<void | Error> {
       action.silent
     )
 
+    try {
+      await execute(`git remote rm origin`, action.workspace, action.silent)
+
+      if (action.isTest === TestFlag.UNABLE_TO_REMOVE_ORIGIN) {
+        throw new Error()
+      }
+    } catch {
+      info('Attempted to remove origin but failed, continuing…')
+    }
+
+    await execute(
+      `git remote add origin ${action.repositoryPath}`,
+      action.workspace,
+      action.silent
+    )
+
     info('Git configured… 🔧')
   } catch (error) {
     throw new Error(
@@ -48,7 +64,9 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     const commitMessage = !isNullOrUndefined(action.commitMessage)
       ? (action.commitMessage as string)
       : `Deploying to ${action.branch}${
-          process.env.GITHUB_SHA ? ` from @ ${process.env.GITHUB_SHA}` : ''
+          process.env.GITHUB_SHA
+            ? ` from @ ${process.env.GITHUB_REPOSITORY}@${process.env.GITHUB_SHA}`
+            : ''
         } 🚀`
 
     // Checks to see if the remote exists prior to deploying.
@@ -113,12 +131,13 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       branchExists && action.singleCommit
         ? `git diff origin/${action.branch}`
         : `git status --porcelain`
+    info(`Checking if there are files to commit…`)
     const hasFilesToCommit =
       action.isTest & TestFlag.HAS_CHANGED_FILES ||
       (await execute(
         checkGitStatus,
         `${action.workspace}/${temporaryDeploymentDirectory}`,
-        action.silent
+        true // This output is always silenced due to the large output it creates.
       ))
 
     if (!hasFilesToCommit) {
