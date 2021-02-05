@@ -90,3 +90,5 @@ git commit -m "Deploying to ${BRANCH} from ${BASE_BRANCH:-master} ${GITHUB_SHA}"
 git push $REPOSITORY_PATH `git subtree split --prefix $FOLDER ${BASE_BRANCH:-master}`:$BRANCH --force && \
 
 echo "Deployment succesful!"
+echo "Version 4 is now available. The current version you're using will be fully deprecated in April of 2021."
+echo "Visit https://github.com/JamesIves/github-pages-deploy-action to upgrade..."
