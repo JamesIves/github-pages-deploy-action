@@ -24,6 +24,27 @@ export async function init(action: ActionInterface): Promise<void | Error> {
     )
 
     try {
+      if ((process.env.CI && !action.sshKey) || action.isTest) {
+        /* Ensures that previously set Git configs do not interfere with the deployment.
+          Only runs in the GitHub Actions CI environment if a user is not using an SSH key.
+        */
+        await execute(
+          `git config --local --unset-all http.https://github.com/.extraheader`,
+          action.workspace,
+          action.silent
+        )
+      }
+
+      if (action.isTest === TestFlag.UNABLE_TO_UNSET_GIT_CONFIG) {
+        throw new Error()
+      }
+    } catch {
+      info(
+        'Unable to unset previous git config authentication as it may not exist, continuing…'
+      )
+    }
+
+    try {
       await execute(`git remote rm origin`, action.workspace, action.silent)
 
       if (action.isTest === TestFlag.UNABLE_TO_REMOVE_ORIGIN) {
@@ -38,7 +59,6 @@ export async function init(action: ActionInterface): Promise<void | Error> {
       action.workspace,
       action.silent
     )
-
     info('Git configured… 🔧')
   } catch (error) {
     throw new Error(
