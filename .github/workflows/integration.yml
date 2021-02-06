@@ -131,7 +131,7 @@ jobs:
 
   # Deploys using an SSH key.
   integration-ssh-third-party-client:
-    needs: integration-container
+    needs: integration-cross-repo-push
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -160,7 +160,7 @@ jobs:
 
   # Deploys using a custom env.
   integration-env:
-    needs: integration-ssh
+    needs: integration-ssh-third-party-client
     runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-node@v1.4.4
@@ -188,7 +188,7 @@ jobs:
 
   # Deploys using the CLEAN option.
   integration-clean:
-    needs: [integration-checkout-v1, integration-checkout-v2, integration-container, integration-ssh, integration-env]
+    needs: [integration-checkout-v1, integration-checkout-v2, integration-container, integration-ssh, integration-ssh-third-party-client, integration-env]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
