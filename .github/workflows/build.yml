@@ -74,7 +74,7 @@ jobs:
       matrix:
         branch: ["gh-pages", "no-pages"]
         commit: ["singleCommit", "add commits"]
-        max-parallel: 2
+      max-parallel: 1
     steps:
       - name: Checkout
         uses: actions/checkout@v2
