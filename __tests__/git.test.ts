@@ -1,18 +1,24 @@
+/* eslint-disable import/first */
 // Initial env variable setup for tests.
 process.env['INPUT_FOLDER'] = 'build'
 process.env['GITHUB_SHA'] = '123'
 
 import {mkdirP, rmRF} from '@actions/io'
-import {action, Status} from '../src/constants'
+import {action, Status, TestFlag} from '../src/constants'
 import {execute} from '../src/execute'
-import {deploy, generateBranch, init, switchToBaseBranch} from '../src/git'
+import {deploy, init} from '../src/git'
 import fs from 'fs'
 
 const originalAction = JSON.stringify(action)
 
+jest.mock('fs', () => ({
+  existsSync: jest.fn()
+}))
+
 jest.mock('@actions/core', () => ({
   setFailed: jest.fn(),
   getInput: jest.fn(),
+  setOutput: jest.fn(),
   isDebug: jest.fn(),
   info: jest.fn()
 }))
@@ -23,6 +29,7 @@ jest.mock('@actions/io', () => ({
 }))
 
 jest.mock('../src/execute', () => ({
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   __esModule: true,
   execute: jest.fn()
 }))
@@ -33,23 +40,22 @@ describe('git', () => {
   })
 
   describe('init', () => {
-    it('should stash changes if preserve is true', async () => {
+    it('should execute commands', async () => {
       Object.assign(action, {
         silent: false,
         repositoryPath: 'JamesIves/github-pages-deploy-action',
-        accessToken: '123',
+        token: '123',
         branch: 'branch',
         folder: '.',
-        preserve: true,
-        isTest: true,
         pusher: {
           name: 'asd',
           email: 'as@cat'
-        }
+        },
+        isTest: TestFlag.HAS_CHANGED_FILES
       })
 
       await init(action)
-      expect(execute).toBeCalledTimes(7)
+      expect(execute).toBeCalledTimes(5)
     })
 
     it('should catch when a function throws an error', async () => {
@@ -60,15 +66,14 @@ describe('git', () => {
       Object.assign(action, {
         silent: false,
         repositoryPath: 'JamesIves/github-pages-deploy-action',
-        accessToken: '123',
+        token: '123',
         branch: 'branch',
         folder: '.',
-        preserve: true,
-        isTest: true,
         pusher: {
           name: 'asd',
           email: 'as@cat'
-        }
+        },
+        isTest: TestFlag.HAS_CHANGED_FILES
       })
 
       try {
@@ -79,109 +84,64 @@ describe('git', () => {
         )
       }
     })
-  })
 
-  describe('generateBranch', () => {
-    it('should execute six commands', async () => {
+    it('should correctly continue when it cannot unset a git config value', async () => {
       Object.assign(action, {
         silent: false,
-        accessToken: '123',
+        repositoryPath: 'JamesIves/github-pages-deploy-action',
+        token: '123',
         branch: 'branch',
         folder: '.',
         pusher: {
           name: 'asd',
           email: 'as@cat'
-        }
+        },
+        isTest: TestFlag.UNABLE_TO_UNSET_GIT_CONFIG
       })
 
-      await generateBranch(action)
-      expect(execute).toBeCalledTimes(6)
+      await init(action)
+      expect(execute).toBeCalledTimes(5)
     })
 
-    it('should catch when a function throws an error', async () => {
-      ;(execute as jest.Mock).mockImplementationOnce(() => {
-        throw new Error('Mocked throw')
-      })
+    it('should not unset git config if a user is using ssh', async () => {
+      // Sets and unsets the CI condition.
+      process.env.CI = 'true'
 
       Object.assign(action, {
         silent: false,
-        accessToken: '123',
+        repositoryPath: 'JamesIves/github-pages-deploy-action',
+        sshKey: true,
         branch: 'branch',
         folder: '.',
         pusher: {
           name: 'asd',
           email: 'as@cat'
-        }
+        },
+        isTest: false
       })
 
-      try {
-        await generateBranch(action)
-      } catch (error) {
-        expect(error.message).toBe(
-          'There was an error creating the deployment branch: There was an error switching to the base branch: Mocked throw ❌ ❌'
-        )
-      }
-    })
-  })
+      await init(action)
+      expect(execute).toBeCalledTimes(4)
 
-  describe('switchToBaseBranch', () => {
-    it('should execute one command', async () => {
-      Object.assign(action, {
-        silent: false,
-        accessToken: '123',
-        branch: 'branch',
-        folder: '.',
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }
-      })
-
-      await switchToBaseBranch(action)
-      expect(execute).toBeCalledTimes(1)
+      process.env.CI = undefined
     })
 
-    it('should execute one command if using custom baseBranch', async () => {
+    it('should correctly continue when it cannot remove origin', async () => {
       Object.assign(action, {
         silent: false,
-        baseBranch: '123',
-        accessToken: '123',
+        repositoryPath: 'JamesIves/github-pages-deploy-action',
+        token: '123',
         branch: 'branch',
         folder: '.',
         pusher: {
           name: 'asd',
           email: 'as@cat'
-        }
+        },
+        isTest: TestFlag.UNABLE_TO_REMOVE_ORIGIN
       })
 
-      await switchToBaseBranch(action)
-      expect(execute).toBeCalledTimes(1)
-    })
-
-    it('should catch when a function throws an error', async () => {
-      ;(execute as jest.Mock).mockImplementationOnce(() => {
-        throw new Error('Mocked throw')
-      })
-
-      Object.assign(action, {
-        silent: false,
-        baseBranch: '123',
-        accessToken: '123',
-        branch: 'branch',
-        folder: '.',
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }
-      })
-
-      try {
-        await switchToBaseBranch(action)
-      } catch (error) {
-        expect(error.message).toBe(
-          'There was an error switching to the base branch: Mocked throw ❌'
-        )
-      }
+      await init(action)
+      expect(execute).toBeCalledTimes(5)
     })
   })
 
@@ -191,73 +151,41 @@ describe('git', () => {
         silent: false,
         folder: 'assets',
         branch: 'branch',
-        gitHubToken: '123',
-        lfs: true,
+        token: '123',
+        repositoryName: 'JamesIves/montezuma',
         pusher: {
           name: 'asd',
           email: 'as@cat'
-        }
+        },
+        isTest: TestFlag.HAS_CHANGED_FILES
       })
 
       const response = await deploy(action)
 
-      // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(13)
+      // Includes the call to generateWorktree
+      expect(execute).toBeCalledTimes(11)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
 
-    it('should execute stash apply commands if preserve is true', async () => {
+    it('should not push when asked to dryRun', async () => {
       Object.assign(action, {
         silent: false,
+        dryRun: true,
         folder: 'assets',
-        folderPath: 'assets',
         branch: 'branch',
-        gitHubToken: '123',
-        lfs: true,
-        preserve: true,
-        isTest: true,
+        token: '123',
         pusher: {
           name: 'asd',
           email: 'as@cat'
-        }
+        },
+        isTest: TestFlag.HAS_CHANGED_FILES
       })
 
       const response = await deploy(action)
 
-      // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(14)
-      expect(rmRF).toBeCalledTimes(1)
-      expect(response).toBe(Status.SUCCESS)
-    })
-
-    it('should appropriately move along if git stash errors', async () => {
-      ;(execute as jest.Mock).mockImplementation(cmd => {
-        if (cmd === 'git stash apply') {
-          // Mocks the case where git stash apply errors.
-          throw new Error()
-        }
-      })
-
-      Object.assign(action, {
-        silent: false,
-        folder: 'assets',
-        folderPath: 'assets',
-        branch: 'branch',
-        gitHubToken: '123',
-        lfs: true,
-        preserve: true,
-        isTest: true,
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        }
-      })
-
-      const response = await deploy(action)
-
-      // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(14)
+      // Includes the call to generateWorktree
+      expect(execute).toBeCalledTimes(10)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
@@ -268,110 +196,171 @@ describe('git', () => {
         folder: 'other',
         folderPath: 'other',
         branch: 'branch',
-        gitHubToken: '123',
+        token: '123',
         singleCommit: true,
         pusher: {
           name: 'asd',
           email: 'as@cat'
         },
-        clean: true
+        clean: true,
+        isTest: TestFlag.HAS_CHANGED_FILES
       })
 
       await deploy(action)
 
-      // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(18)
+      // Includes the call to generateWorktree
+      expect(execute).toBeCalledTimes(10)
       expect(rmRF).toBeCalledTimes(1)
     })
 
-    it('should not ignore CNAME or nojekyll if they exist in the deployment folder', async () => {
+    it('should execute commands with single commit toggled and existing branch', async () => {
       Object.assign(action, {
         silent: false,
-        folder: 'assets',
-        folderPath: 'assets',
+        folder: 'other',
+        folderPath: 'other',
         branch: 'branch',
-        gitHubToken: '123',
+        token: '123',
+        singleCommit: true,
         pusher: {
           name: 'asd',
           email: 'as@cat'
         },
-        clean: true
+        clean: true,
+        isTest: TestFlag.HAS_CHANGED_FILES | TestFlag.HAS_REMOTE_BRANCH
       })
 
-      fs.createWriteStream('assets/.nojekyll')
-      fs.createWriteStream('assets/CNAME')
+      await deploy(action)
 
-      const response = await deploy(action)
-
-      // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(12)
+      // Includes the call to generateWorktree
+      expect(execute).toBeCalledTimes(9)
       expect(rmRF).toBeCalledTimes(1)
-      expect(response).toBe(Status.SUCCESS)
     })
 
-    it('should execute commands with clean options, ommits sha commit message', async () => {
-      process.env.GITHUB_SHA = ''
+    it('should execute commands with single commit and dryRun toggled', async () => {
       Object.assign(action, {
         silent: false,
         folder: 'other',
         folderPath: 'other',
         branch: 'branch',
         gitHubToken: '123',
+        singleCommit: true,
+        dryRun: true,
         pusher: {
           name: 'asd',
           email: 'as@cat'
         },
         clean: true,
-        cleanExclude: '["cat", "montezuma"]',
-        workspace: 'other'
+        isTest: TestFlag.HAS_CHANGED_FILES
       })
 
       await deploy(action)
 
-      // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(12)
+      // Includes the call to generateWorktree
+      expect(execute).toBeCalledTimes(9)
       expect(rmRF).toBeCalledTimes(1)
     })
 
-    it('should execute commands with clean options stored as an array instead', async () => {
+    it('should not ignore CNAME or nojekyll if they exist in the deployment folder', async () => {
+      ;(fs.existsSync as jest.Mock)
+        .mockImplementationOnce(() => {
+          return true
+        })
+        .mockImplementationOnce(() => {
+          return true
+        })
+
       Object.assign(action, {
         silent: false,
         folder: 'assets',
         folderPath: 'assets',
         branch: 'branch',
-        gitHubToken: '123',
+        token: '123',
         pusher: {
           name: 'asd',
           email: 'as@cat'
         },
         clean: true,
-        cleanExclude: ['cat', 'montezuma']
+        isTest: TestFlag.HAS_CHANGED_FILES
+      })
+
+      const response = await deploy(action)
+
+      // Includes the call to generateWorktree
+      expect(execute).toBeCalledTimes(11)
+      expect(rmRF).toBeCalledTimes(1)
+      expect(fs.existsSync).toBeCalledTimes(2)
+      expect(response).toBe(Status.SUCCESS)
+    })
+
+    describe('with empty GITHUB_SHA', () => {
+      const oldSha = process.env.GITHUB_SHA
+      afterAll(() => {
+        process.env.GITHUB_SHA = oldSha
+      })
+      it('should execute commands with clean options', async () => {
+        process.env.GITHUB_SHA = ''
+        Object.assign(action, {
+          silent: false,
+          folder: 'other',
+          folderPath: 'other',
+          branch: 'branch',
+          token: '123',
+          pusher: {
+            name: 'asd',
+            email: 'as@cat'
+          },
+          clean: true,
+          workspace: 'other',
+          isTest: TestFlag.NONE
+        })
+
+        await deploy(action)
+
+        // Includes the call to generateWorktree
+        expect(execute).toBeCalledTimes(8)
+        expect(rmRF).toBeCalledTimes(1)
+      })
+    })
+
+    it('should execute commands with clean options stored as an array', async () => {
+      Object.assign(action, {
+        silent: false,
+        folder: 'assets',
+        folderPath: 'assets',
+        branch: 'branch',
+        token: '123',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        clean: true,
+        cleanExclude: ['cat', 'montezuma'],
+        isTest: TestFlag.NONE
       })
 
       await deploy(action)
 
-      // Includes the call to generateBranch
-      expect(execute).toBeCalledTimes(12)
+      // Includes the call to generateWorktree
+      expect(execute).toBeCalledTimes(8)
       expect(rmRF).toBeCalledTimes(1)
     })
 
-    it('should gracefully handle incorrectly formatted clean exclude items', async () => {
+    it('should gracefully handle target folder', async () => {
       Object.assign(action, {
         silent: false,
         folder: '.',
         branch: 'branch',
-        gitHubToken: '123',
+        token: '123',
         pusher: {},
         clean: true,
         targetFolder: 'new_folder',
         commitMessage: 'Hello!',
-        isTest: true,
-        cleanExclude: '["cat, "montezuma"]' // There is a syntax errror in the string.
+        isTest: TestFlag.NONE
       })
 
       await deploy(action)
 
-      expect(execute).toBeCalledTimes(12)
+      expect(execute).toBeCalledTimes(8)
       expect(rmRF).toBeCalledTimes(1)
       expect(mkdirP).toBeCalledTimes(1)
     })
@@ -381,16 +370,16 @@ describe('git', () => {
         silent: false,
         folder: 'assets',
         branch: 'branch',
-        gitHubToken: '123',
+        token: '123',
         pusher: {
           name: 'asd',
           email: 'as@cat'
         },
-        isTest: false // Setting this env variable to false means there will never be anything to commit and the action will exit early.
+        isTest: TestFlag.NONE // Setting this flag to None means there will never be anything to commit and the action will exit early.
       })
 
       const response = await deploy(action)
-      expect(execute).toBeCalledTimes(13)
+      expect(execute).toBeCalledTimes(8)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SKIPPED)
     })
@@ -404,12 +393,12 @@ describe('git', () => {
         silent: false,
         folder: 'assets',
         branch: 'branch',
-        gitHubToken: '123',
-        lfs: true,
+        token: '123',
         pusher: {
           name: 'asd',
           email: 'as@cat'
-        }
+        },
+        isTest: TestFlag.HAS_CHANGED_FILES
       })
 
       try {

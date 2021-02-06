@@ -1,8 +1,9 @@
 import {info} from '@actions/core'
 import {mkdirP, rmRF} from '@actions/io'
 import fs from 'fs'
-import {ActionInterface, Status} from './constants'
+import {ActionInterface, Status, TestFlag} from './constants'
 import {execute} from './execute'
+import {generateWorktree} from './worktree'
 import {isNullOrUndefined, suppressSensitiveInformation} from './util'
 
 /* Initializes git in the workspace. */
@@ -11,7 +12,6 @@ export async function init(action: ActionInterface): Promise<void | Error> {
     info(`Deploying using ${action.tokenType}… 🔑`)
     info('Configuring git…')
 
-    await execute(`git init`, action.workspace, action.silent)
     await execute(
       `git config user.name "${action.name}"`,
       action.workspace,
@@ -24,9 +24,30 @@ export async function init(action: ActionInterface): Promise<void | Error> {
     )
 
     try {
+      if ((process.env.CI && !action.sshKey) || action.isTest) {
+        /* Ensures that previously set Git configs do not interfere with the deployment.
+          Only runs in the GitHub Actions CI environment if a user is not using an SSH key.
+        */
+        await execute(
+          `git config --local --unset-all http.https://github.com/.extraheader`,
+          action.workspace,
+          action.silent
+        )
+      }
+
+      if (action.isTest === TestFlag.UNABLE_TO_UNSET_GIT_CONFIG) {
+        throw new Error()
+      }
+    } catch {
+      info(
+        'Unable to unset previous git config authentication as it may not exist, continuing…'
+      )
+    }
+
+    try {
       await execute(`git remote rm origin`, action.workspace, action.silent)
 
-      if (action.isTest) {
+      if (action.isTest === TestFlag.UNABLE_TO_REMOVE_ORIGIN) {
         throw new Error()
       }
     } catch {
@@ -38,79 +59,10 @@ export async function init(action: ActionInterface): Promise<void | Error> {
       action.workspace,
       action.silent
     )
-
-    if (action.preserve) {
-      info(`Stashing workspace changes… ⬆️`)
-      await execute(`git stash`, action.workspace, action.silent)
-    }
-
-    await execute(
-      `git fetch --no-recurse-submodules`,
-      action.workspace,
-      action.silent
-    )
-
     info('Git configured… 🔧')
   } catch (error) {
     throw new Error(
       `There was an error initializing the repository: ${suppressSensitiveInformation(
-        error.message,
-        action
-      )} ❌`
-    )
-  }
-}
-
-/* Switches to the base branch. */
-export async function switchToBaseBranch(
-  action: ActionInterface
-): Promise<void> {
-  try {
-    await execute(
-      `git checkout --progress --force ${
-        action.baseBranch ? action.baseBranch : action.defaultBranch
-      }`,
-      action.workspace,
-      action.silent
-    )
-  } catch (error) {
-    throw new Error(
-      `There was an error switching to the base branch: ${suppressSensitiveInformation(
-        error.message,
-        action
-      )} ❌`
-    )
-  }
-}
-
-/* Generates the branch if it doesn't exist on the remote. */
-export async function generateBranch(action: ActionInterface): Promise<void> {
-  try {
-    info(`Creating the ${action.branch} branch…`)
-
-    await switchToBaseBranch(action)
-    await execute(
-      `git checkout --orphan ${action.branch}`,
-      action.workspace,
-      action.silent
-    )
-    await execute(`git reset --hard`, action.workspace, action.silent)
-    await execute(
-      `git commit --no-verify --allow-empty -m "Initial ${action.branch} commit"`,
-      action.workspace,
-      action.silent
-    )
-    await execute(
-      `git push --force ${action.repositoryPath} ${action.branch}`,
-      action.workspace,
-      action.silent
-    )
-    await execute(`git fetch`, action.workspace, action.silent)
-
-    info(`Created the ${action.branch} branch… 🔧`)
-  } catch (error) {
-    throw new Error(
-      `There was an error creating the deployment branch: ${suppressSensitiveInformation(
         error.message,
         action
       )} ❌`
@@ -131,75 +83,28 @@ export async function deploy(action: ActionInterface): Promise<Status> {
   try {
     const commitMessage = !isNullOrUndefined(action.commitMessage)
       ? (action.commitMessage as string)
-      : `Deploying to ${action.branch} from ${action.baseBranch} ${
-          process.env.GITHUB_SHA ? `@ ${process.env.GITHUB_SHA}` : ''
+      : `Deploying to ${action.branch}${
+          process.env.GITHUB_SHA
+            ? ` from @ ${process.env.GITHUB_REPOSITORY}@${process.env.GITHUB_SHA}`
+            : ''
         } 🚀`
 
-    /*
-        Checks to see if the remote exists prior to deploying.
-        If the branch doesn't exist it gets created here as an orphan.
-      */
-    const branchExists = await execute(
-      `git ls-remote --heads ${action.repositoryPath} ${action.branch} | wc -l`,
-      action.workspace,
-      action.silent
-    )
-
-    if (!branchExists && !action.isTest) {
-      await generateBranch(action)
-    }
-
-    // Checks out the base branch to begin the deployment process.
-    await switchToBaseBranch(action)
-
-    await execute(
-      `git fetch ${action.repositoryPath}`,
-      action.workspace,
-      action.silent
-    )
-
-    if (action.lfs) {
-      // Migrates data from LFS so it can be comitted the "normal" way.
-      info(`Migrating from Git LFS… ⚓`)
-      await execute(
-        `git lfs migrate export --include="*" --yes`,
+    // Checks to see if the remote exists prior to deploying.
+    const branchExists =
+      action.isTest & TestFlag.HAS_REMOTE_BRANCH ||
+      (await execute(
+        `git ls-remote --heads ${action.repositoryPath} ${action.branch}`,
         action.workspace,
         action.silent
-      )
-    }
+      ))
 
-    if (action.preserve) {
-      info(`Applying stashed workspace changes… ⬆️`)
-
-      try {
-        await execute(`git stash apply`, action.workspace, action.silent)
-      } catch {
-        info('Unable to apply from stash, continuing…')
-      }
-    }
-
-    await execute(
-      `git worktree add --checkout ${temporaryDeploymentDirectory} origin/${action.branch}`,
-      action.workspace,
-      action.silent
-    )
+    await generateWorktree(action, temporaryDeploymentDirectory, branchExists)
 
     // Ensures that items that need to be excluded from the clean job get parsed.
     let excludes = ''
     if (action.clean && action.cleanExclude) {
-      try {
-        const excludedItems =
-          typeof action.cleanExclude === 'string'
-            ? JSON.parse(action.cleanExclude)
-            : action.cleanExclude
-
-        for (const item of excludedItems) {
-          excludes += `--exclude ${item} `
-        }
-      } catch {
-        info(
-          'There was an error parsing your CLEAN_EXCLUDE items. Please refer to the README for more details. ❌'
-        )
+      for (const item of action.cleanExclude) {
+        excludes += `--exclude ${item} `
       }
     }
 
@@ -238,13 +143,24 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       action.silent
     )
 
-    const hasFilesToCommit = await execute(
-      `git status --porcelain`,
-      `${action.workspace}/${temporaryDeploymentDirectory}`,
-      action.silent
-    )
+    // Use git status to check if we have something to commit.
+    // Special case is singleCommit with existing history, when
+    // we're really interested if the diff against the upstream branch
+    // changed.
+    const checkGitStatus =
+      branchExists && action.singleCommit
+        ? `git diff origin/${action.branch}`
+        : `git status --porcelain`
+    info(`Checking if there are files to commit…`)
+    const hasFilesToCommit =
+      action.isTest & TestFlag.HAS_CHANGED_FILES ||
+      (await execute(
+        checkGitStatus,
+        `${action.workspace}/${temporaryDeploymentDirectory}`,
+        true // This output is always silenced due to the large output it creates.
+      ))
 
-    if (!hasFilesToCommit && !action.isTest) {
+    if (!hasFilesToCommit) {
       return Status.SKIPPED
     }
 
@@ -264,54 +180,15 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       `${action.workspace}/${temporaryDeploymentDirectory}`,
       action.silent
     )
-    await execute(
-      `git push --force ${action.repositoryPath} ${temporaryDeploymentBranch}:${action.branch}`,
-      `${action.workspace}/${temporaryDeploymentDirectory}`,
-      action.silent
-    )
-
-    info(`Changes committed to the ${action.branch} branch… 📦`)
-
-    if (action.singleCommit) {
+    if (!action.dryRun) {
       await execute(
-        `git fetch ${action.repositoryPath}`,
-        action.workspace,
-        action.silent
-      )
-      await execute(
-        `git checkout --orphan ${action.branch}-temp`,
+        `git push --force ${action.repositoryPath} ${temporaryDeploymentBranch}:${action.branch}`,
         `${action.workspace}/${temporaryDeploymentDirectory}`,
         action.silent
       )
-      await execute(
-        `git add --all .`,
-        `${action.workspace}/${temporaryDeploymentDirectory}`,
-        action.silent
-      )
-      await execute(
-        `git commit -m "${commitMessage}" --quiet --no-verify`,
-        `${action.workspace}/${temporaryDeploymentDirectory}`,
-        action.silent
-      )
-      await execute(
-        `git branch -M ${action.branch}-temp ${action.branch}`,
-        `${action.workspace}/${temporaryDeploymentDirectory}`,
-        action.silent
-      )
-      await execute(
-        `git push origin ${action.branch} --force`,
-        `${action.workspace}/${temporaryDeploymentDirectory}`,
-        action.silent
-      )
-
-      info('Cleared git history… 🚿')
     }
 
-    await execute(
-      `git checkout --progress --force ${action.defaultBranch}`,
-      action.workspace,
-      action.silent
-    )
+    info(`Changes committed to the ${action.branch} branch… 📦`)
 
     return Status.SUCCESS
   } catch (error) {

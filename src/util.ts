@@ -1,6 +1,6 @@
+import {isDebug} from '@actions/core'
 import {existsSync} from 'fs'
 import path from 'path'
-import {isDebug} from '@actions/core'
 import {ActionInterface, RequiredActionParameters} from './constants'
 
 /* Replaces all instances of a match in a string. */
@@ -13,21 +13,15 @@ export const isNullOrUndefined = (value: any): boolean =>
 
 /* Generates a token type used for the action. */
 export const generateTokenType = (action: ActionInterface): string =>
-  action.ssh
-    ? 'SSH Deploy Key'
-    : action.accessToken
-    ? 'Access Token'
-    : action.gitHubToken
-    ? 'GitHub Token'
-    : '…'
+  action.sshKey ? 'SSH Deploy Key' : action.token ? 'Deploy Token' : '…'
 
 /* Generates a the repository path used to make the commits. */
 export const generateRepositoryPath = (action: ActionInterface): string =>
-  action.ssh
+  action.sshKey
     ? `git@github.com:${action.repositoryName}`
-    : `https://${
-        action.accessToken || `x-access-token:${action.gitHubToken}`
-      }@github.com/${action.repositoryName}.git`
+    : `https://${`x-access-token:${action.token}`}@github.com/${
+        action.repositoryName
+      }.git`
 
 /* Genetate absolute folder path by the provided folder name */
 export const generateFolderPath = (action: ActionInterface): string => {
@@ -52,7 +46,7 @@ const hasRequiredParameters = <K extends keyof RequiredActionParameters>(
 
 /* Verifies the action has the required parameters to run, otherwise throw an error. */
 export const checkParameters = (action: ActionInterface): void => {
-  if (!hasRequiredParameters(action, ['accessToken', 'gitHubToken', 'ssh'])) {
+  if (!hasRequiredParameters(action, ['token', 'sshKey'])) {
     throw new Error(
       'No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true.'
     )
@@ -85,11 +79,9 @@ export const suppressSensitiveInformation = (
     return value
   }
 
-  const orderedByLength = ([
-    action.accessToken,
-    action.gitHubToken,
-    action.repositoryPath
-  ].filter(Boolean) as string[]).sort((a, b) => b.length - a.length)
+  const orderedByLength = ([action.token, action.repositoryPath].filter(
+    Boolean
+  ) as string[]).sort((a, b) => b.length - a.length)
 
   for (const find of orderedByLength) {
     value = replaceAll(value, find, '***')

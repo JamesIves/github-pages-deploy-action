@@ -1,10 +1,11 @@
+/* eslint-disable import/first */
 // Initial env variable setup for tests.
 process.env['INPUT_FOLDER'] = 'build'
 process.env['GITHUB_SHA'] = '123'
 process.env['INPUT_DEBUG'] = 'debug'
 
 import '../src/main'
-import {action} from '../src/constants'
+import {action, TestFlag} from '../src/constants'
 import run from '../src/lib'
 import {execute} from '../src/execute'
 import {rmRF} from '@actions/io'
@@ -23,6 +24,7 @@ jest.mock('@actions/io', () => ({
 jest.mock('@actions/core', () => ({
   setFailed: jest.fn(),
   getInput: jest.fn(),
+  setOutput: jest.fn(),
   exportVariable: jest.fn(),
   isDebug: jest.fn(),
   info: jest.fn()
@@ -38,16 +40,16 @@ describe('main', () => {
       repositoryPath: 'JamesIves/github-pages-deploy-action',
       folder: 'assets',
       branch: 'branch',
-      gitHubToken: '123',
+      token: '123',
       pusher: {
         name: 'asd',
         email: 'as@cat'
       },
-      isTest: false,
+      isTest: TestFlag.NONE,
       debug: true
     })
     await run(action)
-    expect(execute).toBeCalledTimes(19)
+    expect(execute).toBeCalledTimes(13)
     expect(rmRF).toBeCalledTimes(1)
     expect(exportVariable).toBeCalledTimes(1)
   })
@@ -57,14 +59,16 @@ describe('main', () => {
       repositoryPath: 'JamesIves/github-pages-deploy-action',
       folder: 'assets',
       branch: 'branch',
-      gitHubToken: '123',
+      token: '123',
+      sshKey: true,
       pusher: {
         name: 'asd',
         email: 'as@cat'
-      }
+      },
+      isTest: TestFlag.HAS_CHANGED_FILES
     })
     await run(action)
-    expect(execute).toBeCalledTimes(18)
+    expect(execute).toBeCalledTimes(16)
     expect(rmRF).toBeCalledTimes(1)
     expect(exportVariable).toBeCalledTimes(1)
   })
@@ -73,15 +77,13 @@ describe('main', () => {
     Object.assign(action, {
       folder: 'assets',
       branch: 'branch',
-      baseBranch: 'master',
-      gitHubToken: null,
-      ssh: null,
-      accessToken: null,
+      token: null,
+      sshKey: null,
       pusher: {
         name: 'asd',
         email: 'as@cat'
       },
-      isTest: true
+      isTest: TestFlag.HAS_CHANGED_FILES
     })
     await run(action)
     expect(execute).toBeCalledTimes(0)

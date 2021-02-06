@@ -5,7 +5,7 @@
   "parserOptions": {
     "ecmaVersion": 9,
     "sourceType": "module",
-    "project": "./tsconfig.json"
+    "project": "./tsconfig.lint.json"
   },
   "globals": {
     "fetch": true
@@ -55,8 +55,9 @@
     "@typescript-eslint/type-annotation-spacing": "error",
     "@typescript-eslint/unbound-method": "error",
     "no-console": "off",
-    "no-shadow": ["error", { "builtinGlobals": false, "hoist": "all", "allow": ["Status"] }]
-  },
+    "no-shadow": "off", // replaced by ts-eslint rule below
+    "@typescript-eslint/no-shadow": "error"
+      },
   "env": {
     "node": true,
     "es6": true,
