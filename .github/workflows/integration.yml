@@ -25,6 +25,7 @@ jobs:
           branch: gh-pages
           folder: integration
           single-commit: true
+          clean: true
           
   # Deploys using checkout@v1 with an ACCESS_TOKEN.
   integration-checkout-v1:
