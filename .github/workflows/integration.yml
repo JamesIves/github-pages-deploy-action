@@ -114,7 +114,7 @@ jobs:
 
   # Deploys cross repo with an access token.
   integration-cross-repo-push:
-    needs: integration-container
+    needs: integration-ssh
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -123,8 +123,8 @@ jobs:
       - name: Build and Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v4
         with:
-          repository-name: MontezumaIves/lab
-          token: ${{ secrets.CROSS_REPO_TOKEN }}
+          repository-name: JamesIves/lab
+          token: ${{ secrets.ACCESS_TOKEN }}
           branch: gh-pages
           folder: integration
           single-commit: true
