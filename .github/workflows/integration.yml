@@ -20,6 +20,8 @@ jobs:
       - name: Build and Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v4
         with:
+          git-config-name: Montezuma
+          git-config-email: montezuma@jamesiv.es
           repository-name: JamesIves/lab
           token: ${{ secrets.ACCESS_TOKEN }}
           branch: gh-pages
