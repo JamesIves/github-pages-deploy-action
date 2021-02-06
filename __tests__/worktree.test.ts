@@ -277,5 +277,4 @@ describe('generateWorktree', () => {
       expect(commitMessages).toBe('gh1')
     })
   })
-
 })

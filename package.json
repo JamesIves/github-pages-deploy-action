@@ -9,6 +9,7 @@
   "scripts": {
     "build": "rimraf lib && tsc --declaration",
     "test": "jest",
+    "test:clear": "jest --clearCache",
     "lint": "eslint src/**/*.ts __tests__/**/*.ts",
     "format": "prettier --write './**/*.ts'"
   },

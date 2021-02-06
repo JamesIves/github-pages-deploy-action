@@ -75,6 +75,8 @@ export interface NodeActionInterface {
   workspace: string
   /** Determines test scenarios the action is running in. */
   isTest: TestFlag
+  /** Determines if the action is performing a cross repository deployment or not. */
+  isCrossRepositoryDeployment?: boolean
 }
 
 /* Required action data that gets initialized when running within the GitHub Actions environment. */
