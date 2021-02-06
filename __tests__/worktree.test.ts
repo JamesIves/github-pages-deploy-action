@@ -23,11 +23,13 @@ jest.mock('@actions/core', () => ({
 describe('generateWorktree', () => {
   let tempdir: string | null = null
   let clonedir: string | null = null
+
   beforeAll(async () => {
     // Set up origin repository
     const silent = true
     tempdir = fs.mkdtempSync(path.join(os.tmpdir(), 'gh-deploy-'))
     const origin = path.join(tempdir, 'origin')
+
     await execute('git init origin', tempdir, silent)
     await execute('git config user.email "you@example.com"', origin, silent)
     await execute('git config user.name "Jane Doe"', origin, silent)
@@ -50,6 +52,7 @@ describe('generateWorktree', () => {
     await execute('git add .', origin, silent)
     await execute('git commit -mgh1', origin, silent)
   })
+
   beforeEach(async () => {
     // Clone origin to our workspace for each test
     const silent = true
@@ -65,10 +68,12 @@ describe('generateWorktree', () => {
     await execute('git fetch --depth=1 origin main', clonedir, silent)
     await execute('git checkout main', clonedir, silent)
   })
+
   afterEach(async () => {
     // Tear down workspace
     await rmRF(clonedir as string)
   })
+
   afterAll(async () => {
     // Tear down origin repository
     if (tempdir) {
@@ -76,12 +81,15 @@ describe('generateWorktree', () => {
       // console.log(tempdir)
     }
   })
+
   describe('with existing branch and new commits', () => {
     it('should check out the latest commit', async () => {
       const workspace = clonedir as string
+
       await generateWorktree(
         {
           workspace,
+          isCrossRepositoryDeployment: false,
           singleCommit: false,
           branch: 'gh-pages',
           folder: '',
@@ -91,27 +99,33 @@ describe('generateWorktree', () => {
         'worktree',
         true
       )
+
       const dirEntries = await fs.promises.readdir(
         path.join(workspace, 'worktree')
       )
+
       expect(dirEntries.sort((a, b) => a.localeCompare(b))).toEqual([
         '.git',
         'gh1'
       ])
+
       const commitMessages = await execute(
         'git log --format=%s',
         path.join(workspace, 'worktree'),
         true
       )
+
       expect(commitMessages).toBe('gh1')
     })
   })
+
   describe('with missing branch and new commits', () => {
     it('should create initial commit', async () => {
       const workspace = clonedir as string
       await generateWorktree(
         {
           workspace,
+          isCrossRepositoryDeployment: false,
           singleCommit: false,
           branch: 'no-pages',
           folder: '',
@@ -133,12 +147,14 @@ describe('generateWorktree', () => {
       expect(commitMessages).toBe('Initial no-pages commit')
     })
   })
+
   describe('with existing branch and singleCommit', () => {
     it('should check out the latest commit', async () => {
       const workspace = clonedir as string
       await generateWorktree(
         {
           workspace,
+          isCrossRepositoryDeployment: false,
           singleCommit: true,
           branch: 'gh-pages',
           folder: '',
@@ -164,12 +180,14 @@ describe('generateWorktree', () => {
       }).rejects.toThrow()
     })
   })
+
   describe('with missing branch and singleCommit', () => {
     it('should create initial commit', async () => {
       const workspace = clonedir as string
       await generateWorktree(
         {
           workspace,
+          isCrossRepositoryDeployment: false,
           singleCommit: true,
           branch: 'no-pages',
           folder: '',
@@ -192,4 +210,72 @@ describe('generateWorktree', () => {
       }).rejects.toThrow()
     })
   })
+
+  describe('with cross repository deployment', () => {
+    it('should create initial commit', async () => {
+      const workspace = clonedir as string
+      await generateWorktree(
+        {
+          workspace,
+          isCrossRepositoryDeployment: true,
+          repositoryName: 'MontezumaTheCat/lab',
+          singleCommit: true,
+          branch: 'no-pages',
+          folder: '',
+          silent: true,
+          isTest: TestFlag.NONE
+        },
+        'worktree',
+        false
+      )
+      const dirEntries = await fs.promises.readdir(
+        path.join(workspace, 'worktree')
+      )
+      expect(dirEntries).toEqual(['.git'])
+      expect(async () => {
+        await execute(
+          'git log --format=%s',
+          path.join(workspace, 'worktree'),
+          true
+        )
+      }).rejects.toThrow()
+    })
+
+    it('should check out the latest commit', async () => {
+      const workspace = clonedir as string
+
+      await generateWorktree(
+        {
+          workspace,
+          isCrossRepositoryDeployment: true,
+          repositoryName: 'MontezumaTheCat/lab',
+          singleCommit: false,
+          branch: 'gh-pages',
+          folder: '',
+          silent: true,
+          isTest: TestFlag.NONE
+        },
+        'worktree',
+        true
+      )
+
+      const dirEntries = await fs.promises.readdir(
+        path.join(workspace, 'worktree')
+      )
+
+      expect(dirEntries.sort((a, b) => a.localeCompare(b))).toEqual([
+        '.git',
+        'gh1'
+      ])
+
+      const commitMessages = await execute(
+        'git log --format=%s',
+        path.join(workspace, 'worktree'),
+        true
+      )
+
+      expect(commitMessages).toBe('gh1')
+    })
+  })
+
 })

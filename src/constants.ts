@@ -39,6 +39,8 @@ export interface ActionInterface {
   repositoryName?: string
   /** The fully qualified repositpory path, this gets auto generated if repositoryName is provided. */
   repositoryPath?: string
+  /** Determines if the action is performing a cross repository deployment or not. */
+  isCrossRepositoryDeployment: boolean
   /** Wipes the commit history from the deployment branch in favor of a single commit. */
   singleCommit?: boolean | null
   /** Determines if the action should run in silent mode or not. */
@@ -109,6 +111,7 @@ export const action: ActionInterface = {
     : repository && repository.full_name
     ? repository.full_name
     : process.env.GITHUB_REPOSITORY,
+  isCrossRepositoryDeployment: !isNullOrUndefined(getInput('repository-name')),
   token: getInput('token'),
   singleCommit: !isNullOrUndefined(getInput('single-commit'))
     ? getInput('single-commit').toLowerCase() === 'true'

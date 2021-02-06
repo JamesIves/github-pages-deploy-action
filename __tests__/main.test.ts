@@ -38,6 +38,7 @@ describe('main', () => {
   it('should run through the commands', async () => {
     Object.assign(action, {
       repositoryPath: 'JamesIves/github-pages-deploy-action',
+      isCrossRepositoryDeployment: false,
       folder: 'assets',
       branch: 'branch',
       token: '123',
@@ -49,7 +50,7 @@ describe('main', () => {
       debug: true
     })
     await run(action)
-    expect(execute).toBeCalledTimes(13)
+    expect(execute).toBeCalledTimes(12)
     expect(rmRF).toBeCalledTimes(1)
     expect(exportVariable).toBeCalledTimes(1)
   })
@@ -57,6 +58,7 @@ describe('main', () => {
   it('should run through the commands and succeed', async () => {
     Object.assign(action, {
       repositoryPath: 'JamesIves/github-pages-deploy-action',
+      isCrossRepositoryDeployment: false,
       folder: 'assets',
       branch: 'branch',
       token: '123',
@@ -75,6 +77,7 @@ describe('main', () => {
 
   it('should throw if an error is encountered', async () => {
     Object.assign(action, {
+      isCrossRepositoryDeployment: false,
       folder: 'assets',
       branch: 'branch',
       token: null,

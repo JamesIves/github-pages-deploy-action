@@ -44,6 +44,7 @@ describe('git', () => {
       Object.assign(action, {
         silent: false,
         repositoryPath: 'JamesIves/github-pages-deploy-action',
+        isCrossRepositoryDeployment: false,
         token: '123',
         branch: 'branch',
         folder: '.',
@@ -66,6 +67,7 @@ describe('git', () => {
       Object.assign(action, {
         silent: false,
         repositoryPath: 'JamesIves/github-pages-deploy-action',
+        isCrossRepositoryDeployment: false,
         token: '123',
         branch: 'branch',
         folder: '.',
@@ -89,6 +91,7 @@ describe('git', () => {
       Object.assign(action, {
         silent: false,
         repositoryPath: 'JamesIves/github-pages-deploy-action',
+        isCrossRepositoryDeployment: false,
         token: '123',
         branch: 'branch',
         folder: '.',
@@ -110,6 +113,7 @@ describe('git', () => {
       Object.assign(action, {
         silent: false,
         repositoryPath: 'JamesIves/github-pages-deploy-action',
+        isCrossRepositoryDeployment: false,
         sshKey: true,
         branch: 'branch',
         folder: '.',
@@ -130,6 +134,7 @@ describe('git', () => {
       Object.assign(action, {
         silent: false,
         repositoryPath: 'JamesIves/github-pages-deploy-action',
+        isCrossRepositoryDeployment: false,
         token: '123',
         branch: 'branch',
         folder: '.',
@@ -153,6 +158,7 @@ describe('git', () => {
         branch: 'branch',
         token: '123',
         repositoryName: 'JamesIves/montezuma',
+        isCrossRepositoryDeployment: true,
         pusher: {
           name: 'asd',
           email: 'as@cat'
@@ -163,13 +169,14 @@ describe('git', () => {
       const response = await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(11)
+      expect(execute).toBeCalledTimes(12)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
 
     it('should not push when asked to dryRun', async () => {
       Object.assign(action, {
+        isCrossRepositoryDeployment: false,
         silent: false,
         dryRun: true,
         folder: 'assets',
@@ -192,6 +199,7 @@ describe('git', () => {
 
     it('should execute commands with single commit toggled', async () => {
       Object.assign(action, {
+        isCrossRepositoryDeployment: false,
         silent: false,
         folder: 'other',
         folderPath: 'other',
@@ -215,6 +223,7 @@ describe('git', () => {
 
     it('should execute commands with single commit toggled and existing branch', async () => {
       Object.assign(action, {
+        isCrossRepositoryDeployment: false,
         silent: false,
         folder: 'other',
         folderPath: 'other',
@@ -238,6 +247,7 @@ describe('git', () => {
 
     it('should execute commands with single commit and dryRun toggled', async () => {
       Object.assign(action, {
+        isCrossRepositoryDeployment: false,
         silent: false,
         folder: 'other',
         folderPath: 'other',
@@ -270,6 +280,7 @@ describe('git', () => {
         })
 
       Object.assign(action, {
+        isCrossRepositoryDeployment: false,
         silent: false,
         folder: 'assets',
         folderPath: 'assets',
@@ -300,6 +311,7 @@ describe('git', () => {
       it('should execute commands with clean options', async () => {
         process.env.GITHUB_SHA = ''
         Object.assign(action, {
+          isCrossRepositoryDeployment: false,
           silent: false,
           folder: 'other',
           folderPath: 'other',
@@ -324,6 +336,7 @@ describe('git', () => {
 
     it('should execute commands with clean options stored as an array', async () => {
       Object.assign(action, {
+        isCrossRepositoryDeployment: false,
         silent: false,
         folder: 'assets',
         folderPath: 'assets',
@@ -347,6 +360,7 @@ describe('git', () => {
 
     it('should gracefully handle target folder', async () => {
       Object.assign(action, {
+        isCrossRepositoryDeployment: false,
         silent: false,
         folder: '.',
         branch: 'branch',
@@ -367,6 +381,7 @@ describe('git', () => {
 
     it('should stop early if there is nothing to commit', async () => {
       Object.assign(action, {
+        isCrossRepositoryDeployment: false,
         silent: false,
         folder: 'assets',
         branch: 'branch',
@@ -390,6 +405,7 @@ describe('git', () => {
       })
 
       Object.assign(action, {
+        isCrossRepositoryDeployment: false,
         silent: false,
         folder: 'assets',
         branch: 'branch',

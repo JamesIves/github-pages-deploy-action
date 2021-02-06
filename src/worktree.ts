@@ -33,7 +33,7 @@ export async function generateWorktree(
     if (branchExists) {
       await execute(
         `git fetch --no-recurse-submodules --depth=1 ${
-          action.repositoryName ? action.repositoryPath : 'origin'
+          action.isCrossRepositoryDeployment ? action.repositoryPath : 'origin'
         } ${action.branch}`,
         action.workspace,
         action.silent
@@ -57,7 +57,7 @@ export async function generateWorktree(
       checkout.orphan = true
     }
 
-    if (action.repositoryName) {
+    if (action.isCrossRepositoryDeployment) {
       // Used when cross repo deploying to ensure that context is focused on the correct remote.
       await execute(`git fetch`, action.workspace, action.silent)
     }
@@ -85,6 +85,7 @@ export async function generateWorktree(
       }
     }
   } catch (error) {
+    console.log(error)
     throw new Error(
       `There was an error creating the worktree: ${suppressSensitiveInformation(
         error.message,

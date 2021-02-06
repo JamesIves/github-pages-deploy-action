@@ -35,6 +35,7 @@ describe('util', () => {
     it('should return ssh if ssh is provided', async () => {
       const action = {
         branch: '123',
+        isCrossRepositoryDeployment: false,
         workspace: 'src/',
         folder: 'build',
         token: null,
@@ -48,6 +49,7 @@ describe('util', () => {
     it('should return deploy token if token is provided', async () => {
       const action = {
         branch: '123',
+        isCrossRepositoryDeployment: false,
         workspace: 'src/',
         folder: 'build',
         token: '123',
@@ -61,6 +63,7 @@ describe('util', () => {
     it('should return ... if no token is provided', async () => {
       const action = {
         branch: '123',
+        isCrossRepositoryDeployment: false,
         workspace: 'src/',
         folder: 'build',
         token: null,
@@ -76,6 +79,7 @@ describe('util', () => {
     it('should return ssh if ssh is provided', async () => {
       const action = {
         repositoryName: 'JamesIves/github-pages-deploy-action',
+        isCrossRepositoryDeployment: true,
         branch: '123',
         workspace: 'src/',
         folder: 'build',
@@ -92,6 +96,7 @@ describe('util', () => {
     it('should return https with x-access-token if deploy token is provided', async () => {
       const action = {
         repositoryName: 'JamesIves/github-pages-deploy-action',
+        isCrossRepositoryDeployment: true,
         branch: '123',
         workspace: 'src/',
         folder: 'build',
@@ -109,6 +114,7 @@ describe('util', () => {
       it('should replace any sensitive information with ***', async () => {
         const action = {
           repositoryName: 'JamesIves/github-pages-deploy-action',
+          isCrossRepositoryDeployment: true,
           repositoryPath:
             'https://x-access-token:supersecret999%%%@github.com/anothersecret123333',
           branch: '123',
@@ -128,6 +134,7 @@ describe('util', () => {
       it('should not suppress information when in debug mode', async () => {
         const action = {
           repositoryName: 'JamesIves/github-pages-deploy-action',
+          isCrossRepositoryDeployment: true,
           repositoryPath:
             'https://x-access-token:supersecret999%%%@github.com/anothersecret123333',
           branch: '123',
@@ -151,6 +158,7 @@ describe('util', () => {
   describe('generateFolderPath', () => {
     it('should return absolute path if folder name is provided', () => {
       const action = {
+        isCrossRepositoryDeployment: false,
         branch: '123',
         workspace: 'src/',
         folder: 'build',
@@ -164,6 +172,7 @@ describe('util', () => {
 
     it('should return original path if folder name begins with /', () => {
       const action = {
+        isCrossRepositoryDeployment: false,
         branch: '123',
         workspace: 'src/',
         folder: '/home/user/repo/build',
@@ -177,6 +186,7 @@ describe('util', () => {
 
     it('should process as relative path if folder name begins with ./', () => {
       const action = {
+        isCrossRepositoryDeployment: false,
         branch: '123',
         workspace: 'src/',
         folder: './build',
@@ -190,6 +200,7 @@ describe('util', () => {
 
     it('should return absolute path if folder name begins with ~', () => {
       const action = {
+        isCrossRepositoryDeployment: false,
         branch: '123',
         workspace: 'src/',
         folder: '~/repo/build',
@@ -206,6 +217,7 @@ describe('util', () => {
   describe('hasRequiredParameters', () => {
     it('should fail if there is no provided GitHub Token, Access Token or SSH bool', () => {
       const action = {
+        isCrossRepositoryDeployment: false,
         silent: false,
         repositoryPath: undefined,
         branch: 'branch',
@@ -225,6 +237,7 @@ describe('util', () => {
 
     it('should fail if token is defined but it is an empty string', () => {
       const action = {
+        isCrossRepositoryDeployment: false,
         silent: false,
         repositoryPath: undefined,
         token: '',
@@ -245,6 +258,7 @@ describe('util', () => {
 
     it('should fail if there is no branch', () => {
       const action = {
+        isCrossRepositoryDeployment: false,
         silent: false,
         repositoryPath: undefined,
         token: '123',
@@ -263,6 +277,7 @@ describe('util', () => {
 
     it('should fail if there is no folder', () => {
       const action = {
+        isCrossRepositoryDeployment: false,
         silent: false,
         repositoryPath: undefined,
         token: '123',
@@ -283,6 +298,7 @@ describe('util', () => {
 
     it('should fail if the folder does not exist in the tree', () => {
       const action: ActionInterface = {
+        isCrossRepositoryDeployment: false,
         silent: false,
         repositoryPath: undefined,
         token: '123',

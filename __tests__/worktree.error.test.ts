@@ -21,6 +21,7 @@ describe('generateWorktree', () => {
           branch: 'gh-pages',
           folder: '',
           silent: true,
+          isCrossRepositoryDeployment: false,
           isTest: TestFlag.HAS_CHANGED_FILES
         },
         'worktree',
