@@ -124,6 +124,10 @@ jobs:
           single-commit: ${{ matrix.commit == 'singleCommit' }}
           dry-run: true
 
+      - name: Cleanup
+        if: ${{ matrix.branch == 'gh-pages' }}
+        run: git branch -d ${{ matrix.branch }}
+
       # The modified deployment should be a success, and not skipped.
       - name: Check step output
         if: ${{ matrix.branch == 'gh-pages' }}
