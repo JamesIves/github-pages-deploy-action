@@ -10,8 +10,25 @@ on:
       - releases/v4
 
 jobs:
+  # Deploys cross repo with an access token.
+  integration-cross-repo-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v4
+        with:
+          repository-name: JamesIves/lab
+          token: ${{ secrets.ACCESS_TOKEN }}
+          branch: gh-pages
+          folder: integration
+          single-commit: true
+          
   # Deploys using checkout@v1 with an ACCESS_TOKEN.
   integration-checkout-v1:
+    needs: integration-cross-repo-push
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -112,26 +129,9 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branches: gh-pages
 
-  # Deploys cross repo with an access token.
-  integration-cross-repo-push:
-    needs: integration-ssh
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@releases/v4
-        with:
-          repository-name: JamesIves/lab
-          token: ${{ secrets.ACCESS_TOKEN }}
-          branch: gh-pages
-          folder: integration
-          single-commit: true
-
   # Deploys using an SSH key.
   integration-ssh-third-party-client:
-    needs: integration-cross-repo-push
+    needs: integration-ssh
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
