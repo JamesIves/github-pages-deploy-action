@@ -18,7 +18,7 @@ jobs:
         registry-url: 'https://registry.npmjs.org'
         scope: '@jamesives'
 
-    - name: Configure git
+    - name: Configure Git
       run: |
         git config user.email "iam@jamesiv.es"
         git config user.name "James Ives"
