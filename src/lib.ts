@@ -19,6 +19,8 @@ export default async function run(
 
   try {
     info(`
+    🚨🚨🚨 Version 4 is now available! Please visit https://github.com/JamesIves/github-pages-deploy-action to update. 🚨🚨🚨
+
     GitHub Pages Deploy Action 🚀
 
     🚀 Getting Started Guide: https://github.com/marketplace/actions/deploy-to-github-pages
