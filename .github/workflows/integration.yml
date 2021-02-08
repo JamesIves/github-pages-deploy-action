@@ -155,7 +155,7 @@ jobs:
       - name: Build and Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v4
         with:
-          ssh: true
+          ssh-key: true
           branch: gh-pages
           folder: integration
           target-folder: cat/montezuma4
