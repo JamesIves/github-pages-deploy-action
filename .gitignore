@@ -5,14 +5,14 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-node_modules
+# node_moduless
 
 # Test Temp Files
 assets/.nojekyll
 assets/CNAME
 
 # Build
-lib
+# lib
 
 ## Registry
 package-lock.json
