@@ -28,7 +28,7 @@ jobs:
 
     - run: yarn install --frozen-lockfile
     - run: yarn build
-    - run: npm version patch -m "Release %s 📣"
+#     - run: npm version patch -m "Release %s 📣"
     - run: git push
 
     # Publish to npm
