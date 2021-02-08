@@ -15,4 +15,5 @@ jobs:
         with:
           branch: releases/v4-beta
           folder: .
+          clean: false
           single-commit: true
