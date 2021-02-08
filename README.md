@@ -305,7 +305,6 @@ If you use a [container](https://help.github.com/en/actions/automating-your-work
 
 If you're using a custom domain and require a `CNAME` file, or if you require the use of a `.nojekyll` file, you can safely commit these files directly into deployment branch without them being overridden after each deployment, additionally you can include these files in your deployment folder to update them. If you need to add additional files to the deployment that should be ignored by the build clean-up steps you can utilize the `clean-exclude` option.
 
-
 <details><summary>Click here to view an exmaple of this.</summary>
 <p>
 
