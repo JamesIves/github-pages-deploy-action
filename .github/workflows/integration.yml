@@ -1,5 +1,6 @@
 name: integration-tests
 on:
+  workflow_dispatch:
   schedule:
     - cron: 30 15 * * 0-6
   push:
@@ -22,7 +23,7 @@ jobs:
         with:
           git-config-name: Montezuma
           git-config-email: montezuma@jamesiv.es
-          repository-name: JamesIves/lab
+          repository-name: MontezumaIves/lab
           token: ${{ secrets.ACCESS_TOKEN }}
           branch: gh-pages
           folder: integration
