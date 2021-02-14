@@ -1,6 +1,11 @@
 name: integration-tests
 on:
   workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Specifies the branch which the integration tests should run on.'
+        required: true
+        default: 'releases/v4'
   schedule:
     - cron: 30 15 * * 0-6
   push:
@@ -19,7 +24,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@releases/v4
+        uses: JamesIves/github-pages-deploy-action@${{ github.event.inputs.branch }}
         with:
           git-config-name: Montezuma
           git-config-email: montezuma@jamesiv.es
