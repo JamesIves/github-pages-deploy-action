@@ -1,13 +1,17 @@
 name: integration-tests
 on:
   workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Specifies the branch which the integration tests should run on.'
+        required: true
+        default: 'releases/v4'
   schedule:
     - cron: 30 15 * * 0-6
   push:
     tags-ignore:
       - '*.*'
     branches:
-      - dev
       - releases/v4
 
 jobs:
