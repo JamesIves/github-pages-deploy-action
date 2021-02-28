@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build and Deploy
-        uses: !e "github.event.inputs.branch ? JamesIves/github-pages-deploy-action@${{ github.event.inputs.branch }} : JamesIves/github-pages-deploy-action@releases/v4"
+        uses: !e github.event.inputs.branch ? JamesIves/github-pages-deploy-action@${{ github.event.inputs.branch }} : JamesIves/github-pages-deploy-action@releases/v4
         with:
           git-config-name: Montezuma
           git-config-email: montezuma@jamesiv.es
