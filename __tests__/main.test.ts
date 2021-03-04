@@ -41,6 +41,7 @@ describe('main', () => {
       folder: 'assets',
       branch: 'branch',
       token: '123',
+      hostname: 'github.com',
       pusher: {
         name: 'asd',
         email: 'as@cat'
@@ -49,13 +50,14 @@ describe('main', () => {
       debug: true
     })
     await run(action)
-    expect(execute).toBeCalledTimes(13)
+    expect(execute).toBeCalledTimes(12)
     expect(rmRF).toBeCalledTimes(1)
     expect(exportVariable).toBeCalledTimes(1)
   })
 
   it('should run through the commands and succeed', async () => {
     Object.assign(action, {
+      hostname: 'github.com',
       repositoryPath: 'JamesIves/github-pages-deploy-action',
       folder: 'assets',
       branch: 'branch',
@@ -75,6 +77,7 @@ describe('main', () => {
 
   it('should throw if an error is encountered', async () => {
     Object.assign(action, {
+      hostname: 'github.com',
       folder: 'assets',
       branch: 'branch',
       token: null,

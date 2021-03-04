@@ -5,7 +5,8 @@ import {
   generateRepositoryPath,
   generateFolderPath,
   suppressSensitiveInformation,
-  checkParameters
+  checkParameters,
+  stripProtocolFromUrl
 } from '../src/util'
 
 describe('util', () => {
@@ -79,11 +80,13 @@ describe('util', () => {
         branch: '123',
         workspace: 'src/',
         folder: 'build',
+        hostname: 'github.com',
         token: null,
         sshKey: 'real_token',
         silent: false,
         isTest: TestFlag.NONE
       }
+
       expect(generateRepositoryPath(action)).toEqual(
         'git@github.com:JamesIves/github-pages-deploy-action'
       )
@@ -95,13 +98,15 @@ describe('util', () => {
         branch: '123',
         workspace: 'src/',
         folder: 'build',
+        hostname: 'enterprise.github.com',
         token: '123',
         sshKey: null,
         silent: false,
         isTest: TestFlag.NONE
       }
+
       expect(generateRepositoryPath(action)).toEqual(
-        'https://x-access-token:123@github.com/JamesIves/github-pages-deploy-action.git'
+        'https://x-access-token:123@enterprise.github.com/JamesIves/github-pages-deploy-action.git'
       )
     })
 
@@ -300,6 +305,26 @@ describe('util', () => {
           `The directory you're trying to deploy named notARealFolder doesn't exist. Please double check the path and any prerequisite build scripts and try again. ❗`
         )
       }
+    })
+  })
+
+  describe('stripProtocolFromUrl', () => {
+    it('removes https', () => {
+      expect(stripProtocolFromUrl('https://github.com')).toBe('github.com')
+    })
+
+    it('removes http', () => {
+      expect(stripProtocolFromUrl('http://github.com')).toBe('github.com')
+    })
+
+    it('removes https|http and www.', () => {
+      expect(stripProtocolFromUrl('http://www.github.com')).toBe('github.com')
+    })
+
+    it('works with a url that is not github.com', () => {
+      expect(stripProtocolFromUrl('http://github.enterprise.jamesiv.es')).toBe(
+        'github.enterprise.jamesiv.es'
+      )
     })
   })
 })

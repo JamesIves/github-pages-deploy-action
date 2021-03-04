@@ -16,6 +16,7 @@ describe('generateWorktree', () => {
     try {
       await generateWorktree(
         {
+          hostname: 'github.com',
           workspace: 'somewhere',
           singleCommit: false,
           branch: 'gh-pages',

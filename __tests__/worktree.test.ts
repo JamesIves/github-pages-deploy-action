@@ -81,6 +81,7 @@ describe('generateWorktree', () => {
       const workspace = clonedir as string
       await generateWorktree(
         {
+          hostname: 'github.com',
           workspace,
           singleCommit: false,
           branch: 'gh-pages',
@@ -111,6 +112,7 @@ describe('generateWorktree', () => {
       const workspace = clonedir as string
       await generateWorktree(
         {
+          hostname: 'github.com',
           workspace,
           singleCommit: false,
           branch: 'no-pages',
@@ -138,6 +140,7 @@ describe('generateWorktree', () => {
       const workspace = clonedir as string
       await generateWorktree(
         {
+          hostname: 'github.com',
           workspace,
           singleCommit: true,
           branch: 'gh-pages',
@@ -169,6 +172,7 @@ describe('generateWorktree', () => {
       const workspace = clonedir as string
       await generateWorktree(
         {
+          hostname: 'github.com',
           workspace,
           singleCommit: true,
           branch: 'no-pages',
