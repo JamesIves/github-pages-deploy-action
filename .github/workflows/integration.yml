@@ -1,12 +1,17 @@
 name: integration-tests
 on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Specifies the branch which the integration tests should run on.'
+        required: true
+        default: 'releases/v4'
   schedule:
     - cron: 30 15 * * 0-6
   push:
     tags-ignore:
       - '*.*'
     branches:
-      - dev
       - releases/v4
 
 jobs:
@@ -22,12 +27,13 @@ jobs:
         with:
           git-config-name: Montezuma
           git-config-email: montezuma@jamesiv.es
-          repository-name: JamesIves/lab
+          repository-name: MontezumaIves/lab
           token: ${{ secrets.ACCESS_TOKEN }}
           branch: gh-pages
           folder: integration
           single-commit: true
           clean: true
+          silent: true
           
   # Deploys using checkout@v1 with an ACCESS_TOKEN.
   integration-checkout-v1:
@@ -46,6 +52,7 @@ jobs:
           target-folder: cat/montezuma
           git-config-name: Montezuma
           git-config-email: montezuma@jamesiv.es
+          silent: true
 
       - name: Cleanup Generated Branch
         uses: dawidd6/action-delete-branch@v2.0.1
@@ -69,6 +76,7 @@ jobs:
           branch: gh-pages
           folder: integration
           target-folder: cat/montezuma2
+          silent: true
 
       - name: Cleanup Generated Branch
         uses: dawidd6/action-delete-branch@v2.0.1
@@ -101,6 +109,7 @@ jobs:
           branch: gh-pages
           folder: integration
           target-folder: cat/montezuma2
+          silent: true
 
       - name: Cleanup Generated Branch
         uses: dawidd6/action-delete-branch@v2.0.1
@@ -125,6 +134,7 @@ jobs:
           branch: gh-pages
           folder: integration
           target-folder: cat/montezuma3
+          silent: true
 
       - name: Cleanup Generated Branch
         uses: dawidd6/action-delete-branch@v2.0.1
@@ -150,10 +160,11 @@ jobs:
       - name: Build and Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v4
         with:
-          ssh: true
+          ssh-key: true
           branch: gh-pages
           folder: integration
           target-folder: cat/montezuma4
+          silent: true
 
       - name: Cleanup Generated Branch
         uses: dawidd6/action-delete-branch@v2.0.1
@@ -182,6 +193,7 @@ jobs:
           branch: gh-pages
           folder: integration
           target-folder: cat/montezuma4
+          silent: true
 
       - name: Cleanup Generated Branch
         uses: dawidd6/action-delete-branch@v2.0.1
@@ -206,6 +218,7 @@ jobs:
           branch: gh-pages
           folder: integration
           clean: true
+          silent: true
 
   # Deploys to a branch that doesn't exist with SINGLE_COMMIT.
   integration-branch-creation:
@@ -224,6 +237,7 @@ jobs:
           branch: integration-test-delete-prod
           folder: integration
           single-commit: true
+          silent: true
 
       - name: Cleanup Generated Branch
         uses: dawidd6/action-delete-branch@v2.0.1

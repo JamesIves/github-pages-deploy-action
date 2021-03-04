@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    name: Build production
+    name: Build Production
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
