@@ -16,6 +16,8 @@ export interface ActionInterface {
     cleanExclude?: string[];
     /** If you need to customize the commit message for an integration you can do so. */
     commitMessage?: string;
+    /** The hostname of which the GitHub Workflow is being run on, ie: github.com */
+    hostname?: string;
     /** The git config email. */
     email?: string;
     /** The folder to deploy. */
