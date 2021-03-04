@@ -31,7 +31,7 @@
 </p>
 
 <p align="center">
-  This <a href="https://github.com/features/actions">GitHub Action</a> will automatically deploy your project to <a href="https://pages.github.com/">GitHub Pages</a>. It can be configured to push your production-ready code into any branch you'd like, including <b>gh-pages</b> and <b>docs</b>. It can also handle cross repository deployments and works with [GitHub Enterprise](https://github.com/enterprise) too.
+  This <a href="https://github.com/features/actions">GitHub Action</a> will automatically deploy your project to <a href="https://pages.github.com/">GitHub Pages</a>. It can be configured to push your production-ready code into any branch you'd like, including <b>gh-pages</b> and <b>docs</b>. It can also handle cross repository deployments and works with <a href="https://github.com/enterprise">GitHub Enterprise</a> too.
 </p>
 
 <p align="center">
