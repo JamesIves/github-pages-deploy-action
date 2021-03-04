@@ -18,8 +18,8 @@ export const generateTokenType = (action: ActionInterface): string =>
 /* Generates a the repository path used to make the commits. */
 export const generateRepositoryPath = (action: ActionInterface): string =>
   action.sshKey
-    ? `git@github.com:${action.repositoryName}`
-    : `https://${`x-access-token:${action.token}`}@github.com/${
+    ? `git@${action.hostname}:${action.repositoryName}`
+    : `https://${`x-access-token:${action.token}`}@${action.hostname}/${
         action.repositoryName
       }.git`
 
@@ -89,3 +89,7 @@ export const suppressSensitiveInformation = (
 
   return value
 }
+
+/** Strips the protocol from a provided URL. */
+export const stripProtocolFromUrl = (url: string): string =>
+  url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, '').split('/')[0]

@@ -41,6 +41,7 @@ describe('main', () => {
       folder: 'assets',
       branch: 'branch',
       token: '123',
+      hostname: 'github.com',
       pusher: {
         name: 'asd',
         email: 'as@cat'
@@ -56,6 +57,7 @@ describe('main', () => {
 
   it('should run through the commands and succeed', async () => {
     Object.assign(action, {
+      hostname: 'github.com',
       repositoryPath: 'JamesIves/github-pages-deploy-action',
       folder: 'assets',
       branch: 'branch',
@@ -75,6 +77,7 @@ describe('main', () => {
 
   it('should throw if an error is encountered', async () => {
     Object.assign(action, {
+      hostname: 'github.com',
       folder: 'assets',
       branch: 'branch',
       token: null,

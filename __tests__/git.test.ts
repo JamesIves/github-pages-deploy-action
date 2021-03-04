@@ -42,6 +42,7 @@ describe('git', () => {
   describe('init', () => {
     it('should execute commands', async () => {
       Object.assign(action, {
+        hostname: 'github.com',
         silent: false,
         repositoryPath: 'JamesIves/github-pages-deploy-action',
         token: '123',
@@ -64,6 +65,7 @@ describe('git', () => {
       })
 
       Object.assign(action, {
+        hostname: 'github.com',
         silent: false,
         repositoryPath: 'JamesIves/github-pages-deploy-action',
         token: '123',
@@ -87,6 +89,7 @@ describe('git', () => {
 
     it('should correctly continue when it cannot unset a git config value', async () => {
       Object.assign(action, {
+        hostname: 'github.com',
         silent: false,
         repositoryPath: 'JamesIves/github-pages-deploy-action',
         token: '123',
@@ -108,6 +111,7 @@ describe('git', () => {
       process.env.CI = 'true'
 
       Object.assign(action, {
+        hostname: 'github.com',
         silent: false,
         repositoryPath: 'JamesIves/github-pages-deploy-action',
         sshKey: true,
@@ -128,6 +132,7 @@ describe('git', () => {
 
     it('should correctly continue when it cannot remove origin', async () => {
       Object.assign(action, {
+        hostname: 'github.com',
         silent: false,
         repositoryPath: 'JamesIves/github-pages-deploy-action',
         token: '123',
@@ -148,6 +153,7 @@ describe('git', () => {
   describe('deploy', () => {
     it('should execute commands', async () => {
       Object.assign(action, {
+        hostname: 'github.com',
         silent: false,
         folder: 'assets',
         branch: 'branch',
@@ -170,6 +176,7 @@ describe('git', () => {
 
     it('should not push when asked to dryRun', async () => {
       Object.assign(action, {
+        hostname: 'github.com',
         silent: false,
         dryRun: true,
         folder: 'assets',
@@ -192,6 +199,7 @@ describe('git', () => {
 
     it('should execute commands with single commit toggled', async () => {
       Object.assign(action, {
+        hostname: 'github.com',
         silent: false,
         folder: 'other',
         folderPath: 'other',
@@ -215,6 +223,7 @@ describe('git', () => {
 
     it('should execute commands with single commit toggled and existing branch', async () => {
       Object.assign(action, {
+        hostname: 'github.com',
         silent: false,
         folder: 'other',
         folderPath: 'other',
@@ -238,6 +247,7 @@ describe('git', () => {
 
     it('should execute commands with single commit and dryRun toggled', async () => {
       Object.assign(action, {
+        hostname: 'github.com',
         silent: false,
         folder: 'other',
         folderPath: 'other',
@@ -270,6 +280,7 @@ describe('git', () => {
         })
 
       Object.assign(action, {
+        hostname: 'github.com',
         silent: false,
         folder: 'assets',
         folderPath: 'assets',
@@ -300,6 +311,7 @@ describe('git', () => {
       it('should execute commands with clean options', async () => {
         process.env.GITHUB_SHA = ''
         Object.assign(action, {
+          hostname: 'github.com',
           silent: false,
           folder: 'other',
           folderPath: 'other',
@@ -324,6 +336,7 @@ describe('git', () => {
 
     it('should execute commands with clean options stored as an array', async () => {
       Object.assign(action, {
+        hostname: 'github.com',
         silent: false,
         folder: 'assets',
         folderPath: 'assets',
@@ -347,6 +360,7 @@ describe('git', () => {
 
     it('should gracefully handle target folder', async () => {
       Object.assign(action, {
+        hostname: 'github.com',
         silent: false,
         folder: '.',
         branch: 'branch',
@@ -367,6 +381,7 @@ describe('git', () => {
 
     it('should stop early if there is nothing to commit', async () => {
       Object.assign(action, {
+        hostname: 'github.com',
         silent: false,
         folder: 'assets',
         branch: 'branch',
@@ -390,6 +405,7 @@ describe('git', () => {
       })
 
       Object.assign(action, {
+        hostname: 'github.com',
         silent: false,
         folder: 'assets',
         branch: 'branch',

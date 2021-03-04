@@ -1,6 +1,6 @@
 import {getInput} from '@actions/core'
 import * as github from '@actions/github'
-import {isNullOrUndefined} from './util'
+import {isNullOrUndefined, stripProtocolFromUrl} from './util'
 
 const {pusher, repository} = github.context.payload
 
@@ -25,6 +25,8 @@ export interface ActionInterface {
   cleanExclude?: string[]
   /** If you need to customize the commit message for an integration you can do so. */
   commitMessage?: string
+  /** The hostname of which the GitHub Workflow is being run on, ie: github.com */
+  hostname?: string
   /** The git config email. */
   email?: string
   /** The folder to deploy. */
@@ -89,6 +91,9 @@ export const action: ActionInterface = {
   cleanExclude: (getInput('clean-exclude') || '')
     .split('\n')
     .filter(l => l !== ''),
+  hostname: process.env.GITHUB_SERVER_URL
+    ? stripProtocolFromUrl(process.env.GITHUB_SERVER_URL)
+    : 'github.com',
   isTest: TestFlag.NONE,
   email: !isNullOrUndefined(getInput('git-config-email'))
     ? getInput('git-config-email')
@@ -96,7 +101,11 @@ export const action: ActionInterface = {
     ? pusher.email
     : `${
         process.env.GITHUB_ACTOR || 'github-pages-deploy-action'
-      }@users.noreply.github.com`,
+      }@users.noreply.${
+        process.env.GITHUB_SERVER_URL
+          ? stripProtocolFromUrl(process.env.GITHUB_SERVER_URL)
+          : 'github.com'
+      }`,
   name: !isNullOrUndefined(getInput('git-config-name'))
     ? getInput('git-config-name')
     : pusher && pusher.name
