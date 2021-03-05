@@ -1507,12 +1507,10 @@ escodegen@^1.14.1:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-config-prettier@>=6.10.1:
-  version "6.12.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-6.12.0.tgz#9eb2bccff727db1c52104f0b49e87ea46605a0d2"
-  integrity sha512-9jWPlFlgNwRUYVoujvWTQ1aMO8o6648r+K7qU7K5Jmkbyqav1fuEZC0COYpGBxyiAJb65Ra9hrmFx19xRGwXWw==
-  dependencies:
-    get-stdin "^6.0.0"
+eslint-config-prettier@>=8.0.0:
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-8.1.0.tgz#4ef1eaf97afe5176e6a75ddfb57c335121abc5a6"
+  integrity sha512-oKMhGv3ihGbCIimCAjqkdzx2Q+jthoqnXSP+d86M9tptwugycmTFdVR4IpLgq2c4SHifbwO90z2fQ8/Aio73yw==
 
 eslint-import-resolver-node@^0.3.4:
   version "0.3.4"
@@ -1537,14 +1535,14 @@ eslint-plugin-eslint-comments@>=3.0.1:
     escape-string-regexp "^1.0.5"
     ignore "^5.0.5"
 
-eslint-plugin-github@4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-github/-/eslint-plugin-github-4.1.1.tgz#d3e38dbe3610043066edca622eb944aa02b09aee"
-  integrity sha512-MzCh4P4zVvR/13AHtumzZ3znq0cbUE7lXehyBEpFURD/EHdx/+7qW+0c+ySTrteImpX9LGLJFTYNtu10BifkbQ==
+eslint-plugin-github@4.1.2:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-github/-/eslint-plugin-github-4.1.2.tgz#b2897af1398f8efaf9bc351a9f4dee98dc04fe04"
+  integrity sha512-ng738ugjNNF0BY4HQ9qo51xxQZZYtdYC//dhis+j8FL9BEsQ6x5BPmMbaKNP7PZ9wBUBTA7U8p4xFxUJlMi/PA==
   dependencies:
     "@typescript-eslint/eslint-plugin" ">=2.25.0"
     "@typescript-eslint/parser" ">=2.25.0"
-    eslint-config-prettier ">=6.10.1"
+    eslint-config-prettier ">=8.0.0"
     eslint-plugin-eslint-comments ">=3.0.1"
     eslint-plugin-import ">=2.20.1"
     eslint-plugin-prettier ">=3.1.2"
@@ -1927,10 +1925,6 @@ gensync@^1.0.0-beta.1:
 get-caller-file@^2.0.1:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-2.0.5.tgz#4f94412a82db32f36e3b0b9741f8a97feb031f7e"
-
-get-stdin@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/get-stdin/-/get-stdin-6.0.0.tgz#9e09bf712b360ab9225e812048f71fde9c89657b"
 
 get-stream@^4.0.0:
   version "4.1.0"
