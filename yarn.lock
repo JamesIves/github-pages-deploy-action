@@ -27,9 +27,9 @@
   dependencies:
     tunnel "0.0.6"
 
-"@actions/io@1.0.2", "@actions/io@^1.0.1":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@actions/io/-/io-1.0.2.tgz#2f614b6e69ce14d191180451eb38e6576a6e6b27"
+"@actions/io@1.1.0", "@actions/io@^1.0.1":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@actions/io/-/io-1.1.0.tgz#02c98b5ed93c3331981c9a075494066400eadb7a"
 
 "@babel/code-frame@7.12.11", "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.5.5", "@babel/code-frame@^7.8.3":
   version "7.12.11"
