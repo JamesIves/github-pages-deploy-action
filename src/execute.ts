@@ -1,4 +1,5 @@
 import {exec} from '@actions/exec'
+import buffer from 'buffer'
 
 let output: string
 
@@ -29,5 +30,7 @@ export async function execute(
 }
 
 export function stdout(data: any): string | void {
-  output += data.toString().trim()
+  if (output.length < buffer.constants.MAX_STRING_LENGTH) {
+    output += data.toString().trim()
+  }
 }
