@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@actions/core@1.2.6":
-  version "1.2.6"
-  resolved "https://registry.yarnpkg.com/@actions/core/-/core-1.2.6.tgz#a78d49f41a4def18e88ce47c2cac615d5694bf09"
+"@actions/core@1.2.7":
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/@actions/core/-/core-1.2.7.tgz#594f8c45b213f0146e4be7eda8ae5cf4e198e5ab"
 
 "@actions/exec@1.0.4":
   version "1.0.4"
