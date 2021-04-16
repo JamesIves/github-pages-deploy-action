@@ -72,7 +72,7 @@ If you'd like to make it so the workflow only triggers on push events to specifi
 on:
   push:
     branches:
-      - master
+      - main
 ```
 
 It's recommended that you use [Dependabot](https://dependabot.com/github-actions/) to keep your workflow up-to-date. You can find the latest tagged version on the [GitHub Marketplace](https://github.com/marketplace/actions/deploy-to-github-pages) or on the [releases page](https://github.com/JamesIves/github-pages-deploy-action/releases).
