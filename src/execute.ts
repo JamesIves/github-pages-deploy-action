@@ -1,7 +1,7 @@
 import {exec} from '@actions/exec'
 import buffer from 'buffer'
 
-let output: string
+let output = ''
 
 /** Wrapper around the GitHub toolkit exec command which returns the output.
  * Also allows you to easily toggle the current working directory.
