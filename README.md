@@ -1,3 +1,5 @@
+> fork一个 亲测release>v2 好用
+> 
 # GitHub Pages Deploy Action :rocket: 
 
 [![Actions Status](https://github.com/JamesIves/github-pages-deploy-action/workflows/integration/badge.svg)](https://github.com/JamesIves/github-pages-deploy-action/actions) [![View Action](https://img.shields.io/badge/view-action-blue.svg)](https://github.com/marketplace/actions/deploy-to-github-pages) [![Issues](https://img.shields.io/github/issues/JamesIves/github-pages-deploy-action.svg)](https://github.com/JamesIves/github-pages-deploy-action/issues)
