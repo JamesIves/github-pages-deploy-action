@@ -35,7 +35,7 @@ If you'd like to make it so the workflow only triggers on push events to specifi
 on:
   push:	
     branches:	
-      - master
+      - main
 ```
 
 ## Configuration 📁
