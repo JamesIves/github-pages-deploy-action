@@ -1,4 +1,4 @@
-> fork一个 亲测release>v2 好用
+> fork一个 亲测 @releases/v2 可用
 > 
 # GitHub Pages Deploy Action :rocket: 
 
