@@ -6,7 +6,7 @@ import {suppressSensitiveInformation} from './util'
 export class GitCheckout {
   orphan = false
   commitish?: string | null = null
-  branch: string | boolean
+  branch: string
   constructor(branch: string) {
     this.branch = branch
   }
@@ -25,7 +25,7 @@ export class GitCheckout {
 export async function generateWorktree(
   action: ActionInterface,
   worktreedir: string,
-  branchExists: string
+  branchExists: boolean | string
 ): Promise<void> {
   try {
     info('Creating worktree…')
