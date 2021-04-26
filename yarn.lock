@@ -723,9 +723,10 @@
   version "7.0.4"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.4.tgz#38fd73ddfd9b55abb1e1b2ed578cb55bd7b7d339"
 
-"@types/node@*", "@types/node@14.14.41", "@types/node@>= 8":
-  version "14.14.41"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.41.tgz#d0b939d94c1d7bd53d04824af45f1139b8c45615"
+"@types/node@*", "@types/node@15.0.0", "@types/node@>= 8":
+  version "15.0.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-15.0.0.tgz#557dd0da4a6dca1407481df3bbacae0cd6f68042"
+  integrity sha512-YN1d+ae2MCb4U0mMa+Zlb5lWTdpFShbAj5nmte6lel27waMMBfivrm0prC16p/Di3DyTrmerrYUT8/145HXxVw==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
