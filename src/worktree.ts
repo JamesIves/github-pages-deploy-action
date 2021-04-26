@@ -6,7 +6,7 @@ import {suppressSensitiveInformation} from './util'
 export class GitCheckout {
   orphan = false
   commitish?: string | null = null
-  branch: string
+  branch: string | boolean
   constructor(branch: string) {
     this.branch = branch
   }
