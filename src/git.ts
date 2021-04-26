@@ -98,11 +98,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
         action.silent
       ))
 
-    await generateWorktree(
-      action,
-      temporaryDeploymentDirectory,
-      branchExists
-    )
+    await generateWorktree(action, temporaryDeploymentDirectory, branchExists)
 
     // Ensures that items that need to be excluded from the clean job get parsed.
     let excludes = ''
