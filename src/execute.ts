@@ -14,7 +14,7 @@ export async function execute(
   cmd: string,
   cwd: string,
   silent: boolean
-): Promise<any> {
+): Promise<string> {
   output = ''
 
   await exec(cmd, [], {
@@ -29,7 +29,7 @@ export async function execute(
   return Promise.resolve(output)
 }
 
-export function stdout(data: any): string | void {
+export function stdout(data: Buffer | string): void {
   if (output.length < buffer.constants.MAX_STRING_LENGTH) {
     output += data.toString().trim()
   }

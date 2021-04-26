@@ -24,7 +24,7 @@ jobs:
         run: npm install -g yarn
 
       - name: Clobber lib
-        run:  rm -rf lib
+        run: rm -rf lib
 
       - name: Set up .gitignore
         run: |

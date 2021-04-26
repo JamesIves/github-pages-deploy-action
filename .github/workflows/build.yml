@@ -72,8 +72,8 @@ jobs:
     needs: build
     strategy:
       matrix:
-        branch: ["gh-pages", "no-pages"]
-        commit: ["singleCommit", "add commits"]
+        branch: ['gh-pages', 'no-pages']
+        commit: ['singleCommit', 'add commits']
       max-parallel: 1
     steps:
       - name: Checkout
@@ -120,7 +120,7 @@ jobs:
         if: ${{ matrix.branch == 'gh-pages' }}
         with:
           folder: integration
-          branch: ${{ matrix.branch }} 
+          branch: ${{ matrix.branch }}
           single-commit: ${{ matrix.commit == 'singleCommit' }}
           dry-run: true
 
