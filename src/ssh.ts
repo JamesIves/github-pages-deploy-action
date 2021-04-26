@@ -7,11 +7,7 @@ import {suppressSensitiveInformation} from './util'
 
 export async function configureSSH(action: ActionInterface): Promise<void> {
   try {
-    if (
-      typeof action.sshKey === 'string' &&
-      action.hostname &&
-      process.env['HOME']
-    ) {
+    if (typeof action.sshKey === 'string') {
       const sshDirectory = `${process.env['HOME']}/.ssh`
       const sshKnownHostsDirectory = `${sshDirectory}/known_hosts`
 

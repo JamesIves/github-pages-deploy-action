@@ -45,10 +45,10 @@ export default async function run(
     settings.tokenType = generateTokenType(settings)
 
     if (settings.sshKey) {
-      configureSSH(settings)
+      await configureSSH(settings)
     }
 
-    init(settings)
+    await init(settings)
     status = await deploy(settings)
   } catch (error) {
     status = Status.FAILED
