@@ -15,8 +15,6 @@ export async function execute(
   cwd: string,
   silent: boolean
 ): Promise<string> {
-  output = ''
-
   await exec(cmd, [], {
     // Silences the input unless the INPUT_DEBUG flag is set.
     silent,
