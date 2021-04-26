@@ -25,7 +25,7 @@ export class GitCheckout {
 export async function generateWorktree(
   action: ActionInterface,
   worktreedir: string,
-  branchExists: boolean
+  branchExists: string
 ): Promise<void> {
   try {
     info('Creating worktree…')
