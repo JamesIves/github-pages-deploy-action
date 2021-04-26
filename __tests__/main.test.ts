@@ -1,4 +1,3 @@
-/* eslint-disable import/first */
 // Initial env variable setup for tests.
 process.env['INPUT_FOLDER'] = 'build'
 process.env['GITHUB_SHA'] = '123'
@@ -50,7 +49,7 @@ describe('main', () => {
       debug: true
     })
     await run(action)
-    expect(execute).toBeCalledTimes(13)
+    expect(execute).toBeCalledTimes(12)
     expect(rmRF).toBeCalledTimes(1)
     expect(exportVariable).toBeCalledTimes(1)
   })

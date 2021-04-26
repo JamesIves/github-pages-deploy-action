@@ -8,7 +8,7 @@ const replaceAll = (input: string, find: string, replace: string): string =>
   input.split(find).join(replace)
 
 /* Utility function that checks to see if a value is undefined or not. */
-export const isNullOrUndefined = (value: any): boolean =>
+export const isNullOrUndefined = (value: unknown): boolean =>
   typeof value === 'undefined' || value === null || value === ''
 
 /* Generates a token type used for the action. */

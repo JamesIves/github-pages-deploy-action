@@ -5,53 +5,53 @@ on:
       version:
         description: 'The updated registry version number.'
         required: true
-      
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-      with:
-        ref: dev
+      - uses: actions/checkout@v2
+        with:
+          ref: dev
 
-    # Setup .npmrc file to publish to npm
-    - uses: actions/setup-node@v1.4.4
-      with:
-        node-version: '10.15.1'
-        registry-url: 'https://registry.npmjs.org'
-        scope: '@jamesives'
+      # Setup .npmrc file to publish to npm
+      - uses: actions/setup-node@v1.4.4
+        with:
+          node-version: '10.15.1'
+          registry-url: 'https://registry.npmjs.org'
+          scope: '@jamesives'
 
-    - name: Configure Git
-      run: |
-        git config user.email "iam@jamesiv.es"
-        git config user.name "James Ives"
+      - name: Configure Git
+        run: |
+          git config user.email "iam@jamesiv.es"
+          git config user.name "James Ives"
 
-    - name: Install Yarn
-      run: npm install -g yarn
+      - name: Install Yarn
+        run: npm install -g yarn
 
-    - run: yarn install --frozen-lockfile
-    - run: yarn build
-    - run: npm version ${{ github.event.inputs.version }} -m "Release ${{ github.event.inputs.version }} 📣"
-    - run: git push
+      - run: yarn install --frozen-lockfile
+      - run: yarn build
+      - run: npm version ${{ github.event.inputs.version }} -m "Release ${{ github.event.inputs.version }} 📣"
+      - run: git push
 
-    # Publish to npm
-    - run: npm publish --access public
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      # Publish to npm
+      - run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-    # Setup .npmrc file to publish to GitHub Packages
-    - uses: actions/setup-node@v1.4.4
-      with:
-        node-version: 12
-        registry-url: 'https://npm.pkg.github.com'
-        scope: '@jamesives'
+      # Setup .npmrc file to publish to GitHub Packages
+      - uses: actions/setup-node@v1.4.4
+        with:
+          node-version: 12
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@jamesives'
 
-    - name: Authenticate with the GitHub Package Registry
-      run:
-        echo "//npm.pkg.github.com:_authToken=${{ secrets.GITHUB_TOKEN }}" >
-        ~/.npmrc
+      - name: Authenticate with the GitHub Package Registry
+        run:
+          echo "//npm.pkg.github.com:_authToken=${{ secrets.GITHUB_TOKEN }}" >
+          ~/.npmrc
 
-    # Publish to GitHub Packages
-    - run: npm publish
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Publish to GitHub Packages
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

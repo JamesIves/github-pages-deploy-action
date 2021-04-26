@@ -26,7 +26,7 @@ inputs:
 
       We recommend using a service account with the least permissions neccersary
       and when generating a new PAT that you select the least permission scopes required.
-      
+
       [Learn more about creating and using encrypted secrets here.](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets)
     required: false
     default: ${{ github.token }}
@@ -53,23 +53,23 @@ inputs:
     default: true
 
   clean-exclude:
-    description: "If you need to use clean but you would like to preserve certain files or folders you can use this option. This should contain each pattern as a single line in a multiline string."
+    description: 'If you need to use clean but you would like to preserve certain files or folders you can use this option. This should contain each pattern as a single line in a multiline string.'
     required: false
 
   dry-run:
-    description: "Do not actually push back, but use `--dry-run` on `git push` invocations insead."
+    description: 'Do not actually push back, but use `--dry-run` on `git push` invocations insead.'
     required: false
 
   git-config-name:
-    description: "Allows you to customize the name that is attached to the GitHub config which is used when pushing the deployment commits. If this is not included it will use the name in the GitHub context, followed by the name of the action."
+    description: 'Allows you to customize the name that is attached to the GitHub config which is used when pushing the deployment commits. If this is not included it will use the name in the GitHub context, followed by the name of the action.'
     required: false
 
   git-config-email:
-    description: "Allows you to customize the email that is attached to the GitHub config which is used when pushing the deployment commits. If this is not included it will use the email in the GitHub context, followed by a generic noreply GitHub email."
+    description: 'Allows you to customize the email that is attached to the GitHub config which is used when pushing the deployment commits. If this is not included it will use the email in the GitHub context, followed by a generic noreply GitHub email.'
     required: false
 
   repository-name:
-    description: "Allows you to speicfy a different repository path so long as you have permissions to push to it. This should be formatted like so: JamesIves/github-pages-deploy-action"
+    description: 'Allows you to speicfy a different repository path so long as you have permissions to push to it. This should be formatted like so: JamesIves/github-pages-deploy-action'
     required: false
 
   workspace:
@@ -81,7 +81,7 @@ inputs:
     required: false
 
   silent:
-    description: "Silences the action output preventing it from displaying git messages."
+    description: 'Silences the action output preventing it from displaying git messages.'
     required: false
 
 outputs:

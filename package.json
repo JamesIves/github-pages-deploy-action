@@ -10,7 +10,7 @@
     "build": "rimraf lib && tsc --declaration",
     "test": "jest",
     "lint": "eslint src/**/*.ts __tests__/**/*.ts",
-    "lint:format": "prettier --write './**/*.ts'"
+    "lint:format": "prettier --write './**/*.{ts,js,json,yml,md}' './*.{ts,js,json,yml,md}'"
   },
   "repository": {
     "type": "git",
