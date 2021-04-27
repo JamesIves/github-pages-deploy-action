@@ -164,6 +164,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
 
     if (
       (!action.singleCommit && !hasFilesToCommit) ||
+      // Ignores the case where single commit is true with a target folder to prevent incorrect early exiting.
       (action.singleCommit && !action.targetFolder && !hasFilesToCommit)
     ) {
       return Status.SKIPPED
