@@ -215,6 +215,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
         action.silent
       )
 
+      await execute(
         `git branch -D ${action.branch} --force`,
         action.workspace,
         action.silent
