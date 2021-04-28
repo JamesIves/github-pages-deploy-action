@@ -209,7 +209,7 @@ jobs:
         integration-container,
         integration-ssh,
         integration-ssh-third-party-client,
-        integration-env,
+        integration-env
       ]
     runs-on: ubuntu-latest
     steps:
