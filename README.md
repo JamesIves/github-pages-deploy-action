@@ -92,13 +92,13 @@ npm install @jamesives/github-pages-deploy-action
 It can then be imported into your project like so.
 
 ```javascript
-import run from 'github-pages-deploy-action'
+import run from '@jamesives/github-pages-deploy-action'
 ```
 
 Calling the functions directly will require you to pass in an object containing the variables found in the configuration section, you'll also need to provide a `workspace` with a path to your project.
 
 ```javascript
-import run from 'github-pages-deploy-action'
+import run from '@jamesives/github-pages-deploy-action'
 
 run({
   token: process.env['ACCESS_TOKEN'],
