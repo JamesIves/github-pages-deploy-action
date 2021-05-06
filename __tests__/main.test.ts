@@ -37,7 +37,7 @@ describe('main', () => {
   it('should run through the commands', async () => {
     Object.assign(action, {
       repositoryPath: 'JamesIves/github-pages-deploy-action',
-      folder: 'assets',
+      folder: '.github/assets',
       branch: 'branch',
       token: '123',
       hostname: 'github.com',
@@ -58,7 +58,7 @@ describe('main', () => {
     Object.assign(action, {
       hostname: 'github.com',
       repositoryPath: 'JamesIves/github-pages-deploy-action',
-      folder: 'assets',
+      folder: '.github/assets',
       branch: 'branch',
       token: '123',
       sshKey: true,
@@ -77,7 +77,7 @@ describe('main', () => {
   it('should throw if an error is encountered', async () => {
     Object.assign(action, {
       hostname: 'github.com',
-      folder: 'assets',
+      folder: '.github/assets',
       branch: 'branch',
       token: null,
       sshKey: null,
