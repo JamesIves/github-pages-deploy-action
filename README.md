@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/marketplace/actions/deploy-to-github-pages">
-    <img alt="" width="300px" src="https://github.com/JamesIves/github-pages-deploy-action/raw/dev-v4/assets/icon.png">
+    <img alt="" width="300px" src="https://github.com/JamesIves/github-pages-deploy-action/raw/dev/.github/assets/icon.png">
   </a>
 </p>
 
@@ -35,7 +35,7 @@
 </p>
 
 <p align="center">
-  <img src="https://github.com/JamesIves/github-pages-deploy-action/raw/dev-v4/assets/screenshot.png">
+  <img src="https://github.com/JamesIves/github-pages-deploy-action/raw/dev/.github/assets/screenshot.png">
 </p>
 
 ## Getting Started :airplane:
@@ -346,6 +346,9 @@ If you wish to remove these files you must go into the deployment branch directl
 
 ## Support 💖
 
-This project would not be possible without all of our fantastic [contributors](https://github.com/JamesIves/github-pages-deploy-action/graphs/contributors).
+This project would not be possible without all of our fantastic [contributors](https://github.com/JamesIves/github-pages-deploy-action/graphs/contributors) and sponsors. If you'd like to support the maintenance and upkeep of this project you can [donate via GitHub Sponsors](https://github.com/sponsors/JamesIves).
 
-If you'd like to support the maintenance and upkeep of this project you can [donate via GitHub Sponsors](https://github.com/sponsors/JamesIves). This project is distributed under the [MIT](https://github.com/JamesIves/github-pages-deploy-action/blob/dev/LICENSE) license, and the project logo was created by [Paganini](https://twitter.com/paganiniart).
+<!-- sponsors -->
+<!-- sponsors -->
+
+ This project is distributed under the [MIT](https://github.com/JamesIves/github-pages-deploy-action/blob/dev/LICENSE) license.
