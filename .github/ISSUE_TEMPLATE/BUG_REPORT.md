@@ -2,7 +2,7 @@
 name: Bug Report
 about: Create a bug report to help us improve the action.
 labels:
-  - bug
+  - triage ⚠️
 ---
 
 <!-- Please check the Q&A before posting an issue: https://github.com/JamesIves/github-pages-deploy-action/discussions?discussions_q=category%3AQ%26A -->
