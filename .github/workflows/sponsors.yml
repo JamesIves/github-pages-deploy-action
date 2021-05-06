@@ -16,7 +16,8 @@ jobs:
         with:
           token: ${{ secrets.PAT }}
           file: 'README.md'
-          template: '<a href="https://github.com/{{{ login }}}"><img src="https://github.com/{{{ login }}}.png" width="40px" alt="" /></a>'
+          template: '<a href="https://github.com/{{{ login }}}"><img src="https://github.com/{{{ login }}}.png" width="50px" alt="" /></a>'
+          minimum: 1000
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.1
