@@ -34,7 +34,7 @@ jobs:
           single-commit: true
           clean: true
           silent: true
-          
+
   # Deploys using checkout@v1 with an ACCESS_TOKEN.
   integration-checkout-v1:
     needs: integration-cross-repo-push
@@ -83,7 +83,6 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branches: gh-pages
-
 
   # Deploys using a container that requires you to install rsync.
   integration-container:
@@ -172,7 +171,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branches: gh-pages
 
-  # Deploys using a custom env.
+  # Deploys using a custom env. (Includes subsequent commit)
   integration-env:
     needs: integration-ssh-third-party-client
     runs-on: ubuntu-latest
@@ -195,6 +194,15 @@ jobs:
           target-folder: cat/montezuma4
           silent: true
 
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v4
+        with:
+          ssh-key: ${{ secrets.DEPLOY_KEY }}
+          branch: gh-pages
+          folder: integration
+          target-folder: cat/subsequent
+          silent: true
+
       - name: Cleanup Generated Branch
         uses: dawidd6/action-delete-branch@v2.0.1
         with:
@@ -203,7 +211,15 @@ jobs:
 
   # Deploys using the CLEAN option.
   integration-clean:
-    needs: [integration-checkout-v1, integration-checkout-v2, integration-container, integration-ssh, integration-ssh-third-party-client, integration-env]
+    needs:
+      [
+        integration-checkout-v1,
+        integration-checkout-v2,
+        integration-container,
+        integration-ssh,
+        integration-ssh-third-party-client,
+        integration-env
+      ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -220,7 +236,7 @@ jobs:
           clean: true
           silent: true
 
-  # Deploys to a branch that doesn't exist with SINGLE_COMMIT.
+  # Deploys to a branch that doesn't exist with SINGLE_COMMIT. (Includes subsequent commit)
   integration-branch-creation:
     needs: integration-clean
     runs-on: ubuntu-latest
@@ -237,6 +253,16 @@ jobs:
           branch: integration-test-delete-prod
           folder: integration
           single-commit: true
+          silent: true
+
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v4
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          branch: integration-test-delete-prod
+          folder: integration
+          single-commit: true
+          target-folder: jives
           silent: true
 
       - name: Cleanup Generated Branch

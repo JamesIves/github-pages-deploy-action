@@ -2,7 +2,7 @@
   "name": "@jamesives/github-pages-deploy-action",
   "description": "GitHub action for building a project and deploying it to GitHub pages.",
   "author": "James Ives <iam@jamesiv.es> (https://jamesiv.es)",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "license": "MIT",
   "main": "lib/lib.js",
   "types": "lib/lib.d.ts",
@@ -10,7 +10,7 @@
     "build": "rimraf lib && tsc --declaration",
     "test": "jest",
     "lint": "eslint src/**/*.ts __tests__/**/*.ts",
-    "lint:format": "prettier --write './**/*.ts'"
+    "lint:format": "prettier --write './**/*.{ts,js,json,yml,md}' './*.{ts,js,json,yml,md}'"
   },
   "repository": {
     "type": "git",
@@ -33,23 +33,25 @@
     "deployment"
   ],
   "dependencies": {
-    "@actions/core": "1.2.6",
+    "@actions/core": "1.2.7",
     "@actions/exec": "1.0.4",
     "@actions/github": "4.0.0",
-    "@actions/io": "1.0.2"
+    "@actions/io": "1.1.0"
   },
   "devDependencies": {
-    "@types/jest": "26.0.22",
-    "@types/node": "14.14.37",
-    "eslint": "7.23.0",
-    "eslint-plugin-github": "4.1.2",
-    "eslint-plugin-jest": "24.3.2",
-    "eslint-plugin-prettier": "3.1.2",
+    "@types/jest": "26.0.23",
+    "@types/node": "15.0.2",
+    "@typescript-eslint/eslint-plugin": "4.22.1",
+    "@typescript-eslint/parser": "4.22.1",
+    "eslint": "7.26.0",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-jest": "24.3.6",
+    "eslint-plugin-prettier": "3.4.0",
     "jest": "26.6.3",
     "jest-circus": "26.6.3",
     "prettier": "2.2.1",
     "rimraf": "3.0.2",
-    "ts-jest": "26.5.4",
-    "typescript": "4.2.3"
+    "ts-jest": "26.5.6",
+    "typescript": "4.2.4"
   }
 }

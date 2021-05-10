@@ -1,6 +1,7 @@
 import {exec} from '@actions/exec'
+import buffer from 'buffer'
 
-let output: string
+let output = ''
 
 /** Wrapper around the GitHub toolkit exec command which returns the output.
  * Also allows you to easily toggle the current working directory.
@@ -13,7 +14,7 @@ export async function execute(
   cmd: string,
   cwd: string,
   silent: boolean
-): Promise<any> {
+): Promise<string> {
   output = ''
 
   await exec(cmd, [], {
@@ -28,6 +29,8 @@ export async function execute(
   return Promise.resolve(output)
 }
 
-export function stdout(data: any): string | void {
-  output += data.toString().trim()
+export function stdout(data: Buffer | string): void {
+  if (output.length < buffer.constants.MAX_STRING_LENGTH) {
+    output += data.toString().trim()
+  }
 }
