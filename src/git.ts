@@ -93,7 +93,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     const branchExists =
       action.isTest & TestFlag.HAS_REMOTE_BRANCH ||
       (await execute(
-        `git ls-remote --heads ${action.repositoryPath} ${action.branch}`,
+        `git ls-remote --heads ${action.repositoryPath} refs/heads/${action.branch}`,
         action.workspace,
         action.silent
       ))
