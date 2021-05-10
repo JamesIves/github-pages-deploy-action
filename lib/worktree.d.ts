@@ -6,4 +6,4 @@ export declare class GitCheckout {
     constructor(branch: string);
     toString(): string;
 }
-export declare function generateWorktree(action: ActionInterface, worktreedir: string, branchExists: boolean): Promise<void>;
+export declare function generateWorktree(action: ActionInterface, worktreedir: string, branchExists: unknown): Promise<void>;
