@@ -171,7 +171,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branches: gh-pages
 
-  # Deploys using a custom env.
+  # Deploys using a custom env. (Includes subsequent commit)
   integration-env:
     needs: integration-ssh-third-party-client
     runs-on: ubuntu-latest
@@ -192,6 +192,15 @@ jobs:
           branch: gh-pages
           folder: integration
           target-folder: cat/montezuma4
+          silent: true
+
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v4
+        with:
+          ssh-key: ${{ secrets.DEPLOY_KEY }}
+          branch: gh-pages
+          folder: integration
+          target-folder: cat/subsequent
           silent: true
 
       - name: Cleanup Generated Branch
@@ -227,7 +236,7 @@ jobs:
           clean: true
           silent: true
 
-  # Deploys to a branch that doesn't exist with SINGLE_COMMIT.
+  # Deploys to a branch that doesn't exist with SINGLE_COMMIT. (Includes subsequent commit)
   integration-branch-creation:
     needs: integration-clean
     runs-on: ubuntu-latest
@@ -244,6 +253,16 @@ jobs:
           branch: integration-test-delete-prod
           folder: integration
           single-commit: true
+          silent: true
+
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v4
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          branch: integration-test-delete-prod
+          folder: integration
+          single-commit: true
+          target-folder: jives
           silent: true
 
       - name: Cleanup Generated Branch

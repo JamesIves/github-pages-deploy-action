@@ -151,7 +151,9 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       branchExists && action.singleCommit
         ? `git diff origin/${action.branch}`
         : `git status --porcelain`
+
     info(`Checking if there are files to commit…`)
+
     const hasFilesToCommit =
       action.isTest & TestFlag.HAS_CHANGED_FILES ||
       (await execute(
@@ -160,7 +162,11 @@ export async function deploy(action: ActionInterface): Promise<Status> {
         true // This output is always silenced due to the large output it creates.
       ))
 
-    if (!hasFilesToCommit) {
+    if (
+      (!action.singleCommit && !hasFilesToCommit) ||
+      // Ignores the case where single commit is true with a target folder to prevent incorrect early exiting.
+      (action.singleCommit && !action.targetFolder && !hasFilesToCommit)
+    ) {
       return Status.SKIPPED
     }
 
@@ -201,11 +207,28 @@ export async function deploy(action: ActionInterface): Promise<Status> {
   } finally {
     // Cleans up temporary files/folders and restores the git state.
     info('Running post deployment cleanup jobs… 🗑️')
+
+    if (!action.singleCommit) {
+      info(`Resetting branch and removing artifacts…`)
+      await execute(
+        `git checkout -B ${temporaryDeploymentBranch}`,
+        `${action.workspace}/${temporaryDeploymentDirectory}`,
+        action.silent
+      )
+
+      await execute(
+        `git branch -D ${action.branch} --force`,
+        action.workspace,
+        action.silent
+      )
+    }
+
     await execute(
       `git worktree remove ${temporaryDeploymentDirectory} --force`,
       action.workspace,
       action.silent
     )
+
     await rmRF(temporaryDeploymentDirectory)
   }
 }
