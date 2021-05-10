@@ -194,6 +194,15 @@ jobs:
           target-folder: cat/montezuma4
           silent: true
 
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v4
+        with:
+          ssh-key: ${{ secrets.DEPLOY_KEY }}
+          branch: gh-pages
+          folder: integration
+          target-folder: cat/subsequent
+          silent: true
+
       - name: Cleanup Generated Branch
         uses: dawidd6/action-delete-branch@v2.0.1
         with:
@@ -244,6 +253,16 @@ jobs:
           branch: integration-test-delete-prod
           folder: integration
           single-commit: true
+          silent: true
+
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v4
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          branch: integration-test-delete-prod
+          folder: integration
+          single-commit: true
+          target-folder: jives
           silent: true
 
       - name: Cleanup Generated Branch
