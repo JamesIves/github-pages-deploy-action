@@ -171,7 +171,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branches: gh-pages
 
-  # Deploys using a custom env.
+  # Deploys using a custom env. (Includes subsequent commit)
   integration-env:
     needs: integration-ssh-third-party-client
     runs-on: ubuntu-latest
@@ -236,7 +236,7 @@ jobs:
           clean: true
           silent: true
 
-  # Deploys to a branch that doesn't exist with SINGLE_COMMIT.
+  # Deploys to a branch that doesn't exist with SINGLE_COMMIT. (Includes subsequent commit)
   integration-branch-creation:
     needs: integration-clean
     runs-on: ubuntu-latest
