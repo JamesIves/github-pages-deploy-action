@@ -30,7 +30,8 @@ export async function execute(
 }
 
 export function stdout(data: Buffer | string): void {
-  if (output.length < buffer.constants.MAX_STRING_LENGTH) {
-    output += data.toString().trim()
+  const dataString = data.toString().trim()
+  if (output.length + dataString.length < buffer.constants.MAX_STRING_LENGTH) {
+    output += dataString
   }
 }
