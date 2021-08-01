@@ -69,7 +69,7 @@ inputs:
     required: false
 
   repository-name:
-    description: 'Allows you to speicfy a different repository path so long as you have permissions to push to it. This should be formatted like so: JamesIves/github-pages-deploy-action'
+    description: 'Allows you to specify a different repository path so long as you have permissions to push to it. This should be formatted like so: JamesIves/github-pages-deploy-action'
     required: false
 
   workspace:
