@@ -39,7 +39,7 @@
     "@actions/io": "1.1.1"
   },
   "devDependencies": {
-    "@types/jest": "26.0.24",
+    "@types/jest": "27.0.0",
     "@types/node": "16.4.13",
     "@typescript-eslint/eslint-plugin": "4.29.0",
     "@typescript-eslint/parser": "4.29.0",
