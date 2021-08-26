@@ -143,6 +143,14 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       action.silent
     )
 
+    if (action.singleCommit) {
+      await execute(
+        `git add --all .`,
+        `${action.workspace}/${temporaryDeploymentDirectory}`,
+        action.silent
+      )
+    }
+
     // Use git status to check if we have something to commit.
     // Special case is singleCommit with existing history, when
     // we're really interested if the diff against the upstream branch
