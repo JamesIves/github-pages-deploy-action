@@ -216,7 +216,7 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(11)
+      expect(execute).toBeCalledTimes(12)
       expect(rmRF).toBeCalledTimes(1)
     })
 
@@ -240,7 +240,7 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(10)
+      expect(execute).toBeCalledTimes(11)
       expect(rmRF).toBeCalledTimes(1)
     })
 
@@ -265,7 +265,7 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(10)
+      expect(execute).toBeCalledTimes(11)
       expect(rmRF).toBeCalledTimes(1)
     })
 
