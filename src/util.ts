@@ -90,6 +90,13 @@ export const suppressSensitiveInformation = (
   return value
 }
 
+export const extractErrorMessage = (error: unknown): string =>
+  error instanceof Error
+    ? error.message
+    : typeof error == 'string'
+    ? error
+    : JSON.stringify(error)
+
 /** Strips the protocol from a provided URL. */
 export const stripProtocolFromUrl = (url: string): string =>
   url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, '').split('/')[0]

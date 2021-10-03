@@ -4,6 +4,7 @@ import {deploy, init} from './git'
 import {configureSSH} from './ssh'
 import {
   checkParameters,
+  extractErrorMessage,
   generateFolderPath,
   generateRepositoryPath,
   generateTokenType
@@ -52,7 +53,7 @@ export default async function run(
     status = await deploy(settings)
   } catch (error) {
     status = Status.FAILED
-    setFailed(error.message)
+    setFailed(extractErrorMessage(error))
   } finally {
     info(
       `${
