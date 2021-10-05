@@ -222,7 +222,7 @@ describe('util', () => {
       try {
         checkParameters(action)
       } catch (e) {
-        expect(e.message).toMatch(
+        expect(e instanceof Error && e.message).toMatch(
           'No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true.'
         )
       }
@@ -242,7 +242,7 @@ describe('util', () => {
       try {
         checkParameters(action)
       } catch (e) {
-        expect(e.message).toMatch(
+        expect(e instanceof Error && e.message).toMatch(
           'No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true.'
         )
       }
@@ -262,7 +262,7 @@ describe('util', () => {
       try {
         checkParameters(action)
       } catch (e) {
-        expect(e.message).toMatch('Branch is required.')
+        expect(e instanceof Error && e.message).toMatch('Branch is required.')
       }
     })
 
@@ -280,7 +280,7 @@ describe('util', () => {
       try {
         checkParameters(action)
       } catch (e) {
-        expect(e.message).toMatch(
+        expect(e instanceof Error && e.message).toMatch(
           'You must provide the action with a folder to deploy.'
         )
       }
@@ -301,7 +301,7 @@ describe('util', () => {
         action.folderPath = generateFolderPath(action)
         checkParameters(action)
       } catch (e) {
-        expect(e.message).toMatch(
+        expect(e instanceof Error && e.message).toMatch(
           `The directory you're trying to deploy named notARealFolder doesn't exist. Please double check the path and any prerequisite build scripts and try again. ❗`
         )
       }

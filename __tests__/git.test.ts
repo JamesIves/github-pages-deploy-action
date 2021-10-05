@@ -80,7 +80,7 @@ describe('git', () => {
       try {
         await init(action)
       } catch (error) {
-        expect(error.message).toBe(
+        expect(error instanceof Error && error.message).toBe(
           'There was an error initializing the repository: Mocked throw ❌'
         )
       }
@@ -419,7 +419,7 @@ describe('git', () => {
       try {
         await deploy(action)
       } catch (error) {
-        expect(error.message).toBe(
+        expect(error instanceof Error && error.message).toBe(
           'The deploy step encountered an error: Mocked throw ❌'
         )
       }
