@@ -3,7 +3,7 @@ import {mkdirP} from '@actions/io'
 import {execFileSync, execSync} from 'child_process'
 import {appendFileSync} from 'fs'
 import {ActionInterface} from './constants'
-import {suppressSensitiveInformation} from './util'
+import {extractErrorMessage, suppressSensitiveInformation} from './util'
 
 export async function configureSSH(action: ActionInterface): Promise<void> {
   try {
@@ -46,7 +46,7 @@ export async function configureSSH(action: ActionInterface): Promise<void> {
   } catch (error) {
     throw new Error(
       `The ssh client configuration encountered an error: ${suppressSensitiveInformation(
-        error.message,
+        extractErrorMessage(error),
         action
       )} ❌`
     )

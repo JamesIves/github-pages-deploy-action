@@ -1,7 +1,7 @@
 import {info} from '@actions/core'
 import {ActionInterface} from './constants'
 import {execute} from './execute'
-import {suppressSensitiveInformation} from './util'
+import {extractErrorMessage, suppressSensitiveInformation} from './util'
 
 export class GitCheckout {
   orphan = false
@@ -77,7 +77,7 @@ export async function generateWorktree(
   } catch (error) {
     throw new Error(
       `There was an error creating the worktree: ${suppressSensitiveInformation(
-        error.message,
+        extractErrorMessage(error),
         action
       )} ❌`
     )

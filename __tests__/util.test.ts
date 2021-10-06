@@ -6,7 +6,8 @@ import {
   generateFolderPath,
   suppressSensitiveInformation,
   checkParameters,
-  stripProtocolFromUrl
+  stripProtocolFromUrl,
+  extractErrorMessage
 } from '../src/util'
 
 describe('util', () => {
@@ -222,7 +223,7 @@ describe('util', () => {
       try {
         checkParameters(action)
       } catch (e) {
-        expect(e.message).toMatch(
+        expect(e instanceof Error && e.message).toMatch(
           'No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true.'
         )
       }
@@ -242,7 +243,7 @@ describe('util', () => {
       try {
         checkParameters(action)
       } catch (e) {
-        expect(e.message).toMatch(
+        expect(e instanceof Error && e.message).toMatch(
           'No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true.'
         )
       }
@@ -262,7 +263,7 @@ describe('util', () => {
       try {
         checkParameters(action)
       } catch (e) {
-        expect(e.message).toMatch('Branch is required.')
+        expect(e instanceof Error && e.message).toMatch('Branch is required.')
       }
     })
 
@@ -280,7 +281,7 @@ describe('util', () => {
       try {
         checkParameters(action)
       } catch (e) {
-        expect(e.message).toMatch(
+        expect(e instanceof Error && e.message).toMatch(
           'You must provide the action with a folder to deploy.'
         )
       }
@@ -301,7 +302,7 @@ describe('util', () => {
         action.folderPath = generateFolderPath(action)
         checkParameters(action)
       } catch (e) {
-        expect(e.message).toMatch(
+        expect(e instanceof Error && e.message).toMatch(
           `The directory you're trying to deploy named notARealFolder doesn't exist. Please double check the path and any prerequisite build scripts and try again. ❗`
         )
       }
@@ -324,6 +325,24 @@ describe('util', () => {
     it('works with a url that is not github.com', () => {
       expect(stripProtocolFromUrl('http://github.enterprise.jamesiv.es')).toBe(
         'github.enterprise.jamesiv.es'
+      )
+    })
+  })
+
+  describe('extractErrorMessage', () => {
+    it('gets the message of a Error', () => {
+      expect(extractErrorMessage(new Error('a error message'))).toBe(
+        'a error message'
+      )
+    })
+
+    it('gets the message of a string', () => {
+      expect(extractErrorMessage('a error message')).toBe('a error message')
+    })
+
+    it('gets the message of a object', () => {
+      expect(extractErrorMessage({special: 'a error message'})).toBe(
+        `{"special":"a error message"}`
       )
     })
   })

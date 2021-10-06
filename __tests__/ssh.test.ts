@@ -133,7 +133,7 @@ describe('configureSSH', () => {
     try {
       await configureSSH(action)
     } catch (error) {
-      expect(error.message).toBe(
+      expect(error instanceof Error && error.message).toBe(
         'The ssh client configuration encountered an error: Mocked throw ❌'
       )
     }
