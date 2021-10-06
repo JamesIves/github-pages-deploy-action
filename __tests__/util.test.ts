@@ -6,7 +6,8 @@ import {
   generateFolderPath,
   suppressSensitiveInformation,
   checkParameters,
-  stripProtocolFromUrl
+  stripProtocolFromUrl,
+  extractErrorMessage
 } from '../src/util'
 
 describe('util', () => {
@@ -324,6 +325,24 @@ describe('util', () => {
     it('works with a url that is not github.com', () => {
       expect(stripProtocolFromUrl('http://github.enterprise.jamesiv.es')).toBe(
         'github.enterprise.jamesiv.es'
+      )
+    })
+  })
+
+  describe('extractErrorMessage', () => {
+    it('gets the message of a Error', () => {
+      expect(extractErrorMessage(new Error('a error message'))).toBe(
+        'a error message'
+      )
+    })
+
+    it('gets the message of a string', () => {
+      expect(extractErrorMessage('a error message')).toBe('a error message')
+    })
+
+    it('gets the message of a object', () => {
+      expect(extractErrorMessage({special: 'a error message'})).toBe(
+        `{"special":"a error message"}`
       )
     })
   })
