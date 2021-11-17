@@ -227,6 +227,12 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     )
 
     await execute(
+      `chmod -R 777 ${temporaryDeploymentDirectory}`,
+      action.workspace,
+      action.silent
+    )
+
+    await execute(
       `git worktree remove ${temporaryDeploymentDirectory} --force`,
       action.workspace,
       action.silent
