@@ -21,11 +21,21 @@ export async function init(action: ActionInterface): Promise<void | Error> {
       action.workspace,
       action.silent
     )
-    await execute(
-      `git config user.email "${action.email ? action.email : '<>'}"`,
-      action.workspace,
-      action.silent
-    )
+
+    if (action.email) {
+      await execute(
+        `git config user.email "${action.email}"`,
+        action.workspace,
+        action.silent
+      )
+    } else {
+      /* If a user specifies that they don't want their email displayed, unset it from the config. */
+      await execute(
+        `git config --unset user.email`,
+        action.workspace,
+        action.silent
+      )
+    }
 
     try {
       if ((process.env.CI && !action.sshKey) || action.isTest) {

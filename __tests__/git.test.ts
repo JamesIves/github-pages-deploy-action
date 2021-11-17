@@ -58,6 +58,26 @@ describe('git', () => {
       expect(execute).toBeCalledTimes(5)
     })
 
+    it('should unset email if it does not exist', async () => {
+      Object.assign(action, {
+        hostname: 'github.com',
+        silent: false,
+        email: '',
+        repositoryPath: 'JamesIves/github-pages-deploy-action',
+        token: '123',
+        branch: 'branch',
+        folder: '.',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        isTest: TestFlag.HAS_CHANGED_FILES
+      })
+
+      await init(action)
+      expect(execute).toBeCalledTimes(5)
+    })
+
     it('should catch when a function throws an error', async () => {
       ;(execute as jest.Mock).mockImplementationOnce(() => {
         throw new Error('Mocked throw')
