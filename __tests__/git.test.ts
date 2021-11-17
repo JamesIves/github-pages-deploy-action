@@ -75,7 +75,7 @@ describe('git', () => {
       })
 
       await init(action)
-      expect(execute).toBeCalledTimes(5)
+      expect(execute).toBeCalledTimes(4)
     })
 
     it('should catch when a function throws an error', async () => {
