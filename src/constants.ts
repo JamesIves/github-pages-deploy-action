@@ -106,7 +106,7 @@ export const action: ActionInterface = {
           ? stripProtocolFromUrl(process.env.GITHUB_SERVER_URL)
           : 'github.com'
       }`,
-  name: !isNullOrUndefined(getInput('git-config-name'), true)
+  name: !isNullOrUndefined(getInput('git-config-name'))
     ? getInput('git-config-name')
     : pusher && pusher.name
     ? pusher.name
