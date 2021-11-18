@@ -79,7 +79,7 @@ It's recommended that you use [Dependabot](https://docs.github.com/en/code-secur
 
 #### Install as a Node Module 📦
 
-If you'd like to use the functionality provided by this action in your own action you can install it using [yarn](https://yarnpkg.com/) or [npm](https://www.npmjs.com/get-npm) by running the following commands. It's available on both the [npm](https://www.npmjs.com/package/@jamesives/github-pages-deploy-action) and [GitHub registry](https://github.com/JamesIves/github-pages-deploy-action/packages/229985).
+If you'd like to use the functionality provided by this action in your own action you can either [create a composite action](https://docs.github.com/en/actions/creating-actions/creating-a-composite-action), or you can install it using [yarn](https://yarnpkg.com/) or [npm](https://www.npmjs.com/get-npm) by running the following commands. It's available on both the [npm](https://www.npmjs.com/package/@jamesives/github-pages-deploy-action) and [GitHub registry](https://github.com/JamesIves/github-pages-deploy-action/packages/229985).
 
 ```
 yarn add @jamesives/github-pages-deploy-action
