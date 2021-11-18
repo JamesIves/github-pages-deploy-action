@@ -80,7 +80,7 @@ describe('git', () => {
       try {
         await init(action)
       } catch (error) {
-        expect(error.message).toBe(
+        expect(error instanceof Error && error.message).toBe(
           'There was an error initializing the repository: Mocked throw ❌'
         )
       }
@@ -168,7 +168,7 @@ describe('git', () => {
       const response = await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(12)
+      expect(execute).toBeCalledTimes(13)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
@@ -191,7 +191,7 @@ describe('git', () => {
       const response = await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(11)
+      expect(execute).toBeCalledTimes(12)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
@@ -216,7 +216,7 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(12)
+      expect(execute).toBeCalledTimes(13)
       expect(rmRF).toBeCalledTimes(1)
     })
 
@@ -240,7 +240,7 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(11)
+      expect(execute).toBeCalledTimes(12)
       expect(rmRF).toBeCalledTimes(1)
     })
 
@@ -265,7 +265,7 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(11)
+      expect(execute).toBeCalledTimes(12)
       expect(rmRF).toBeCalledTimes(1)
     })
 
@@ -296,7 +296,7 @@ describe('git', () => {
       const response = await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(12)
+      expect(execute).toBeCalledTimes(13)
       expect(rmRF).toBeCalledTimes(1)
       expect(fs.existsSync).toBeCalledTimes(2)
       expect(response).toBe(Status.SUCCESS)
@@ -328,7 +328,7 @@ describe('git', () => {
         await deploy(action)
 
         // Includes the call to generateWorktree
-        expect(execute).toBeCalledTimes(9)
+        expect(execute).toBeCalledTimes(10)
         expect(rmRF).toBeCalledTimes(1)
       })
     })
@@ -353,7 +353,7 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(9)
+      expect(execute).toBeCalledTimes(10)
       expect(rmRF).toBeCalledTimes(1)
     })
 
@@ -373,7 +373,7 @@ describe('git', () => {
 
       await deploy(action)
 
-      expect(execute).toBeCalledTimes(9)
+      expect(execute).toBeCalledTimes(10)
       expect(rmRF).toBeCalledTimes(1)
       expect(mkdirP).toBeCalledTimes(1)
     })
@@ -393,7 +393,7 @@ describe('git', () => {
       })
 
       const response = await deploy(action)
-      expect(execute).toBeCalledTimes(9)
+      expect(execute).toBeCalledTimes(10)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SKIPPED)
     })
@@ -419,7 +419,7 @@ describe('git', () => {
       try {
         await deploy(action)
       } catch (error) {
-        expect(error.message).toBe(
+        expect(error instanceof Error && error.message).toBe(
           'The deploy step encountered an error: Mocked throw ❌'
         )
       }

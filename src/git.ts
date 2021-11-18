@@ -4,7 +4,11 @@ import fs from 'fs'
 import {ActionInterface, Status, TestFlag} from './constants'
 import {execute} from './execute'
 import {generateWorktree} from './worktree'
-import {isNullOrUndefined, suppressSensitiveInformation} from './util'
+import {
+  extractErrorMessage,
+  isNullOrUndefined,
+  suppressSensitiveInformation
+} from './util'
 
 /* Initializes git in the workspace. */
 export async function init(action: ActionInterface): Promise<void | Error> {
@@ -18,7 +22,7 @@ export async function init(action: ActionInterface): Promise<void | Error> {
       action.silent
     )
     await execute(
-      `git config user.email "${action.email}"`,
+      `git config user.email "${action.email ? action.email : '<>'}"`,
       action.workspace,
       action.silent
     )
@@ -63,7 +67,7 @@ export async function init(action: ActionInterface): Promise<void | Error> {
   } catch (error) {
     throw new Error(
       `There was an error initializing the repository: ${suppressSensitiveInformation(
-        error.message,
+        extractErrorMessage(error),
         action
       )} ❌`
     )
@@ -208,7 +212,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
   } catch (error) {
     throw new Error(
       `The deploy step encountered an error: ${suppressSensitiveInformation(
-        error.message,
+        extractErrorMessage(error),
         action
       )} ❌`
     )
@@ -219,6 +223,12 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     await execute(
       `git checkout -B ${temporaryDeploymentBranch}`,
       `${action.workspace}/${temporaryDeploymentDirectory}`,
+      action.silent
+    )
+
+    await execute(
+      `chmod -R 777 ${temporaryDeploymentDirectory}`,
+      action.workspace,
       action.silent
     )
 

@@ -7,9 +7,15 @@ import {ActionInterface, RequiredActionParameters} from './constants'
 const replaceAll = (input: string, find: string, replace: string): string =>
   input.split(find).join(replace)
 
-/* Utility function that checks to see if a value is undefined or not. */
-export const isNullOrUndefined = (value: unknown): boolean =>
-  typeof value === 'undefined' || value === null || value === ''
+/* Utility function that checks to see if a value is undefined or not. 
+  If allowEmptyString is passed the parameter is allowed to contain an empty string as a valid parameter. */
+export const isNullOrUndefined = (
+  value: unknown,
+  allowEmptyString = false
+): boolean =>
+  allowEmptyString
+    ? typeof value === 'undefined' || value === null
+    : typeof value === 'undefined' || value === null || value === ''
 
 /* Generates a token type used for the action. */
 export const generateTokenType = (action: ActionInterface): string =>
@@ -89,6 +95,13 @@ export const suppressSensitiveInformation = (
 
   return value
 }
+
+export const extractErrorMessage = (error: unknown): string =>
+  error instanceof Error
+    ? error.message
+    : typeof error == 'string'
+    ? error
+    : JSON.stringify(error)
 
 /** Strips the protocol from a provided URL. */
 export const stripProtocolFromUrl = (url: string): string =>

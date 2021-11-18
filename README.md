@@ -60,7 +60,7 @@ jobs:
           npm run build
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.4
+        uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
           branch: gh-pages # The branch the action should deploy to.
           folder: build # The folder the action should deploy.
@@ -75,7 +75,7 @@ on:
       - main
 ```
 
-It's recommended that you use [Dependabot](https://dependabot.com/github-actions/) to keep your workflow up-to-date. You can find the latest tagged version on the [GitHub Marketplace](https://github.com/marketplace/actions/deploy-to-github-pages) or on the [releases page](https://github.com/JamesIves/github-pages-deploy-action/releases).
+It's recommended that you use [Dependabot](https://docs.github.com/en/code-security/supply-chain-security/managing-vulnerabilities-in-your-projects-dependencies/configuring-dependabot-security-updates) to keep your workflow up-to-date and [secure](https://github.com/features/security). You can find the latest tagged version on the [GitHub Marketplace](https://github.com/marketplace/actions/deploy-to-github-pages) or on the [releases page](https://github.com/JamesIves/github-pages-deploy-action/releases).
 
 #### Install as a Node Module 📦
 
@@ -137,7 +137,7 @@ By default the action does not need any token configuration and uses the provide
 | Key                | Value Information                                                                                                                                                                                                                                                                                                                                                            | Type   | Required |
 | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | -------- |
 | `git-config-name`  | Allows you to customize the name that is attached to the git config which is used when pushing the deployment commits. If this is not included it will use the name in the GitHub context, followed by the name of the action.                                                                                                                                               | `with` | **No**   |
-| `git-config-email` | Allows you to customize the email that is attached to the git config which is used when pushing the deployment commits. If this is not included it will use the email in the GitHub context, followed by a generic noreply GitHub email.                                                                                                                                     | `with` | **No**   |
+| `git-config-email` | Allows you to customize the email that is attached to the git config which is used when pushing the deployment commits. If this is not included it will use the email in the GitHub context, followed by a generic noreply GitHub email. You can include an empty string value if you wish to omit this field altogether.                                                    | `with` | **No**   |
 | `repository-name`  | Allows you to specify a different repository path so long as you have permissions to push to it. This should be formatted like so: `JamesIves/github-pages-deploy-action`. You'll need to use a PAT in the `token` input for this configuration option to work properly.                                                                                                     | `with` | **No**   |
 | `target-folder`    | If you'd like to push the contents of the deployment folder into a specific directory on the deployment branch you can specify it here.                                                                                                                                                                                                                                      | `with` | **No**   |
 | `commit-message`   | If you need to customize the commit message for an integration you can do so.                                                                                                                                                                                                                                                                                                | `with` | **No**   |
@@ -178,7 +178,7 @@ With this configured you can then set the `ssh-key` part of the action to your p
 
 ```yml
 - name: Deploy 🚀
-  uses: JamesIves/github-pages-deploy-action@4.1.4
+  uses: JamesIves/github-pages-deploy-action@4.1.5
   with:
     branch: gh-pages
     folder: site
@@ -207,7 +207,7 @@ jobs:
           npm run build
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.4
+        uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
           branch: gh-pages
           folder: build
@@ -274,7 +274,7 @@ jobs:
           name: site
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.4
+        uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
           branch: gh-pages
           folder: 'site' # The deployment folder should match the name of the artifact. Even though our project builds into the 'build' folder the artifact name of 'site' must be placed here.
@@ -295,7 +295,7 @@ If you use a [container](https://help.github.com/en/actions/automating-your-work
     apt-get update && apt-get install -y rsync
 
 - name: Deploy 🚀
-  uses: JamesIves/github-pages-deploy-action@4.1.4
+  uses: JamesIves/github-pages-deploy-action@4.1.5
 ```
 
 ---
@@ -326,7 +326,7 @@ jobs:
           npm run build
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.4
+        uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
           branch: gh-pages
           folder: build
