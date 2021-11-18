@@ -178,7 +178,7 @@ jobs:
     steps:
       - uses: actions/setup-node@v1.4.4
         with:
-          node-version: '10.x'
+          node-version: 'v14.18.1'
 
       - name: Checkout
         uses: actions/checkout@v2
