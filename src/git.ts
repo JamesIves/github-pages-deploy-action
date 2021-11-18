@@ -22,7 +22,7 @@ export async function init(action: ActionInterface): Promise<void | Error> {
       action.silent
     )
     await execute(
-      `git config user.email "${action.email}"`,
+      `git config user.email "${action.email ? action.email : '<>'}"`,
       action.workspace,
       action.silent
     )
@@ -223,6 +223,12 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     await execute(
       `git checkout -B ${temporaryDeploymentBranch}`,
       `${action.workspace}/${temporaryDeploymentDirectory}`,
+      action.silent
+    )
+
+    await execute(
+      `chmod -R 777 ${temporaryDeploymentDirectory}`,
+      action.workspace,
       action.silent
     )
 

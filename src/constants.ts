@@ -95,7 +95,7 @@ export const action: ActionInterface = {
     ? stripProtocolFromUrl(process.env.GITHUB_SERVER_URL)
     : 'github.com',
   isTest: TestFlag.NONE,
-  email: !isNullOrUndefined(getInput('git-config-email'))
+  email: !isNullOrUndefined(getInput('git-config-email'), true)
     ? getInput('git-config-email')
     : pusher && pusher.email
     ? pusher.email
