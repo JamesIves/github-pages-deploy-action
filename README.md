@@ -56,11 +56,11 @@ jobs:
 
       - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
         run: |
-          npm install
+          npm ci
           npm run build
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.6
+        uses: JamesIves/github-pages-deploy-action@4.1.7
         with:
           branch: gh-pages # The branch the action should deploy to.
           folder: build # The folder the action should deploy.
@@ -79,7 +79,7 @@ It's recommended that you use [Dependabot](https://docs.github.com/en/code-secur
 
 #### Install as a Node Module 📦
 
-If you'd like to use the functionality provided by this action in your own action you can install it using [yarn](https://yarnpkg.com/) or [npm](https://www.npmjs.com/get-npm) by running the following commands. It's available on both the [npm](https://www.npmjs.com/package/@jamesives/github-pages-deploy-action) and [GitHub registry](https://github.com/JamesIves/github-pages-deploy-action/packages/229985).
+If you'd like to use the functionality provided by this action in your own action you can either [create a composite action](https://docs.github.com/en/actions/creating-actions/creating-a-composite-action), or you can install it using [yarn](https://yarnpkg.com/) or [npm](https://www.npmjs.com/get-npm) by running the following commands. It's available on both the [npm](https://www.npmjs.com/package/@jamesives/github-pages-deploy-action) and [GitHub registry](https://github.com/JamesIves/github-pages-deploy-action/packages/229985).
 
 ```
 yarn add @jamesives/github-pages-deploy-action
@@ -137,7 +137,7 @@ By default the action does not need any token configuration and uses the provide
 | Key                | Value Information                                                                                                                                                                                                                                                                                                                                                            | Type   | Required |
 | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | -------- |
 | `git-config-name`  | Allows you to customize the name that is attached to the git config which is used when pushing the deployment commits. If this is not included it will use the name in the GitHub context, followed by the name of the action.                                                                                                                                               | `with` | **No**   |
-| `git-config-email` | Allows you to customize the email that is attached to the git config which is used when pushing the deployment commits. If this is not included it will use the email in the GitHub context, followed by a generic noreply GitHub email. You can include an empty string value if you wish to omit this field altogether.                                                    | `with` | **No**   |
+| `git-config-email` | Allows you to customize the email that is attached to the git config which is used when pushing the deployment commits. If this is not included it will use the email in the GitHub context, followed by a generic noreply GitHub email. You can include `<>` for the value if you wish to omit this field altogether and push the commits without an email.                                                    | `with` | **No**   |
 | `repository-name`  | Allows you to specify a different repository path so long as you have permissions to push to it. This should be formatted like so: `JamesIves/github-pages-deploy-action`. You'll need to use a PAT in the `token` input for this configuration option to work properly.                                                                                                     | `with` | **No**   |
 | `target-folder`    | If you'd like to push the contents of the deployment folder into a specific directory on the deployment branch you can specify it here.                                                                                                                                                                                                                                      | `with` | **No**   |
 | `commit-message`   | If you need to customize the commit message for an integration you can do so.                                                                                                                                                                                                                                                                                                | `with` | **No**   |
@@ -178,7 +178,7 @@ With this configured you can then set the `ssh-key` part of the action to your p
 
 ```yml
 - name: Deploy 🚀
-  uses: JamesIves/github-pages-deploy-action@4.1.6
+  uses: JamesIves/github-pages-deploy-action@4.1.7
   with:
     branch: gh-pages
     folder: site
@@ -203,11 +203,11 @@ jobs:
 
       - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
         run: |
-          npm install
+          npm ci
           npm run build
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.6
+        uses: JamesIves/github-pages-deploy-action@4.1.7
         with:
           branch: gh-pages
           folder: build
@@ -252,7 +252,7 @@ jobs:
 
       - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
         run: |
-          npm install
+          npm ci
           npm run build
 
       - name: Upload Artifacts 🔺 # The project is then uploaded as an artifact named 'site'.
@@ -274,7 +274,7 @@ jobs:
           name: site
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.6
+        uses: JamesIves/github-pages-deploy-action@4.1.7
         with:
           branch: gh-pages
           folder: 'site' # The deployment folder should match the name of the artifact. Even though our project builds into the 'build' folder the artifact name of 'site' must be placed here.
@@ -295,7 +295,7 @@ If you use a [container](https://help.github.com/en/actions/automating-your-work
     apt-get update && apt-get install -y rsync
 
 - name: Deploy 🚀
-  uses: JamesIves/github-pages-deploy-action@4.1.6
+  uses: JamesIves/github-pages-deploy-action@4.1.7
 ```
 
 ---
@@ -322,11 +322,11 @@ jobs:
 
       - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
         run: |
-          npm install
+          npm ci
           npm run build
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.6
+        uses: JamesIves/github-pages-deploy-action@4.1.7
         with:
           branch: gh-pages
           folder: build

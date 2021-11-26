@@ -31,6 +31,7 @@ jobs:
 
       - run: yarn install --frozen-lockfile
       - run: yarn build
+      - run: git stash
       - run: npm version ${{ github.event.inputs.version }} -m "Release ${{ github.event.inputs.version }} 📣"
       - run: git push
 

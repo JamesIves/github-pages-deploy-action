@@ -31,26 +31,6 @@ describe('util', () => {
       const value = ''
       expect(isNullOrUndefined(value)).toBeTruthy()
     })
-
-    it('should return true if the value is null (with allowEmptyString)', async () => {
-      const value = null
-      expect(isNullOrUndefined(value, true)).toBeTruthy()
-    })
-
-    it('should return true if the value is undefined (with allowEmptyString)', async () => {
-      const value = undefined
-      expect(isNullOrUndefined(value, true)).toBeTruthy()
-    })
-
-    it('should return false if the value is defined (with allowEmptyString)', async () => {
-      const value = 'montezuma'
-      expect(isNullOrUndefined(value, true)).toBeFalsy()
-    })
-
-    it('should return false if the value is empty string (with allowEmptyString)', async () => {
-      const value = ''
-      expect(isNullOrUndefined(value, true)).toBeFalsy()
-    })
   })
 
   describe('generateTokenType', () => {
