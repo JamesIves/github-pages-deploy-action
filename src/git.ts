@@ -22,7 +22,7 @@ export async function init(action: ActionInterface): Promise<void | Error> {
       action.silent
     )
     await execute(
-      `git config user.email "${action.email ? action.email : '<>'}"`,
+      `git config user.email "${action.email}"`,
       action.workspace,
       action.silent
     )
