@@ -56,7 +56,7 @@ jobs:
 
       - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
         run: |
-          npm install
+          npm ci
           npm run build
 
       - name: Deploy 🚀
@@ -203,7 +203,7 @@ jobs:
 
       - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
         run: |
-          npm install
+          npm ci
           npm run build
 
       - name: Deploy 🚀
@@ -252,7 +252,7 @@ jobs:
 
       - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
         run: |
-          npm install
+          npm ci
           npm run build
 
       - name: Upload Artifacts 🔺 # The project is then uploaded as an artifact named 'site'.
@@ -322,7 +322,7 @@ jobs:
 
       - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
         run: |
-          npm install
+          npm ci
           npm run build
 
       - name: Deploy 🚀
