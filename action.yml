@@ -43,6 +43,10 @@ inputs:
     description: 'If you would like to push the contents of the deployment folder into a specific directory on the deployment branch you can specify it here.'
     required: false
 
+  pre-commit:
+    description: 'Shell script to run before the new commit is created.'
+    required: false
+
   commit-message:
     description: 'If you need to customize the commit message for an integration you can do so.'
     required: false

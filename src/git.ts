@@ -2,13 +2,14 @@ import {info} from '@actions/core'
 import {mkdirP, rmRF} from '@actions/io'
 import fs from 'fs'
 import {ActionInterface, Status, TestFlag} from './constants'
-import {execute} from './execute'
+import {execute, stdout} from './execute'
 import {generateWorktree} from './worktree'
 import {
   extractErrorMessage,
   isNullOrUndefined,
   suppressSensitiveInformation
 } from './util'
+import {exec} from '@actions/exec'
 
 /* Initializes git in the workspace. */
 export async function init(action: ActionInterface): Promise<void | Error> {
@@ -146,6 +147,14 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       action.workspace,
       action.silent
     )
+
+    if (action.preCommitScript) {
+      await exec('bash', ['-c', action.preCommitScript], {
+        listeners: {stdout},
+        silent: action.silent,
+        cwd: `${action.workspace}/${temporaryDeploymentDirectory}`
+      })
+    }
 
     if (action.singleCommit) {
       await execute(

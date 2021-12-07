@@ -7,6 +7,7 @@ import {action, Status, TestFlag} from '../src/constants'
 import {execute} from '../src/execute'
 import {deploy, init} from '../src/git'
 import fs from 'fs'
+import {exec} from '@actions/exec'
 
 const originalAction = JSON.stringify(action)
 
@@ -20,6 +21,10 @@ jest.mock('@actions/core', () => ({
   setOutput: jest.fn(),
   isDebug: jest.fn(),
   info: jest.fn()
+}))
+
+jest.mock('@actions/exec', () => ({
+  exec: jest.fn()
 }))
 
 jest.mock('@actions/io', () => ({
@@ -376,6 +381,26 @@ describe('git', () => {
       expect(execute).toBeCalledTimes(10)
       expect(rmRF).toBeCalledTimes(1)
       expect(mkdirP).toBeCalledTimes(1)
+    })
+
+    it('should run the pre-commit script', async () => {
+      Object.assign(action, {
+        hostname: 'github.com',
+        silent: false,
+        folder: '.',
+        branch: 'branch',
+        token: '123',
+        pusher: {},
+        clean: true,
+        commitMessage: 'Hello!',
+        preCommitScript: 'echo "Hello, world!"',
+        isTest: TestFlag.NONE
+      })
+
+      await deploy(action)
+
+      expect(execute).toBeCalledTimes(10)
+      expect(exec).toBeCalledTimes(1)
     })
 
     it('should stop early if there is nothing to commit', async () => {
