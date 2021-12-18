@@ -347,4 +347,4 @@ If you wish to remove these files you must go into the deployment branch directl
 
 This project would not be possible without all of our fantastic [contributors](https://github.com/JamesIves/github-pages-deploy-action/graphs/contributors) and [sponsors](https://github.com/sponsors/JamesIves). If you'd like to support the maintenance and upkeep of this project you can [donate via GitHub Sponsors](https://github.com/sponsors/JamesIves).
 
-<!-- sponsors --><a href="https://github.com/milanpollock"><img src="https://github.com/milanpollock.png" width="50px" alt="" /></a><!-- sponsors -->
+<!-- sponsors --><a href="https://github.com/milanpollock"><img src="https://github.com/milanpollock.png" width="50px" alt="" /></a><a href="https://github.com/raoulvdberge"><img src="https://github.com/raoulvdberge.png" width="50px" alt="" /></a><!-- sponsors -->
