@@ -99,9 +99,8 @@ export const action: ActionInterface = {
     ? getInput('git-config-email')
     : pusher && pusher.email
     ? pusher.email
-    : `${
-        process.env.GITHUB_ACTOR || 'github-pages-deploy-action'
-      }@users.noreply.${
+    : `${process.env.GITHUB_ACTOR ||
+        'github-pages-deploy-action'}@users.noreply.${
         process.env.GITHUB_SERVER_URL
           ? stripProtocolFromUrl(process.env.GITHUB_SERVER_URL)
           : 'github.com'
@@ -157,3 +156,12 @@ export enum OperatingSystems {
 }
 
 export const SupportedOperatingSystems = [OperatingSystems.LINUX]
+
+/* Excluded files. */
+export enum DefaultExcludedFiles {
+  CNAME = 'CNAME',
+  NOJEKYLL = '.nojekyll',
+  SSH = '.ssh',
+  GIT = '.git',
+  GITHUB = '.github'
+}
