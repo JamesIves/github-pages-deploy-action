@@ -55,7 +55,7 @@ jobs:
           silent: true
 
       - name: Cleanup Generated Branch
-        uses: dawidd6/action-delete-branch@v2.0.1
+        uses: dawidd6/action-delete-branch@v3.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branches: gh-pages
@@ -79,7 +79,7 @@ jobs:
           silent: true
 
       - name: Cleanup Generated Branch
-        uses: dawidd6/action-delete-branch@v2.0.1
+        uses: dawidd6/action-delete-branch@v3.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branches: gh-pages
@@ -111,7 +111,7 @@ jobs:
           silent: true
 
       - name: Cleanup Generated Branch
-        uses: dawidd6/action-delete-branch@v2.0.1
+        uses: dawidd6/action-delete-branch@v3.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branches: gh-pages
@@ -136,7 +136,7 @@ jobs:
           silent: true
 
       - name: Cleanup Generated Branch
-        uses: dawidd6/action-delete-branch@v2.0.1
+        uses: dawidd6/action-delete-branch@v3.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branches: gh-pages
@@ -166,7 +166,7 @@ jobs:
           silent: true
 
       - name: Cleanup Generated Branch
-        uses: dawidd6/action-delete-branch@v2.0.1
+        uses: dawidd6/action-delete-branch@v3.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branches: gh-pages
@@ -204,7 +204,7 @@ jobs:
           silent: true
 
       - name: Cleanup Generated Branch
-        uses: dawidd6/action-delete-branch@v2.0.1
+        uses: dawidd6/action-delete-branch@v3.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branches: gh-pages
@@ -266,7 +266,7 @@ jobs:
           silent: true
 
       - name: Cleanup Generated Branch
-        uses: dawidd6/action-delete-branch@v2.0.1
+        uses: dawidd6/action-delete-branch@v3.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branches: integration-test-delete-prod
