@@ -52,7 +52,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v2.3.1
+        uses: actions/checkout@v2.5.1
 
       - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
         run: |
@@ -60,7 +60,7 @@ jobs:
           npm run build
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.9
+        uses: JamesIves/github-pages-deploy-action@4.2.0
         with:
           branch: gh-pages # The branch the action should deploy to.
           folder: build # The folder the action should deploy.
@@ -178,7 +178,7 @@ With this configured you can then set the `ssh-key` part of the action to your p
 
 ```yml
 - name: Deploy 🚀
-  uses: JamesIves/github-pages-deploy-action@4.1.9
+  uses: JamesIves/github-pages-deploy-action@4.2.0
   with:
     branch: gh-pages
     folder: site
@@ -199,7 +199,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v2.3.1
+        uses: actions/checkout@v2.5.1
 
       - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
         run: |
@@ -207,7 +207,7 @@ jobs:
           npm run build
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.9
+        uses: JamesIves/github-pages-deploy-action@4.2.0
         with:
           branch: gh-pages
           folder: build
@@ -248,7 +248,7 @@ jobs:
     runs-on: windows-latest # The first job utilizes windows-latest
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v2.3.1
+        uses: actions/checkout@v2.5.1
 
       - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
         run: |
@@ -266,7 +266,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v2.3.1
+        uses: actions/checkout@v2.5.1
 
       - name: Download Artifacts 🔻 # The built project is downloaded into the 'site' folder.
         uses: actions/download-artifact@v1
@@ -274,7 +274,7 @@ jobs:
           name: site
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.9
+        uses: JamesIves/github-pages-deploy-action@4.2.0
         with:
           branch: gh-pages
           folder: 'site' # The deployment folder should match the name of the artifact. Even though our project builds into the 'build' folder the artifact name of 'site' must be placed here.
@@ -295,7 +295,7 @@ If you use a [container](https://help.github.com/en/actions/automating-your-work
     apt-get update && apt-get install -y rsync
 
 - name: Deploy 🚀
-  uses: JamesIves/github-pages-deploy-action@4.1.9
+  uses: JamesIves/github-pages-deploy-action@4.2.0
 ```
 
 ---
@@ -318,7 +318,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v2.3.1
+        uses: actions/checkout@v2.5.1
 
       - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
         run: |
@@ -326,7 +326,7 @@ jobs:
           npm run build
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.9
+        uses: JamesIves/github-pages-deploy-action@4.2.0
         with:
           branch: gh-pages
           folder: build
