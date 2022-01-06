@@ -1,4 +1,3 @@
-/* eslint-disable import/first */
 // Initial env variable setup for tests.
 process.env['INPUT_FOLDER'] = 'build'
 process.env['GITHUB_SHA'] = '123'
@@ -42,6 +41,7 @@ describe('git', () => {
   describe('init', () => {
     it('should execute commands', async () => {
       Object.assign(action, {
+        hostname: 'github.com',
         silent: false,
         repositoryPath: 'JamesIves/github-pages-deploy-action',
         token: '123',
@@ -55,7 +55,7 @@ describe('git', () => {
       })
 
       await init(action)
-      expect(execute).toBeCalledTimes(5)
+      expect(execute).toBeCalledTimes(6)
     })
 
     it('should catch when a function throws an error', async () => {
@@ -64,6 +64,7 @@ describe('git', () => {
       })
 
       Object.assign(action, {
+        hostname: 'github.com',
         silent: false,
         repositoryPath: 'JamesIves/github-pages-deploy-action',
         token: '123',
@@ -79,7 +80,7 @@ describe('git', () => {
       try {
         await init(action)
       } catch (error) {
-        expect(error.message).toBe(
+        expect(error instanceof Error && error.message).toBe(
           'There was an error initializing the repository: Mocked throw ❌'
         )
       }
@@ -87,6 +88,7 @@ describe('git', () => {
 
     it('should correctly continue when it cannot unset a git config value', async () => {
       Object.assign(action, {
+        hostname: 'github.com',
         silent: false,
         repositoryPath: 'JamesIves/github-pages-deploy-action',
         token: '123',
@@ -100,7 +102,7 @@ describe('git', () => {
       })
 
       await init(action)
-      expect(execute).toBeCalledTimes(5)
+      expect(execute).toBeCalledTimes(6)
     })
 
     it('should not unset git config if a user is using ssh', async () => {
@@ -108,6 +110,7 @@ describe('git', () => {
       process.env.CI = 'true'
 
       Object.assign(action, {
+        hostname: 'github.com',
         silent: false,
         repositoryPath: 'JamesIves/github-pages-deploy-action',
         sshKey: true,
@@ -121,13 +124,14 @@ describe('git', () => {
       })
 
       await init(action)
-      expect(execute).toBeCalledTimes(4)
+      expect(execute).toBeCalledTimes(5)
 
       process.env.CI = undefined
     })
 
     it('should correctly continue when it cannot remove origin', async () => {
       Object.assign(action, {
+        hostname: 'github.com',
         silent: false,
         repositoryPath: 'JamesIves/github-pages-deploy-action',
         token: '123',
@@ -141,13 +145,14 @@ describe('git', () => {
       })
 
       await init(action)
-      expect(execute).toBeCalledTimes(5)
+      expect(execute).toBeCalledTimes(6)
     })
   })
 
   describe('deploy', () => {
     it('should execute commands', async () => {
       Object.assign(action, {
+        hostname: 'github.com',
         silent: false,
         folder: 'assets',
         branch: 'branch',
@@ -163,13 +168,14 @@ describe('git', () => {
       const response = await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(11)
+      expect(execute).toBeCalledTimes(13)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
 
     it('should not push when asked to dryRun', async () => {
       Object.assign(action, {
+        hostname: 'github.com',
         silent: false,
         dryRun: true,
         folder: 'assets',
@@ -185,13 +191,14 @@ describe('git', () => {
       const response = await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(10)
+      expect(execute).toBeCalledTimes(12)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
 
     it('should execute commands with single commit toggled', async () => {
       Object.assign(action, {
+        hostname: 'github.com',
         silent: false,
         folder: 'other',
         folderPath: 'other',
@@ -209,12 +216,13 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(10)
+      expect(execute).toBeCalledTimes(13)
       expect(rmRF).toBeCalledTimes(1)
     })
 
     it('should execute commands with single commit toggled and existing branch', async () => {
       Object.assign(action, {
+        hostname: 'github.com',
         silent: false,
         folder: 'other',
         folderPath: 'other',
@@ -232,12 +240,13 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(9)
+      expect(execute).toBeCalledTimes(12)
       expect(rmRF).toBeCalledTimes(1)
     })
 
     it('should execute commands with single commit and dryRun toggled', async () => {
       Object.assign(action, {
+        hostname: 'github.com',
         silent: false,
         folder: 'other',
         folderPath: 'other',
@@ -256,7 +265,7 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(9)
+      expect(execute).toBeCalledTimes(12)
       expect(rmRF).toBeCalledTimes(1)
     })
 
@@ -270,6 +279,7 @@ describe('git', () => {
         })
 
       Object.assign(action, {
+        hostname: 'github.com',
         silent: false,
         folder: 'assets',
         folderPath: 'assets',
@@ -286,7 +296,7 @@ describe('git', () => {
       const response = await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(11)
+      expect(execute).toBeCalledTimes(13)
       expect(rmRF).toBeCalledTimes(1)
       expect(fs.existsSync).toBeCalledTimes(2)
       expect(response).toBe(Status.SUCCESS)
@@ -300,6 +310,7 @@ describe('git', () => {
       it('should execute commands with clean options', async () => {
         process.env.GITHUB_SHA = ''
         Object.assign(action, {
+          hostname: 'github.com',
           silent: false,
           folder: 'other',
           folderPath: 'other',
@@ -317,13 +328,14 @@ describe('git', () => {
         await deploy(action)
 
         // Includes the call to generateWorktree
-        expect(execute).toBeCalledTimes(8)
+        expect(execute).toBeCalledTimes(10)
         expect(rmRF).toBeCalledTimes(1)
       })
     })
 
     it('should execute commands with clean options stored as an array', async () => {
       Object.assign(action, {
+        hostname: 'github.com',
         silent: false,
         folder: 'assets',
         folderPath: 'assets',
@@ -341,12 +353,13 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(8)
+      expect(execute).toBeCalledTimes(10)
       expect(rmRF).toBeCalledTimes(1)
     })
 
     it('should gracefully handle target folder', async () => {
       Object.assign(action, {
+        hostname: 'github.com',
         silent: false,
         folder: '.',
         branch: 'branch',
@@ -360,13 +373,14 @@ describe('git', () => {
 
       await deploy(action)
 
-      expect(execute).toBeCalledTimes(8)
+      expect(execute).toBeCalledTimes(10)
       expect(rmRF).toBeCalledTimes(1)
       expect(mkdirP).toBeCalledTimes(1)
     })
 
     it('should stop early if there is nothing to commit', async () => {
       Object.assign(action, {
+        hostname: 'github.com',
         silent: false,
         folder: 'assets',
         branch: 'branch',
@@ -379,7 +393,7 @@ describe('git', () => {
       })
 
       const response = await deploy(action)
-      expect(execute).toBeCalledTimes(8)
+      expect(execute).toBeCalledTimes(10)
       expect(rmRF).toBeCalledTimes(1)
       expect(response).toBe(Status.SKIPPED)
     })
@@ -390,6 +404,7 @@ describe('git', () => {
       })
 
       Object.assign(action, {
+        hostname: 'github.com',
         silent: false,
         folder: 'assets',
         branch: 'branch',
@@ -404,7 +419,7 @@ describe('git', () => {
       try {
         await deploy(action)
       } catch (error) {
-        expect(error.message).toBe(
+        expect(error instanceof Error && error.message).toBe(
           'The deploy step encountered an error: Mocked throw ❌'
         )
       }

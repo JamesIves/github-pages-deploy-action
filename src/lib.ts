@@ -4,6 +4,7 @@ import {deploy, init} from './git'
 import {configureSSH} from './ssh'
 import {
   checkParameters,
+  extractErrorMessage,
   generateFolderPath,
   generateRepositoryPath,
   generateTokenType
@@ -22,12 +23,12 @@ export default async function run(
     info(`
     GitHub Pages Deploy Action 🚀
 
-    🚀 Getting Started Guide: https://github.com/marketplace/actions/deploy-to-github-pages
-    ❓ Discussions / Q&A: https://github.com/JamesIves/github-pages-deploy-action/discussions
-    🔧 Report a Bug: https://github.com/JamesIves/github-pages-deploy-action/issues
-
+    💖 Support: https://github.com/sponsors/JamesIves
     📣 Maintained by James Ives: https://jamesiv.es
-    💖 Support: https://github.com/sponsors/JamesIves`)
+
+    🚀 Getting Started Guide: https://github.com/JamesIves/github-pages-deploy-action
+    ❓ Discussions / Q&A: https://github.com/JamesIves/github-pages-deploy-action/discussions
+    🔧 Report a Bug: https://github.com/JamesIves/github-pages-deploy-action/issues`)
 
     info('Checking configuration and starting deployment… 🚦')
 
@@ -52,7 +53,7 @@ export default async function run(
     status = await deploy(settings)
   } catch (error) {
     status = Status.FAILED
-    setFailed(error.message)
+    setFailed(extractErrorMessage(error))
   } finally {
     info(
       `${

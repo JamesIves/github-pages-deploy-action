@@ -1,7 +1,7 @@
 import {info} from '@actions/core'
 import {ActionInterface} from './constants'
 import {execute} from './execute'
-import {suppressSensitiveInformation} from './util'
+import {extractErrorMessage, suppressSensitiveInformation} from './util'
 
 export class GitCheckout {
   orphan = false
@@ -25,7 +25,7 @@ export class GitCheckout {
 export async function generateWorktree(
   action: ActionInterface,
   worktreedir: string,
-  branchExists: boolean
+  branchExists: unknown
 ): Promise<void> {
   try {
     info('Creating worktree…')
@@ -43,28 +43,39 @@ export async function generateWorktree(
       action.workspace,
       action.silent
     )
+
     const checkout = new GitCheckout(action.branch)
+
     if (branchExists) {
       // There's existing data on the branch to check out
       checkout.commitish = `origin/${action.branch}`
     }
-    if (!branchExists || action.singleCommit) {
-      // Create a new history if we don't have the branch, or if we want to reset it
+
+    if (
+      !branchExists ||
+      (action.singleCommit && action.branch !== process.env.GITHUB_REF_NAME)
+    ) {
+      /* Create a new history if we don't have the branch, or if we want to reset it.
+        If the ref name is the same as the branch name, do not attempt to create an orphan of it. */
       checkout.orphan = true
     }
+
     await execute(
       checkout.toString(),
       `${action.workspace}/${worktreedir}`,
       action.silent
     )
+
     if (!branchExists) {
       info(`Created the ${action.branch} branch… 🔧`)
+
       // Our index is in HEAD state, reset
       await execute(
         'git reset --hard',
         `${action.workspace}/${worktreedir}`,
         action.silent
       )
+
       if (!action.singleCommit) {
         // New history isn't singleCommit, create empty initial commit
         await execute(
@@ -77,7 +88,7 @@ export async function generateWorktree(
   } catch (error) {
     throw new Error(
       `There was an error creating the worktree: ${suppressSensitiveInformation(
-        error.message,
+        extractErrorMessage(error),
         action
       )} ❌`
     )

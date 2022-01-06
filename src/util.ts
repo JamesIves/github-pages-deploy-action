@@ -1,14 +1,20 @@
-import {isDebug} from '@actions/core'
+import {isDebug, info} from '@actions/core'
 import {existsSync} from 'fs'
 import path from 'path'
-import {ActionInterface, RequiredActionParameters} from './constants'
+import {
+  ActionInterface,
+  OperatingSystems,
+  RequiredActionParameters,
+  SupportedOperatingSystems
+} from './constants'
 
 /* Replaces all instances of a match in a string. */
 const replaceAll = (input: string, find: string, replace: string): string =>
   input.split(find).join(replace)
 
-/* Utility function that checks to see if a value is undefined or not. */
-export const isNullOrUndefined = (value: any): boolean =>
+/* Utility function that checks to see if a value is undefined or not. 
+  If allowEmptyString is passed the parameter is allowed to contain an empty string as a valid parameter. */
+export const isNullOrUndefined = (value: unknown): boolean =>
   typeof value === 'undefined' || value === null || value === ''
 
 /* Generates a token type used for the action. */
@@ -18,8 +24,8 @@ export const generateTokenType = (action: ActionInterface): string =>
 /* Generates a the repository path used to make the commits. */
 export const generateRepositoryPath = (action: ActionInterface): string =>
   action.sshKey
-    ? `git@github.com:${action.repositoryName}`
-    : `https://${`x-access-token:${action.token}`}@github.com/${
+    ? `git@${action.hostname}:${action.repositoryName}`
+    : `https://${`x-access-token:${action.token}`}@${action.hostname}/${
         action.repositoryName
       }.git`
 
@@ -65,6 +71,16 @@ export const checkParameters = (action: ActionInterface): void => {
       `The directory you're trying to deploy named ${action.folderPath} doesn't exist. Please double check the path and any prerequisite build scripts and try again. ❗`
     )
   }
+
+  if (
+    SupportedOperatingSystems.includes(
+      process.env.RUNNER_OS as OperatingSystems
+    )
+  ) {
+    info(
+      `The operating system you're using is not supported and results may be varied. Please refer to the documentation for more details. ❗`
+    )
+  }
 }
 
 /* Suppresses sensitive information from being exposed in error messages. */
@@ -79,9 +95,9 @@ export const suppressSensitiveInformation = (
     return value
   }
 
-  const orderedByLength = ([action.token, action.repositoryPath].filter(
-    Boolean
-  ) as string[]).sort((a, b) => b.length - a.length)
+  const orderedByLength = (
+    [action.token, action.repositoryPath].filter(Boolean) as string[]
+  ).sort((a, b) => b.length - a.length)
 
   for (const find of orderedByLength) {
     value = replaceAll(value, find, '***')
@@ -89,3 +105,14 @@ export const suppressSensitiveInformation = (
 
   return value
 }
+
+export const extractErrorMessage = (error: unknown): string =>
+  error instanceof Error
+    ? error.message
+    : typeof error == 'string'
+    ? error
+    : JSON.stringify(error)
+
+/** Strips the protocol from a provided URL. */
+export const stripProtocolFromUrl = (url: string): string =>
+  url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, '').split('/')[0]

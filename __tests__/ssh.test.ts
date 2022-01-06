@@ -43,6 +43,7 @@ describe('configureSSH', () => {
 
   it('should skip client configuration if sshKey is set to true', async () => {
     Object.assign(action, {
+      hostname: 'github.com',
       silent: false,
       folder: 'assets',
       branch: 'branch',
@@ -67,6 +68,7 @@ describe('configureSSH', () => {
     })
 
     Object.assign(action, {
+      hostname: 'github.com',
       silent: false,
       folder: 'assets',
       branch: 'branch',
@@ -91,6 +93,7 @@ describe('configureSSH', () => {
     })
 
     Object.assign(action, {
+      hostname: 'github.com',
       silent: false,
       folder: 'assets',
       branch: 'branch',
@@ -115,6 +118,7 @@ describe('configureSSH', () => {
     })
 
     Object.assign(action, {
+      hostname: 'github.com',
       silent: false,
       folder: 'assets',
       branch: 'branch',
@@ -129,7 +133,7 @@ describe('configureSSH', () => {
     try {
       await configureSSH(action)
     } catch (error) {
-      expect(error.message).toBe(
+      expect(error instanceof Error && error.message).toBe(
         'The ssh client configuration encountered an error: Mocked throw ❌'
       )
     }

@@ -9,22 +9,22 @@ on:
 
 jobs:
   build:
-    name: Build production
+    name: Build Production
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.4.0
 
-      - uses: actions/setup-node@v1.4.4
+      - uses: actions/setup-node@v2.5.1
         with:
-          node-version: 'v12.18.4'
+          node-version: 'v14.18.1'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install Yarn
         run: npm install -g yarn
 
       - name: Clobber lib
-        run:  rm -rf lib
+        run: rm -rf lib
 
       - name: Set up .gitignore
         run: |

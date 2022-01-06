@@ -16,6 +16,7 @@ describe('generateWorktree', () => {
     try {
       await generateWorktree(
         {
+          hostname: 'github.com',
           workspace: 'somewhere',
           singleCommit: false,
           branch: 'gh-pages',
@@ -27,7 +28,7 @@ describe('generateWorktree', () => {
         true
       )
     } catch (error) {
-      expect(error.message).toBe(
+      expect(error instanceof Error && error.message).toBe(
         'There was an error creating the worktree: Mocked throw ❌'
       )
     }

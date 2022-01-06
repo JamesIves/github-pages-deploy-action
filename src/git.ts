@@ -1,10 +1,19 @@
 import {info} from '@actions/core'
 import {mkdirP, rmRF} from '@actions/io'
 import fs from 'fs'
-import {ActionInterface, Status, TestFlag} from './constants'
+import {
+  ActionInterface,
+  DefaultExcludedFiles,
+  Status,
+  TestFlag
+} from './constants'
 import {execute} from './execute'
 import {generateWorktree} from './worktree'
-import {isNullOrUndefined, suppressSensitiveInformation} from './util'
+import {
+  extractErrorMessage,
+  isNullOrUndefined,
+  suppressSensitiveInformation
+} from './util'
 
 /* Initializes git in the workspace. */
 export async function init(action: ActionInterface): Promise<void | Error> {
@@ -17,8 +26,15 @@ export async function init(action: ActionInterface): Promise<void | Error> {
       action.workspace,
       action.silent
     )
+
     await execute(
       `git config user.email "${action.email}"`,
+      action.workspace,
+      action.silent
+    )
+
+    await execute(
+      `git config core.ignorecase false`,
       action.workspace,
       action.silent
     )
@@ -29,7 +45,7 @@ export async function init(action: ActionInterface): Promise<void | Error> {
           Only runs in the GitHub Actions CI environment if a user is not using an SSH key.
         */
         await execute(
-          `git config --local --unset-all http.https://github.com/.extraheader`,
+          `git config --local --unset-all http.https://${action.hostname}/.extraheader`,
           action.workspace,
           action.silent
         )
@@ -63,7 +79,7 @@ export async function init(action: ActionInterface): Promise<void | Error> {
   } catch (error) {
     throw new Error(
       `There was an error initializing the repository: ${suppressSensitiveInformation(
-        error.message,
+        extractErrorMessage(error),
         action
       )} ❌`
     )
@@ -93,7 +109,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     const branchExists =
       action.isTest & TestFlag.HAS_REMOTE_BRANCH ||
       (await execute(
-        `git ls-remote --heads ${action.repositoryPath} ${action.branch}`,
+        `git ls-remote --heads ${action.repositoryPath} refs/heads/${action.branch}`,
         action.workspace,
         action.silent
       ))
@@ -125,16 +141,22 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       } ${
         action.clean
           ? `--delete ${excludes} ${
-              !fs.existsSync(`${action.folderPath}/CNAME`)
-                ? '--exclude CNAME'
+              !fs.existsSync(
+                `${action.folderPath}/${DefaultExcludedFiles.CNAME}`
+              )
+                ? `--exclude ${DefaultExcludedFiles.CNAME}`
                 : ''
             } ${
-              !fs.existsSync(`${action.folderPath}/.nojekyll`)
-                ? '--exclude .nojekyll'
+              !fs.existsSync(
+                `${action.folderPath}/${DefaultExcludedFiles.NOJEKYLL}`
+              )
+                ? `--exclude ${DefaultExcludedFiles.NOJEKYLL}`
                 : ''
             }`
           : ''
-      }  --exclude .ssh --exclude .git --exclude .github ${
+      }  --exclude ${DefaultExcludedFiles.SSH} --exclude ${
+        DefaultExcludedFiles.GIT
+      } --exclude ${DefaultExcludedFiles.GITHUB} ${
         action.folderPath === action.workspace
           ? `--exclude ${temporaryDeploymentDirectory}`
           : ''
@@ -142,6 +164,14 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       action.workspace,
       action.silent
     )
+
+    if (action.singleCommit) {
+      await execute(
+        `git add --all .`,
+        `${action.workspace}/${temporaryDeploymentDirectory}`,
+        action.silent
+      )
+    }
 
     // Use git status to check if we have something to commit.
     // Special case is singleCommit with existing history, when
@@ -151,7 +181,9 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       branchExists && action.singleCommit
         ? `git diff origin/${action.branch}`
         : `git status --porcelain`
+
     info(`Checking if there are files to commit…`)
+
     const hasFilesToCommit =
       action.isTest & TestFlag.HAS_CHANGED_FILES ||
       (await execute(
@@ -160,7 +192,11 @@ export async function deploy(action: ActionInterface): Promise<Status> {
         true // This output is always silenced due to the large output it creates.
       ))
 
-    if (!hasFilesToCommit) {
+    if (
+      (!action.singleCommit && !hasFilesToCommit) ||
+      // Ignores the case where single commit is true with a target folder to prevent incorrect early exiting.
+      (action.singleCommit && !action.targetFolder && !hasFilesToCommit)
+    ) {
       return Status.SKIPPED
     }
 
@@ -194,18 +230,32 @@ export async function deploy(action: ActionInterface): Promise<Status> {
   } catch (error) {
     throw new Error(
       `The deploy step encountered an error: ${suppressSensitiveInformation(
-        error.message,
+        extractErrorMessage(error),
         action
       )} ❌`
     )
   } finally {
     // Cleans up temporary files/folders and restores the git state.
     info('Running post deployment cleanup jobs… 🗑️')
+
+    await execute(
+      `git checkout -B ${temporaryDeploymentBranch}`,
+      `${action.workspace}/${temporaryDeploymentDirectory}`,
+      action.silent
+    )
+
+    await execute(
+      `chmod -R 777 ${temporaryDeploymentDirectory}`,
+      action.workspace,
+      action.silent
+    )
+
     await execute(
       `git worktree remove ${temporaryDeploymentDirectory} --force`,
       action.workspace,
       action.silent
     )
+
     await rmRF(temporaryDeploymentDirectory)
   }
 }
