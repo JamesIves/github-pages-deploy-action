@@ -1,20 +1,5 @@
 // https://github.com/microsoft/vscode-dev-containers/tree/master/containers/typescript-node
 {
-<<<<<<< Updated upstream
-  "name": "Node.js & TypeScript",
-  "build": {
-    "dockerfile": "Dockerfile",
-    "args": {
-      "VARIANT": "12"
-    }
-  },
-  "settings": {
-    "terminal.integrated.shell.linux": "/bin/bash"
-  },
-  "extensions": ["dbaeumer.vscode-eslint"],
-  "remoteUser": "node"
-}
-=======
 	"name": "Node.js & TypeScript",
 	"build": {
 		"dockerfile": "Dockerfile",
@@ -30,4 +15,3 @@
 	],
 	"remoteUser": "node"
 }
->>>>>>> Stashed changes
