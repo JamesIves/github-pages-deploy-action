@@ -76,3 +76,16 @@ export declare enum Status {
     SKIPPED = "skipped",
     RUNNING = "running"
 }
+export declare enum OperatingSystems {
+    LINUX = "Linux",
+    WINDOWS = "Windows",
+    MACOS = "macOS"
+}
+export declare const SupportedOperatingSystems: OperatingSystems[];
+export declare enum DefaultExcludedFiles {
+    CNAME = "CNAME",
+    NOJEKYLL = ".nojekyll",
+    SSH = ".ssh",
+    GIT = ".git",
+    GITHUB = ".github"
+}
