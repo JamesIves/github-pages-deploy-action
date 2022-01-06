@@ -1,7 +1,12 @@
-import {isDebug} from '@actions/core'
+import {isDebug, info} from '@actions/core'
 import {existsSync} from 'fs'
 import path from 'path'
-import {ActionInterface, RequiredActionParameters} from './constants'
+import {
+  ActionInterface,
+  OperatingSystems,
+  RequiredActionParameters,
+  SupportedOperatingSystems
+} from './constants'
 
 /* Replaces all instances of a match in a string. */
 const replaceAll = (input: string, find: string, replace: string): string =>
@@ -64,6 +69,16 @@ export const checkParameters = (action: ActionInterface): void => {
   if (!existsSync(action.folderPath as string)) {
     throw new Error(
       `The directory you're trying to deploy named ${action.folderPath} doesn't exist. Please double check the path and any prerequisite build scripts and try again. ❗`
+    )
+  }
+
+  if (
+    SupportedOperatingSystems.includes(
+      process.env.RUNNER_OS as OperatingSystems
+    )
+  ) {
+    info(
+      `The operating system you're using is not supported and results may be varied. Please refer to the documentation for more details. ❗`
     )
   }
 }
