@@ -52,7 +52,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v2.3.1
+        uses: actions/checkout@v2.5.1
 
       - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
         run: |
@@ -60,7 +60,7 @@ jobs:
           npm run build
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.9
+        uses: JamesIves/github-pages-deploy-action@4.2.0
         with:
           branch: gh-pages # The branch the action should deploy to.
           folder: build # The folder the action should deploy.
@@ -75,7 +75,7 @@ on:
       - main
 ```
 
-It's recommended that you use [Dependabot](https://docs.github.com/en/code-security/supply-chain-security/managing-vulnerabilities-in-your-projects-dependencies/configuring-dependabot-security-updates) to keep your workflow up-to-date and [secure](https://github.com/features/security). You can find the latest tagged version on the [GitHub Marketplace](https://github.com/marketplace/actions/deploy-to-github-pages) or on the [releases page](https://github.com/JamesIves/github-pages-deploy-action/releases).
+It's recommended that you use [Dependabot](https://docs.github.com/en/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically) to keep your workflow up-to-date and [secure](https://github.com/features/security). You can find the latest tagged version on the [GitHub Marketplace](https://github.com/marketplace/actions/deploy-to-github-pages) or on the [releases page](https://github.com/JamesIves/github-pages-deploy-action/releases).
 
 #### Install as a Node Module 📦
 
@@ -137,7 +137,7 @@ By default the action does not need any token configuration and uses the provide
 | Key                | Value Information                                                                                                                                                                                                                                                                                                                                                            | Type   | Required |
 | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | -------- |
 | `git-config-name`  | Allows you to customize the name that is attached to the git config which is used when pushing the deployment commits. If this is not included it will use the name in the GitHub context, followed by the name of the action.                                                                                                                                               | `with` | **No**   |
-| `git-config-email` | Allows you to customize the email that is attached to the git config which is used when pushing the deployment commits. If this is not included it will use the email in the GitHub context, followed by a generic noreply GitHub email. You can include `<>` for the value if you wish to omit this field altogether and push the commits without an email.                                                    | `with` | **No**   |
+| `git-config-email` | Allows you to customize the email that is attached to the git config which is used when pushing the deployment commits. If this is not included it will use the email in the GitHub context, followed by a generic noreply GitHub email. You can include `<>` for the value if you wish to omit this field altogether and push the commits without an email.                 | `with` | **No**   |
 | `repository-name`  | Allows you to specify a different repository path so long as you have permissions to push to it. This should be formatted like so: `JamesIves/github-pages-deploy-action`. You'll need to use a PAT in the `token` input for this configuration option to work properly.                                                                                                     | `with` | **No**   |
 | `target-folder`    | If you'd like to push the contents of the deployment folder into a specific directory on the deployment branch you can specify it here.                                                                                                                                                                                                                                      | `with` | **No**   |
 | `commit-message`   | If you need to customize the commit message for an integration you can do so.                                                                                                                                                                                                                                                                                                | `with` | **No**   |
@@ -178,7 +178,7 @@ With this configured you can then set the `ssh-key` part of the action to your p
 
 ```yml
 - name: Deploy 🚀
-  uses: JamesIves/github-pages-deploy-action@4.1.9
+  uses: JamesIves/github-pages-deploy-action@4.2.0
   with:
     branch: gh-pages
     folder: site
@@ -199,7 +199,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v2.3.1
+        uses: actions/checkout@v2.5.1
 
       - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
         run: |
@@ -207,7 +207,7 @@ jobs:
           npm run build
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.9
+        uses: JamesIves/github-pages-deploy-action@4.2.0
         with:
           branch: gh-pages
           folder: build
@@ -248,7 +248,7 @@ jobs:
     runs-on: windows-latest # The first job utilizes windows-latest
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v2.3.1
+        uses: actions/checkout@v2.5.1
 
       - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
         run: |
@@ -266,7 +266,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v2.3.1
+        uses: actions/checkout@v2.5.1
 
       - name: Download Artifacts 🔻 # The built project is downloaded into the 'site' folder.
         uses: actions/download-artifact@v1
@@ -274,7 +274,7 @@ jobs:
           name: site
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.9
+        uses: JamesIves/github-pages-deploy-action@4.2.0
         with:
           branch: gh-pages
           folder: 'site' # The deployment folder should match the name of the artifact. Even though our project builds into the 'build' folder the artifact name of 'site' must be placed here.
@@ -295,7 +295,7 @@ If you use a [container](https://help.github.com/en/actions/automating-your-work
     apt-get update && apt-get install -y rsync
 
 - name: Deploy 🚀
-  uses: JamesIves/github-pages-deploy-action@4.1.9
+  uses: JamesIves/github-pages-deploy-action@4.2.0
 ```
 
 ---
@@ -318,7 +318,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v2.3.1
+        uses: actions/checkout@v2.5.1
 
       - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
         run: |
@@ -326,7 +326,7 @@ jobs:
           npm run build
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.9
+        uses: JamesIves/github-pages-deploy-action@4.2.0
         with:
           branch: gh-pages
           folder: build

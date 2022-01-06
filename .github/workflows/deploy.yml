@@ -8,12 +8,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.4.0
 
       # Workflow dispatch event that pushes the current version to the release branch.
       # From here the secondary production deployment workflow will trigger to build the dependencies.
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@4.0.0
+        uses: JamesIves/github-pages-deploy-action@4.1.9
         with:
           branch: releases/v4
           folder: .

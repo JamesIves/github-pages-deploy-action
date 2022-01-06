@@ -148,3 +148,21 @@ export enum Status {
   SKIPPED = 'skipped',
   RUNNING = 'running'
 }
+
+/* Platform codes. */
+export enum OperatingSystems {
+  LINUX = 'Linux',
+  WINDOWS = 'Windows',
+  MACOS = 'macOS'
+}
+
+export const SupportedOperatingSystems = [OperatingSystems.LINUX]
+
+/* Excluded files. */
+export enum DefaultExcludedFiles {
+  CNAME = 'CNAME',
+  NOJEKYLL = '.nojekyll',
+  SSH = '.ssh',
+  GIT = '.git',
+  GITHUB = '.github'
+}

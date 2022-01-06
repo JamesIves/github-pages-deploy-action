@@ -17,7 +17,11 @@ labels:
 
 ## Logs
 
-<!-- Please provide your deployment logs and a link or sample to/of your workflow. If the error message isn't revealing the problem please set ACTIONS_STEP_DEBUG to true in your repository's secrets menu and run the workflow again. -->
+<!-- Please provide your deployment logs. If the error message isn't revealing the problem please set ACTIONS_STEP_DEBUG to true in your repository's secrets menu and run the workflow again. -->
+
+## Workflow
+
+<!-- Please provide a link or snippet of your workflow yml file. -->
 
 ## Additional Comments
 

@@ -14,9 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.4.0
 
-      - uses: actions/setup-node@v1.4.4
+      - uses: actions/setup-node@v2.5.1
         with:
           node-version: 'v14.18.1'
           registry-url: 'https://registry.npmjs.org'
@@ -31,7 +31,7 @@ jobs:
           yarn test
 
       - name: Uploade CodeCov Report
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v2.1.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
@@ -39,9 +39,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.4.0
 
-      - uses: actions/setup-node@v1.4.4
+      - uses: actions/setup-node@v2.5.1
         with:
           node-version: 'v14.18.1'
           registry-url: 'https://registry.npmjs.org'
@@ -77,11 +77,11 @@ jobs:
       max-parallel: 1
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.4.0
         with:
           persist-credentials: false
 
-      - uses: actions/setup-node@v1.4.4
+      - uses: actions/setup-node@v2.5.1
         with:
           node-version: 'v14.18.1'
           registry-url: 'https://registry.npmjs.org'

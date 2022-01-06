@@ -1,7 +1,12 @@
 import {info} from '@actions/core'
 import {mkdirP, rmRF} from '@actions/io'
 import fs from 'fs'
-import {ActionInterface, Status, TestFlag} from './constants'
+import {
+  ActionInterface,
+  DefaultExcludedFiles,
+  Status,
+  TestFlag
+} from './constants'
 import {execute} from './execute'
 import {generateWorktree} from './worktree'
 import {
@@ -21,8 +26,15 @@ export async function init(action: ActionInterface): Promise<void | Error> {
       action.workspace,
       action.silent
     )
+
     await execute(
       `git config user.email "${action.email}"`,
+      action.workspace,
+      action.silent
+    )
+
+    await execute(
+      `git config core.ignorecase false`,
       action.workspace,
       action.silent
     )
@@ -129,16 +141,22 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       } ${
         action.clean
           ? `--delete ${excludes} ${
-              !fs.existsSync(`${action.folderPath}/CNAME`)
-                ? '--exclude CNAME'
+              !fs.existsSync(
+                `${action.folderPath}/${DefaultExcludedFiles.CNAME}`
+              )
+                ? `--exclude ${DefaultExcludedFiles.CNAME}`
                 : ''
             } ${
-              !fs.existsSync(`${action.folderPath}/.nojekyll`)
-                ? '--exclude .nojekyll'
+              !fs.existsSync(
+                `${action.folderPath}/${DefaultExcludedFiles.NOJEKYLL}`
+              )
+                ? `--exclude ${DefaultExcludedFiles.NOJEKYLL}`
                 : ''
             }`
           : ''
-      }  --exclude .ssh --exclude .git --exclude .github ${
+      }  --exclude ${DefaultExcludedFiles.SSH} --exclude ${
+        DefaultExcludedFiles.GIT
+      } --exclude ${DefaultExcludedFiles.GITHUB} ${
         action.folderPath === action.workspace
           ? `--exclude ${temporaryDeploymentDirectory}`
           : ''
