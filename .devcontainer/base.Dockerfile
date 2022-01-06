@@ -1,4 +1,4 @@
-ARG VARIANT=12-buster
+ARG VARIANT=14-buster
 FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:dev-${VARIANT}
 
 # Install tslint, typescript. eslint is installed by javascript image
