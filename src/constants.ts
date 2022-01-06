@@ -148,3 +148,12 @@ export enum Status {
   SKIPPED = 'skipped',
   RUNNING = 'running'
 }
+
+/* Platform codes. */
+export enum OperatingSystems {
+  LINUX = 'Linux',
+  WINDOWS = 'Windows',
+  MACOS = 'macOS'
+}
+
+export const SupportedOperatingSystems = [OperatingSystems.LINUX]
