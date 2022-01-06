@@ -51,7 +51,10 @@ export async function generateWorktree(
       checkout.commitish = `origin/${action.branch}`
     }
 
-    if (!branchExists || (action.singleCommit && action.branch !== process.env.GITHUB_REF_NAME)) {
+    if (
+      !branchExists ||
+      (action.singleCommit && action.branch !== process.env.GITHUB_REF_NAME)
+    ) {
       /* Create a new history if we don't have the branch, or if we want to reset it.
         If the ref name is the same as the branch name, do not attempt to create an orphan of it. */
       checkout.orphan = true
