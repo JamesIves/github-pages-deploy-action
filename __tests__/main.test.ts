@@ -50,7 +50,7 @@ describe('main', () => {
       debug: true
     })
     await run(action)
-    expect(execute).toBeCalledTimes(15)
+    expect(execute).toBeCalledTimes(16)
     expect(rmRF).toBeCalledTimes(1)
     expect(exportVariable).toBeCalledTimes(1)
   })
@@ -70,7 +70,7 @@ describe('main', () => {
       isTest: TestFlag.HAS_CHANGED_FILES
     })
     await run(action)
-    expect(execute).toBeCalledTimes(18)
+    expect(execute).toBeCalledTimes(19)
     expect(rmRF).toBeCalledTimes(1)
     expect(exportVariable).toBeCalledTimes(1)
   })
