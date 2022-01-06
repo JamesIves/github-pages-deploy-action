@@ -21,8 +21,15 @@ export async function init(action: ActionInterface): Promise<void | Error> {
       action.workspace,
       action.silent
     )
+    
     await execute(
       `git config user.email "${action.email}"`,
+      action.workspace,
+      action.silent
+    )
+
+    await execute(
+      `git config core.ignorecase false`,
       action.workspace,
       action.silent
     )
