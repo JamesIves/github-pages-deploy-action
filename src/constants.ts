@@ -157,3 +157,12 @@ export enum OperatingSystems {
 }
 
 export const SupportedOperatingSystems = [OperatingSystems.LINUX]
+
+/* Excluded files. */
+export enum DefaultExcludedFiles {
+  CNAME = 'CNAME',
+  NOJEKYLL = '.nojekyll',
+  SSH = '.ssh',
+  GIT = '.git',
+  GITHUB = '.github'
+}
