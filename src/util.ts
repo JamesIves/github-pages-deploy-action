@@ -73,7 +73,7 @@ export const checkParameters = (action: ActionInterface): void => {
   }
 
   if (
-    SupportedOperatingSystems.includes(
+    !SupportedOperatingSystems.includes(
       process.env.RUNNER_OS as OperatingSystems
     )
   ) {
