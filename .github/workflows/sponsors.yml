@@ -20,7 +20,7 @@ jobs:
           minimum: 500
 
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@4.2.0
+        uses: JamesIves/github-pages-deploy-action@4.2.1
         with:
           branch: dev
           folder: '.'
