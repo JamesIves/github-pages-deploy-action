@@ -18,6 +18,17 @@ jobs:
           file: 'README.md'
           template: '<a href="https://github.com/{{{ login }}}"><img src="https://github.com/{{{ login }}}.png" width="50px" alt="{{{ login }}}" /></a>&nbsp;&nbsp;'
           minimum: 500
+          maximum: 9999
+          
+      - name: Generate Sponsors 💖
+        uses: JamesIves/github-sponsors-readme-action@v1.0.8
+        with:
+          token: ${{ secrets.PAT }}
+          file: 'README.md'
+          minimum: 10000
+          template: '<a href="https://github.com/{{{ login }}}"><img src="https://github.com/{{{ login }}}.png" width="80px" alt="{{{ login }}}" /></a>&nbsp;&nbsp;'
+          marker: 'premium'
+
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4.2.2
