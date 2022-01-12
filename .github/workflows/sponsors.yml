@@ -17,7 +17,6 @@ jobs:
           token: ${{ secrets.PAT }}
           file: 'README.md'
           template: '<a href="https://github.com/{{{ login }}}"><img src="https://github.com/{{{ login }}}.png" width="50px" alt="{{{ login }}}" /></a>&nbsp;&nbsp;'
-          minimum: 500
           maximum: 9999
           
       - name: Generate Sponsors 💖
