@@ -52,7 +52,7 @@
 
 ## Getting Started :airplane:
 
-You can include the action in your workflow to trigger on any event that [GitHub actions supports](https://help.github.com/en/articles/events-that-trigger-workflows). If the remote branch that you wish to deploy to doesn't already exist the action will create it for you. Your workflow will also need to include the `actions/checkout` step before this workflow runs in order for the deployment to work. If you intend to make multiple deployments in quick succession [you may need to levereage the concurrency parameter in your workflow](https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#concurrency) to prevent overlaps with the Git process.
+You can include the action in your workflow to trigger on any event that [GitHub actions supports](https://help.github.com/en/articles/events-that-trigger-workflows). If the remote branch that you wish to deploy to doesn't already exist the action will create it for you. Your workflow will also need to include the `actions/checkout` step before this workflow runs in order for the deployment to work. If you intend to make multiple deployments in quick succession [you may need to levereage the concurrency parameter in your workflow](https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#concurrency) to prevent overlaps.
 
 You can view an example of this below.
 
