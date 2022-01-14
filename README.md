@@ -52,7 +52,7 @@
 
 ## Getting Started :airplane:
 
-You can include the action in your workflow to trigger on any event that [GitHub actions supports](https://help.github.com/en/articles/events-that-trigger-workflows). If the remote branch that you wish to deploy to doesn't already exist the action will create it for you. Your workflow will also need to include the `actions/checkout` step before this workflow runs in order for the deployment to work.
+You can include the action in your workflow to trigger on any event that [GitHub actions supports](https://help.github.com/en/articles/events-that-trigger-workflows). If the remote branch that you wish to deploy to doesn't already exist the action will create it for you. Your workflow will also need to include the `actions/checkout` step before this workflow runs in order for the deployment to work. If you intend to make multiple deployments in quick succession [you may need to levereage the concurrency parameter in your workflow](https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#concurrency) to prevent overlaps with the Git process.
 
 You can view an example of this below.
 
@@ -61,6 +61,7 @@ name: Build and Deploy
 on: [push]
 jobs:
   build-and-deploy:
+    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
@@ -208,6 +209,7 @@ on:
       - main
 jobs:
   deploy:
+    concurrency: ci-${{ github.ref }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
@@ -274,6 +276,7 @@ jobs:
           path: build
 
   deploy:
+    concurrency: ci-${{ github.ref }}
     needs: [build] # The second job must depend on the first one to complete before running, and uses ubuntu-latest instead of windows.
     runs-on: ubuntu-latest
     steps:
@@ -327,6 +330,7 @@ on:
       - main
 jobs:
   deploy:
+    concurrency: ci-${{ github.ref }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
