@@ -1,3 +1,4 @@
+import {warning} from '@actions/core'
 import {ActionInterface, TestFlag} from '../src/constants'
 import {
   isNullOrUndefined,
@@ -9,6 +10,16 @@ import {
   stripProtocolFromUrl,
   extractErrorMessage
 } from '../src/util'
+
+jest.mock('@actions/core', () => ({
+  setFailed: jest.fn(),
+  getInput: jest.fn(),
+  setOutput: jest.fn(),
+  exportVariable: jest.fn(),
+  isDebug: jest.fn(),
+  info: jest.fn(),
+  warning: jest.fn()
+}))
 
 describe('util', () => {
   describe('isNullOrUndefined', () => {
@@ -305,6 +316,46 @@ describe('util', () => {
         expect(e instanceof Error && e.message).toMatch(
           `The directory you're trying to deploy named notARealFolder doesn't exist. Please double check the path and any prerequisite build scripts and try again. ❗`
         )
+      }
+    })
+
+    it('should warn if using an unsupported os', () => {
+      const action = {
+        silent: false,
+        repositoryPath: undefined,
+        token: '123',
+        branch: 'branch',
+        folder: '',
+        workspace: 'src/',
+        isTest: TestFlag.NONE
+      }
+
+      process.env.RUNNER_OS = 'Windows'
+
+      try {
+        checkParameters(action)
+      } catch (e) {
+        expect(warning).toBeCalledTimes(1)
+
+        process.env.RUNNER_OS = 'Linux'
+      }
+    })
+
+    it('should not warn if using a supported os', () => {
+      const action = {
+        silent: false,
+        repositoryPath: undefined,
+        token: '123',
+        branch: 'branch',
+        folder: '',
+        workspace: 'src/',
+        isTest: TestFlag.NONE
+      }
+
+      try {
+        checkParameters(action)
+      } catch (e) {
+        expect(warning).toBeCalledTimes(0)
       }
     })
   })
