@@ -330,14 +330,14 @@ describe('util', () => {
         isTest: TestFlag.NONE
       }
 
-      process.env.RUNNER_OS = 'Windows'
+      process.env['RUNNER_OS'] = 'Windows'
 
       try {
         checkParameters(action)
       } catch (e) {
         expect(warning).toBeCalledTimes(1)
 
-        process.env.RUNNER_OS = 'Linux'
+        process.env['RUNNER_OS'] = 'Linux'
       }
     })
 
