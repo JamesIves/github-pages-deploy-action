@@ -224,7 +224,7 @@ describe('util', () => {
         checkParameters(action)
       } catch (e) {
         expect(e instanceof Error && e.message).toMatch(
-          'No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true.'
+          'No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. For more details on how to use an ssh deploy key please refer to the documentation.'
         )
       }
     })
@@ -244,7 +244,7 @@ describe('util', () => {
         checkParameters(action)
       } catch (e) {
         expect(e instanceof Error && e.message).toMatch(
-          'No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true.'
+          'No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. For more details on how to use an ssh deploy key please refer to the documentation.'
         )
       }
     })

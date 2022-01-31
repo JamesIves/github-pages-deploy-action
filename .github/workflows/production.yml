@@ -32,12 +32,12 @@ jobs:
 
       - name: Build
         run: |
-          yarn install
+          yarn install --frozen-lockfile
           yarn build
 
       - name: Install Production node_modules
         run: |
-          yarn install --production
+          yarn install --production --frozen-lockfile
 
       - name: Commit and Push
         # Keep the run green if the commit fails for the lack of changes

@@ -2,7 +2,7 @@
   "name": "@jamesives/github-pages-deploy-action",
   "description": "GitHub action for building a project and deploying it to GitHub pages.",
   "author": "James Ives <iam@jamesiv.es> (https://jamesiv.es)",
-  "version": "4.2.1",
+  "version": "4.2.2",
   "license": "MIT",
   "main": "lib/lib.js",
   "types": "lib/lib.d.ts",
@@ -40,18 +40,18 @@
   },
   "devDependencies": {
     "@types/jest": "27.4.0",
-    "@types/node": "17.0.8",
+    "@types/node": "17.0.13",
     "@typescript-eslint/eslint-plugin": "4.33.0",
     "@typescript-eslint/parser": "4.33.0",
     "eslint": "7.32.0",
     "eslint-config-prettier": "8.3.0",
-    "eslint-plugin-jest": "25.3.4",
+    "eslint-plugin-jest": "26.0.0",
     "eslint-plugin-prettier": "4.0.0",
     "jest": "26.6.3",
     "jest-circus": "27.4.6",
     "prettier": "2.5.1",
     "rimraf": "3.0.2",
     "ts-jest": "26.5.6",
-    "typescript": "4.5.4"
+    "typescript": "4.5.5"
   }
 }
