@@ -1,4 +1,3 @@
-import {warning} from '@actions/core'
 import {ActionInterface, TestFlag} from '../src/constants'
 import {
   isNullOrUndefined,
