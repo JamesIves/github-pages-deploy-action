@@ -10,10 +10,6 @@ import {
   extractErrorMessage
 } from '../src/util'
 
-jest.mock('@actions/core', () => ({
-  warning: jest.fn()
-}))
-
 describe('util', () => {
   describe('isNullOrUndefined', () => {
     it('should return true if the value is null', async () => {
