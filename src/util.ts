@@ -76,8 +76,7 @@ export const checkParameters = (action: ActionInterface): void => {
   if (
     !SupportedOperatingSystems.includes(
       process.env.RUNNER_OS as OperatingSystems
-    ) ||
-    action.isTest
+    )
   ) {
     warning(
       `The operating system you're using is not supported and results may be varied. Please refer to the documentation for more details. ❗`
