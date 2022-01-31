@@ -3,7 +3,7 @@ name: Update Major Version Tag
 on:
   push:
     tags:
-      - "v*"
+      - 'v*'
 
 jobs:
   update-majorver:

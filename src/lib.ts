@@ -1,4 +1,4 @@
-import {exportVariable, info, setFailed, setOutput} from '@actions/core'
+import {exportVariable, info, notice, setFailed, setOutput} from '@actions/core'
 import {ActionInterface, NodeActionInterface, Status} from './constants'
 import {deploy, init} from './git'
 import {configureSSH} from './ssh'
@@ -21,8 +21,25 @@ export default async function run(
 
   try {
     info(`
-    GitHub Pages Deploy Action 🚀
+    ╭━━━╮╭╮╭╮╱╭╮╱╱╭╮╱╱╭━━━╮
+    ┃╭━╮┣╯╰┫┃╱┃┃╱╱┃┃╱╱┃╭━╮┃
+    ┃┃╱╰╋╮╭┫╰━╯┣╮╭┫╰━╮┃╰━╯┣━━┳━━┳━━┳━━╮
+    ┃┃╭━╋┫┃┃╭━╮┃┃┃┃╭╮┃┃╭━━┫╭╮┃╭╮┃┃━┫━━┫
+    ┃╰┻━┃┃╰┫┃╱┃┃╰╯┃╰╯┃┃┃╱╱┃╭╮┃╰╯┃┃━╋━━┃
+    ╰━━━┻┻━┻╯╱╰┻━━┻━━╯╰╯╱╱╰╯╰┻━╮┣━━┻━━╯
+    ╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╭━╯┃
+    ╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╰━━╯
+    ╭━━━╮╱╱╱╱╱╭╮╱╱╱╱╱╱╱╱╭━━━╮╱╱╭╮
+    ╰╮╭╮┃╱╱╱╱╱┃┃╱╱╱╱╱╱╱╱┃╭━╮┃╱╭╯╰╮
+    ╱┃┃┃┣━━┳━━┫┃╭━━┳╮╱╭╮┃┃╱┃┣━┻╮╭╋┳━━┳━╮
+    ╱┃┃┃┃┃━┫╭╮┃┃┃╭╮┃┃╱┃┃┃╰━╯┃╭━┫┃┣┫╭╮┃╭╮╮
+    ╭╯╰╯┃┃━┫╰╯┃╰┫╰╯┃╰━╯┃┃╭━╮┃╰━┫╰┫┃╰╯┃┃┃┃
+    ╰━━━┻━━┫╭━┻━┻━━┻━╮╭╯╰╯╱╰┻━━┻━┻┻━━┻╯╰╯
+    ╱╱╱╱╱╱╱┃┃╱╱╱╱╱╱╭━╯┃
+    ╱╱╱╱╱╱╱╰╯╱╱╱╱╱╱╰━━╯
+    `)
 
+    info(`
     💖 Support: https://github.com/sponsors/JamesIves
     📣 Maintained by James Ives: https://jamesiv.es
 
@@ -53,17 +70,19 @@ export default async function run(
     status = await deploy(settings)
   } catch (error) {
     status = Status.FAILED
+
     setFailed(extractErrorMessage(error))
   } finally {
-    info(
-      `${
-        status === Status.FAILED
-          ? 'Deployment failed! ❌'
-          : status === Status.SUCCESS
-          ? 'Completed deployment successfully! ✅'
-          : 'There is nothing to commit. Exiting early… 📭'
-      }`
-    )
+    const terminationMessage = `${
+      status === Status.FAILED
+        ? 'Deployment failed! ❌'
+        : status === Status.SUCCESS
+        ? 'Completed deployment successfully! ✅'
+        : 'There is nothing to commit. Exiting early… 📭'
+    }`
+
+    info(terminationMessage)
+    notice(terminationMessage)
 
     exportVariable('deployment_status', status)
     setOutput('deployment-status', status)

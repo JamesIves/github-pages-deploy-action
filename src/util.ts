@@ -1,4 +1,4 @@
-import {isDebug, info} from '@actions/core'
+import {isDebug, warning} from '@actions/core'
 import {existsSync} from 'fs'
 import path from 'path'
 import {
@@ -47,6 +47,7 @@ const hasRequiredParameters = <K extends keyof RequiredActionParameters>(
   const nonNullParams = params.filter(
     param => !isNullOrUndefined(action[param])
   )
+
   return Boolean(nonNullParams.length)
 }
 
@@ -54,7 +55,7 @@ const hasRequiredParameters = <K extends keyof RequiredActionParameters>(
 export const checkParameters = (action: ActionInterface): void => {
   if (!hasRequiredParameters(action, ['token', 'sshKey'])) {
     throw new Error(
-      'No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. If you wish to use an ssh deploy token then you must set SSH to true.'
+      'No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. For more details on how to use an ssh deploy key please refer to the documentation.'
     )
   }
 
@@ -77,7 +78,7 @@ export const checkParameters = (action: ActionInterface): void => {
       process.env.RUNNER_OS as OperatingSystems
     )
   ) {
-    info(
+    warning(
       `The operating system you're using is not supported and results may be varied. Please refer to the documentation for more details. ❗`
     )
   }

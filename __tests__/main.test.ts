@@ -27,7 +27,8 @@ jest.mock('@actions/core', () => ({
   setOutput: jest.fn(),
   exportVariable: jest.fn(),
   isDebug: jest.fn(),
-  info: jest.fn()
+  info: jest.fn(),
+  notice: jest.fn()
 }))
 
 describe('main', () => {
