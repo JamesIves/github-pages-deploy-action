@@ -3,6 +3,7 @@ process.env['INPUT_FOLDER'] = 'build'
 process.env['GITHUB_SHA'] = '123'
 process.env['INPUT_DEBUG'] = 'debug'
 process.env['GITHUB_REF_NAME'] = 'test'
+process.env['RUNNER_OS'] = 'Linux'
 
 import '../src/main'
 import {action, TestFlag} from '../src/constants'
