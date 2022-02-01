@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v2.4.0
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: JamesIves/github-pages-deploy-action@v4.2.3
         with:
           git-config-name: Montezuma
           git-config-email: montezuma@jamesiv.es
@@ -44,7 +44,7 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: JamesIves/github-pages-deploy-action@v4.2.3
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
           branch: gh-pages
@@ -71,7 +71,7 @@ jobs:
           persist-credentials: false
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: JamesIves/github-pages-deploy-action@v4.2.3
         with:
           branch: gh-pages
           folder: integration
@@ -103,7 +103,7 @@ jobs:
           apt-get update && apt-get install -y rsync
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: JamesIves/github-pages-deploy-action@v4.2.3
         with:
           branch: gh-pages
           folder: integration
@@ -127,7 +127,7 @@ jobs:
           persist-credentials: false
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: JamesIves/github-pages-deploy-action@v4.2.3
         with:
           ssh-key: ${{ secrets.DEPLOY_KEY }}
           branch: gh-pages
@@ -157,7 +157,7 @@ jobs:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: JamesIves/github-pages-deploy-action@v4.2.3
         with:
           ssh-key: true
           branch: gh-pages
@@ -186,7 +186,7 @@ jobs:
           persist-credentials: false
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: JamesIves/github-pages-deploy-action@v4.2.3
         with:
           ssh-key: ${{ secrets.DEPLOY_KEY }}
           branch: gh-pages
@@ -195,7 +195,7 @@ jobs:
           silent: true
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: JamesIves/github-pages-deploy-action@v4.2.3
         with:
           ssh-key: ${{ secrets.DEPLOY_KEY }}
           branch: gh-pages
@@ -228,7 +228,7 @@ jobs:
           persist-credentials: false
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: JamesIves/github-pages-deploy-action@v4.2.3
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
           branch: gh-pages
@@ -247,7 +247,7 @@ jobs:
           persist-credentials: false
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: JamesIves/github-pages-deploy-action@v4.2.3
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
           branch: integration-test-delete-prod
@@ -256,7 +256,7 @@ jobs:
           silent: true
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: JamesIves/github-pages-deploy-action@v4.2.3
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
           branch: integration-test-delete-prod
