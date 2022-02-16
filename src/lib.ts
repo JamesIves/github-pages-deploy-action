@@ -73,16 +73,13 @@ export default async function run(
 
     setFailed(extractErrorMessage(error))
   } finally {
-    const terminationMessage = `${
-      status === Status.FAILED
-        ? 'Deployment failed! ❌'
-        : status === Status.SUCCESS
-        ? 'Completed deployment successfully! ✅'
-        : 'There is nothing to commit. Exiting early… 📭'
-    }`
-
-    info(terminationMessage)
-    notice(terminationMessage)
+    if (status === Status.FAILED) {
+      notice('Deployment failed! ❌')
+    } else if (status === Status.SUCCESS) {
+      info('Completed deployment successfully! ✅')
+    } else {
+      info('There is nothing to commit. Exiting early… 📭')
+    }
 
     exportVariable('deployment_status', status)
     setOutput('deployment-status', status)
