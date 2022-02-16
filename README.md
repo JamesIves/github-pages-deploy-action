@@ -31,7 +31,7 @@
 </p>
 
 <p align="center">
-  This <a href="https://github.com/features/actions">GitHub Action</a> will automatically deploy your project to <a href="https://pages.github.com/">GitHub Pages</a>. It can be configured to push your production-ready code into any branch you'd like, including <b>gh-pages</b> and <b>docs</b>. It can also handle cross repository deployments and works with <a href="https://github.com/enterprise">GitHub Enterprise</a> too.
+  Automatically deploy your project to <a href="https://pages.github.com/">GitHub Pages</a> with <a href="https://github.com/features/actions">GitHub Actions</a>. This action can be configured to push your production-ready code into any branch you'd like, including <b>gh-pages</b> and <b>docs</b>. It can also handle cross repository deployments and works with <a href="https://github.com/enterprise">GitHub Enterprise</a> too.
 </p>
 
 <p align="center">
@@ -73,7 +73,7 @@ jobs:
           npm run build
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.2.2
+        uses: JamesIves/github-pages-deploy-action@v4.2.3
         with:
           branch: gh-pages # The branch the action should deploy to.
           folder: build # The folder the action should deploy.
@@ -191,7 +191,7 @@ With this configured you can then set the `ssh-key` part of the action to your p
 
 ```yml
 - name: Deploy 🚀
-  uses: JamesIves/github-pages-deploy-action@v4.2.2
+  uses: JamesIves/github-pages-deploy-action@v4.2.3
   with:
     branch: gh-pages
     folder: site
@@ -221,7 +221,7 @@ jobs:
           npm run build
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.2.2
+        uses: JamesIves/github-pages-deploy-action@v4.2.3
         with:
           branch: gh-pages
           folder: build
@@ -289,7 +289,7 @@ jobs:
           name: site
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.2.2
+        uses: JamesIves/github-pages-deploy-action@v4.2.3
         with:
           branch: gh-pages
           folder: 'site' # The deployment folder should match the name of the artifact. Even though our project builds into the 'build' folder the artifact name of 'site' must be placed here.
@@ -310,7 +310,7 @@ If you use a [container](https://help.github.com/en/actions/automating-your-work
     apt-get update && apt-get install -y rsync
 
 - name: Deploy 🚀
-  uses: JamesIves/github-pages-deploy-action@v4.2.2
+  uses: JamesIves/github-pages-deploy-action@v4.2.3
 ```
 
 ---
@@ -342,7 +342,7 @@ jobs:
           npm run build
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.2.2
+        uses: JamesIves/github-pages-deploy-action@v4.2.3
         with:
           branch: gh-pages
           folder: build
