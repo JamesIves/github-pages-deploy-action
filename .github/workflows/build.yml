@@ -16,7 +16,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2.4.0
 
-      - uses: actions/setup-node@v2.5.1
+      - uses: actions/setup-node@v3
         with:
           node-version: 'v14.18.1'
           registry-url: 'https://registry.npmjs.org'
@@ -41,7 +41,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2.4.0
 
-      - uses: actions/setup-node@v2.5.1
+      - uses: actions/setup-node@v3
         with:
           node-version: 'v14.18.1'
           registry-url: 'https://registry.npmjs.org'
@@ -81,7 +81,7 @@ jobs:
         with:
           persist-credentials: false
 
-      - uses: actions/setup-node@v2.5.1
+      - uses: actions/setup-node@v3
         with:
           node-version: 'v14.18.1'
           registry-url: 'https://registry.npmjs.org'
