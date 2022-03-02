@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
 
       - name: Build and Deploy
         uses: JamesIves/github-pages-deploy-action@v4.2.5
@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
 
       - name: Build and Deploy
         uses: JamesIves/github-pages-deploy-action@v4.2.5
@@ -66,7 +66,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
         with:
           persist-credentials: false
 
@@ -94,7 +94,7 @@ jobs:
         LANG: C.UTF-8
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
         with:
           persist-credentials: false
 
@@ -122,7 +122,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
         with:
           persist-credentials: false
 
@@ -147,7 +147,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
         with:
           persist-credentials: false
 
@@ -181,7 +181,7 @@ jobs:
           node-version: 'v14.18.1'
 
       - name: Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
         with:
           persist-credentials: false
 
@@ -223,7 +223,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
         with:
           persist-credentials: false
 
@@ -242,7 +242,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
         with:
           persist-credentials: false
 

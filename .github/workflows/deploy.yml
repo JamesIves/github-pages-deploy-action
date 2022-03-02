@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
 
       # Workflow dispatch event that pushes the current version to the release branch.
       # From here the secondary production deployment workflow will trigger to build the dependencies.
