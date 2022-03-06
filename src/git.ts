@@ -216,13 +216,17 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       `${action.workspace}/${temporaryDeploymentDirectory}`,
       action.silent
     )
-    if (!action.dryRun) {
-      await execute(
-        `git push --force ${action.repositoryPath} ${temporaryDeploymentBranch}:${action.branch}`,
-        `${action.workspace}/${temporaryDeploymentDirectory}`,
-        action.silent
-      )
+
+    if (action.dryRun) {
+      info(`Dry run complete`)
+      return Status.SUCCESS
     }
+
+    await execute(
+      `git push --force ${action.repositoryPath} ${temporaryDeploymentBranch}:${action.branch}`,
+      `${action.workspace}/${temporaryDeploymentDirectory}`,
+      action.silent
+    )
 
     info(`Changes committed to the ${action.branch} branch… 📦`)
 
