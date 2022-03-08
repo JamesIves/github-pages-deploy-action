@@ -243,7 +243,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
         if (rejected) {
           info(`Updates were rejected; fetching and rebasing...`)
           await execute(
-            `git fetch ${action.repositoryPath} ${action.branch}`,
+            `git fetch ${action.repositoryPath} ${action.branch}:${action.branch}`,
             `${action.workspace}/${temporaryDeploymentDirectory}`,
             action.silent
           )
