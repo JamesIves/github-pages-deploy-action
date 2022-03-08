@@ -108,11 +108,15 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     // Checks to see if the remote exists prior to deploying.
     const branchExists =
       action.isTest & TestFlag.HAS_REMOTE_BRANCH ||
-      (await execute(
-        `git ls-remote --heads ${action.repositoryPath} refs/heads/${action.branch}`,
-        action.workspace,
-        action.silent
-      ))
+      Boolean(
+        (
+          await execute(
+            `git ls-remote --heads ${action.repositoryPath} refs/heads/${action.branch}`,
+            action.workspace,
+            action.silent
+          )
+        ).stdout
+      )
 
     await generateWorktree(action, temporaryDeploymentDirectory, branchExists)
 
@@ -186,11 +190,15 @@ export async function deploy(action: ActionInterface): Promise<Status> {
 
     const hasFilesToCommit =
       action.isTest & TestFlag.HAS_CHANGED_FILES ||
-      (await execute(
-        checkGitStatus,
-        `${action.workspace}/${temporaryDeploymentDirectory}`,
-        true // This output is always silenced due to the large output it creates.
-      ))
+      Boolean(
+        (
+          await execute(
+            checkGitStatus,
+            `${action.workspace}/${temporaryDeploymentDirectory}`,
+            true // This output is always silenced due to the large output it creates.
+          )
+        ).stdout
+      )
 
     if (
       (!action.singleCommit && !hasFilesToCommit) ||
@@ -247,8 +255,8 @@ export async function deploy(action: ActionInterface): Promise<Status> {
           action.silent
         )
         rejected =
-          pushResult.includes(`[rejected]`) ||
-          pushResult.includes(`[remote rejected]`)
+          pushResult.stderr.includes(`[rejected]`) ||
+          pushResult.stderr.includes(`[remote rejected]`)
       } while (rejected)
     }
 

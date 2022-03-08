@@ -1,7 +1,12 @@
 import {exec} from '@actions/exec'
 import buffer from 'buffer'
 
-let output = ''
+type ExecuteOutput = {
+  stdout: string
+  stderr: string
+}
+
+const output: ExecuteOutput = {stdout: '', stderr: ''}
 
 /** Wrapper around the GitHub toolkit exec command which returns the output.
  * Also allows you to easily toggle the current working directory.
@@ -14,16 +19,15 @@ export async function execute(
   cmd: string,
   cwd: string,
   silent: boolean
-): Promise<string> {
-  output = ''
+): Promise<ExecuteOutput> {
+  output.stdout = ''
+  output.stderr = ''
 
   await exec(cmd, [], {
     // Silences the input unless the INPUT_DEBUG flag is set.
     silent,
     cwd,
-    listeners: {
-      stdout
-    }
+    listeners: {stdout, stderr}
   })
 
   return Promise.resolve(output)
@@ -31,7 +35,20 @@ export async function execute(
 
 export function stdout(data: Buffer | string): void {
   const dataString = data.toString().trim()
-  if (output.length + dataString.length < buffer.constants.MAX_STRING_LENGTH) {
-    output += dataString
+  if (
+    output.stdout.length + dataString.length <
+    buffer.constants.MAX_STRING_LENGTH
+  ) {
+    output.stdout += dataString
+  }
+}
+
+export function stderr(data: Buffer | string): void {
+  const dataString = data.toString().trim()
+  if (
+    output.stderr.length + dataString.length <
+    buffer.constants.MAX_STRING_LENGTH
+  ) {
+    output.stderr += dataString
   }
 }
