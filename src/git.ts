@@ -222,11 +222,34 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       return Status.SUCCESS
     }
 
-    await execute(
-      `git push --force ${action.repositoryPath} ${temporaryDeploymentBranch}:${action.branch}`,
-      `${action.workspace}/${temporaryDeploymentDirectory}`,
-      action.silent
-    )
+    if (action.force) {
+      info(`Force-pushing changes...`)
+      await execute(
+        `git push --force ${action.repositoryPath} ${temporaryDeploymentBranch}:${action.branch}`,
+        `${action.workspace}/${temporaryDeploymentDirectory}`,
+        action.silent
+      )
+    } else {
+      let rejected = false
+      do {
+        if (rejected) {
+          info(`Updates were rejected; pulling and rebasing...`)
+          await execute(
+            `git pull --rebase --no-edit ${action.repositoryPath} ${action.branch}:${temporaryDeploymentBranch}`,
+            `${action.workspace}/${temporaryDeploymentDirectory}`,
+            action.silent
+          )
+        }
+        info(`Pushing changes...`)
+        rejected = (
+          await execute(
+            `git push --porcelain ${action.repositoryPath} ${temporaryDeploymentBranch}:${action.branch}`,
+            `${action.workspace}/${temporaryDeploymentDirectory}`,
+            action.silent
+          )
+        ).includes(`[rejected]`)
+      } while (rejected)
+    }
 
     info(`Changes committed to the ${action.branch} branch… 📦`)
 
