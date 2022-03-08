@@ -14,11 +14,14 @@ const output: ExecuteOutput = {stdout: '', stderr: ''}
  * @param {string} cmd - The command to execute.
  * @param {string} cwd - The current working directory.
  * @param {boolean} silent - Determines if the in/out should be silenced or not.
+ * @param {boolean} ignoreReturnCode - Determines whether to throw an error
+ * on a non-zero exit status or to leave implementation up to the caller.
  */
 export async function execute(
   cmd: string,
   cwd: string,
-  silent: boolean
+  silent: boolean,
+  ignoreReturnCode = false
 ): Promise<ExecuteOutput> {
   output.stdout = ''
   output.stderr = ''
@@ -27,7 +30,8 @@ export async function execute(
     // Silences the input unless the INPUT_DEBUG flag is set.
     silent,
     cwd,
-    listeners: {stdout, stderr}
+    listeners: {stdout, stderr},
+    ignoreReturnCode
   })
 
   return Promise.resolve(output)

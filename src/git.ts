@@ -249,11 +249,17 @@ export async function deploy(action: ActionInterface): Promise<Status> {
           )
         }
         info(`Pushing changes...`)
-        const pushResult = await execute(
-          `git push --porcelain ${action.repositoryPath} ${temporaryDeploymentBranch}:${action.branch}`,
-          `${action.workspace}/${temporaryDeploymentDirectory}`,
-          action.silent
-        )
+        let pushResult
+        try {
+          pushResult = await execute(
+            `git push --porcelain ${action.repositoryPath} ${temporaryDeploymentBranch}:${action.branch}`,
+            `${action.workspace}/${temporaryDeploymentDirectory}`,
+            action.silent,
+            true // Errors are expected; ignore them
+          )
+        } catch (error) {
+          console.error(error)
+        }
         rejected =
           pushResult.stderr.includes(`[rejected]`) ||
           pushResult.stderr.includes(`[remote rejected]`)
