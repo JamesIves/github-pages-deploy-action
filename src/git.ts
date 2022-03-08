@@ -241,13 +241,14 @@ export async function deploy(action: ActionInterface): Promise<Status> {
           )
         }
         info(`Pushing changes...`)
-        rejected = (
-          await execute(
-            `git push --porcelain ${action.repositoryPath} ${temporaryDeploymentBranch}:${action.branch}`,
-            `${action.workspace}/${temporaryDeploymentDirectory}`,
-            action.silent
-          )
-        ).includes(`[rejected]`)
+        const pushResult = await execute(
+          `git push --porcelain ${action.repositoryPath} ${temporaryDeploymentBranch}:${action.branch}`,
+          `${action.workspace}/${temporaryDeploymentDirectory}`,
+          action.silent
+        )
+        rejected =
+          pushResult.includes(`[rejected]`) ||
+          pushResult.includes(`[remote rejected]`)
       } while (rejected)
     }
 
