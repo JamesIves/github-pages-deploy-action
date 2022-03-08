@@ -231,6 +231,8 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     }
 
     if (action.force) {
+      // Force-push our changes, overwriting any changes that were added in
+      // the meantime
       info(`Force-pushing changes...`)
       await execute(
         `git push --force ${action.repositoryPath} ${temporaryDeploymentBranch}:${action.branch}`,
@@ -238,31 +240,49 @@ export async function deploy(action: ActionInterface): Promise<Status> {
         action.silent
       )
     } else {
+      // Attempt to push our changes, but fetch + rebase if there were
+      // other changes added in the meantime
+      const ATTEMPT_LIMIT = 3
+      let attempt = 0
+      // Keep track of whether the most recent attempt was rejected
       let rejected = false
       do {
+        attempt++
+        if (attempt > ATTEMPT_LIMIT) throw new Error(`Attempt limit exceeded`)
+
+        // Handle rejection for the previous attempt first such that, on
+        // the final attempt, time is not wasted rebasing it when it will
+        // not be pushed
         if (rejected) {
-          info(`Updates were rejected; fetching and rebasing...`)
+          info(`Fetching upstream ${action.branch}...`)
           await execute(
             `git fetch ${action.repositoryPath} ${action.branch}:${action.branch}`,
             `${action.workspace}/${temporaryDeploymentDirectory}`,
             action.silent
           )
+          info(`Rebasing this deployment onto ${action.branch}...`)
           await execute(
             `git rebase ${action.branch} ${temporaryDeploymentBranch}`,
             `${action.workspace}/${temporaryDeploymentDirectory}`,
             action.silent
           )
         }
-        info(`Pushing changes...`)
+
+        info(`Pushing changes... (attempt ${attempt} of ${ATTEMPT_LIMIT})`)
         const pushResult = await execute(
           `git push --porcelain ${action.repositoryPath} ${temporaryDeploymentBranch}:${action.branch}`,
           `${action.workspace}/${temporaryDeploymentDirectory}`,
           action.silent,
-          true // Errors are expected; ignore them
+          true // Ignore non-zero exit status
         )
+
         rejected =
           pushResult.stdout.includes(`[rejected]`) ||
           pushResult.stdout.includes(`[remote rejected]`)
+        if (rejected) info('Updates were rejected')
+
+        // If the push failed for any reason other than being rejected,
+        // there is a problem
         if (!rejected && pushResult.stderr) throw new Error(pushResult.stderr)
       } while (rejected)
     }
