@@ -241,9 +241,14 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       let rejected = false
       do {
         if (rejected) {
-          info(`Updates were rejected; pulling and rebasing...`)
+          info(`Updates were rejected; fetching and rebasing...`)
           await execute(
-            `git pull --rebase --no-edit ${action.repositoryPath} ${action.branch}:${temporaryDeploymentBranch}`,
+            `git fetch ${action.repositoryPath} ${action.branch}`,
+            `${action.workspace}/${temporaryDeploymentDirectory}`,
+            action.silent
+          )
+          await execute(
+            `git rebase ${action.branch} ${temporaryDeploymentBranch}`,
             `${action.workspace}/${temporaryDeploymentDirectory}`,
             action.silent
           )
