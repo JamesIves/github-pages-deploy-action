@@ -13,8 +13,10 @@ describe('execute', () => {
     expect(exec).toBeCalledWith('echo Montezuma', [], {
       cwd: './',
       silent: true,
+      ignoreReturnCode: false,
       listeners: {
-        stdout: expect.any(Function)
+        stdout: expect.any(Function),
+        stderr: expect.any(Function)
       }
     })
   })
@@ -28,8 +30,10 @@ describe('execute', () => {
     expect(exec).toBeCalledWith('echo Montezuma', [], {
       cwd: './',
       silent: false,
+      ignoreReturnCode: false,
       listeners: {
-        stdout: expect.any(Function)
+        stdout: expect.any(Function),
+        stderr: expect.any(Function)
       }
     })
   })

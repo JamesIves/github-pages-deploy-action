@@ -104,7 +104,7 @@ describe('generateWorktree', () => {
         path.join(workspace, 'worktree'),
         true
       )
-      expect(commitMessages).toBe('gh1')
+      expect(commitMessages.stdout).toBe('gh1')
     })
   })
   describe('with missing branch and new commits', () => {
@@ -132,7 +132,7 @@ describe('generateWorktree', () => {
         path.join(workspace, 'worktree'),
         true
       )
-      expect(commitMessages).toBe('Initial no-pages commit')
+      expect(commitMessages.stdout).toBe('Initial no-pages commit')
     })
   })
   describe('with existing branch and singleCommit', () => {
