@@ -34,7 +34,7 @@
   ],
   "dependencies": {
     "@actions/core": "1.6.0",
-    "@actions/exec": "1.1.0",
+    "@actions/exec": "1.1.1",
     "@actions/github": "5.0.0",
     "@actions/io": "1.1.1"
   },
