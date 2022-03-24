@@ -270,3 +270,59 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branches: integration-test-delete-prod
+
+  # Creates two competing deployments, one of which should rebase over the other.
+  # First conflicting deployment
+  integration-rebase-conflicts-1:
+    needs: integration-branch-creation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Create random file
+        runs: echo $RANDOM > integration/1
+
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@v4.2.5
+        with:
+          git-config-name: Montezuma
+          git-config-email: montezuma@jamesiv.es
+          repository-name: MontezumaIves/lab
+          token: ${{ secrets.ACCESS_TOKEN }}
+          branch: gh-pages-rebase-conflict
+          folder: integration
+          force: false
+  # Second conflicting deployment
+  integration-rebase-conflicts-2:
+    needs: integration-branch-creation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Create random file
+        runs: echo $RANDOM > integration/2
+
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@v4.2.5
+        with:
+          git-config-name: Montezuma
+          git-config-email: montezuma@jamesiv.es
+          repository-name: MontezumaIves/lab
+          token: ${{ secrets.ACCESS_TOKEN }}
+          branch: gh-pages-rebase-conflict
+          folder: integration
+          force: false
+  # Clean up conflicting deployments
+  integration-rebase-conflicts-cleanup:
+    needs: [integration-rebase-conflicts-1, integration-rebase-conflicts-2]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cleanup Generated Branch
+        uses: dawidd6/action-delete-branch@v3.1.0
+        with:
+          github_token: ${{ secrets.ACCESS_TOKEN }}
+          owner: MontezumaIves
+          repository: lab
+          branches: gh-pages
