@@ -281,7 +281,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Create random file
-        runs: echo $RANDOM > integration/1
+        run: echo $RANDOM > integration/1
 
       - name: Build and Deploy
         uses: JamesIves/github-pages-deploy-action@v4.2.5
@@ -293,6 +293,7 @@ jobs:
           branch: gh-pages-rebase-conflict
           folder: integration
           force: false
+
   # Second conflicting deployment
   integration-rebase-conflicts-2:
     needs: integration-branch-creation
@@ -302,7 +303,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Create random file
-        runs: echo $RANDOM > integration/2
+        run: echo $RANDOM > integration/2
 
       - name: Build and Deploy
         uses: JamesIves/github-pages-deploy-action@v4.2.5
