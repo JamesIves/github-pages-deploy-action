@@ -16,7 +16,7 @@ import {setFailed, exportVariable} from '@actions/core'
 const originalAction = JSON.stringify(action)
 
 jest.mock('../src/execute', () => ({
-  execute: jest.fn()
+  execute: jest.fn(() => ({stdout: '', stderr: ''}))
 }))
 
 jest.mock('@actions/io', () => ({

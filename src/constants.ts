@@ -33,6 +33,8 @@ export interface ActionInterface {
   folder: string
   /** The auto generated folder path. */
   folderPath?: string
+  /** Whether to force-push or attempt to merge existing changes. */
+  force?: boolean
   /** Determines test scenarios the action is running in. */
   isTest: TestFlag
   /** The git config name. */
@@ -85,6 +87,9 @@ export const action: ActionInterface = {
   dryRun: !isNullOrUndefined(getInput('dry-run'))
     ? getInput('dry-run').toLowerCase() === 'true'
     : false,
+  force: !isNullOrUndefined(getInput('force'))
+    ? getInput('force').toLowerCase() === 'true'
+    : true,
   clean: !isNullOrUndefined(getInput('clean'))
     ? getInput('clean').toLowerCase() === 'true'
     : false,

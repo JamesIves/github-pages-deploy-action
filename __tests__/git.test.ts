@@ -30,7 +30,7 @@ jest.mock('@actions/io', () => ({
 jest.mock('../src/execute', () => ({
   // eslint-disable-next-line @typescript-eslint/naming-convention
   __esModule: true,
-  execute: jest.fn()
+  execute: jest.fn(() => ({stdout: '', stderr: ''}))
 }))
 
 describe('git', () => {
