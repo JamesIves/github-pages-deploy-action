@@ -33,7 +33,7 @@ jest.mock('@actions/core', () => ({
 }))
 
 jest.mock('../src/execute', () => ({
-  execute: jest.fn()
+  execute: jest.fn(() => ({stdout: '', stderr: ''}))
 }))
 
 describe('configureSSH', () => {

@@ -60,6 +60,11 @@ inputs:
     description: 'Do not actually push back, but use `--dry-run` on `git push` invocations insead.'
     required: false
 
+  force:
+    description: 'Whether to force-push and overwrite any existing deployment. Setting this to false will attempt to rebase simultaneous deployments. This option is on by default and can be toggled off by setting it to false.'
+    required: false
+    default: true
+
   git-config-name:
     description: 'Allows you to customize the name that is attached to the GitHub config which is used when pushing the deployment commits. If this is not included it will use the name in the GitHub context, followed by the name of the action.'
     required: false
