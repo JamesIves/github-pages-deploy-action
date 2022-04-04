@@ -4,6 +4,7 @@ export * from "./EndpointInterface";
 export * from "./EndpointOptions";
 export * from "./Fetch";
 export * from "./OctokitResponse";
+export * from "./RequestError";
 export * from "./RequestHeaders";
 export * from "./RequestInterface";
 export * from "./RequestMethod";

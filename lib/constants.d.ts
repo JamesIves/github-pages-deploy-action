@@ -3,7 +3,8 @@ export declare enum TestFlag {
     HAS_CHANGED_FILES = 2,
     HAS_REMOTE_BRANCH = 4,
     UNABLE_TO_REMOVE_ORIGIN = 8,
-    UNABLE_TO_UNSET_GIT_CONFIG = 16
+    UNABLE_TO_UNSET_GIT_CONFIG = 16,
+    HAS_REJECTED_COMMIT = 32
 }
 export interface ActionInterface {
     /** The branch that the action should deploy to. */
@@ -24,6 +25,8 @@ export interface ActionInterface {
     folder: string;
     /** The auto generated folder path. */
     folderPath?: string;
+    /** Whether to force-push or attempt to merge existing changes. */
+    force?: boolean;
     /** Determines test scenarios the action is running in. */
     isTest: TestFlag;
     /** The git config name. */
