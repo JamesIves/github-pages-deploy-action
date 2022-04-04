@@ -240,27 +240,30 @@ export async function deploy(action: ActionInterface): Promise<Status> {
         action.silent
       )
     } else {
+      const ATTEMPT_LIMIT = 3
       // Attempt to push our changes, but fetch + rebase if there were
       // other changes added in the meantime
-      const ATTEMPT_LIMIT = 3
       let attempt = 0
+
       // Keep track of whether the most recent attempt was rejected
       let rejected = false
+
       do {
         attempt++
+
         if (attempt > ATTEMPT_LIMIT) throw new Error(`Attempt limit exceeded`)
 
         // Handle rejection for the previous attempt first such that, on
         // the final attempt, time is not wasted rebasing it when it will
         // not be pushed
         if (rejected) {
-          info(`Fetching upstream ${action.branch}...`)
+          info(`Fetching upstream ${action.branch}…`)
           await execute(
             `git fetch ${action.repositoryPath} ${action.branch}:${action.branch}`,
             `${action.workspace}/${temporaryDeploymentDirectory}`,
             action.silent
           )
-          info(`Rebasing this deployment onto ${action.branch}...`)
+          info(`Rebasing this deployment onto ${action.branch}…`)
           await execute(
             `git rebase ${action.branch} ${temporaryDeploymentBranch}`,
             `${action.workspace}/${temporaryDeploymentDirectory}`,
@@ -268,7 +271,8 @@ export async function deploy(action: ActionInterface): Promise<Status> {
           )
         }
 
-        info(`Pushing changes... (attempt ${attempt} of ${ATTEMPT_LIMIT})`)
+        info(`Pushing changes… (attempt ${attempt} of ${ATTEMPT_LIMIT})`)
+
         const pushResult = await execute(
           `git push --porcelain ${action.repositoryPath} ${temporaryDeploymentBranch}:${action.branch}`,
           `${action.workspace}/${temporaryDeploymentDirectory}`,
@@ -277,8 +281,10 @@ export async function deploy(action: ActionInterface): Promise<Status> {
         )
 
         rejected =
+          Boolean(action.isTest) ||
           pushResult.stdout.includes(`[rejected]`) ||
           pushResult.stdout.includes(`[remote rejected]`)
+
         if (rejected) info('Updates were rejected')
 
         // If the push failed for any reason other than being rejected,

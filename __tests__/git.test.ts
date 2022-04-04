@@ -424,5 +424,30 @@ describe('git', () => {
         )
       }
     })
+
+    it('should execute commands if force is false and retry until limit is exceeded', async () => {
+      Object.assign(action, {
+        hostname: 'github.com',
+        silent: false,
+        folder: 'assets',
+        branch: 'branch',
+        force: false,
+        token: '123',
+        repositoryName: 'JamesIves/montezuma',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        isTest: TestFlag.HAS_CHANGED_FILES
+      })
+
+      try {
+        await deploy(action)
+      } catch (error) {
+        expect(error instanceof Error && error.message).toBe(
+          'The deploy step encountered an error: Attempt limit exceeded ❌'
+        )
+      }
+    })
   })
 })
