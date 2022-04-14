@@ -296,7 +296,7 @@ jobs:
 
   # Second conflicting deployment
   integration-rebase-conflicts-2:
-    needs: integration-branch-creation
+    needs: integration-rebase-conflicts-1
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
