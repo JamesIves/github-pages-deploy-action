@@ -22,6 +22,12 @@ export async function init(action: ActionInterface): Promise<void | Error> {
     info('Configuring git…')
 
     await execute(
+      `git config --global --add safe.directory "${action.workspace}"`,
+      action.workspace,
+      action.silent
+    )
+
+    await execute(
       `git config user.name "${action.name}"`,
       action.workspace,
       action.silent
