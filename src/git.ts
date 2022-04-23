@@ -28,9 +28,7 @@ export async function init(action: ActionInterface): Promise<void | Error> {
         action.silent
       )
     } catch {
-      info(
-        'Unable to set workspace as a safe directory…'
-      )
+      info('Unable to set workspace as a safe directory…')
     }
 
     await execute(
