@@ -55,7 +55,7 @@ describe('git', () => {
       })
 
       await init(action)
-      expect(execute).toBeCalledTimes(6)
+      expect(execute).toBeCalledTimes(7)
     })
 
     it('should catch when a function throws an error', async () => {
@@ -102,7 +102,7 @@ describe('git', () => {
       })
 
       await init(action)
-      expect(execute).toBeCalledTimes(6)
+      expect(execute).toBeCalledTimes(7)
     })
 
     it('should not unset git config if a user is using ssh', async () => {
@@ -124,7 +124,7 @@ describe('git', () => {
       })
 
       await init(action)
-      expect(execute).toBeCalledTimes(5)
+      expect(execute).toBeCalledTimes(6)
 
       process.env.CI = undefined
     })
@@ -145,7 +145,7 @@ describe('git', () => {
       })
 
       await init(action)
-      expect(execute).toBeCalledTimes(6)
+      expect(execute).toBeCalledTimes(7)
     })
   })
 
