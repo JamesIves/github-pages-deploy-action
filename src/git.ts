@@ -21,15 +21,15 @@ export async function init(action: ActionInterface): Promise<void | Error> {
     info(`Deploying using ${action.tokenType}… 🔑`)
     info('Configuring git…')
 
-    try {
-      await execute(
-        `git config --global --add safe.directory "${action.workspace}"`,
-        action.workspace,
-        action.silent
-      )
-    } catch {
-      info('Unable to set workspace as a safe directory…')
-    }
+    // try {
+    //   await execute(
+    //     `git config --global --add safe.directory "${action.workspace}"`,
+    //     action.workspace,
+    //     action.silent
+    //   )
+    // } catch {
+    //   info('Unable to set workspace as a safe directory…')
+    // }
 
     await execute(
       `git config user.name "${action.name}"`,
