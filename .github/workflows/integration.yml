@@ -20,6 +20,10 @@ jobs:
     container: node:16.13
     runs-on: ubuntu-latest
     steps:
+      - name: Install Container Dependencies 📚
+        run: |
+          apt-get update && apt-get install -y rsync
+
       - name: Checkout
         uses: actions/checkout@v3
 
