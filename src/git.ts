@@ -131,11 +131,15 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     await generateWorktree(action, temporaryDeploymentDirectory, branchExists)
 
     /* Relaxes permissions of folder due to be deployed so rsync can write to/from it. */
-    await execute(
-      `chmod -R +rw ${action.folderPath}`,
-      action.workspace,
-      action.silent
-    )
+    try {
+      await execute(
+        `chmod -R +rw ${action.folderPath}`,
+        action.workspace,
+        action.silent
+      )
+    } catch {
+      info(`Unable to modify permissions…`)
+    }
 
     // Ensures that items that need to be excluded from the clean job get parsed.
     let excludes = ''
