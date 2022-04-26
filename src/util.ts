@@ -96,9 +96,9 @@ export const suppressSensitiveInformation = (
     return value
   }
 
-  const orderedByLength = (
-    [action.token, action.repositoryPath].filter(Boolean) as string[]
-  ).sort((a, b) => b.length - a.length)
+  const orderedByLength = ([action.token, action.repositoryPath].filter(
+    Boolean
+  ) as string[]).sort((a, b) => b.length - a.length)
 
   for (const find of orderedByLength) {
     value = replaceAll(value, find, '***')
