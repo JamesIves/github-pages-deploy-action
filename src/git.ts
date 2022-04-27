@@ -31,15 +31,12 @@ export async function init(action: ActionInterface): Promise<void | Error> {
       attempt++
 
       if (attempt > ATTEMPT_LIMIT) {
-        throw new Error();
+        throw new Error()
       }
 
       if (attempt > 1) {
-        await execute(
-          `git init`,
-          action.workspace,
-          action.silent
-        )
+        // Handles the 'fatal: not a git directory' error.
+        await execute(`git init`, action.workspace, action.silent)
 
         await execute(
           `git commit -m "Initial commit" --allow-empty`,
@@ -59,20 +56,20 @@ export async function init(action: ActionInterface): Promise<void | Error> {
         action.workspace,
         action.silent
       )
-  
+
       await execute(
         `git config user.email "${action.email}"`,
         action.workspace,
         action.silent
       )
-  
+
       await execute(
         `git config core.ignorecase false`,
         action.workspace,
         action.silent
       )
-    } while(rejected)
-  
+    } while (rejected)
+
     try {
       if ((process.env.CI && !action.sshKey) || action.isTest) {
         /* Ensures that previously set Git configs do not interfere with the deployment.
