@@ -21,34 +21,58 @@ export async function init(action: ActionInterface): Promise<void | Error> {
     info(`Deploying using ${action.tokenType}… 🔑`)
     info('Configuring git…')
 
-    try {
+    // Keep trying to configure Git with various different methods until it works with a maximum of 2 attempts.
+    const ATTEMPT_LIMIT = 2
+
+    let attempt = 0
+    let rejected = false
+
+    do {
+      attempt++
+
+      if (attempt > ATTEMPT_LIMIT) {
+        throw new Error();
+      }
+
+      if (attempt > 1) {
+        await execute(
+          `git init`,
+          action.workspace,
+          action.silent
+        )
+
+        await execute(
+          `git commit -m "Initial commit" --allow-empty`,
+          action.workspace,
+          action.silent
+        )
+      }
+
       await execute(
         `git config --global --add safe.directory "${action.workspace}"`,
         action.workspace,
         action.silent
       )
-    } catch {
-      info('Unable to set workspace as a safe directory…')
-    }
 
-    await execute(
-      `git config user.name "${action.name}"`,
-      action.workspace,
-      action.silent
-    )
-
-    await execute(
-      `git config user.email "${action.email}"`,
-      action.workspace,
-      action.silent
-    )
-
-    await execute(
-      `git config core.ignorecase false`,
-      action.workspace,
-      action.silent
-    )
-
+      await execute(
+        `git config user.name "${action.name}"`,
+        action.workspace,
+        action.silent
+      )
+  
+      await execute(
+        `git config user.email "${action.email}"`,
+        action.workspace,
+        action.silent
+      )
+  
+      await execute(
+        `git config core.ignorecase false`,
+        action.workspace,
+        action.silent
+      )
+    } while(rejected)
+  
     try {
       if ((process.env.CI && !action.sshKey) || action.isTest) {
         /* Ensures that previously set Git configs do not interfere with the deployment.
