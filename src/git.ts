@@ -21,52 +21,37 @@ export async function init(action: ActionInterface): Promise<void | Error> {
     info(`Deploying using ${action.tokenType}… 🔑`)
     info('Configuring git…')
 
-    async function configureGit(throwOnError: boolean) {
-      try {
-        await execute(
-          `git config --global --add safe.directory "${action.workspace}"`,
-          action.workspace,
-          action.silent
-        )
+    await execute(`git init`, action.workspace, action.silent)
 
-        await execute(
-          `git config user.name "${action.name}"`,
-          action.workspace,
-          action.silent
-        )
+    await execute(
+      `git commit -m "Initial commit" --allow-empty`,
+      action.workspace,
+      action.silent
+    )
 
-        await execute(
-          `git config user.email "${action.email}"`,
-          action.workspace,
-          action.silent
-        )
+    await execute(
+      `git config --global --add safe.directory "${action.workspace}"`,
+      action.workspace,
+      action.silent
+    )
 
-        await execute(
-          `git config core.ignorecase false`,
-          action.workspace,
-          action.silent
-        )
-      } catch {
-        if (throwOnError) {
-          throw new Error()
-        }
-      }
-    }
+    await execute(
+      `git config user.name "${action.name}"`,
+      action.workspace,
+      action.silent
+    )
 
-    try {
-      await configureGit(false)
-    } catch {
-      // Attempt to re-run if initial configuration failed using git init.
-      await execute(`git init`, action.workspace, action.silent)
+    await execute(
+      `git config user.email "${action.email}"`,
+      action.workspace,
+      action.silent
+    )
 
-      await execute(
-        `git commit -m "Initial commit" --allow-empty`,
-        action.workspace,
-        action.silent
-      )
-      
-      await configureGit(true)
-    }
+    await execute(
+      `git config core.ignorecase false`,
+      action.workspace,
+      action.silent
+    )
 
     try {
       if ((process.env.CI && !action.sshKey) || action.isTest) {
