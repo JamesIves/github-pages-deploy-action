@@ -25,7 +25,6 @@ export async function init(action: ActionInterface): Promise<void | Error> {
     const ATTEMPT_LIMIT = 2
 
     let attempt = 0
-    let rejected = false
 
     do {
       attempt++
@@ -68,7 +67,7 @@ export async function init(action: ActionInterface): Promise<void | Error> {
         action.workspace,
         action.silent
       )
-    } while (rejected)
+    } while (attempt < ATTEMPT_LIMIT)
 
     try {
       if ((process.env.CI && !action.sshKey) || action.isTest) {
