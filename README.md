@@ -92,7 +92,7 @@ It's recommended that you use [Dependabot](https://docs.github.com/en/code-secur
 
 #### Security Settings ⚠️
 
-If you do not supply the action with an access token or an SSH key, you must access your repositories settings and provide `Read and Write PErmissions` to the provided `GITHUB_TOKEN`, otherwise you'll potentailly run into permission issues.
+If you do not supply the action with an access token or an SSH key, you must access your repositories settings and provide `Read and Write Permissions` to the provided `GITHUB_TOKEN`, otherwise you'll potentailly run into permission issues.
 
 #### Install as a Node Module 📦
 
