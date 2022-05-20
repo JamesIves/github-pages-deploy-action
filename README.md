@@ -59,6 +59,8 @@ You can view an example of this below.
 ```yml
 name: Build and Deploy
 on: [push]
+permissions: 
+  contents: write
 jobs:
   build-and-deploy:
     concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
@@ -92,7 +94,12 @@ It's recommended that you use [Dependabot](https://docs.github.com/en/code-secur
 
 #### Security Settings ⚠️
 
-If you do not supply the action with an access token or an SSH key, you must access your repositories settings and provide `Read and Write Permissions` to the provided `GITHUB_TOKEN`, otherwise you'll potentailly run into permission issues.
+If you do not supply the action with an access token or an SSH key, you must access your repositories settings and provide `Read and Write Permissions` to the provided `GITHUB_TOKEN`, otherwise you'll potentailly run into permission issues. Alternatively you can set the following in your workflow file to grant the action the permissions it needs.
+
+```yml
+permissions: 
+  contents: write
+```
 
 #### Install as a Node Module 📦
 
@@ -262,6 +269,8 @@ If you're using an operating system such as [Windows](https://www.microsoft.com/
 ```yml
 name: Build and Deploy
 on: [push]
+permissions: 
+  contents: write
 jobs:
   build:
     runs-on: windows-latest # The first job utilizes windows-latest
@@ -329,6 +338,8 @@ If you're using a custom domain and require a `CNAME` file, or if you require th
 
 ```yml
 name: Build and Deploy
+permissions: 
+  contents: write
 on:
   push:
     branches:
