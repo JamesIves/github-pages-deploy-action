@@ -92,7 +92,7 @@ on:
 
 It's recommended that you use [Dependabot](https://docs.github.com/en/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically) to keep your workflow up-to-date and [secure](https://github.com/features/security). You can find the latest tagged version on the [GitHub Marketplace](https://github.com/marketplace/actions/deploy-to-github-pages) or on the [releases page](https://github.com/JamesIves/github-pages-deploy-action/releases).
 
-#### Security Settings ⚠️
+#### Permission Settings ⚠️
 
 If you do not supply the action with an access token or an SSH key, you must access your repositories settings and provide `Read and Write Permissions` to the provided `GITHUB_TOKEN`, otherwise you'll potentailly run into permission issues. Alternatively you can set the following in your workflow file to grant the action the permissions it needs.
 
