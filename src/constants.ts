@@ -44,6 +44,8 @@ export interface ActionInterface {
   repositoryName?: string
   /** The fully qualified repositpory path, this gets auto generated if repositoryName is provided. */
   repositoryPath?: string
+  /** External repository boolean */
+  externalRepositoryTarget?:boolean | null
   /** Wipes the commit history from the deployment branch in favor of a single commit. */
   singleCommit?: boolean | null
   /** Determines if the action should run in silent mode or not. */
@@ -126,7 +128,8 @@ export const action: ActionInterface = {
     ? pusher.name
     : process.env.GITHUB_ACTOR
     ? process.env.GITHUB_ACTOR
-    : 'GitHub Pages Deploy Action',
+        : 'GitHub Pages Deploy Action',
+  externalRepositoryTarget: !isNullOrUndefined(getInput('repository-name')),
   repositoryName: !isNullOrUndefined(getInput('repository-name'))
     ? getInput('repository-name')
     : repository && repository.full_name

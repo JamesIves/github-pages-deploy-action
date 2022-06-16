@@ -1,4 +1,4 @@
-import {info} from '@actions/core'
+import { info, warning } from '@actions/core'
 import {mkdirP, rmRF} from '@actions/io'
 import fs from 'fs'
 import {
@@ -316,7 +316,13 @@ export async function deploy(action: ActionInterface): Promise<Status> {
 
     info(`Changes committed to the ${action.branch} branch… 📦`)
 
-    if (action.add_tag) {
+    if (action.add_tag && !action.externalRepositoryTarget) {
+      warning(
+        `Using 'tag' when the target repository is not external (no 'repositoryName' variable) makes no effect❗`
+      )
+    }
+
+    if (action.add_tag && action.externalRepositoryTarget) {
       info(`Adding a tag '${action.tag}' to the commit`)
       await execute(
         `git tag ${action.tag}`,
@@ -329,6 +335,8 @@ export async function deploy(action: ActionInterface): Promise<Status> {
         `${action.workspace}/${temporaryDeploymentDirectory}`,
         action.silent
       )
+
+      info(`Tag '${action.tag}' created and pushed to the ${action.branch} branch… 📦`)
     }
 
     return Status.SUCCESS
