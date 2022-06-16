@@ -130,7 +130,8 @@ run({
   folder: 'build',
   repositoryName: 'JamesIves/github-pages-deploy-action',
   silent: true,
-  workspace: 'src/project/location'
+  workspace: 'src/project/location',
+  tag: 'v0.1'
 })
 ```
 
@@ -172,6 +173,7 @@ By default, the action does not need any token configuration and uses the provid
 | `force`            | Force-push new deployments to overwrite the previous version; otherwise, attempt to rebase new deployments onto any existing ones. This option is turned on by default and can be toggled off by setting it to `false`, which may be useful if there are multiple deployments in a single branch.                                                                           | `with` | **No**   |
 | `silent`           | Silences the action output preventing it from displaying git messages.                                                                                                                                                                                                                                                                                                      | `with` | **No**   |
 | `workspace`        | This should point to where your project lives on the virtual machine. The GitHub Actions environment will set this for you. It is only necessary to set this variable if you're using the node module.                                                                                                                                                                      | `with` | **No**   |
+| `tag`              | Add a tag to the commit. Only works when `repository-name` is specified.                                                                                                                                                                                                                                                                                                    |`with` | **No**   |
 
 With the action correctly configured you should see the workflow trigger the deployment under the configured conditions.
 
