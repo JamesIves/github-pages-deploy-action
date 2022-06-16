@@ -58,6 +58,12 @@ export interface ActionInterface {
   tokenType?: string
   /** The folder where your deployment project lives. */
   workspace: string
+  /** Github tag boolean 
+   * This value is not directly an input, and it is obtained from checking that 'tag' is not null or undefined.
+  */
+  add_tag: boolean
+  /** GitHub tag name */
+  tag?: string | null
 }
 
 /** The minimum required values to run the action as a node module. */
@@ -78,6 +84,8 @@ export interface NodeActionInterface {
   workspace: string
   /** Determines test scenarios the action is running in. */
   isTest: TestFlag
+  /** Defines if a tag is added or not. */
+  add_tag: boolean
 }
 
 /* Required action data that gets initialized when running within the GitHub Actions environment. */
@@ -138,7 +146,9 @@ export const action: ActionInterface = {
     ? true
     : getInput('ssh-key'),
   targetFolder: getInput('target-folder'),
-  workspace: process.env.GITHUB_WORKSPACE || ''
+  workspace: process.env.GITHUB_WORKSPACE || '',
+  add_tag: !isNullOrUndefined(getInput('tag')),
+  tag: getInput('tag')
 }
 
 /** Types for the required action parameters. */

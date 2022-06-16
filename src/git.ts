@@ -316,6 +316,21 @@ export async function deploy(action: ActionInterface): Promise<Status> {
 
     info(`Changes committed to the ${action.branch} branch… 📦`)
 
+    if (action.add_tag) {
+      info(`Adding a tag '${action.tag}' to the commit`)
+      await execute(
+        `git tag ${action.tag}`,
+        `${action.workspace}/${temporaryDeploymentDirectory}`,
+        action.silent
+      )
+      info(`Pushing tag '${action.tag}' to remote.`)
+      await execute(
+        `git push origin ${action.tag}`,
+        `${action.workspace}/${temporaryDeploymentDirectory}`,
+        action.silent
+      )
+    }
+
     return Status.SUCCESS
   } catch (error) {
     throw new Error(
