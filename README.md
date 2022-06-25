@@ -59,7 +59,7 @@ You can view an example of this below.
 ```yml
 name: Build and Deploy
 on: [push]
-permissions: 
+permissions:
   contents: write
 jobs:
   build-and-deploy:
@@ -97,7 +97,7 @@ It's recommended that you use [Dependabot](https://docs.github.com/en/code-secur
 If you do not supply the action with an access token or an SSH key, you must access your repositories settings and provide `Read and Write Permissions` to the provided `GITHUB_TOKEN`, otherwise you'll potentailly run into permission issues. Alternatively you can set the following in your workflow file to grant the action the permissions it needs.
 
 ```yml
-permissions: 
+permissions:
   contents: write
 ```
 
@@ -269,7 +269,7 @@ If you're using an operating system such as [Windows](https://www.microsoft.com/
 ```yml
 name: Build and Deploy
 on: [push]
-permissions: 
+permissions:
   contents: write
 jobs:
   build:
@@ -338,7 +338,7 @@ If you're using a custom domain and require a `CNAME` file, or if you require th
 
 ```yml
 name: Build and Deploy
-permissions: 
+permissions:
   contents: write
 on:
   push:
