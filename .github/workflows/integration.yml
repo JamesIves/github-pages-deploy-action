@@ -34,7 +34,6 @@ jobs:
           git-config-email: montezuma@jamesiv.es
           repository-name: MontezumaIves/lab
           token: ${{ secrets.ACCESS_TOKEN }}
-          branch: gh-pages
           folder: integration
           single-commit: true
           clean: true
@@ -52,7 +51,6 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
-          branch: gh-pages
           folder: integration
           target-folder: cat/montezuma
           git-config-name: Montezuma
@@ -63,7 +61,6 @@ jobs:
         uses: dawidd6/action-delete-branch@v3.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branches: gh-pages
 
   # Deploys using checkout@v2 with a GITHUB_TOKEN.
   integration-checkout-v2:
@@ -78,7 +75,6 @@ jobs:
       - name: Build and Deploy
         uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
-          branch: gh-pages
           folder: integration
           target-folder: cat/montezuma2
           silent: true
@@ -87,7 +83,6 @@ jobs:
         uses: dawidd6/action-delete-branch@v3.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branches: gh-pages
 
   # Deploys using a container that requires you to install rsync.
   integration-container:
@@ -110,7 +105,6 @@ jobs:
       - name: Build and Deploy
         uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
-          branch: gh-pages
           folder: integration
           target-folder: cat/montezuma2
           silent: true
@@ -135,7 +129,6 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
           ssh-key: ${{ secrets.DEPLOY_KEY }}
-          branch: gh-pages
           folder: integration
           target-folder: cat/montezuma3
           silent: true
@@ -165,7 +158,6 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
           ssh-key: true
-          branch: gh-pages
           folder: integration
           target-folder: cat/montezuma4
           silent: true
@@ -174,7 +166,6 @@ jobs:
         uses: dawidd6/action-delete-branch@v3.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branches: gh-pages
 
   # Deploys using a custom env. (Includes subsequent commit)
   integration-env:
@@ -194,7 +185,6 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
           ssh-key: ${{ secrets.DEPLOY_KEY }}
-          branch: gh-pages
           folder: integration
           target-folder: cat/montezuma4
           silent: true
@@ -203,7 +193,6 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
           ssh-key: ${{ secrets.DEPLOY_KEY }}
-          branch: gh-pages
           folder: integration
           target-folder: cat/subsequent
           silent: true
@@ -236,7 +225,6 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
-          branch: gh-pages
           folder: integration
           clean: true
           silent: true
