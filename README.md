@@ -59,7 +59,7 @@ You can view an example of this below.
 ```yml
 name: Build and Deploy
 on: [push]
-permissions: 
+permissions:
   contents: write
 jobs:
   build-and-deploy:
@@ -96,7 +96,7 @@ It's recommended that you use [Dependabot](https://docs.github.com/en/code-secur
 If you do not supply the action with an access token or an SSH key, you must access your repositories settings and provide `Read and Write Permissions` to the provided `GITHUB_TOKEN`, otherwise you'll potentailly run into permission issues. Alternatively you can set the following in your workflow file to grant the action the permissions it needs.
 
 ```yml
-permissions: 
+permissions:
   contents: write
 ```
 
@@ -157,7 +157,7 @@ By default, the action does not need any token configuration and uses the provid
 
 | Key                | Value Information                                                                                                                                                                                                                                                                                                                                                           | Type   | Required |
 | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | -------- |
-| `branch`           | This is the branch you wish to deploy to, for example, `gh-pages` or `docs`.                                                                                                                                                                                                                                                                                                | `with` | **Yes**  |
+| `branch`           | This is the branch you wish to deploy to, for example, `gh-pages` or `docs`.                                                                                                                                                                                                                                                                                                | `with` | **No**   |
 | `git-config-name`  | Allows you to customize the name that is attached to the git config which is used when pushing the deployment commits. If this is not included it will use the name in the GitHub context, followed by the name of the action.                                                                                                                                              | `with` | **No**   |
 | `git-config-email` | Allows you to customize the email that is attached to the git config which is used when pushing the deployment commits. If this is not included it will use the email in the GitHub context, followed by a generic noreply GitHub email. You can include `<>` for the value if you wish to omit this field altogether and push the commits without an email.                | `with` | **No**   |
 | `repository-name`  | Allows you to specify a different repository path so long as you have permissions to push to it. This should be formatted like so: `JamesIves/github-pages-deploy-action`. You'll need to use a PAT in the `token` input for this configuration option to work properly.                                                                                                    | `with` | **No**   |
@@ -265,7 +265,7 @@ If you're using an operating system such as [Windows](https://www.microsoft.com/
 ```yml
 name: Build and Deploy
 on: [push]
-permissions: 
+permissions:
   contents: write
 jobs:
   build:
@@ -333,7 +333,7 @@ If you're using a custom domain and require a `CNAME` file, or if you require th
 
 ```yml
 name: Build and Deploy
-permissions: 
+permissions:
   contents: write
 on:
   push:
