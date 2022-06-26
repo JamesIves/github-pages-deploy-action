@@ -14,7 +14,9 @@ const replaceAll = (input: string, find: string, replace: string): string =>
 
 /* Utility function that checks to see if a value is undefined or not. 
   If allowEmptyString is passed the parameter is allowed to contain an empty string as a valid parameter. */
-export const isNullOrUndefined = (value: unknown): boolean =>
+export const isNullOrUndefined = (
+  value: unknown
+): value is undefined | null | '' =>
   typeof value === 'undefined' || value === null || value === ''
 
 /* Generates a token type used for the action. */

@@ -27,7 +27,8 @@ jobs:
       - name: Install and Test
         run: |
           yarn install --frozen-lockfile
-          yarn lint
+          yarn lint:check
+          yarn lint:format:check
           yarn test
 
       - name: Uploade CodeCov Report

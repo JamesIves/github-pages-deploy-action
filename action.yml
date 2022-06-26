@@ -33,7 +33,8 @@ inputs:
 
   branch:
     description: 'This is the branch you wish to deploy to, for example gh-pages or docs.'
-    required: true
+    required: false
+    default: gh-pages
 
   folder:
     description: 'The folder in your repository that you want to deploy. If your build script compiles into a directory named build you would put it here. Folder paths cannot have a leading / or ./. If you wish to deploy the root directory you can place a . here.'

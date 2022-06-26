@@ -63,7 +63,7 @@ export interface ActionInterface {
 /** The minimum required values to run the action as a node module. */
 export interface NodeActionInterface {
   /** The branch that the action should deploy to. */
-  branch: string
+  branch?: string
   /** The folder to deploy. */
   folder: string
   /** The repository path, for example JamesIves/github-pages-deploy-action. */
