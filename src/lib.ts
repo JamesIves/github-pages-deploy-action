@@ -7,7 +7,8 @@ import {
   extractErrorMessage,
   generateFolderPath,
   generateRepositoryPath,
-  generateTokenType
+  generateTokenType,
+  isNullOrUndefined
 } from './util'
 
 /** Initializes and runs the action.
@@ -50,7 +51,11 @@ export default async function run(
     info('Checking configuration and starting deployment… 🚦')
 
     const settings: ActionInterface = {
-      ...configuration
+      ...configuration,
+      // Set the default branch for Node configurations
+      branch: !isNullOrUndefined(configuration.branch)
+        ? configuration.branch
+        : 'gh-pages'
     }
 
     // Defines the repository/folder paths and token types.

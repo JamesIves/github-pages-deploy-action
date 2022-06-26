@@ -59,7 +59,7 @@ You can view an example of this below.
 ```yml
 name: Build and Deploy
 on: [push]
-permissions: 
+permissions:
   contents: write
 jobs:
   build-and-deploy:
@@ -77,7 +77,6 @@ jobs:
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
-          branch: gh-pages # The branch the action should deploy to.
           folder: build # The folder the action should deploy.
 ```
 
@@ -97,7 +96,7 @@ It's recommended that you use [Dependabot](https://docs.github.com/en/code-secur
 If you do not supply the action with an access token or an SSH key, you must access your repositories settings and provide `Read and Write Permissions` to the provided `GITHUB_TOKEN`, otherwise you'll potentailly run into permission issues. Alternatively you can set the following in your workflow file to grant the action the permissions it needs.
 
 ```yml
-permissions: 
+permissions:
   contents: write
 ```
 
@@ -126,7 +125,6 @@ import run from '@jamesives/github-pages-deploy-action'
 
 run({
   token: process.env['ACCESS_TOKEN'],
-  branch: 'gh-pages',
   folder: 'build',
   repositoryName: 'JamesIves/github-pages-deploy-action',
   silent: true,
@@ -146,7 +144,6 @@ The following options must be configured in order to make a deployment.
 
 | Key      | Value Information                                                                                                                                                                                                                                                                        | Type   | Required |
 | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | -------- |
-| `branch` | This is the branch you wish to deploy to, for example, `gh-pages` or `docs`.                                                                                                                                                                                                             | `with` | **Yes**  |
 | `folder` | The folder in your repository that you want to deploy. If your build script compiles into a directory named `build` you'd put it here. If you wish to deploy the root directory you can place a `.` here. You can also utilize absolute file paths by appending `~` to your folder path. | `with` | **Yes**  |
 
 By default, the action does not need any token configuration and uses the provided repository scoped GitHub token to make the deployment. If you require more customization you can modify the deployment type using the following options.
@@ -160,6 +157,7 @@ By default, the action does not need any token configuration and uses the provid
 
 | Key                | Value Information                                                                                                                                                                                                                                                                                                                                                           | Type   | Required |
 | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | -------- |
+| `branch`           | This is the branch you wish to deploy to, for example, `gh-pages` or `docs`.                                                                                                                                                                                                                                                                                                | `with` | **No**   |
 | `git-config-name`  | Allows you to customize the name that is attached to the git config which is used when pushing the deployment commits. If this is not included it will use the name in the GitHub context, followed by the name of the action.                                                                                                                                              | `with` | **No**   |
 | `git-config-email` | Allows you to customize the email that is attached to the git config which is used when pushing the deployment commits. If this is not included it will use the email in the GitHub context, followed by a generic noreply GitHub email. You can include `<>` for the value if you wish to omit this field altogether and push the commits without an email.                | `with` | **No**   |
 | `repository-name`  | Allows you to specify a different repository path so long as you have permissions to push to it. This should be formatted like so: `JamesIves/github-pages-deploy-action`. You'll need to use a PAT in the `token` input for this configuration option to work properly.                                                                                                    | `with` | **No**   |
@@ -205,7 +203,6 @@ With this configured, you can then set the `ssh-key` part of the action to your 
 - name: Deploy 🚀
   uses: JamesIves/github-pages-deploy-action@v4.3.3
   with:
-    branch: gh-pages
     folder: site
     ssh-key: ${{ secrets.DEPLOY_KEY }}
 ```
@@ -235,7 +232,6 @@ jobs:
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
-          branch: gh-pages
           folder: build
           clean: true
           clean-exclude: |
@@ -269,7 +265,7 @@ If you're using an operating system such as [Windows](https://www.microsoft.com/
 ```yml
 name: Build and Deploy
 on: [push]
-permissions: 
+permissions:
   contents: write
 jobs:
   build:
@@ -305,7 +301,6 @@ jobs:
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
-          branch: gh-pages
           folder: 'site' # The deployment folder should match the name of the artifact. Even though our project builds into the 'build' folder the artifact name of 'site' must be placed here.
 ```
 
@@ -338,7 +333,7 @@ If you're using a custom domain and require a `CNAME` file, or if you require th
 
 ```yml
 name: Build and Deploy
-permissions: 
+permissions:
   contents: write
 on:
   push:
@@ -360,7 +355,6 @@ jobs:
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
-          branch: gh-pages
           folder: build
           clean: true
           clean-exclude: |
