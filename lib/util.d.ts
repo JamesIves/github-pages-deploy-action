@@ -1,5 +1,5 @@
 import { ActionInterface } from './constants';
-export declare const isNullOrUndefined: (value: unknown) => boolean;
+export declare const isNullOrUndefined: (value: unknown) => value is "" | null | undefined;
 export declare const generateTokenType: (action: ActionInterface) => string;
 export declare const generateRepositoryPath: (action: ActionInterface) => string;
 export declare const generateFolderPath: (action: ActionInterface) => string;
