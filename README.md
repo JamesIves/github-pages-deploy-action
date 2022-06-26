@@ -75,7 +75,7 @@ jobs:
           npm run build
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: build # The folder the action should deploy.
 ```
@@ -201,7 +201,7 @@ With this configured, you can then set the `ssh-key` part of the action to your 
 
 ```yml
 - name: Deploy 🚀
-  uses: JamesIves/github-pages-deploy-action@v4.3.3
+  uses: JamesIves/github-pages-deploy-action@v4
   with:
     folder: site
     ssh-key: ${{ secrets.DEPLOY_KEY }}
@@ -230,7 +230,7 @@ jobs:
           npm run build
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: build
           clean: true
@@ -299,7 +299,7 @@ jobs:
           name: site
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: 'site' # The deployment folder should match the name of the artifact. Even though our project builds into the 'build' folder the artifact name of 'site' must be placed here.
 ```
@@ -319,7 +319,7 @@ If you use a [container](https://help.github.com/en/actions/automating-your-work
     apt-get update && apt-get install -y rsync
 
 - name: Deploy 🚀
-  uses: JamesIves/github-pages-deploy-action@v4.3.3
+  uses: JamesIves/github-pages-deploy-action@v4
 ```
 
 ---
@@ -353,7 +353,7 @@ jobs:
           npm run build
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: build
           clean: true

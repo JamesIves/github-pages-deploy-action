@@ -28,7 +28,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           git-config-name: Montezuma
           git-config-email: montezuma@jamesiv.es
@@ -48,7 +48,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
           folder: integration
@@ -73,7 +73,7 @@ jobs:
           persist-credentials: false
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: integration
           target-folder: cat/montezuma2
@@ -103,7 +103,7 @@ jobs:
           apt-get update && apt-get install -y rsync
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: integration
           target-folder: cat/montezuma2
@@ -126,7 +126,7 @@ jobs:
           persist-credentials: false
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           ssh-key: ${{ secrets.DEPLOY_KEY }}
           folder: integration
@@ -155,7 +155,7 @@ jobs:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           ssh-key: true
           folder: integration
@@ -182,7 +182,7 @@ jobs:
           persist-credentials: false
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           ssh-key: ${{ secrets.DEPLOY_KEY }}
           folder: integration
@@ -190,7 +190,7 @@ jobs:
           silent: true
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           ssh-key: ${{ secrets.DEPLOY_KEY }}
           folder: integration
@@ -222,7 +222,7 @@ jobs:
           persist-credentials: false
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
           folder: integration
@@ -240,7 +240,7 @@ jobs:
           persist-credentials: false
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
           branch: integration-test-delete-prod
@@ -249,7 +249,7 @@ jobs:
           silent: true
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
           branch: integration-test-delete-prod
@@ -277,7 +277,7 @@ jobs:
         run: echo $RANDOM > integration/1
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           git-config-name: Montezuma
           git-config-email: montezuma@jamesiv.es
@@ -299,7 +299,7 @@ jobs:
         run: echo $RANDOM > integration/2
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           git-config-name: Montezuma
           git-config-email: montezuma@jamesiv.es
