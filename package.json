@@ -9,8 +9,10 @@
   "scripts": {
     "build": "rimraf lib && tsc --declaration",
     "test": "jest",
-    "lint": "eslint src/**/*.ts __tests__/**/*.ts",
-    "lint:format": "prettier --write './**/*.{ts,js,json,yml,md}' './*.{ts,js,json,yml,md}'"
+    "lint": "eslint --fix .",
+    "lint:check": "eslint .",
+    "lint:format": "prettier --write .",
+    "lint:format:check": "prettier --check ."
   },
   "repository": {
     "type": "git",
