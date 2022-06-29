@@ -44,8 +44,6 @@ export interface ActionInterface {
   repositoryName?: string
   /** The fully qualified repositpory path, this gets auto generated if repositoryName is provided. */
   repositoryPath?: string
-  /** External repository boolean */
-  externalRepositoryTarget?:boolean | null
   /** Wipes the commit history from the deployment branch in favor of a single commit. */
   singleCommit?: boolean | null
   /** Determines if the action should run in silent mode or not. */
@@ -60,10 +58,6 @@ export interface ActionInterface {
   tokenType?: string
   /** The folder where your deployment project lives. */
   workspace: string
-  /** Github tag boolean 
-   * This value is not directly an input, and it is obtained from checking that 'tag' is not null or undefined.
-  */
-  add_tag: boolean
   /** GitHub tag name */
   tag?: string | null
 }
@@ -86,8 +80,6 @@ export interface NodeActionInterface {
   workspace: string
   /** Determines test scenarios the action is running in. */
   isTest: TestFlag
-  /** Defines if a tag is added or not. */
-  add_tag: boolean
 }
 
 /* Required action data that gets initialized when running within the GitHub Actions environment. */
