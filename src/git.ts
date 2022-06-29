@@ -316,20 +316,14 @@ export async function deploy(action: ActionInterface): Promise<Status> {
 
     info(`Changes committed to the ${action.branch} branch… 📦`)
 
-    if (action.add_tag && !action.externalRepositoryTarget) {
-      warning(
-        `Using 'tag' when the target repository is not external (no 'repositoryName' variable) makes no effect❗`
-      )
-    }
-
-    if (action.add_tag && action.externalRepositoryTarget) {
+    if (action.tag) {
       info(`Adding a tag '${action.tag}' to the commit`)
       await execute(
         `git tag ${action.tag}`,
         `${action.workspace}/${temporaryDeploymentDirectory}`,
         action.silent
       )
-      info(`Pushing tag '${action.tag}' to remote.`)
+      info(`Pushing tag '${action.tag}' to repository.`)
       await execute(
         `git push origin ${action.tag}`,
         `${action.workspace}/${temporaryDeploymentDirectory}`,

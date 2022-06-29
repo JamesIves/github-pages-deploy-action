@@ -129,7 +129,6 @@ export const action: ActionInterface = {
     : process.env.GITHUB_ACTOR
     ? process.env.GITHUB_ACTOR
         : 'GitHub Pages Deploy Action',
-  externalRepositoryTarget: !isNullOrUndefined(getInput('repository-name')),
   repositoryName: !isNullOrUndefined(getInput('repository-name'))
     ? getInput('repository-name')
     : repository && repository.full_name
@@ -150,7 +149,6 @@ export const action: ActionInterface = {
     : getInput('ssh-key'),
   targetFolder: getInput('target-folder'),
   workspace: process.env.GITHUB_WORKSPACE || '',
-  add_tag: !isNullOrUndefined(getInput('tag')),
   tag: getInput('tag')
 }
 

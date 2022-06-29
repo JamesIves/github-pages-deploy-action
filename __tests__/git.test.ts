@@ -471,24 +471,5 @@ describe('git', () => {
       expect(response).toBe(Status.SUCCESS)
     })
 
-    it('should do nothing because repository name is not specified.', async () => {
-      Object.assign(action, {
-        hostname: 'github.com',
-        silent: false,
-        folder: 'assets',
-        branch: 'branch',
-        token: '123',
-        tag: 'v0.1',
-        pusher: {
-          name: 'asd',
-          email: 'as@cat'
-        },
-        isTest: TestFlag.NONE
-      })
-
-      const response = await deploy(action)
-      expect(execute).toBeCalledTimes(11)
-      expect(response).toBe(Status.SUCCESS)
-    })
   })
 })
