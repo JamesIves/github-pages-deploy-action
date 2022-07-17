@@ -470,6 +470,5 @@ describe('git', () => {
       expect(execute).toBeCalledTimes(13) // normally 11 runs, +2 of the tag
       expect(response).toBe(Status.SUCCESS)
     })
-
   })
 })
