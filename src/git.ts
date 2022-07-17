@@ -317,13 +317,13 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     info(`Changes committed to the ${action.branch} branch… 📦`)
 
     if (action.tag) {
-      info(`Adding tag '${action.tag}' to the commit`)
+      info(`Adding '${action.tag}' tag to the commit…`)
       await execute(
         `git tag ${action.tag}`,
         `${action.workspace}/${temporaryDeploymentDirectory}`,
         action.silent
       )
-      info(`Pushing tag '${action.tag}' to repository.`)
+      info(`Pushing '${action.tag}' tag to repository…`)
       await execute(
         `git push origin ${action.tag}`,
         `${action.workspace}/${temporaryDeploymentDirectory}`,

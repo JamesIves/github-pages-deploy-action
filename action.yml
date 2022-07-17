@@ -83,7 +83,7 @@ inputs:
     required: false
 
   tag:
-    description: "Add a tag to the commit. Only works when 'dry-run' is not used."
+    description: "Add a tag to the commit, this can be used like so: 'v0.1'. Only works when 'dry-run' is not used."
     required: false
 
   single-commit:
