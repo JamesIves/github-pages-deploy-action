@@ -449,5 +449,27 @@ describe('git', () => {
         )
       }
     })
+
+    it('should add a tag to the commit', async () => {
+      Object.assign(action, {
+        hostname: 'github.com',
+        silent: false,
+        folder: 'assets',
+        branch: 'branch',
+        token: '123',
+        repositoryName: 'JamesIves/montezuma',
+        tag: 'v0.1',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        isTest: TestFlag.NONE
+      })
+
+      const response = await deploy(action)
+      expect(execute).toBeCalledTimes(13) // normally 11 runs, +2 of the tag
+      expect(response).toBe(Status.SUCCESS)
+    })
+
   })
 })
