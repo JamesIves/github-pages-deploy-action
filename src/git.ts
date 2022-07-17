@@ -308,9 +308,10 @@ export async function deploy(action: ActionInterface): Promise<Status> {
 
         if (rejected) info('Updates were rejected')
 
-        // If the push failed for any reason other than being rejected,
+        // If the push failed for any fatal reason other than being rejected,
         // there is a problem
-        if (!rejected && pushResult.stderr) throw new Error(pushResult.stderr)
+        if (!rejected && pushResult.stderr.startsWith('fatal:'))
+          throw new Error(pushResult.stderr)
       } while (rejected)
     }
 
