@@ -463,11 +463,11 @@ describe('git', () => {
           name: 'asd',
           email: 'as@cat'
         },
-        isTest: TestFlag.NONE
+        isTest: TestFlag.HAS_CHANGED_FILES
       })
 
       const response = await deploy(action)
-      expect(execute).toBeCalledTimes(13) // normally 11 runs, +2 of the tag
+      expect(execute).toBeCalledTimes(16)
       expect(response).toBe(Status.SUCCESS)
     })
   })
