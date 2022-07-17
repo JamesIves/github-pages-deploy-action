@@ -317,7 +317,6 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     info(`Changes committed to the ${action.branch} branch… 📦`)
 
     if (action.tag) {
-      console.log('ADDING TAG!!!')
       info(`Adding '${action.tag}' tag to the commit…`)
       await execute(
         `git tag ${action.tag}`,
