@@ -49,6 +49,8 @@ export interface ActionInterface {
     tokenType?: string;
     /** The folder where your deployment project lives. */
     workspace: string;
+    /** GitHub tag name */
+    tag?: string | null;
 }
 /** The minimum required values to run the action as a node module. */
 export interface NodeActionInterface {
