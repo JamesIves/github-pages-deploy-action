@@ -82,6 +82,10 @@ inputs:
     description: "This should point to where your project lives on the virtual machine. The GitHub Actions environment will set this for you. It is only neccersary to set this variable if you're using the node module."
     required: false
 
+  tag:
+    description: "Add a tag to the commit, this can be used like so: 'v0.1'. Only works when 'dry-run' is not used."
+    required: false
+
   single-commit:
     description: "This option can be used if you'd prefer to have a single commit on the deployment branch instead of maintaining the full history."
     required: false

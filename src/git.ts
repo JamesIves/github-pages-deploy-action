@@ -308,13 +308,33 @@ export async function deploy(action: ActionInterface): Promise<Status> {
 
         if (rejected) info('Updates were rejected')
 
-        // If the push failed for any reason other than being rejected,
+        // If the push failed for any fatal reason other than being rejected,
         // there is a problem
-        if (!rejected && pushResult.stderr) throw new Error(pushResult.stderr)
+        if (!rejected && pushResult.stderr.trim().startsWith('fatal:'))
+          throw new Error(pushResult.stderr)
       } while (rejected)
     }
 
     info(`Changes committed to the ${action.branch} branch… 📦`)
+
+    if (action.tag) {
+      info(`Adding '${action.tag}' tag to the commit…`)
+      await execute(
+        `git tag ${action.tag}`,
+        `${action.workspace}/${temporaryDeploymentDirectory}`,
+        action.silent
+      )
+      info(`Pushing '${action.tag}' tag to repository…`)
+      await execute(
+        `git push origin ${action.tag}`,
+        `${action.workspace}/${temporaryDeploymentDirectory}`,
+        action.silent
+      )
+
+      info(
+        `Tag '${action.tag}' created and pushed to the ${action.branch} branch… 🏷️`
+      )
+    }
 
     return Status.SUCCESS
   } catch (error) {
