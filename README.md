@@ -43,7 +43,7 @@
 </p>
 
 <p align="center">
-<!-- premium --><a href="https://github.com/github"><img src="https://github.com/github.png" width="80px" alt="github" /></a>&nbsp;&nbsp;<!-- premium -->
+<!-- premium --><!-- premium -->
 </p>
 
 <p align="center">
