@@ -89,51 +89,12 @@ on:
       - main
 ```
 
-It's recommended that you use [Dependabot](https://docs.github.com/en/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically) to keep your workflow up-to-date and [secure](https://github.com/features/security). You can find the latest tagged version on the [GitHub Marketplace](https://github.com/marketplace/actions/deploy-to-github-pages) or on the [releases page](https://github.com/JamesIves/github-pages-deploy-action/releases).
-
-#### Permission Settings ⚠️
-
+> **Warning**
 If you do not supply the action with an access token or an SSH key, you must access your repositories settings and provide `Read and Write Permissions` to the provided `GITHUB_TOKEN`, otherwise you'll potentailly run into permission issues. Alternatively you can set the following in your workflow file to grant the action the permissions it needs.
-
 ```yml
 permissions:
   contents: write
 ```
-
-#### Install as a Node Module 📦
-
-If you'd like to use the functionality provided by this action in your own action you can either [create a composite action](https://docs.github.com/en/actions/creating-actions/creating-a-composite-action), or you can install it using [yarn](https://yarnpkg.com/) or [npm](https://www.npmjs.com/get-npm) by running the following commands. It's available on both the [npm](https://www.npmjs.com/package/@jamesives/github-pages-deploy-action) and [GitHub registry](https://github.com/JamesIves/github-pages-deploy-action/packages/229985).
-
-```
-yarn add @jamesives/github-pages-deploy-action
-```
-
-```
-npm install @jamesives/github-pages-deploy-action
-```
-
-It can then be imported into your project like so.
-
-```javascript
-import run from '@jamesives/github-pages-deploy-action'
-```
-
-Calling the functions directly will require you to pass in an object containing the variables found in the configuration section, you'll also need to provide a `workspace` with a path to your project.
-
-```javascript
-import run from '@jamesives/github-pages-deploy-action'
-
-run({
-  token: process.env['ACCESS_TOKEN'],
-  folder: 'build',
-  repositoryName: 'JamesIves/github-pages-deploy-action',
-  silent: true,
-  workspace: 'src/project/location',
-  tag: 'v0.1'
-})
-```
-
-For more information regarding the [action interface please click here](https://github.com/JamesIves/github-pages-deploy-action/blob/dev/src/constants.ts#L7).
 
 ## Configuration 📁
 
