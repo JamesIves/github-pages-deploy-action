@@ -126,6 +126,7 @@ By default, the action does not need any token configuration and uses the provid
 | `repository-name`  | Allows you to specify a different repository path so long as you have permissions to push to it. This should be formatted like so: `JamesIves/github-pages-deploy-action`. You'll need to use a PAT in the `token` input for this configuration option to work properly.                                                                                                    | `with` | **No**   |
 | `target-folder`    | If you'd like to push the contents of the deployment folder into a specific directory on the deployment branch you can specify it here.                                                                                                                                                                                                                                     | `with` | **No**   |
 | `commit-message`   | If you need to customize the commit message for an integration you can do so.                                                                                                                                                                                                                                                                                               | `with` | **No**   |
+| `CNAME`            | If you need to add CNAME for setting up custom domain, you can use this option. While deploying, a CNAME file will be created automatically in the deployment branch copying the address specified here.                                                                                                                                                                    | `with` | **No**   |
 | `clean`            | You can use this option to delete files from your deployment destination that no longer exist in your deployment source. One use case is if your project generates hashed files that vary from build to build. Using `clean` will not affect `.git`, `.github`, or `.ssh` directories. This option is turned on by default and can be toggled off by setting it to `false`. | `with` | **No**   |
 | `clean-exclude`    | If you need to use `clean` but you'd like to preserve certain files or folders you can use this option. This should contain each pattern as a single line in a multiline string.                                                                                                                                                                                            | `with` | **No**   |
 | `dry-run`          | Do not actually push back, but use `--dry-run` on `git push` invocations instead.                                                                                                                                                                                                                                                                                           | `with` | **No**   |
@@ -330,3 +331,12 @@ jobs:
 </details>
 
 If you wish to remove these files you must go into the deployment branch directly to remove them. This is to prevent accidental changes in your deployment script from creating breaking changes.
+
+Alternatively, you have the option to specify `CNAME` address so that you don't need upload the `CNAME` file manually.
+
+```yml
+- name: Deploy 🚀
+  uses: JamesIves/github-pages-deploy-action@v4
+  with:
+    CNAME: example.com
+```
