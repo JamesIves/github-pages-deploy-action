@@ -330,8 +330,6 @@ jobs:
 </p>
 </details>
 
-If you wish to remove these files you must go into the deployment branch directly to remove them. This is to prevent accidental changes in your deployment script from creating breaking changes.
-
 Alternatively, you have the option to specify `CNAME` address so that you don't need upload the `CNAME` file manually.
 
 ```yml
@@ -340,3 +338,5 @@ Alternatively, you have the option to specify `CNAME` address so that you don't 
   with:
     CNAME: example.com
 ```
+
+If you wish to remove these files you must go into the deployment branch directly to remove them. This is to prevent accidental changes in your deployment script from creating breaking changes.
