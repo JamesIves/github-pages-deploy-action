@@ -197,9 +197,9 @@ export async function deploy(action: ActionInterface): Promise<Status> {
         'CNAME'
       )
 
-      if (!fs.existsSync(cnameFilePath)) {
-        fs.writeFileSync(cnameFilePath, action.CNAME + '\n')
-      }
+      info(`Adding CNAME file…`)
+
+      fs.writeFileSync(cnameFilePath, action.CNAME + '\n')
     }
 
     if (action.singleCommit) {

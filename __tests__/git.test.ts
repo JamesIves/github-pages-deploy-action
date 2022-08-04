@@ -379,7 +379,6 @@ describe('git', () => {
       // Includes the call to generateWorktree
       expect(execute).toBeCalledTimes(11)
       expect(rmRF).toBeCalledTimes(1)
-      expect(fs.existsSync).toBeCalledTimes(1)
       expect(fs.writeFileSync).toBeCalledTimes(1)
     })
 
