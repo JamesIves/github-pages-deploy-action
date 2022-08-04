@@ -60,6 +60,8 @@ export interface ActionInterface {
   workspace: string
   /** GitHub tag name */
   tag?: string | null
+  /** CNAME for custom domain */
+  CNAME?: string | null
 }
 
 /** The minimum required values to run the action as a node module. */
@@ -141,7 +143,8 @@ export const action: ActionInterface = {
     : getInput('ssh-key'),
   targetFolder: getInput('target-folder'),
   workspace: process.env.GITHUB_WORKSPACE || '',
-  tag: getInput('tag')
+  tag: getInput('tag'),
+  CNAME: getInput('CNAME')
 }
 
 /** Types for the required action parameters. */

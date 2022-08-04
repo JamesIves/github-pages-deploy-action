@@ -48,6 +48,10 @@ inputs:
     description: 'If you need to customize the commit message for an integration you can do so.'
     required: false
 
+  CNAME:
+    description: 'If you need to add CNAME for setting up custom domain, you can use this option. While deploying, a CNAME file will be created automatically in the deployment branch copying the address specified here.'
+    required: false
+
   clean:
     description: 'If your project generates hashed files on build you can use this option to automatically delete them from the target folder on the deployment branch with each deploy. This option is on by default and can be toggled off by setting it to false.'
     required: false
