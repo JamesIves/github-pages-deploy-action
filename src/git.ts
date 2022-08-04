@@ -14,6 +14,7 @@ import {
   isNullOrUndefined,
   suppressSensitiveInformation
 } from './util'
+import path from 'path'
 
 /* Initializes git in the workspace. */
 export async function init(action: ActionInterface): Promise<void | Error> {
@@ -189,6 +190,17 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       action.workspace,
       action.silent
     )
+
+    if (action.CNAME) {
+      const cnameFilePath = path.join(
+        `${action.workspace}/${temporaryDeploymentDirectory}`,
+        'CNAME'
+      )
+
+      if (!fs.existsSync(cnameFilePath)) {
+        fs.writeFileSync(cnameFilePath, action.CNAME + '\n')
+      }
+    }
 
     if (action.singleCommit) {
       await execute(
