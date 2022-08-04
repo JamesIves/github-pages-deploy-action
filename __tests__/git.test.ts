@@ -11,7 +11,8 @@ import fs from 'fs'
 const originalAction = JSON.stringify(action)
 
 jest.mock('fs', () => ({
-  existsSync: jest.fn()
+  existsSync: jest.fn(),
+  writeFileSync: jest.fn()
 }))
 
 jest.mock('@actions/core', () => ({
@@ -355,6 +356,31 @@ describe('git', () => {
       // Includes the call to generateWorktree
       expect(execute).toBeCalledTimes(11)
       expect(rmRF).toBeCalledTimes(1)
+    })
+
+    it('should execute commands with CNAME option', async () => {
+      Object.assign(action, {
+        hostname: 'github.com',
+        silent: false,
+        folder: 'assets',
+        folderPath: 'assets',
+        branch: 'branch',
+        token: '123',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        CNAME: 'test.com',
+        isTest: TestFlag.NONE
+      })
+
+      await deploy(action)
+
+      // Includes the call to generateWorktree
+      expect(execute).toBeCalledTimes(11)
+      expect(rmRF).toBeCalledTimes(1)
+      expect(fs.existsSync).toBeCalledTimes(1)
+      expect(fs.writeFileSync).toBeCalledTimes(1)
     })
 
     it('should gracefully handle target folder', async () => {
