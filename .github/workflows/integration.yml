@@ -203,6 +203,32 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branches: gh-pages
 
+  # Deploys using the CNAME option.
+  integration-cname:
+    needs:
+      [
+        integration-checkout-v1,
+        integration-checkout-v2,
+        integration-container,
+        integration-ssh,
+        integration-ssh-third-party-client,
+        integration-env
+      ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          folder: integration
+          cname: 'test.com'
+          silent: true
+
   # Deploys using the CLEAN option.
   integration-clean:
     needs:
