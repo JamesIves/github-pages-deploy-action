@@ -8,22 +8,30 @@ import {
   SupportedOperatingSystems
 } from './constants'
 
-/* Replaces all instances of a match in a string. */
+/**
+ * Replaces all instances of a match in a string.
+ */
 const replaceAll = (input: string, find: string, replace: string): string =>
   input.split(find).join(replace)
 
-/* Utility function that checks to see if a value is undefined or not. 
-  If allowEmptyString is passed the parameter is allowed to contain an empty string as a valid parameter. */
+/**
+ * Utility function that checks to see if a value is undefined or not.
+ * If allowEmptyString is passed the parameter is allowed to contain an empty string as a valid parameter.
+ */
 export const isNullOrUndefined = (
   value: unknown
 ): value is undefined | null | '' =>
   typeof value === 'undefined' || value === null || value === ''
 
-/* Generates a token type used for the action. */
+/**
+ * Generates a token type used for the action.
+ */
 export const generateTokenType = (action: ActionInterface): string =>
   action.sshKey ? 'SSH Deploy Key' : action.token ? 'Deploy Token' : '…'
 
-/* Generates a the repository path used to make the commits. */
+/**
+ * Generates a the repository path used to make the commits.
+ */
 export const generateRepositoryPath = (action: ActionInterface): string =>
   action.sshKey
     ? `git@${action.hostname}:${action.repositoryName}`
@@ -31,7 +39,9 @@ export const generateRepositoryPath = (action: ActionInterface): string =>
         action.repositoryName
       }.git`
 
-/* Genetate absolute folder path by the provided folder name */
+/**
+ * Generate absolute folder path by the provided folder name
+ */
 export const generateFolderPath = (action: ActionInterface): string => {
   const folderName = action['folder']
   return path.isAbsolute(folderName)
@@ -41,7 +51,9 @@ export const generateFolderPath = (action: ActionInterface): string => {
     : path.join(action.workspace, folderName)
 }
 
-/* Checks for the required tokens and formatting. Throws an error if any case is matched. */
+/**
+ * Checks for the required tokens and formatting. Throws an error if any case is matched.
+ */
 const hasRequiredParameters = <K extends keyof RequiredActionParameters>(
   action: ActionInterface,
   params: K[]
@@ -53,7 +65,9 @@ const hasRequiredParameters = <K extends keyof RequiredActionParameters>(
   return Boolean(nonNullParams.length)
 }
 
-/* Verifies the action has the required parameters to run, otherwise throw an error. */
+/**
+ * Verifies the action has the required parameters to run, otherwise throw an error.
+ */
 export const checkParameters = (action: ActionInterface): void => {
   if (!hasRequiredParameters(action, ['token', 'sshKey'])) {
     throw new Error(
@@ -86,7 +100,9 @@ export const checkParameters = (action: ActionInterface): void => {
   }
 }
 
-/* Suppresses sensitive information from being exposed in error messages. */
+/**
+ * Suppresses sensitive information from being exposed in error messages.
+ */
 export const suppressSensitiveInformation = (
   str: string,
   action: ActionInterface
@@ -109,6 +125,9 @@ export const suppressSensitiveInformation = (
   return value
 }
 
+/**
+ * Extracts message from an error object.
+ */
 export const extractErrorMessage = (error: unknown): string =>
   error instanceof Error
     ? error.message
@@ -116,6 +135,8 @@ export const extractErrorMessage = (error: unknown): string =>
     ? error
     : JSON.stringify(error)
 
-/** Strips the protocol from a provided URL. */
+/**
+ * Strips the protocol from a provided URL.
+ */
 export const stripProtocolFromUrl = (url: string): string =>
   url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, '').split('/')[0]

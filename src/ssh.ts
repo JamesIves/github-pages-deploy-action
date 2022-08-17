@@ -5,6 +5,9 @@ import {appendFileSync} from 'fs'
 import {ActionInterface} from './constants'
 import {extractErrorMessage, suppressSensitiveInformation} from './util'
 
+/**
+ * Configures SSH for the workflow.
+ */
 export async function configureSSH(action: ActionInterface): Promise<void> {
   try {
     if (typeof action.sshKey === 'string') {

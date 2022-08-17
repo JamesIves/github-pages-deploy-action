@@ -21,7 +21,9 @@ export class GitCheckout {
   }
 }
 
-/* Generate the worktree and set initial content if it exists */
+/**
+ * Generate the worktree and set initial content if it exists
+ */
 export async function generateWorktree(
   action: ActionInterface,
   worktreedir: string,
