@@ -158,13 +158,9 @@ describe('generateWorktree', () => {
         '.git',
         'gh1'
       ])
-      expect(async () => {
-        await execute(
-          'git log --format=%s',
-          path.join(workspace, 'worktree'),
-          true
-        )
-      }).rejects.toThrow()
+      await expect(
+        execute('git log --format=%s', path.join(workspace, 'worktree'), true)
+      ).rejects.toThrow()
     })
   })
   describe('with missing branch and singleCommit', () => {
@@ -187,13 +183,9 @@ describe('generateWorktree', () => {
         path.join(workspace, 'worktree')
       )
       expect(dirEntries).toEqual(['.git'])
-      expect(async () => {
-        await execute(
-          'git log --format=%s',
-          path.join(workspace, 'worktree'),
-          true
-        )
-      }).rejects.toThrow()
+      await expect(
+        execute('git log --format=%s', path.join(workspace, 'worktree'), true)
+      ).rejects.toThrow()
     })
   })
 })

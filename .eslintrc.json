@@ -1,23 +1,15 @@
 {
-  "plugins": ["jest", "@typescript-eslint"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:jest/recommended"
   ],
-  "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": 9,
-    "sourceType": "module",
     "project": "./tsconfig.lint.json"
   },
-  "globals": {
-    "fetch": true
-  },
   "env": {
-    "node": true,
-    "es6": true,
-    "jest/globals": true
+    "node": true
   },
   "rules": {
     "@typescript-eslint/ban-types": [
