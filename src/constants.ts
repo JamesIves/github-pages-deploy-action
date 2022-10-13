@@ -42,7 +42,7 @@ export interface ActionInterface {
   name?: string
   /** The repository path, for example JamesIves/github-pages-deploy-action. */
   repositoryName?: string
-  /** The fully qualified repositpory path, this gets auto generated if repositoryName is provided. */
+  /** The fully qualified repository path, this gets auto generated if repositoryName is provided. */
   repositoryPath?: string
   /** Wipes the commit history from the deployment branch in favor of a single commit. */
   singleCommit?: boolean | null

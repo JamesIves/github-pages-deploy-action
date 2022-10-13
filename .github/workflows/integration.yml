@@ -34,6 +34,7 @@ jobs:
           git-config-email: montezuma@jamesiv.es
           repository-name: MontezumaIves/lab
           token: ${{ secrets.ACCESS_TOKEN }}
+          commit-message: 'Test commit'
           folder: integration
           single-commit: true
           clean: true

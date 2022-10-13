@@ -15,7 +15,9 @@ import {
   suppressSensitiveInformation
 } from './util'
 
-/* Initializes git in the workspace. */
+/**
+ * Initializes git in the workspace.
+ */
 export async function init(action: ActionInterface): Promise<void | Error> {
   try {
     info(`Deploying using ${action.tokenType}… 🔑`)
@@ -96,7 +98,9 @@ export async function init(action: ActionInterface): Promise<void | Error> {
   }
 }
 
-/* Runs the necessary steps to make the deployment. */
+/**
+ * Runs the necessary steps to make the deployment.
+ */
 export async function deploy(action: ActionInterface): Promise<Status> {
   const temporaryDeploymentDirectory =
     'github-pages-deploy-action-temp-deployment-folder'
