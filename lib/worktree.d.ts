@@ -6,4 +6,7 @@ export declare class GitCheckout {
     constructor(branch: string);
     toString(): string;
 }
+/**
+ * Generate the worktree and set initial content if it exists
+ */
 export declare function generateWorktree(action: ActionInterface, worktreedir: string, branchExists: unknown): Promise<void>;
