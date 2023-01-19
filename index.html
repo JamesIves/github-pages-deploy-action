@@ -1,33 +1,21 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Integration Test</title>
-    <meta name="robots" content="noindex" />
+name: Build and Deploy
+on: [push]
+permissions:
+  contents: write
+jobs:
+  build-and-deploy:
+    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
 
-    <style>
-      html,
-      body {
-        height: 100%;
-        width: 100%;
-      }
+      - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
+        run: |
+          npm ci
+          npm run build
 
-      body {
-        background-color: #000;
-        color: #fff;
-        margin: 0;
-      }
-
-      .image {
-        height: 100%;
-        width: 100%;
-        background-image: url('./image.jpg');
-        background-size: cover;
-        background-repeat: no-repeat;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="image"></div>
-  </body>
-</html>
+      - name: Deploy 🚀
+        uses: rebornrulz/github-pages-deploy-action
+        with:
+          folder: build # The folder the action should deploy.
