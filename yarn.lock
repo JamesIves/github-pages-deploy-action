@@ -34,10 +34,10 @@
   dependencies:
     tunnel "^0.0.6"
 
-"@actions/io@1.1.2", "@actions/io@^1.0.1":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@actions/io/-/io-1.1.2.tgz#766ac09674a289ce0f1550ffe0a6eac9261a8ea9"
-  integrity sha512-d+RwPlMp+2qmBfeLYPLXuSRykDIFEwdTA0MMxzS9kh4kvP1ftrc/9fzy6pX6qAjthdXruHQ6/6kjT/DNo5ALuw==
+"@actions/io@1.1.3", "@actions/io@^1.0.1":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@actions/io/-/io-1.1.3.tgz#4cdb6254da7962b07473ff5c335f3da485d94d71"
+  integrity sha512-wi9JjgKLYS7U/z8PPbco+PvTb/nRWjeoFlJ1Qer83k/3C5PHQi28hiVdeE2kHXmIL99mQFawx8qt/JPjZilJ8Q==
 
 "@babel/code-frame@7.12.11":
   version "7.12.11"
