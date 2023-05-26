@@ -1,5 +1,5 @@
 /// <reference types="node" />
-declare type ExecuteOutput = {
+type ExecuteOutput = {
     stdout: string;
     stderr: string;
 };

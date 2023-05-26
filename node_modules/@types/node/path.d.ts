@@ -7,13 +7,13 @@ declare module 'path/win32' {
     export = path;
 }
 /**
- * The `path` module provides utilities for working with file and directory paths.
- * It can be accessed using:
+ * The `node:path` module provides utilities for working with file and directory
+ * paths. It can be accessed using:
  *
  * ```js
- * const path = require('path');
+ * const path = require('node:path');
  * ```
- * @see [source](https://github.com/nodejs/node/blob/v18.0.0/lib/path.js)
+ * @see [source](https://github.com/nodejs/node/blob/v20.2.0/lib/path.js)
  */
 declare module 'path' {
     namespace path {
@@ -122,10 +122,10 @@ declare module 'path' {
              * Often used to extract the file name from a fully qualified path.
              *
              * @param path the path to evaluate.
-             * @param ext optionally, an extension to remove from the result.
+             * @param suffix optionally, an extension to remove from the result.
              * @throws {TypeError} if `path` is not a string or if `ext` is given and is not a string.
              */
-            basename(path: string, ext?: string): string;
+            basename(path: string, suffix?: string): string;
             /**
              * Return the extension of the path, from the last '.' to end of string in the last portion of the path.
              * If there is no '.' in the last portion of the path or the first character of it is '.', then it returns an empty string.

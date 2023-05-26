@@ -73,7 +73,7 @@ export interface NodeActionInterface {
 }
 export declare const action: ActionInterface;
 /** Types for the required action parameters. */
-export declare type RequiredActionParameters = Pick<ActionInterface, 'token' | 'sshKey' | 'branch' | 'folder' | 'isTest'>;
+export type RequiredActionParameters = Pick<ActionInterface, 'token' | 'sshKey' | 'branch' | 'folder' | 'isTest'>;
 /** Status codes for the action. */
 export declare enum Status {
     SUCCESS = "success",
