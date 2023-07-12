@@ -175,7 +175,7 @@ jobs:
     steps:
       - uses: actions/setup-node@v3
         with:
-          node-version: 'v16.13.2'
+          node-version: 'v18.16.1'
 
       - name: Checkout
         uses: actions/checkout@v3
