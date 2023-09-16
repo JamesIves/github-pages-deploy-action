@@ -7,9 +7,16 @@
       "VARIANT": "18"
     }
   },
-  "settings": {
-    "terminal.integrated.shell.linux": "/bin/bash"
+  "customizations": {
+    "env": {
+      "PATH": "/usr/local/share/.config/yarn/global/node_modules/.bin:$PATH"
+    },
+    "vscode": {
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+      },
+      "extensions": ["dbaeumer.vscode-eslint"]
+    }
   },
-  "extensions": ["dbaeumer.vscode-eslint"],
   "remoteUser": "node"
 }
