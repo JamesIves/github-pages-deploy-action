@@ -173,7 +173,7 @@ jobs:
     needs: integration-ssh-third-party-client
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 'v16.13.2'
 
