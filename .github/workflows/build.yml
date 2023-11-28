@@ -14,11 +14,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 'v16.13.2'
+          node-version: 'v20.10.0'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install Yarn
@@ -40,11 +40,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 'v16.13.2'
+          node-version: 'v20.10.0'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install Yarn
@@ -78,13 +78,13 @@ jobs:
       max-parallel: 1
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 'v16.13.2'
+          node-version: 'v20.10.0'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Download artifact

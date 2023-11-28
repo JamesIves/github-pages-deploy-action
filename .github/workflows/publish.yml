@@ -10,14 +10,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: dev
 
       # Setup .npmrc file to publish to npm
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 'v16.13.2'
+          node-version: 'v20.10.0'
           registry-url: 'https://registry.npmjs.org'
           scope: '@jamesives'
 
@@ -41,9 +41,9 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       # Setup .npmrc file to publish to GitHub Packages
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 'v16.13.2'
+          node-version: 'v20.10.0'
           registry-url: 'https://npm.pkg.github.com'
           scope: '@jamesives'
 
