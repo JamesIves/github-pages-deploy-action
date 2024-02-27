@@ -10,7 +10,7 @@ describe('execute', () => {
     stdout('hello')
     await execute('echo Montezuma', './', true)
 
-    expect(exec).toBeCalledWith('echo Montezuma', [], {
+    expect(exec).toHaveBeenCalledWith('echo Montezuma', [], {
       cwd: './',
       silent: true,
       ignoreReturnCode: false,
@@ -27,7 +27,7 @@ describe('execute', () => {
     stdout('hello')
     await execute('echo Montezuma', './', false)
 
-    expect(exec).toBeCalledWith('echo Montezuma', [], {
+    expect(exec).toHaveBeenCalledWith('echo Montezuma', [], {
       cwd: './',
       silent: false,
       ignoreReturnCode: false,

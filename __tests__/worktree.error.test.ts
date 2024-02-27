@@ -13,8 +13,8 @@ describe('generateWorktree', () => {
     ;(execute as jest.Mock).mockImplementationOnce(() => {
       throw new Error('Mocked throw')
     })
-    try {
-      await generateWorktree(
+    await expect(
+      generateWorktree(
         {
           hostname: 'github.com',
           workspace: 'somewhere',
@@ -27,10 +27,8 @@ describe('generateWorktree', () => {
         'worktree',
         true
       )
-    } catch (error) {
-      expect(error instanceof Error && error.message).toBe(
-        'There was an error creating the worktree: Mocked throw ❌'
-      )
-    }
+    ).rejects.toThrow(
+      'There was an error creating the worktree: Mocked throw ❌'
+    )
   })
 })

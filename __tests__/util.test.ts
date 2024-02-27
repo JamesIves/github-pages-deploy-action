@@ -220,13 +220,9 @@ describe('util', () => {
         isTest: TestFlag.NONE
       }
 
-      try {
-        checkParameters(action)
-      } catch (e) {
-        expect(e instanceof Error && e.message).toMatch(
-          'No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. For more details on how to use an ssh deploy key please refer to the documentation.'
-        )
-      }
+      expect(() => checkParameters(action)).toThrow(
+        'No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. For more details on how to use an ssh deploy key please refer to the documentation.'
+      )
     })
 
     it('should fail if token is defined but it is an empty string', () => {
@@ -240,13 +236,9 @@ describe('util', () => {
         isTest: TestFlag.NONE
       }
 
-      try {
-        checkParameters(action)
-      } catch (e) {
-        expect(e instanceof Error && e.message).toMatch(
-          'No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. For more details on how to use an ssh deploy key please refer to the documentation.'
-        )
-      }
+      expect(() => checkParameters(action)).toThrow(
+        'No deployment token/method was provided. You must provide the action with either a Personal Access Token or the GitHub Token secret in order to deploy. For more details on how to use an ssh deploy key please refer to the documentation.'
+      )
     })
 
     it('should fail if there is no branch', () => {
@@ -260,11 +252,7 @@ describe('util', () => {
         isTest: TestFlag.NONE
       }
 
-      try {
-        checkParameters(action)
-      } catch (e) {
-        expect(e instanceof Error && e.message).toMatch('Branch is required.')
-      }
+      expect(() => checkParameters(action)).toThrow('Branch is required.')
     })
 
     it('should fail if there is no folder', () => {
@@ -278,13 +266,9 @@ describe('util', () => {
         isTest: TestFlag.NONE
       }
 
-      try {
-        checkParameters(action)
-      } catch (e) {
-        expect(e instanceof Error && e.message).toMatch(
-          'You must provide the action with a folder to deploy.'
-        )
-      }
+      expect(() => checkParameters(action)).toThrow(
+        'You must provide the action with a folder to deploy.'
+      )
     })
 
     it('should fail if the folder does not exist in the tree', () => {
@@ -298,14 +282,10 @@ describe('util', () => {
         isTest: TestFlag.NONE
       }
 
-      try {
-        action.folderPath = generateFolderPath(action)
-        checkParameters(action)
-      } catch (e) {
-        expect(e instanceof Error && e.message).toMatch(
-          `The directory you're trying to deploy named notARealFolder doesn't exist. Please double check the path and any prerequisite build scripts and try again. ❗`
-        )
-      }
+      action.folderPath = generateFolderPath(action)
+      expect(() => checkParameters(action)).toThrow(
+        `The directory you're trying to deploy named notARealFolder doesn't exist. Please double check the path and any prerequisite build scripts and try again. ❗`
+      )
     })
   })
 

@@ -53,9 +53,9 @@ describe('main', () => {
       debug: true
     })
     await run(action)
-    expect(execute).toBeCalledTimes(18)
-    expect(rmRF).toBeCalledTimes(1)
-    expect(exportVariable).toBeCalledTimes(1)
+    expect(execute).toHaveBeenCalledTimes(18)
+    expect(rmRF).toHaveBeenCalledTimes(1)
+    expect(exportVariable).toHaveBeenCalledTimes(1)
   })
 
   it('should run through the commands and succeed', async () => {
@@ -73,9 +73,9 @@ describe('main', () => {
       isTest: TestFlag.HAS_CHANGED_FILES
     })
     await run(action)
-    expect(execute).toBeCalledTimes(21)
-    expect(rmRF).toBeCalledTimes(1)
-    expect(exportVariable).toBeCalledTimes(1)
+    expect(execute).toHaveBeenCalledTimes(21)
+    expect(rmRF).toHaveBeenCalledTimes(1)
+    expect(exportVariable).toHaveBeenCalledTimes(1)
   })
 
   it('should throw if an error is encountered', async () => {
@@ -92,8 +92,8 @@ describe('main', () => {
       isTest: TestFlag.HAS_CHANGED_FILES
     })
     await run(action)
-    expect(execute).toBeCalledTimes(0)
-    expect(setFailed).toBeCalledTimes(1)
-    expect(exportVariable).toBeCalledTimes(1)
+    expect(execute).toHaveBeenCalledTimes(0)
+    expect(setFailed).toHaveBeenCalledTimes(1)
+    expect(exportVariable).toHaveBeenCalledTimes(1)
   })
 })
