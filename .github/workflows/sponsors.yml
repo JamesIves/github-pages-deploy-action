@@ -6,6 +6,7 @@ on:
 
 jobs:
   generate-sponsors:
+    if: github.repository == 'JamesIves/github-pages-deploy-action'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️

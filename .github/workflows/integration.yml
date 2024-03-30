@@ -17,6 +17,7 @@ on:
 jobs:
   # Deploys cross repo with an access token.
   integration-cross-repo-push:
+    if: github.repository == 'JamesIves/github-pages-deploy-action'
     container: node:16.13
     runs-on: ubuntu-latest
     steps:
