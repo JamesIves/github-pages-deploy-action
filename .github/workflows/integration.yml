@@ -151,7 +151,7 @@ jobs:
           persist-credentials: false
 
       - name: Install SSH Client
-        uses: webfactory/ssh-agent@v0.8.0
+        uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
@@ -175,7 +175,7 @@ jobs:
     steps:
       - uses: actions/setup-node@v4
         with:
-          node-version: 'v20.10.0'
+          node-version-file: '.nvmrc'
 
       - name: Checkout
         uses: actions/checkout@v4

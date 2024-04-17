@@ -27,3 +27,6 @@ coverage
 
 # Yarn Integrity file
 .yarn-integrity
+
+# Dot Env
+.env

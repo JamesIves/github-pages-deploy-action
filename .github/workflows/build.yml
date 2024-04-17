@@ -18,7 +18,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 'v20.10.0'
+          node-version-file: '.nvmrc'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install Yarn
@@ -32,7 +32,7 @@ jobs:
           yarn test
 
       - name: Uploade CodeCov Report
-        uses: codecov/codecov-action@v3.1.4
+        uses: codecov/codecov-action@v4.3.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
@@ -44,7 +44,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 'v20.10.0'
+          node-version-file: '.nvmrc'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install Yarn
@@ -61,7 +61,7 @@ jobs:
           ls node_modules
 
       - name: artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: dist
           path: |
@@ -84,11 +84,11 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 'v20.10.0'
+          node-version-file: '.nvmrc'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: dist
 

@@ -57,9 +57,9 @@ describe('configureSSH', () => {
 
     await configureSSH(action)
 
-    expect(execute).toBeCalledTimes(0)
-    expect(mkdirP).toBeCalledTimes(0)
-    expect(appendFileSync).toBeCalledTimes(0)
+    expect(execute).toHaveBeenCalledTimes(0)
+    expect(mkdirP).toHaveBeenCalledTimes(0)
+    expect(appendFileSync).toHaveBeenCalledTimes(0)
   })
 
   it('should configure the ssh client if a key is defined', async () => {
@@ -82,9 +82,9 @@ describe('configureSSH', () => {
 
     await configureSSH(action)
 
-    expect(execFileSync).toBeCalledTimes(1)
-    expect(exportVariable).toBeCalledTimes(2)
-    expect(execSync).toBeCalledTimes(3)
+    expect(execFileSync).toHaveBeenCalledTimes(1)
+    expect(exportVariable).toHaveBeenCalledTimes(2)
+    expect(execSync).toHaveBeenCalledTimes(3)
   })
 
   it('should not export variables if the return from ssh-agent is skewed', async () => {
@@ -107,9 +107,9 @@ describe('configureSSH', () => {
 
     await configureSSH(action)
 
-    expect(execFileSync).toBeCalledTimes(1)
-    expect(exportVariable).toBeCalledTimes(0)
-    expect(execSync).toBeCalledTimes(3)
+    expect(execFileSync).toHaveBeenCalledTimes(1)
+    expect(exportVariable).toHaveBeenCalledTimes(0)
+    expect(execSync).toHaveBeenCalledTimes(3)
   })
 
   it('should throw if something errors', async () => {
