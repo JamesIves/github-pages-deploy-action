@@ -653,7 +653,7 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
-"@eslint/js@9.0.0":
+"@eslint/js@9.0.0", "@eslint/js@^9.0.0":
   version "9.0.0"
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-9.0.0.tgz#1a9e4b4c96d8c7886e0110ed310a0135144a1691"
   integrity sha512-RThY/MnKrhubF6+s1JflwUjPEsnCEmYCWwqa/aRISKWNXGZ9epUwft4bUMM35SdKF9xvBrLydAM1RDHd1Z//ZQ==
@@ -3331,6 +3331,15 @@ type-detect@4.0.8:
 type-fest@^0.8.1:
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.8.1.tgz#09e249ebde851d3b1e48d27c105444667f17b83d"
+
+typescript-eslint@^7.7.0:
+  version "7.7.0"
+  resolved "https://registry.yarnpkg.com/typescript-eslint/-/typescript-eslint-7.7.0.tgz#b755e350dad25bb1e5b3826d11daa973dc0970ac"
+  integrity sha512-wZZ+7mTQJCn4mGAvzdERtL4vwKGM/mF9cMSMeKUllz3Hgbd1Mdd5L60Q+nJmCio9RB4OyMMr0EX4Ry2Q7jiAyw==
+  dependencies:
+    "@typescript-eslint/eslint-plugin" "7.7.0"
+    "@typescript-eslint/parser" "7.7.0"
+    "@typescript-eslint/utils" "7.7.0"
 
 typescript@5.4.5:
   version "5.4.5"

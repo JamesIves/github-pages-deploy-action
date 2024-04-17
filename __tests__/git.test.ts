@@ -54,7 +54,7 @@ describe('git', () => {
       })
 
       await init(action)
-      expect(execute).toBeCalledTimes(7)
+      expect(execute).toHaveBeenCalledTimes(7)
     })
 
     it('should catch when a function throws an error', async () => {
@@ -101,7 +101,7 @@ describe('git', () => {
       })
 
       await init(action)
-      expect(execute).toBeCalledTimes(7)
+      expect(execute).toHaveBeenCalledTimes(7)
     })
 
     it('should not unset git config if a user is using ssh', async () => {
@@ -123,7 +123,7 @@ describe('git', () => {
       })
 
       await init(action)
-      expect(execute).toBeCalledTimes(6)
+      expect(execute).toHaveBeenCalledTimes(6)
 
       process.env.CI = undefined
     })
@@ -144,7 +144,7 @@ describe('git', () => {
       })
 
       await init(action)
-      expect(execute).toBeCalledTimes(7)
+      expect(execute).toHaveBeenCalledTimes(7)
     })
   })
 
@@ -167,8 +167,8 @@ describe('git', () => {
       const response = await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(14)
-      expect(rmRF).toBeCalledTimes(1)
+      expect(execute).toHaveBeenCalledTimes(14)
+      expect(rmRF).toHaveBeenCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
 
@@ -190,8 +190,8 @@ describe('git', () => {
       const response = await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(13)
-      expect(rmRF).toBeCalledTimes(1)
+      expect(execute).toHaveBeenCalledTimes(13)
+      expect(rmRF).toHaveBeenCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
 
@@ -215,8 +215,8 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(14)
-      expect(rmRF).toBeCalledTimes(1)
+      expect(execute).toHaveBeenCalledTimes(14)
+      expect(rmRF).toHaveBeenCalledTimes(1)
     })
 
     it('should execute commands with single commit toggled and existing branch', async () => {
@@ -239,8 +239,8 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(13)
-      expect(rmRF).toBeCalledTimes(1)
+      expect(execute).toHaveBeenCalledTimes(13)
+      expect(rmRF).toHaveBeenCalledTimes(1)
     })
 
     it('should execute commands with single commit and dryRun toggled', async () => {
@@ -264,8 +264,8 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(13)
-      expect(rmRF).toBeCalledTimes(1)
+      expect(execute).toHaveBeenCalledTimes(13)
+      expect(rmRF).toHaveBeenCalledTimes(1)
     })
 
     it('should not ignore CNAME or nojekyll if they exist in the deployment folder', async () => {
@@ -295,9 +295,9 @@ describe('git', () => {
       const response = await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(14)
-      expect(rmRF).toBeCalledTimes(1)
-      expect(fs.existsSync).toBeCalledTimes(2)
+      expect(execute).toHaveBeenCalledTimes(14)
+      expect(rmRF).toHaveBeenCalledTimes(1)
+      expect(fs.existsSync).toHaveBeenCalledTimes(2)
       expect(response).toBe(Status.SUCCESS)
     })
 
@@ -327,8 +327,8 @@ describe('git', () => {
         await deploy(action)
 
         // Includes the call to generateWorktree
-        expect(execute).toBeCalledTimes(11)
-        expect(rmRF).toBeCalledTimes(1)
+        expect(execute).toHaveBeenCalledTimes(11)
+        expect(rmRF).toHaveBeenCalledTimes(1)
       })
     })
 
@@ -352,8 +352,8 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toBeCalledTimes(11)
-      expect(rmRF).toBeCalledTimes(1)
+      expect(execute).toHaveBeenCalledTimes(11)
+      expect(rmRF).toHaveBeenCalledTimes(1)
     })
 
     it('should gracefully handle target folder', async () => {
@@ -372,9 +372,9 @@ describe('git', () => {
 
       await deploy(action)
 
-      expect(execute).toBeCalledTimes(11)
-      expect(rmRF).toBeCalledTimes(1)
-      expect(mkdirP).toBeCalledTimes(1)
+      expect(execute).toHaveBeenCalledTimes(11)
+      expect(rmRF).toHaveBeenCalledTimes(1)
+      expect(mkdirP).toHaveBeenCalledTimes(1)
     })
 
     it('should stop early if there is nothing to commit', async () => {
@@ -392,8 +392,8 @@ describe('git', () => {
       })
 
       const response = await deploy(action)
-      expect(execute).toBeCalledTimes(11)
-      expect(rmRF).toBeCalledTimes(1)
+      expect(execute).toHaveBeenCalledTimes(11)
+      expect(rmRF).toHaveBeenCalledTimes(1)
       expect(response).toBe(Status.SKIPPED)
     })
 
@@ -466,7 +466,7 @@ describe('git', () => {
       })
 
       const response = await deploy(action)
-      expect(execute).toBeCalledTimes(16)
+      expect(execute).toHaveBeenCalledTimes(16)
       expect(response).toBe(Status.SUCCESS)
     })
   })

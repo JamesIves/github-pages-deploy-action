@@ -175,7 +175,7 @@ describe('generateWorktree', () => {
         'gh1'
       ])
 
-      expect(async () => {
+      return expect(async () => {
         await execute(
           'git log --format=%s',
           path.join(workspace, 'worktree'),
@@ -208,7 +208,7 @@ describe('generateWorktree', () => {
 
       expect(dirEntries).toEqual(['.git'])
 
-      expect(async () => {
+      return expect(async () => {
         await execute(
           'git log --format=%s',
           path.join(workspace, 'worktree'),
