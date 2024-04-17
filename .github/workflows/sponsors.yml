@@ -18,6 +18,7 @@ jobs:
           file: 'README.md'
           template: '<a href="https://github.com/{{{ login }}}"><img src="https://github.com/{{{ login }}}.png" width="50px" alt="{{{ login }}}" /></a>&nbsp;&nbsp;'
           maximum: 4999
+          active-only: false
 
       - name: Generate Sponsors 💖
         uses: JamesIves/github-sponsors-readme-action@v1
@@ -27,6 +28,7 @@ jobs:
           minimum: 5000
           template: '<a href="https://github.com/{{{ login }}}"><img src="https://github.com/{{{ login }}}.png" width="80px" alt="{{{ login }}}" /></a>&nbsp;&nbsp;'
           marker: 'premium'
+          active-only: false
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
