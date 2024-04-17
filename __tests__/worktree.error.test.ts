@@ -3,7 +3,6 @@ import {execute} from '../src/execute'
 import {generateWorktree} from '../src/worktree'
 
 jest.mock('../src/execute', () => ({
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   __esModule: true,
   execute: jest.fn(() => ({stdout: '', stderr: ''}))
 }))
