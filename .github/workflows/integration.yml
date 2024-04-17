@@ -173,14 +173,14 @@ jobs:
     needs: integration-ssh-third-party-client
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: '.nvmrc'
-
       - name: Checkout
         uses: actions/checkout@v4
         with:
           persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
 
       - name: Build and Deploy
         uses: JamesIves/github-pages-deploy-action@v4
@@ -309,6 +309,7 @@ jobs:
           branch: gh-pages-rebase-conflict
           folder: integration
           force: false
+          
   # Clean up conflicting deployments
   integration-rebase-conflicts-cleanup:
     needs: [integration-rebase-conflicts-1, integration-rebase-conflicts-2]
