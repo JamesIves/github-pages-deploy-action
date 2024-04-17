@@ -47,8 +47,8 @@ export const generateFolderPath = (action: ActionInterface): string => {
   return path.isAbsolute(folderName)
     ? folderName
     : folderName.startsWith('~')
-    ? folderName.replace('~', process.env.HOME as string)
-    : path.join(action.workspace, folderName)
+      ? folderName.replace('~', process.env.HOME as string)
+      : path.join(action.workspace, folderName)
 }
 
 /**
@@ -132,8 +132,8 @@ export const extractErrorMessage = (error: unknown): string =>
   error instanceof Error
     ? error.message
     : typeof error == 'string'
-    ? error
-    : JSON.stringify(error)
+      ? error
+      : JSON.stringify(error)
 
 /**
  * Strips the protocol from a provided URL.
