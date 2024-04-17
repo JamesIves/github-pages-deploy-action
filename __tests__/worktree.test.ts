@@ -18,7 +18,7 @@ jest.mock('@actions/core', () => ({
   The upstream repository `origin` is set up once for the test suite,
   and for each test run, a new clone is created.
 
-  See workstree.error.test.ts for testing mocked errors from git.
+  See worktree.error.test.ts for testing mocked errors from git.
  */
 describe('generateWorktree', () => {
   let tempdir: string | null = null
