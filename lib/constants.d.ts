@@ -1,9 +1,9 @@
 export declare enum TestFlag {
     NONE = 0,
-    HAS_CHANGED_FILES = 2,
-    HAS_REMOTE_BRANCH = 4,
-    UNABLE_TO_REMOVE_ORIGIN = 8,
-    UNABLE_TO_UNSET_GIT_CONFIG = 16,
+    HAS_CHANGED_FILES = 2,// Assume changes to commit.
+    HAS_REMOTE_BRANCH = 4,// Assume remote repository has existing commits.
+    UNABLE_TO_REMOVE_ORIGIN = 8,// Assume we can't remove origin.
+    UNABLE_TO_UNSET_GIT_CONFIG = 16,// Assume we can't remove previously set git configs.
     HAS_REJECTED_COMMIT = 32
 }
 export interface ActionInterface {
