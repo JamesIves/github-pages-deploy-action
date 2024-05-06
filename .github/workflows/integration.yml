@@ -309,7 +309,7 @@ jobs:
           branch: gh-pages-rebase-conflict
           folder: integration
           force: false
-          
+
   # Clean up conflicting deployments
   integration-rebase-conflicts-cleanup:
     needs: [integration-rebase-conflicts-1, integration-rebase-conflicts-2]
