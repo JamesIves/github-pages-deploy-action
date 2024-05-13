@@ -99,7 +99,7 @@ permissions:
 
 
 > [!NOTE]
-> You must configure your repository to deploy from the branch you push to. To do this, go to your repository settings, click on `Pages`, and choose `Deploy from a Branch`. From there select the branch you supplied to the action, in most cases this will be `gh-pages` as that's the default.
+> You must configure your repository to deploy from the branch you push to. To do this, go to your repository settings, click on `Pages`, and choose `Deploy from a Branch` from the `Source` dropdown. From there select the branch you supplied to the action, in most cases this will be `gh-pages` as that's the default.
 
 ## Configuration 📁
 
