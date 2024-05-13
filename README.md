@@ -80,6 +80,9 @@ jobs:
           folder: build # The folder the action should deploy.
 ```
 
+> [!NOTE]
+> You must configure your repository to deploy from the branch you push to. To do this, go to your repository settings, click on `Pages`, and choose `Deploy from a Branch` from the `Source` dropdown. From there select the branch you supplied to the action, in most cases this will be `gh-pages` as that's the default.
+
 If you'd like to make it so the workflow only triggers on push events to specific branches then you can modify the `on` section.
 
 ```yml
@@ -96,10 +99,6 @@ on:
 permissions:
   contents: write
 ```
-
-
-> [!NOTE]
-> You must configure your repository to deploy from the branch you push to. To do this, go to your repository settings, click on `Pages`, and choose `Deploy from a Branch` from the `Source` dropdown. From there select the branch you supplied to the action, in most cases this will be `gh-pages` as that's the default.
 
 ## Configuration 📁
 
