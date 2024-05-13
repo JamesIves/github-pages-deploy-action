@@ -97,6 +97,10 @@ permissions:
   contents: write
 ```
 
+
+> [!NOTE]
+> You must configure your repository to deploy from the branch you push to. To do this, go to your repository settings, click on `Pages`, and choose `Deploy from a Branch`. From there select the branch you supplied to the action, in most cases this will be `gh-pages` as that's the default.
+
 ## Configuration 📁
 
 The `with` portion of the workflow **must** be configured before the action will work. You can add these in the `with` section found in the examples above. Any `secrets` must be referenced using the bracket syntax and stored in the GitHub repository's `Settings/Secrets` menu. You can learn more about setting environment variables with GitHub actions [here](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#creating-encrypted-secrets).
