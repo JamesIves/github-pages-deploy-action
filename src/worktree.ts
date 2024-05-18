@@ -7,13 +7,33 @@ import {extractErrorMessage, suppressSensitiveInformation} from './util'
  * Git checkout command.
  */
 export class GitCheckout {
+  /**
+   * @param orphan - Bool indicating if the branch is an orphan.
+   */
   orphan = false
+
+  /**
+   * @param commitish - The commitish to check out.
+   */
   commitish?: string | null = null
+
+  /**
+   * @param branch - The branch name.
+   */
   branch: string
+
+  /**
+   * @param branch - The branch name.
+   * @param commitish - The commitish to check out.
+   */
   constructor(branch: string, commitish?: string) {
     this.branch = branch
     this.commitish = commitish || null
   }
+
+  /**
+   * Returns the string representation of the git checkout command.
+   */
   toString(): string {
     return [
       'git',
