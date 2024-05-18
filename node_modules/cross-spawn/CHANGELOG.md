@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.0.3](https://github.com/moxystudio/node-cross-spawn/compare/v7.0.2...v7.0.3) (2020-05-25)
+
+
+### Bug Fixes
+
+* detect path key based on correct environment ([#133](https://github.com/moxystudio/node-cross-spawn/issues/133)) ([159e7e9](https://github.com/moxystudio/node-cross-spawn/commit/159e7e9785e57451cba034ae51719f97135074ae))
+
 ### [7.0.2](https://github.com/moxystudio/node-cross-spawn/compare/v7.0.1...v7.0.2) (2020-04-04)
 
 
