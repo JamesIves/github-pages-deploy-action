@@ -3,13 +3,37 @@ import {ActionInterface} from './constants'
 import {execute} from './execute'
 import {extractErrorMessage, suppressSensitiveInformation} from './util'
 
+/**
+ * Git checkout command.
+ */
 export class GitCheckout {
+  /**
+   * @param orphan - Bool indicating if the branch is an orphan.
+   */
   orphan = false
+
+  /**
+   * @param commitish - The commitish to check out.
+   */
   commitish?: string | null = null
+
+  /**
+   * @param branch - The branch name.
+   */
   branch: string
-  constructor(branch: string) {
+
+  /**
+   * @param branch - The branch name.
+   * @param commitish - The commitish to check out.
+   */
+  constructor(branch: string, commitish?: string) {
     this.branch = branch
+    this.commitish = commitish || null
   }
+
+  /**
+   * Returns the string representation of the git checkout command.
+   */
   toString(): string {
     return [
       'git',
@@ -22,12 +46,15 @@ export class GitCheckout {
 }
 
 /**
- * Generate the worktree and set initial content if it exists
+ * Generates a git worktree.
+ * @param action - The action interface.
+ * @param worktreedir - The worktree directory.
+ * @param branchExists - Bool indicating if the branch exists.
  */
 export async function generateWorktree(
   action: ActionInterface,
   worktreedir: string,
-  branchExists: unknown
+  branchExists: boolean | number
 ): Promise<void> {
   try {
     info('Creating worktree…')
@@ -46,7 +73,8 @@ export async function generateWorktree(
       action.silent
     )
 
-    const checkout = new GitCheckout(action.branch)
+    let branchName = action.branch
+    let checkout = new GitCheckout(branchName)
 
     if (branchExists) {
       // There's existing data on the branch to check out
@@ -62,14 +90,28 @@ export async function generateWorktree(
       checkout.orphan = true
     }
 
-    await execute(
-      checkout.toString(),
-      `${action.workspace}/${worktreedir}`,
-      action.silent
-    )
+    try {
+      await execute(
+        checkout.toString(),
+        `${action.workspace}/${worktreedir}`,
+        action.silent
+      )
+    } catch (error) {
+      info(
+        'Error encountered while checking out branch. Attempting to continue with a new branch name.'
+      )
+      branchName = `temp-${Date.now()}`
+      checkout = new GitCheckout(branchName, `origin/${action.branch}`)
+
+      await execute(
+        checkout.toString(),
+        `${action.workspace}/${worktreedir}`,
+        action.silent
+      )
+    }
 
     if (!branchExists) {
-      info(`Created the ${action.branch} branch… 🔧`)
+      info(`Created the ${branchName} branch… 🔧`)
 
       // Our index is in HEAD state, reset
       await execute(
@@ -81,7 +123,7 @@ export async function generateWorktree(
       if (!action.singleCommit) {
         // New history isn't singleCommit, create empty initial commit
         await execute(
-          `git commit --no-verify --allow-empty -m "Initial ${action.branch} commit"`,
+          `git commit --no-verify --allow-empty -m "Initial ${branchName} commit"`,
           `${action.workspace}/${worktreedir}`,
           action.silent
         )
