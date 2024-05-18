@@ -3,12 +3,16 @@ import {ActionInterface} from './constants'
 import {execute} from './execute'
 import {extractErrorMessage, suppressSensitiveInformation} from './util'
 
+/**
+ * Git checkout command.
+ */
 export class GitCheckout {
   orphan = false
   commitish?: string | null = null
   branch: string
-  constructor(branch: string) {
+  constructor(branch: string, commitish?: string) {
     this.branch = branch
+    this.commitish = commitish || null
   }
   toString(): string {
     return [
@@ -22,12 +26,15 @@ export class GitCheckout {
 }
 
 /**
- * Generate the worktree and set initial content if it exists
+ * Generates a git worktree.
+ * @param action - The action interface.
+ * @param worktreedir - The worktree directory.
+ * @param branchExists - Bool indicating if the branch exists.
  */
 export async function generateWorktree(
   action: ActionInterface,
   worktreedir: string,
-  branchExists: unknown
+  branchExists: boolean
 ): Promise<void> {
   try {
     info('Creating worktree…')
@@ -46,12 +53,15 @@ export async function generateWorktree(
       action.silent
     )
 
-    const checkout = new GitCheckout(action.branch)
+    /**
+     * If the branch doesn't exist, we need to create a new branch using a unique name.
+     */
+    const uniqueBranchName = `temp-${Date.now()}`
 
-    if (branchExists) {
-      // There's existing data on the branch to check out
-      checkout.commitish = `origin/${action.branch}`
-    }
+    const checkout = new GitCheckout(
+      uniqueBranchName,
+      `origin/${action.branch}`
+    )
 
     if (
       !branchExists ||
@@ -69,7 +79,7 @@ export async function generateWorktree(
     )
 
     if (!branchExists) {
-      info(`Created the ${action.branch} branch… 🔧`)
+      info(`Created the ${uniqueBranchName} branch… 🔧`)
 
       // Our index is in HEAD state, reset
       await execute(
@@ -81,7 +91,7 @@ export async function generateWorktree(
       if (!action.singleCommit) {
         // New history isn't singleCommit, create empty initial commit
         await execute(
-          `git commit --no-verify --allow-empty -m "Initial ${action.branch} commit"`,
+          `git commit --no-verify --allow-empty -m "Initial ${uniqueBranchName} commit"`,
           `${action.workspace}/${worktreedir}`,
           action.silent
         )
