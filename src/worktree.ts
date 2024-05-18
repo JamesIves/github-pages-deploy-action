@@ -77,7 +77,7 @@ export async function generateWorktree(
         action.silent
       )
     } catch (error) {
-      console.log(
+      info(
         'Error encountered while checking out branch. Attempting to continue with a new branch name.'
       )
       branchName = `temp-${Date.now()}`
