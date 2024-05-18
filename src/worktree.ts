@@ -53,15 +53,24 @@ export async function generateWorktree(
       action.silent
     )
 
+    let checkout: GitCheckout
+    let branchName = action.branch
+
     /**
      * If the branch doesn't exist, we need to create a new branch using a unique name.
      */
-    const uniqueBranchName = `temp-${Date.now()}`
+    try {
+      checkout = new GitCheckout(branchName)
+    } catch {
+      console.log('encountered')
+      branchName = `temp-${Date.now()}`
+      checkout = new GitCheckout(branchName, `origin/${action.branch}`)
+    }
 
-    const checkout = new GitCheckout(
-      uniqueBranchName,
-      `origin/${action.branch}`
-    )
+    if (branchExists) {
+      // There's existing data on the branch to check out
+      checkout.commitish = `origin/${action.branch}`
+    }
 
     if (
       !branchExists ||
@@ -79,7 +88,7 @@ export async function generateWorktree(
     )
 
     if (!branchExists) {
-      info(`Created the ${uniqueBranchName} branch… 🔧`)
+      info(`Created the ${branchName} branch… 🔧`)
 
       // Our index is in HEAD state, reset
       await execute(
@@ -91,7 +100,7 @@ export async function generateWorktree(
       if (!action.singleCommit) {
         // New history isn't singleCommit, create empty initial commit
         await execute(
-          `git commit --no-verify --allow-empty -m "Initial ${uniqueBranchName} commit"`,
+          `git commit --no-verify --allow-empty -m "Initial ${branchName} commit"`,
           `${action.workspace}/${worktreedir}`,
           action.silent
         )
