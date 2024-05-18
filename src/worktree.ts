@@ -53,19 +53,8 @@ export async function generateWorktree(
       action.silent
     )
 
-    let checkout: GitCheckout
     let branchName = action.branch
-
-    /**
-     * If the branch doesn't exist, we need to create a new branch using a unique name.
-     */
-    try {
-      checkout = new GitCheckout(branchName)
-    } catch {
-      console.log('encountered')
-      branchName = `temp-${Date.now()}`
-      checkout = new GitCheckout(branchName, `origin/${action.branch}`)
-    }
+    let checkout = new GitCheckout(branchName)
 
     if (branchExists) {
       // There's existing data on the branch to check out
@@ -81,11 +70,25 @@ export async function generateWorktree(
       checkout.orphan = true
     }
 
-    await execute(
-      checkout.toString(),
-      `${action.workspace}/${worktreedir}`,
-      action.silent
-    )
+    try {
+      await execute(
+        checkout.toString(),
+        `${action.workspace}/${worktreedir}`,
+        action.silent
+      )
+    } catch (error) {
+      console.log(
+        'Error encountered while checking out branch. Attempting to continue with a new branch name.'
+      )
+      branchName = `temp-${Date.now()}`
+      checkout = new GitCheckout(branchName, `origin/${action.branch}`)
+
+      await execute(
+        checkout.toString(),
+        `${action.workspace}/${worktreedir}`,
+        action.silent
+      )
+    }
 
     if (!branchExists) {
       info(`Created the ${branchName} branch… 🔧`)
