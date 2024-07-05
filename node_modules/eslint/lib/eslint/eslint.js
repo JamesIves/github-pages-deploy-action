@@ -68,7 +68,7 @@ const { Retrier } = require("@humanwhocodes/retry");
  * The options with which to configure the ESLint instance.
  * @typedef {Object} ESLintOptions
  * @property {boolean} [allowInlineConfig] Enable or disable inline configuration comments.
- * @property {ConfigData} [baseConfig] Base config object, extended by all configs used with this instance
+ * @property {ConfigData|Array<ConfigData>} [baseConfig] Base config, extended by all configs used with this instance
  * @property {boolean} [cache] Enable result caching.
  * @property {string} [cacheLocation] The cache file to use instead of .eslintcache.
  * @property {"metadata" | "content"} [cacheStrategy] The strategy used to detect changed files.
@@ -76,10 +76,11 @@ const { Retrier } = require("@humanwhocodes/retry");
  * @property {boolean} [errorOnUnmatchedPattern] If `false` then `ESLint#lintFiles()` doesn't throw even if no target files found. Defaults to `true`.
  * @property {boolean|Function} [fix] Execute in autofix mode. If a function, should return a boolean.
  * @property {string[]} [fixTypes] Array of rule types to apply fixes for.
+ * @property {string[]} [flags] Array of feature flags to enable.
  * @property {boolean} [globInputPaths] Set to false to skip glob resolution of input file paths to lint (default: true). If false, each input file paths is assumed to be a non-glob path to an existing file.
  * @property {boolean} [ignore] False disables all ignore patterns except for the default ones.
  * @property {string[]} [ignorePatterns] Ignore file patterns to use in addition to config ignores. These patterns are relative to `cwd`.
- * @property {ConfigData} [overrideConfig] Override config object, overrides all configs used with this instance
+ * @property {ConfigData|Array<ConfigData>} [overrideConfig] Override config, overrides all configs used with this instance
  * @property {boolean|string} [overrideConfigFile] Searches for default config file when falsy;
  *      doesn't do any config file lookup when `true`; considered to be a config filename
  *      when a string.
@@ -421,7 +422,8 @@ async function calculateConfigArray(eslint, {
             relativeIgnorePatterns = ignorePatterns;
         } else {
 
-            const relativeIgnorePath = path.relative(basePath, cwd);
+            // In minimatch patterns, only `/` can be used as path separator
+            const relativeIgnorePath = path.relative(basePath, cwd).replaceAll(path.sep, "/");
 
             relativeIgnorePatterns = ignorePatterns.map(pattern => {
                 const negated = pattern.startsWith("!");
@@ -509,7 +511,7 @@ function verifyText({
              * @returns {boolean} `true` if the linter should adopt the code block.
              */
             filterCodeBlock(blockFilename) {
-                return configs.isExplicitMatch(blockFilename);
+                return configs.getConfig(blockFilename) !== void 0;
             }
         }
     );
@@ -593,7 +595,8 @@ class ESLint {
         const processedOptions = processOptions(options);
         const linter = new Linter({
             cwd: processedOptions.cwd,
-            configType: "flat"
+            configType: "flat",
+            flags: processedOptions.flags
         });
 
         const cacheFilePath = getCacheFile(
@@ -767,6 +770,17 @@ class ESLint {
     }
 
     /**
+     * Indicates if the given feature flag is enabled for this instance.
+     * @param {string} flag The feature flag to check.
+     * @returns {boolean} `true` if the feature flag is enabled, `false` if not.
+     */
+    hasFlag(flag) {
+
+        // note: Linter does validation of the flags
+        return privateMembers.get(this).linter.hasFlag(flag);
+    }
+
+    /**
      * Executes the current configuration on an array of file and directory names.
      * @param {string|string[]} patterns An array of file and directory names.
      * @returns {Promise<LintResult[]>} The results of linting the file patterns given.
@@ -865,28 +879,21 @@ class ESLint {
          */
         const results = await Promise.all(
 
-            filePaths.map(({ filePath, ignored }) => {
-
-                /*
-                 * If a filename was entered that matches an ignore
-                 * pattern, then notify the user.
-                 */
-                if (ignored) {
-                    if (warnIgnored) {
-                        return createIgnoreResult(filePath, cwd);
-                    }
-
-                    return void 0;
-                }
+            filePaths.map(filePath => {
 
                 const config = configs.getConfig(filePath);
 
                 /*
-                 * Sometimes a file found through a glob pattern will
-                 * be ignored. In this case, `config` will be undefined
-                 * and we just silently ignore the file.
+                 * If a filename was entered that cannot be matched
+                 * to a config, then notify the user.
                  */
                 if (!config) {
+                    if (warnIgnored) {
+                        const configStatus = configs.getConfigStatus(filePath);
+
+                        return createIgnoreResult(filePath, cwd, configStatus);
+                    }
+
                     return void 0;
                 }
 
@@ -1038,7 +1045,9 @@ class ESLint {
             const shouldWarnIgnored = typeof warnIgnored === "boolean" ? warnIgnored : constructorWarnIgnored;
 
             if (shouldWarnIgnored) {
-                results.push(createIgnoreResult(resolvedFilename, cwd));
+                const configStatus = configs.getConfigStatus(resolvedFilename);
+
+                results.push(createIgnoreResult(resolvedFilename, cwd, configStatus));
             }
         } else {
 

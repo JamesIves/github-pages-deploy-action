@@ -1,4 +1,3 @@
-/// <reference types="node" />
 type ExecuteOutput = {
     stdout: string;
     stderr: string;

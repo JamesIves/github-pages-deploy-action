@@ -3,7 +3,7 @@ import { ActionInterface } from './constants';
  * Utility function that checks to see if a value is undefined or not.
  * If allowEmptyString is passed the parameter is allowed to contain an empty string as a valid parameter.
  */
-export declare const isNullOrUndefined: (value: unknown) => value is "" | null | undefined;
+export declare const isNullOrUndefined: (value: unknown) => value is undefined | null | "";
 /**
  * Generates a token type used for the action.
  */

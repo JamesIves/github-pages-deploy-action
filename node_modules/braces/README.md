@@ -20,15 +20,15 @@ See the [changelog](CHANGELOG.md) for details.
 
 Brace patterns make globs more powerful by adding the ability to match specific ranges and sequences of characters.
 
-* **Accurate** - complete support for the [Bash 4.3 Brace Expansion](www.gnu.org/software/bash/) specification (passes all of the Bash braces tests)
-* **[fast and performant](#benchmarks)** - Starts fast, runs fast and [scales well](#performance) as patterns increase in complexity.
-* **Organized code base** - The parser and compiler are easy to maintain and update when edge cases crop up.
-* **Well-tested** - Thousands of test assertions, and passes all of the Bash, minimatch, and [brace-expansion](https://github.com/juliangruber/brace-expansion) unit tests (as of the date this was written).
-* **Safer** - You shouldn't have to worry about users defining aggressive or malicious brace patterns that can break your application. Braces takes measures to prevent malicious regex that can be used for DDoS attacks (see [catastrophic backtracking](https://www.regular-expressions.info/catastrophic.html)).
-* [Supports lists](#lists) - (aka "sets") `a/{b,c}/d` => `['a/b/d', 'a/c/d']`
-* [Supports sequences](#sequences) - (aka "ranges") `{01..03}` => `['01', '02', '03']`
-* [Supports steps](#steps) - (aka "increments") `{2..10..2}` => `['2', '4', '6', '8', '10']`
-* [Supports escaping](#escaping) - To prevent evaluation of special characters.
+- **Accurate** - complete support for the [Bash 4.3 Brace Expansion](www.gnu.org/software/bash/) specification (passes all of the Bash braces tests)
+- **[fast and performant](#benchmarks)** - Starts fast, runs fast and [scales well](#performance) as patterns increase in complexity.
+- **Organized code base** - The parser and compiler are easy to maintain and update when edge cases crop up.
+- **Well-tested** - Thousands of test assertions, and passes all of the Bash, minimatch, and [brace-expansion](https://github.com/juliangruber/brace-expansion) unit tests (as of the date this was written).
+- **Safer** - You shouldn't have to worry about users defining aggressive or malicious brace patterns that can break your application. Braces takes measures to prevent malicious regex that can be used for DDoS attacks (see [catastrophic backtracking](https://www.regular-expressions.info/catastrophic.html)).
+- [Supports lists](#lists) - (aka "sets") `a/{b,c}/d` => `['a/b/d', 'a/c/d']`
+- [Supports sequences](#sequences) - (aka "ranges") `{01..03}` => `['01', '02', '03']`
+- [Supports steps](#steps) - (aka "increments") `{2..10..2}` => `['2', '4', '6', '8', '10']`
+- [Supports escaping](#escaping) - To prevent evaluation of special characters.
 
 ## Usage
 
@@ -52,9 +52,9 @@ By default, brace patterns are compiled into strings that are optimized for crea
 **Compiled**
 
 ```js
-console.log(braces('a/{x,y,z}/b')); 
+console.log(braces('a/{x,y,z}/b'));
 //=> ['a/(x|y|z)/b']
-console.log(braces(['a/{01..20}/b', 'a/{1..5}/b'])); 
+console.log(braces(['a/{01..20}/b', 'a/{1..5}/b']));
 //=> [ 'a/(0[1-9]|1[0-9]|20)/b', 'a/([1-5])/b' ]
 ```
 
@@ -87,13 +87,13 @@ console.log(braces.expand('a/{foo,bar,baz}/*.js'));
 Expand ranges of characters (like Bash "sequences"):
 
 ```js
-console.log(braces.expand('{1..3}'));                // ['1', '2', '3']
-console.log(braces.expand('a/{1..3}/b'));            // ['a/1/b', 'a/2/b', 'a/3/b']
-console.log(braces('{a..c}', { expand: true }));     // ['a', 'b', 'c']
+console.log(braces.expand('{1..3}')); // ['1', '2', '3']
+console.log(braces.expand('a/{1..3}/b')); // ['a/1/b', 'a/2/b', 'a/3/b']
+console.log(braces('{a..c}', { expand: true })); // ['a', 'b', 'c']
 console.log(braces('foo/{a..c}', { expand: true })); // ['foo/a', 'foo/b', 'foo/c']
 
 // supports zero-padded ranges
-console.log(braces('a/{01..03}/b'));   //=> ['a/(0[1-3])/b']
+console.log(braces('a/{01..03}/b')); //=> ['a/(0[1-3])/b']
 console.log(braces('a/{001..300}/b')); //=> ['a/(0{2}[1-9]|0[1-9][0-9]|[12][0-9]{2}|300)/b']
 ```
 
@@ -178,12 +178,12 @@ console.log(braces.expand('a{b}c'));
 
 **Type**: `Number`
 
-**Default**: `65,536`
+**Default**: `10,000`
 
 **Description**: Limit the length of the input string. Useful when the input string is generated or your application allows users to pass a string, et cetera.
 
 ```js
-console.log(braces('a/{b,c}/d', { maxLength: 3 }));  //=> throws an error
+console.log(braces('a/{b,c}/d', { maxLength: 3 })); //=> throws an error
 ```
 
 ### options.expand
@@ -244,7 +244,7 @@ const alpha = braces.expand('x/{a..e}/y', {
   transform(value, index) {
     // When non-numeric values are passed, "value" is a character code.
     return 'foo/' + String.fromCharCode(value) + '-' + index;
-  }
+  },
 });
 console.log(alpha);
 //=> [ 'x/foo/a-0/y', 'x/foo/b-1/y', 'x/foo/c-2/y', 'x/foo/d-3/y', 'x/foo/e-4/y' ]
@@ -257,9 +257,9 @@ const numeric = braces.expand('{1..5}', {
   transform(value) {
     // when numeric values are passed, "value" is a number
     return 'foo/' + value * 2;
-  }
+  },
 });
-console.log(numeric); 
+console.log(numeric);
 //=> [ 'foo/2', 'foo/4', 'foo/6', 'foo/8', 'foo/10' ]
 ```
 
@@ -281,19 +281,19 @@ The `quantifiers` option tells braces to detect when [regex quantifiers](https:/
 const braces = require('braces');
 console.log(braces('a/b{1,3}/{x,y,z}'));
 //=> [ 'a/b(1|3)/(x|y|z)' ]
-console.log(braces('a/b{1,3}/{x,y,z}', {quantifiers: true}));
+console.log(braces('a/b{1,3}/{x,y,z}', { quantifiers: true }));
 //=> [ 'a/b{1,3}/(x|y|z)' ]
-console.log(braces('a/b{1,3}/{x,y,z}', {quantifiers: true, expand: true}));
+console.log(braces('a/b{1,3}/{x,y,z}', { quantifiers: true, expand: true }));
 //=> [ 'a/b{1,3}/x', 'a/b{1,3}/y', 'a/b{1,3}/z' ]
 ```
 
-### options.unescape
+### options.keepEscaping
 
 **Type**: `Boolean`
 
 **Default**: `undefined`
 
-**Description**: Strip backslashes that were used for escaping from the result.
+**Description**: Do not strip backslashes that were used for escaping from the result.
 
 ## What is "brace expansion"?
 
@@ -301,8 +301,8 @@ Brace expansion is a type of parameter expansion that was made popular by unix s
 
 In addition to "expansion", braces are also used for matching. In other words:
 
-* [brace expansion](#brace-expansion) is for generating new lists
-* [brace matching](#brace-matching) is for filtering existing lists
+- [brace expansion](#brace-expansion) is for generating new lists
+- [brace matching](#brace-matching) is for filtering existing lists
 
 <details>
 <summary><strong>More about brace expansion</strong> (click to expand)</summary>
@@ -382,9 +382,9 @@ Although brace patterns offer a user-friendly way of matching ranges or sets of 
 
 **"brace bombs"**
 
-* brace expansion can eat up a huge amount of processing resources
-* as brace patterns increase _linearly in size_, the system resources required to expand the pattern increase exponentially
-* users can accidentally (or intentially) exhaust your system's resources resulting in the equivalent of a DoS attack (bonus: no programming knowledge is required!)
+- brace expansion can eat up a huge amount of processing resources
+- as brace patterns increase _linearly in size_, the system resources required to expand the pattern increase exponentially
+- users can accidentally (or intentially) exhaust your system's resources resulting in the equivalent of a DoS attack (bonus: no programming knowledge is required!)
 
 For a more detailed explanation with examples, see the [geometric complexity](#geometric-complexity) section.
 
@@ -406,8 +406,8 @@ For example, the following sets demonstrate quadratic (`O(n^2)`) complexity:
 But add an element to a set, and we get a n-fold Cartesian product with `O(n^c)` complexity:
 
 ```
-{1,2,3}{4,5,6}{7,8,9} => (3X3X3) => 147 148 149 157 158 159 167 168 169 247 248 
-                                    249 257 258 259 267 268 269 347 348 349 357 
+{1,2,3}{4,5,6}{7,8,9} => (3X3X3) => 147 148 149 157 158 159 167 168 169 247 248
+                                    249 257 258 259 267 268 269 347 348 349 357
                                     358 359 367 368 369
 ```
 
@@ -424,9 +424,9 @@ Although these examples are clearly contrived, they demonstrate how brace patter
 
 Interested in learning more about brace expansion?
 
-* [linuxjournal/bash-brace-expansion](http://www.linuxjournal.com/content/bash-brace-expansion)
-* [rosettacode/Brace_expansion](https://rosettacode.org/wiki/Brace_expansion)
-* [cartesian product](https://en.wikipedia.org/wiki/Cartesian_product)
+- [linuxjournal/bash-brace-expansion](http://www.linuxjournal.com/content/bash-brace-expansion)
+- [rosettacode/Brace_expansion](https://rosettacode.org/wiki/Brace_expansion)
+- [cartesian product](https://en.wikipedia.org/wiki/Cartesian_product)
 
 </details>
 
@@ -444,25 +444,25 @@ Instead, convert the pattern into an optimized regular expression. This is easie
 
 Minimatch gets exponentially slower as patterns increase in complexity, braces does not. The following results were generated using `braces()` and `minimatch.braceExpand()`, respectively.
 
-| **Pattern**                 | **braces**         | **[minimatch][]**            |
-| ---                         | ---                | ---                          |
-| `{1..9007199254740991}`[^1] | `298 B` (5ms 459μs)|  N/A (freezes)               |
-| `{1..1000000000000000}`     | `41 B` (1ms 15μs)  |  N/A (freezes)               |
-| `{1..100000000000000}`      | `40 B` (890μs)     |  N/A (freezes)               |
-| `{1..10000000000000}`       | `39 B` (2ms 49μs)  |  N/A (freezes)               |
-| `{1..1000000000000}`        | `38 B` (608μs)     |  N/A (freezes)               |
-| `{1..100000000000}`         | `37 B` (397μs)     |  N/A (freezes)               |
-| `{1..10000000000}`          | `35 B` (983μs)     |  N/A (freezes)               |
-| `{1..1000000000}`           | `34 B` (798μs)     |  N/A (freezes)               |
-| `{1..100000000}`            | `33 B` (733μs)     |  N/A (freezes)               |
-| `{1..10000000}`             | `32 B` (5ms 632μs) | `78.89 MB` (16s 388ms 569μs) |
-| `{1..1000000}`              | `31 B` (1ms 381μs) | `6.89 MB` (1s 496ms 887μs)   |
-| `{1..100000}`               | `30 B` (950μs)     | `588.89 kB` (146ms 921μs)    |
-| `{1..10000}`                | `29 B` (1ms 114μs) | `48.89 kB` (14ms 187μs)      |
-| `{1..1000}`                 | `28 B` (760μs)     | `3.89 kB` (1ms 453μs)        |
-| `{1..100}`                  | `22 B` (345μs)     | `291 B` (196μs)              |
-| `{1..10}`                   | `10 B` (533μs)     | `20 B` (37μs)                |
-| `{1..3}`                    | `7 B` (190μs)      | `5 B` (27μs)                 |
+| **Pattern**                 | **braces**          | **[minimatch][]**            |
+| --------------------------- | ------------------- | ---------------------------- |
+| `{1..9007199254740991}`[^1] | `298 B` (5ms 459μs) | N/A (freezes)                |
+| `{1..1000000000000000}`     | `41 B` (1ms 15μs)   | N/A (freezes)                |
+| `{1..100000000000000}`      | `40 B` (890μs)      | N/A (freezes)                |
+| `{1..10000000000000}`       | `39 B` (2ms 49μs)   | N/A (freezes)                |
+| `{1..1000000000000}`        | `38 B` (608μs)      | N/A (freezes)                |
+| `{1..100000000000}`         | `37 B` (397μs)      | N/A (freezes)                |
+| `{1..10000000000}`          | `35 B` (983μs)      | N/A (freezes)                |
+| `{1..1000000000}`           | `34 B` (798μs)      | N/A (freezes)                |
+| `{1..100000000}`            | `33 B` (733μs)      | N/A (freezes)                |
+| `{1..10000000}`             | `32 B` (5ms 632μs)  | `78.89 MB` (16s 388ms 569μs) |
+| `{1..1000000}`              | `31 B` (1ms 381μs)  | `6.89 MB` (1s 496ms 887μs)   |
+| `{1..100000}`               | `30 B` (950μs)      | `588.89 kB` (146ms 921μs)    |
+| `{1..10000}`                | `29 B` (1ms 114μs)  | `48.89 kB` (14ms 187μs)      |
+| `{1..1000}`                 | `28 B` (760μs)      | `3.89 kB` (1ms 453μs)        |
+| `{1..100}`                  | `22 B` (345μs)      | `291 B` (196μs)              |
+| `{1..10}`                   | `10 B` (533μs)      | `20 B` (37μs)                |
+| `{1..3}`                    | `7 B` (190μs)       | `5 B` (27μs)                 |
 
 ### Faster algorithms
 
@@ -471,7 +471,7 @@ When you need expansion, braces is still much faster.
 _(the following results were generated using `braces.expand()` and `minimatch.braceExpand()`, respectively)_
 
 | **Pattern**     | **braces**                  | **[minimatch][]**            |
-| ---             | ---                         | ---                          |
+| --------------- | --------------------------- | ---------------------------- |
 | `{1..10000000}` | `78.89 MB` (2s 698ms 642μs) | `78.89 MB` (18s 601ms 974μs) |
 | `{1..1000000}`  | `6.89 MB` (458ms 576μs)     | `6.89 MB` (1s 491ms 621μs)   |
 | `{1..100000}`   | `588.89 kB` (20ms 728μs)    | `588.89 kB` (156ms 919μs)    |
@@ -498,37 +498,30 @@ npm i -d && npm benchmark
 Braces is more accurate, without sacrificing performance.
 
 ```bash
-# range (expanded)
-  braces x 29,040 ops/sec ±3.69% (91 runs sampled))
-  minimatch x 4,735 ops/sec ±1.28% (90 runs sampled)
-
-# range (optimized for regex)
-  braces x 382,878 ops/sec ±0.56% (94 runs sampled)
-  minimatch x 1,040 ops/sec ±0.44% (93 runs sampled)
-
-# nested ranges (expanded)
-  braces x 19,744 ops/sec ±2.27% (92 runs sampled))
-  minimatch x 4,579 ops/sec ±0.50% (93 runs sampled)
-
-# nested ranges (optimized for regex)
-  braces x 246,019 ops/sec ±2.02% (93 runs sampled)
-  minimatch x 1,028 ops/sec ±0.39% (94 runs sampled)
-
-# set (expanded) 
-  braces x 138,641 ops/sec ±0.53% (95 runs sampled)
-  minimatch x 219,582 ops/sec ±0.98% (94 runs sampled)
-
-# set (optimized for regex)
-  braces x 388,408 ops/sec ±0.41% (95 runs sampled)
-  minimatch x 44,724 ops/sec ±0.91% (89 runs sampled)
-
-# nested sets (expanded)
-  braces x 84,966 ops/sec ±0.48% (94 runs sampled)
-  minimatch x 140,720 ops/sec ±0.37% (95 runs sampled)
-
-# nested sets (optimized for regex)
-  braces x 263,340 ops/sec ±2.06% (92 runs sampled)
-  minimatch x 28,714 ops/sec ±0.40% (90 runs sampled)
+● expand - range (expanded)
+     braces x 53,167 ops/sec ±0.12% (102 runs sampled)
+  minimatch x 11,378 ops/sec ±0.10% (102 runs sampled)
+● expand - range (optimized for regex)
+     braces x 373,442 ops/sec ±0.04% (100 runs sampled)
+  minimatch x 3,262 ops/sec ±0.18% (100 runs sampled)
+● expand - nested ranges (expanded)
+     braces x 33,921 ops/sec ±0.09% (99 runs sampled)
+  minimatch x 10,855 ops/sec ±0.28% (100 runs sampled)
+● expand - nested ranges (optimized for regex)
+     braces x 287,479 ops/sec ±0.52% (98 runs sampled)
+  minimatch x 3,219 ops/sec ±0.28% (101 runs sampled)
+● expand - set (expanded)
+     braces x 238,243 ops/sec ±0.19% (97 runs sampled)
+  minimatch x 538,268 ops/sec ±0.31% (96 runs sampled)
+● expand - set (optimized for regex)
+     braces x 321,844 ops/sec ±0.10% (97 runs sampled)
+  minimatch x 140,600 ops/sec ±0.15% (100 runs sampled)
+● expand - nested sets (expanded)
+     braces x 165,371 ops/sec ±0.42% (96 runs sampled)
+  minimatch x 337,720 ops/sec ±0.28% (100 runs sampled)
+● expand - nested sets (optimized for regex)
+     braces x 242,948 ops/sec ±0.12% (99 runs sampled)
+  minimatch x 87,403 ops/sec ±0.79% (96 runs sampled)
 ```
 
 ## About
@@ -566,28 +559,28 @@ $ npm install -g verbose/verb#dev verb-generate-readme && verb
 
 ### Contributors
 
-| **Commits** | **Contributor** |  
-| --- | --- |  
-| 197 | [jonschlinkert](https://github.com/jonschlinkert) |  
-| 4   | [doowb](https://github.com/doowb) |  
-| 1   | [es128](https://github.com/es128) |  
-| 1   | [eush77](https://github.com/eush77) |  
-| 1   | [hemanth](https://github.com/hemanth) |  
-| 1   | [wtgtybhertgeghgtwtg](https://github.com/wtgtybhertgeghgtwtg) |  
+| **Commits** | **Contributor**                                               |
+| ----------- | ------------------------------------------------------------- |
+| 197         | [jonschlinkert](https://github.com/jonschlinkert)             |
+| 4           | [doowb](https://github.com/doowb)                             |
+| 1           | [es128](https://github.com/es128)                             |
+| 1           | [eush77](https://github.com/eush77)                           |
+| 1           | [hemanth](https://github.com/hemanth)                         |
+| 1           | [wtgtybhertgeghgtwtg](https://github.com/wtgtybhertgeghgtwtg) |
 
 ### Author
 
 **Jon Schlinkert**
 
-* [GitHub Profile](https://github.com/jonschlinkert)
-* [Twitter Profile](https://twitter.com/jonschlinkert)
-* [LinkedIn Profile](https://linkedin.com/in/jonschlinkert)
+- [GitHub Profile](https://github.com/jonschlinkert)
+- [Twitter Profile](https://twitter.com/jonschlinkert)
+- [LinkedIn Profile](https://linkedin.com/in/jonschlinkert)
 
 ### License
 
 Copyright © 2019, [Jon Schlinkert](https://github.com/jonschlinkert).
 Released under the [MIT License](LICENSE).
 
-***
+---
 
 _This file was generated by [verb-generate-readme](https://github.com/verbose/verb-generate-readme), v0.8.0, on April 08, 2019._
