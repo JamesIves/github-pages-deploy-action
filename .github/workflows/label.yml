@@ -2,7 +2,7 @@ name: Label Pull Requests 🏷️
 
 on:
   pull_request:
-    types: [opened, reopened, labeled, unlabeled]
+    types: [opened, reopened, labeled, unlabeled, synchronize]
 
 permissions:
   pull-requests: write
