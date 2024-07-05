@@ -1,0 +1,37 @@
+changelog:
+  categories:
+    - title: Breaking Changes 💥
+      labels:
+        - breaking 💥
+        - breaking
+    - title: New Features 🎉
+      labels:
+        - feature ✨
+        - feat
+    - title: Bug Fixes 🐝
+      labels:
+        - fix 🐝
+        - bug 🐝
+        - fix
+    - title: Performance ⚡
+      labels:
+        - performance ⚡
+        - perf
+    - title: Build 🔧
+      labels:
+        - build 🔧
+        - build
+    - title: Testing 🧪
+      labels:
+        - test 🧪
+        - test
+    - title: Documentation 📖
+      labels:
+        - documentation 📖
+        - docs
+    - title: Dependencies 🤖
+      labels:
+        - dependencies
+    - title: Other Changes
+      labels:
+        - '*'

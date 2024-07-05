@@ -1,4 +1,4 @@
-name: publish-sponsors
+name: Publish Sponsors to README 📣
 on:
   workflow_dispatch:
   schedule:

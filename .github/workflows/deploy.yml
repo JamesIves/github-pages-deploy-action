@@ -1,4 +1,4 @@
-name: Deploy Code to Release Branch
+name: Deploy Code to Release Branch 🚀
 on:
   workflow_dispatch:
 

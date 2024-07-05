@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/marketplace/actions/deploy-to-github-pages">
-    <img alt="GitHub Pages Deploy Action Logo" width="200px" src="https://github.com/JamesIves/github-pages-deploy-action/raw/dev/.github/assets/icon.png">
+    <img alt="GitHub Pages Deploy Action Logo" width="200px" src="https://github.com/JamesIves/github-pages-deploy-action/raw/dev/.github/docs/icon.png">
   </a>
 </p>
 
@@ -35,7 +35,7 @@
 </p>
 
 <p align="center">
-  <img src="https://github.com/JamesIves/github-pages-deploy-action/raw/dev/.github/assets/screenshot.png" alt="">
+  <img src="https://github.com/JamesIves/github-pages-deploy-action/raw/dev/.github/docs/screenshot.png" alt="">
 </p>
 
 <p align="center">
