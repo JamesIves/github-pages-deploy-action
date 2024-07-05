@@ -13,6 +13,7 @@ jobs:
       - uses: nowactions/update-majorver@v1.1.2
 
   update-registries:
+    name: Publish to Registries 📦
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
