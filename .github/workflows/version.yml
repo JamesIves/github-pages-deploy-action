@@ -1,4 +1,4 @@
-name: Update Major Version Tag
+name: Update Major Version Tag 🏷️
 
 on:
   push:

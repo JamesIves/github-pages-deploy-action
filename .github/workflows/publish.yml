@@ -1,4 +1,4 @@
-name: publish-to-npm
+name: Publish to Registry 📦
 on:
   workflow_dispatch:
     inputs:

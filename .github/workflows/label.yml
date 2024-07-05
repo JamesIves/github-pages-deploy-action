@@ -1,0 +1,95 @@
+name: Label Pull Requests 🏷️
+
+on:
+  pull_request:
+    types: [opened, reopened, labeled, unlabeled]
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  assign-labels:
+    runs-on: ubuntu-latest
+    name: Assign labels in pull request 🏷️
+    if: github.event.pull_request.merged == false
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+
+      - name: Assign Labels 🏷️
+        id: action-assign-labels
+        uses: mauroalderete/action-assign-labels@v1
+        with:
+          pull-request-number: ${{ github.event.pull_request.number }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          conventional-commits: |
+            conventional-commits:
+              - type: 'fix'
+                nouns: ['FIX', 'Fix', 'fix', 'FIXED', 'Fixed', 'fixed']
+                labels: ['bug 🐝', 'fix 🐝']
+              - type: 'feature'
+                nouns: ['FEATURE', 'Feature', 'feature', 'FEAT', 'Feat', 'feat']
+                labels: ['feature ✨']
+              - type: 'breaking_change'
+                nouns: ['BREAKING CHANGE', 'BREAKING', 'MAJOR']
+                labels: ['breaking 💥']
+              - type: 'documentation'
+                nouns: ['doc', 'docu', 'document', 'documentation']
+                labels: ['documentation 📖']
+              - type: 'build'
+                nouns: ['build', 'rebuild']
+                labels: ['build 🔧']
+              - type: 'chore'
+                nouns: ['chore', 'tidy', 'cleanup']
+                labels: ['chore 🧹']
+              - type: 'dependencies'
+                nouns: ['dependency', 'dependencies', 'package', 'packages', 'bump', 'dependabot']
+                labels: ['dependencies 🤖']
+              - type: 'duplicate'
+                nouns: ['duplicate', 'dupe', 'copy']
+                labels: ['duplicate 2️⃣']
+              - type: 'good_first_issue'
+                nouns: ['good first issue', 'beginner', 'newcomer', 'first-timer']
+                labels: ['good first issue 🍩']
+              - type: 'help_wanted'
+                nouns: ['help wanted', 'need help', 'assistance required']
+                labels: ['help wanted ❕']
+              - type: 'proposal'
+                nouns: ['proposal', 'suggest', 'suggestion']
+                labels: ['proposal 🔮']
+              - type: 'question'
+                nouns: ['question', 'inquiry', 'query']
+                labels: ['question ❓']
+              - type: 'test'
+                nouns: ['test', 'testing', 'tests']
+                labels: ['test 🧪']
+              - type: 'triage'
+                nouns: ['triage', 'sort', 'prioritize']
+                labels: ['triage ⚠️']
+              - type: 'wontfix'
+                nouns: ['wontfix', 'will not fix', 'not fixing']
+                labels: ['wontfix 🔨']
+              - type: 'style'
+                nouns: ['style', 'formatting', 'format']
+                labels: ['style 🎀']
+              - type: 'security'
+                nouns: ['security', 'secure', 'safety']
+                labels: ['security 🔒']
+              - type: 'performance'
+                nouns: ['performance', 'speed', 'optimization']
+                labels: ['performance 🚀']
+              - type: 'refactor'
+                nouns: ['refactor', 'refactoring', 'rework']
+                labels: ['refactor 🛠']
+              - type: 'release'
+                nouns: ['release', 'deploy', 'deployment']
+                labels: ['release 🚀']
+              - type: 'ci'
+                nouns: ['ci', 'continuous integration', 'CI/CD']
+                labels: ['ci 🚀']
+              - type: 'hacktoberfest'
+                nouns: ['hacktoberfest', 'october', 'open source']
+                labels: ['hacktoberfest 🎃']
+          maintain-labels-not-matched: false
+          apply-changes: true
