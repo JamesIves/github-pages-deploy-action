@@ -1,10 +1,8 @@
 name: Publish to Registry 📦
 on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'The updated registry version number.'
-        required: true
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   build:
@@ -32,7 +30,12 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: yarn build
       - run: git stash
-      - run: npm version ${{ github.event.inputs.version }} -m "Release ${{ github.event.inputs.version }} 📣"
+      - name: Set version to match the tag
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          npm version $VERSION -m "Release $VERSION 📣"
+        env:
+          GITHUB_REF: ${{ github.ref }}
       - run: git push
 
       # Publish to npm
@@ -48,9 +51,8 @@ jobs:
           scope: '@jamesives'
 
       - name: Authenticate with the GitHub Package Registry
-        run:
-          echo "//npm.pkg.github.com:_authToken=${{ secrets.GITHUB_TOKEN }}" >
-          ~/.npmrc
+        run: |
+          echo "//npm.pkg.github.com:_authToken=${{ secrets.GITHUB_TOKEN }}" > ~/.npmrc
 
       # Publish to GitHub Packages
       - run: npm publish
