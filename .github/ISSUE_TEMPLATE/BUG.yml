@@ -1,7 +1,7 @@
 name: Bug Report 🐝
 description: Create a bug report to help us improve the action.
-title: "bug 🐝: "
-labels: ["bug 🐝", "triage ⚠️"]
+title: 'bug: 🐝 '
+labels: ['bug 🐝', 'triage ⚠️']
 assignees:
   - JamesIves
 body:
@@ -15,14 +15,14 @@ body:
     id: bug-description
     attributes:
       label: Describe the bug
-      description: "Please provide a clear and concise description of what the bug is and what you expected to happen."
+      description: 'Please provide a clear and concise description of what the bug is and what you expected to happen.'
     validations:
       required: true
   - type: textarea
     id: reproduction-steps
     attributes:
       label: Reproduction Steps
-      description: "Steps to reproduce the behavior. Please provide a minimal example if possible."
+      description: 'Steps to reproduce the behavior. Please provide a minimal example if possible.'
     validations:
       required: true
   - type: textarea
@@ -37,7 +37,7 @@ body:
     id: workflow
     attributes:
       label: Workflow
-      description: "Please provide a link or snippet of your workflow yml file."
+      description: 'Please provide a link or snippet of your workflow yml file.'
       render: yml
     validations:
       required: true
@@ -45,6 +45,6 @@ body:
     id: additional-comments
     attributes:
       label: Additional Comments
-      description: "Add any other context about the problem here that does not fit elsewhere."
+      description: 'Add any other context about the problem here that does not fit elsewhere.'
     validations:
       required: false
