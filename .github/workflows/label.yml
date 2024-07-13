@@ -35,7 +35,7 @@ jobs:
                 nouns: ['BREAKING CHANGE', 'BREAKING', 'MAJOR']
                 labels: ['breaking 💥']
               - type: 'documentation'
-                nouns: ['doc', 'docu', 'document', 'documentation']
+                nouns: ['doc', 'docu', 'docs', 'document', 'documentation']
                 labels: ['documentation 📖']
               - type: 'build'
                 nouns: ['build', 'rebuild']
