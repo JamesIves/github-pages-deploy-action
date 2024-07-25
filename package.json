@@ -44,9 +44,9 @@
   },
   "devDependencies": {
     "@types/jest": "29.5.12",
-    "@types/node": "20.14.11",
-    "@typescript-eslint/eslint-plugin": "7.16.1",
-    "@typescript-eslint/parser": "7.16.1",
+    "@types/node": "20.14.12",
+    "@typescript-eslint/eslint-plugin": "7.17.0",
+    "@typescript-eslint/parser": "7.17.0",
     "eslint": "9.7.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-jest": "28.6.0",
@@ -56,6 +56,6 @@
     "prettier": "3.3.3",
     "rimraf": "6.0.1",
     "ts-jest": "29.2.3",
-    "typescript": "5.5.3"
+    "typescript": "5.5.4"
   }
 }
