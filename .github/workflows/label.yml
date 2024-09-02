@@ -15,7 +15,7 @@ jobs:
     if: github.event.pull_request.merged == false
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Assign Labels 🏷️
         id: action-assign-labels
@@ -35,7 +35,7 @@ jobs:
                 nouns: ['BREAKING CHANGE', 'BREAKING', 'MAJOR']
                 labels: ['breaking 💥']
               - type: 'documentation'
-                nouns: ['doc', 'docu', 'document', 'documentation']
+                nouns: ['doc', 'docu', 'docs', 'document', 'documentation']
                 labels: ['documentation 📖']
               - type: 'build'
                 nouns: ['build', 'rebuild']

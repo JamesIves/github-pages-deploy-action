@@ -1,5 +1,5 @@
 import {exportVariable, info, notice, setFailed, setOutput} from '@actions/core'
-import {ActionInterface, NodeActionInterface, Status} from './constants'
+import {action, ActionInterface, NodeActionInterface, Status} from './constants'
 import {deploy, init} from './git'
 import {configureSSH} from './ssh'
 import {
@@ -11,12 +11,11 @@ import {
   isNullOrUndefined
 } from './util'
 
-/** Initializes and runs the action.
- *
- * @param {object} configuration - The action configuration.
+/**
+ * Initializes and runs the action.
  */
 export default async function run(
-  configuration: ActionInterface | NodeActionInterface
+  configuration?: ActionInterface | NodeActionInterface
 ): Promise<void> {
   let status: Status = Status.RUNNING
 
@@ -51,6 +50,7 @@ export default async function run(
     info('Checking configuration and starting deployment… 🚦')
 
     const settings: ActionInterface = {
+      ...action,
       ...configuration,
       // Set the default branch for Node configurations
       branch: !isNullOrUndefined(configuration.branch)
