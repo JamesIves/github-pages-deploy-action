@@ -11,7 +11,7 @@ import {
   isNullOrUndefined
 } from './util'
 
-/** 
+/**
  * Initializes and runs the action.
  */
 export default async function run(

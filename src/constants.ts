@@ -4,8 +4,8 @@ import {isNullOrUndefined, stripProtocolFromUrl} from './util'
 
 const {pusher, repository} = github.context.payload
 
-/* 
- * Flags to signal different scenarios to test cases 
+/*
+ * Flags to signal different scenarios to test cases
  */
 export enum TestFlag {
   NONE = 0,
