@@ -1,6 +1,5 @@
 import { ActionInterface, NodeActionInterface } from './constants';
-/** Initializes and runs the action.
- *
- * @param {object} configuration - The action configuration.
+/**
+ * Initializes and runs the action.
  */
-export default function run(configuration: ActionInterface | NodeActionInterface): Promise<void>;
+export default function run(configuration?: ActionInterface | NodeActionInterface): Promise<void>;

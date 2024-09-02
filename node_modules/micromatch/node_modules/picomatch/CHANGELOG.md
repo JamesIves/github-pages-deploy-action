@@ -32,6 +32,16 @@ Changelog entries are classified using the following labels _(from [keep-a-chang
 
 </details>
 
+## 2.3.1 (2022-01-02)
+
+### Fixed
+
+* Fixes bug when a pattern containing an expression after the closing parenthesis (`/!(*.d).{ts,tsx}`) was incorrectly converted to regexp ([9f241ef](https://github.com/micromatch/picomatch/commit/9f241ef)).
+
+### Changed
+
+* Some documentation improvements ([f81d236](https://github.com/micromatch/picomatch/commit/f81d236), [421e0e7](https://github.com/micromatch/picomatch/commit/421e0e7)).
+
 ## 2.3.0 (2021-05-21)
 
 ### Fixed
