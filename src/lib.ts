@@ -52,11 +52,12 @@ export default async function run(
     const settings: ActionInterface = {
       ...action,
       ...configuration,
-      // Set the default branch for Node configurations
-      branch: !isNullOrUndefined(configuration.branch)
-        ? configuration.branch
-        : 'gh-pages'
     }
+
+    // Sets the branch to the default value if it's not defined
+    settings.branch = !isNullOrUndefined(settings.branch)
+    ? settings.branch
+    : 'gh-pages'
 
     // Defines the repository/folder paths and token types.
     // Also verifies that the action has all of the required parameters.
