@@ -1,8 +1,17 @@
 import {exec} from '@actions/exec'
 import buffer from 'buffer'
 
+/**
+ * The output of a command.
+ */
 type ExecuteOutput = {
+  /**
+   * The standard output of the command.
+   */
   stdout: string
+  /**
+   * The standard error of the command.
+   */
   stderr: string
 }
 
@@ -21,7 +30,7 @@ export async function execute(
   cmd: string,
   cwd: string,
   silent: boolean,
-  ignoreReturnCode = false
+  ignoreReturnCode: boolean = false
 ): Promise<ExecuteOutput> {
   output.stdout = ''
   output.stderr = ''
@@ -37,6 +46,9 @@ export async function execute(
   return Promise.resolve(output)
 }
 
+/**
+ * Writes the output of a command to the stdout buffer.
+ */
 export function stdout(data: Buffer | string): void {
   const dataString = data.toString().trim()
   if (
@@ -47,6 +59,9 @@ export function stdout(data: Buffer | string): void {
   }
 }
 
+/**
+ * Writes the output of a command to the stderr buffer.
+ */
 export function stderr(data: Buffer | string): void {
   const dataString = data.toString().trim()
   if (
