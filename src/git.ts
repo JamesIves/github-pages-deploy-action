@@ -24,22 +24,7 @@ export async function init(action: ActionInterface): Promise<void | Error> {
     info('Configuring git…')
 
     /**
-     * Add safe directory to the global git config.
-     */
-    try {
-      await execute(
-        `git config --global safe.directory '*'`,
-        action.workspace,
-        action.silent
-      )
-    } catch {
-      info('Unable to set workflow file tree as a safe directory…')
-    }
-
-    /**
-     * Ensure that the workspace is a safe directory, this is somewhat redundant as the action
-     * will always set the workspace as a safe directory, but this is a fallback in case the action
-     * fails to do so.
+     * Ensure that the workspace is a safe directory.
      */
     try {
       await execute(
