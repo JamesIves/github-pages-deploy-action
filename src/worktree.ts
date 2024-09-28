@@ -101,8 +101,8 @@ export async function generateWorktree(
         'Error encountered while checking out branch. Attempting to continue with a new branch name.'
       )
       branchName = `temp-${Date.now()}`
-      checkout.orphan = true
       checkout = new GitCheckout(branchName, `origin/${action.branch}`)
+      checkout.orphan = true
 
       await execute(
         checkout.toString(),
