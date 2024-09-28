@@ -104,6 +104,8 @@ export async function generateWorktree(
       checkout = new GitCheckout(branchName, `origin/${action.branch}`)
       checkout.orphan = true
 
+      info('setting orphan to true')
+
       await execute(
         checkout.toString(),
         `${action.workspace}/${worktreedir}`,
