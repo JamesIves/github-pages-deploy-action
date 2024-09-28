@@ -99,7 +99,7 @@ jobs:
           folder: integration
           branch: ${{ matrix.branch }}
           single-commit: ${{ matrix.commit == 'singleCommit' }}
-          dry-run: false
+          dry-run: true
 
       # Usually, this should be skipped, but if the upstream gh-pages
       # branch doesn't match ours, it should still be a success.
@@ -124,7 +124,7 @@ jobs:
           folder: integration
           branch: ${{ matrix.branch }}
           single-commit: ${{ matrix.commit == 'singleCommit' }}
-          dry-run: false
+          dry-run: true
 
       # The modified deployment should be a success, and not skipped.
       - name: Check step output
