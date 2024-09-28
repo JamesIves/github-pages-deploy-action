@@ -67,6 +67,12 @@ jobs:
           path: |
             lib
             node_modules
+        
+      - name: Cleanup Generated Branches
+        uses: dawidd6/action-delete-branch@v3.1.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branches: gh-pages
 
   integration:
     runs-on: ubuntu-latest
