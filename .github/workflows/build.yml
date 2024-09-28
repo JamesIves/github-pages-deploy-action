@@ -67,7 +67,7 @@ jobs:
           path: |
             lib
             node_modules
-        
+
       - name: Cleanup Generated Branches
         uses: dawidd6/action-delete-branch@v3.1.0
         continue-on-error: true
