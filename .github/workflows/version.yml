@@ -13,6 +13,7 @@ jobs:
       - uses: nowactions/update-majorver@v1.1.2
 
   call-integration-workflow:
+    name: Verify Major Tag Release 🚀
     needs: update-majorver
     uses: ./.github/workflows/integration.yml
     with:
