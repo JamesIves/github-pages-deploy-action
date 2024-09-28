@@ -70,6 +70,7 @@ jobs:
         
       - name: Cleanup Generated Branches
         uses: dawidd6/action-delete-branch@v3.1.0
+        continue-on-error: true
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branches: gh-pages
