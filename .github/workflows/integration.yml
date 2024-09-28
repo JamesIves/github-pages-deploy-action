@@ -15,12 +15,6 @@ on:
         default: 'releases/v4'
   schedule:
     - cron: 30 15 * * 0-6
-  push:
-    tags-ignore:
-      - '*.*'
-    branches:
-      - releases/v4
-
 
 jobs:
   # Deploys cross repo with an access token.
