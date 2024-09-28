@@ -128,6 +128,19 @@ export async function generateWorktree(
           action.silent
         )
       }
+
+      /**
+       * Ensure that the workspace is a safe directory.
+       */
+      try {
+        await execute(
+          `git config --global --add safe.directory "${action.workspace}/${worktreedir}"`,
+          action.workspace,
+          action.silent
+        )
+      } catch {
+        info('Unable to set worktree temp directory as a safe directory…')
+      }
     }
   } catch (error) {
     throw new Error(

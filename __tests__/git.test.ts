@@ -167,7 +167,7 @@ describe('git', () => {
       const response = await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toHaveBeenCalledTimes(14)
+      expect(execute).toHaveBeenCalledTimes(15)
       expect(rmRF).toHaveBeenCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
@@ -190,7 +190,7 @@ describe('git', () => {
       const response = await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toHaveBeenCalledTimes(13)
+      expect(execute).toHaveBeenCalledTimes(14)
       expect(rmRF).toHaveBeenCalledTimes(1)
       expect(response).toBe(Status.SUCCESS)
     })
@@ -215,7 +215,7 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toHaveBeenCalledTimes(14)
+      expect(execute).toHaveBeenCalledTimes(15)
       expect(rmRF).toHaveBeenCalledTimes(1)
     })
 
@@ -264,7 +264,7 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toHaveBeenCalledTimes(13)
+      expect(execute).toHaveBeenCalledTimes(14)
       expect(rmRF).toHaveBeenCalledTimes(1)
     })
 
@@ -295,7 +295,7 @@ describe('git', () => {
       const response = await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toHaveBeenCalledTimes(14)
+      expect(execute).toHaveBeenCalledTimes(15)
       expect(rmRF).toHaveBeenCalledTimes(1)
       expect(fs.existsSync).toHaveBeenCalledTimes(2)
       expect(response).toBe(Status.SUCCESS)
@@ -327,7 +327,7 @@ describe('git', () => {
         await deploy(action)
 
         // Includes the call to generateWorktree
-        expect(execute).toHaveBeenCalledTimes(11)
+        expect(execute).toHaveBeenCalledTimes(12)
         expect(rmRF).toHaveBeenCalledTimes(1)
       })
     })
@@ -352,7 +352,7 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toHaveBeenCalledTimes(11)
+      expect(execute).toHaveBeenCalledTimes(12)
       expect(rmRF).toHaveBeenCalledTimes(1)
     })
 
@@ -372,7 +372,7 @@ describe('git', () => {
 
       await deploy(action)
 
-      expect(execute).toHaveBeenCalledTimes(11)
+      expect(execute).toHaveBeenCalledTimes(12)
       expect(rmRF).toHaveBeenCalledTimes(1)
       expect(mkdirP).toHaveBeenCalledTimes(1)
     })
@@ -392,7 +392,7 @@ describe('git', () => {
       })
 
       const response = await deploy(action)
-      expect(execute).toHaveBeenCalledTimes(11)
+      expect(execute).toHaveBeenCalledTimes(12)
       expect(rmRF).toHaveBeenCalledTimes(1)
       expect(response).toBe(Status.SKIPPED)
     })
@@ -466,7 +466,7 @@ describe('git', () => {
       })
 
       const response = await deploy(action)
-      expect(execute).toHaveBeenCalledTimes(16)
+      expect(execute).toHaveBeenCalledTimes(17)
       expect(response).toBe(Status.SUCCESS)
     })
   })
