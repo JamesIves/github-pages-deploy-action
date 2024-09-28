@@ -99,7 +99,7 @@ jobs:
           folder: integration
           branch: ${{ matrix.branch }}
           single-commit: ${{ matrix.commit == 'singleCommit' }}
-          dry-run: true
+          dry-run: false
 
       # Usually, this should be skipped, but if the upstream gh-pages
       # branch doesn't match ours, it should still be a success.
@@ -113,7 +113,8 @@ jobs:
       - name: Tweak content to publish to existing branch
         if: ${{ matrix.branch == 'gh-pages' }}
         run: |
-          echo "<!-- just sayin -->" >> integration/index.html
+          RANDOM_CHAR=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 1 | head -n 1)
+          echo "<!-- just sayin $RANDOM_CHAR -->" >> integration/index.html
 
       - name: Deploy with modifications to existing branch
         id: modified
