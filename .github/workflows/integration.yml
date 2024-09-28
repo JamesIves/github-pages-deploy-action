@@ -1,21 +1,11 @@
 name: Integration Tests 🧪
 on:
+  workflow_call:
   workflow_dispatch:
-    inputs:
-      branch:
-        description: 'Specifies the branch which the integration tests should run on.'
-        required: true
-        default: 'releases/v4'
   schedule:
     - cron: 30 15 * * 0-6
-  push:
-    tags-ignore:
-      - '*.*'
-    branches:
-      - releases/v4
 
 jobs:
-  # Deploys cross repo with an access token.
   integration-cross-repo-push:
     container: node:16.13
     runs-on: ubuntu-latest
@@ -40,7 +30,6 @@ jobs:
           clean: true
           silent: true
 
-  # Deploys using checkout@v1 with an ACCESS_TOKEN.
   integration-checkout-v1:
     needs: integration-cross-repo-push
     runs-on: ubuntu-latest
@@ -62,8 +51,8 @@ jobs:
         uses: dawidd6/action-delete-branch@v3.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          branches: gh-pages
 
-  # Deploys using checkout@v2 with a GITHUB_TOKEN.
   integration-checkout-v2:
     needs: integration-checkout-v1
     runs-on: ubuntu-latest
@@ -86,6 +75,36 @@ jobs:
         uses: dawidd6/action-delete-branch@v3.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          branches: gh-pages
+
+  integration-root-folder:
+    needs: integration-checkout-v1
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Echo
+        working-directory: integration
+        run: |
+          echo "Here"
+
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: .
+          target-folder: cat/montezuma5
+          silent: true
+          git-config-name: Montezuma
+          git-config-email: montezuma@jamesiv.es
+
+      - name: Cleanup Generated Branch
+        uses: dawidd6/action-delete-branch@v3.1.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branches: gh-pages
 
   # Deploys using a container that requires you to install rsync.
   integration-container:
