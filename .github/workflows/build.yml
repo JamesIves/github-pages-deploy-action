@@ -123,7 +123,7 @@ jobs:
           folder: integration
           branch: ${{ matrix.branch }}
           single-commit: ${{ matrix.commit == 'singleCommit' }}
-          dry-run: true
+          dry-run: false
 
       # The modified deployment should be a success, and not skipped.
       - name: Check step output
