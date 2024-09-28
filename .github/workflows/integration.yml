@@ -1,5 +1,12 @@
 name: Integration Tests 🧪
 on:
+  workflow_call:
+    inputs:
+      branch:
+        description: 'Specifies the branch which the integration tests should run on.'
+        required: true
+        default: 'releases/v4'
+        type: string
   workflow_dispatch:
     inputs:
       branch:
@@ -13,6 +20,7 @@ on:
       - '*.*'
     branches:
       - releases/v4
+
 
 jobs:
   # Deploys cross repo with an access token.

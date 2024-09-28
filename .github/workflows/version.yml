@@ -12,7 +12,14 @@ jobs:
     steps:
       - uses: nowactions/update-majorver@v1.1.2
 
+  call-integration-workflow:
+    needs: update-majorver
+    uses: ./.github/workflows/integration.yml
+    with:
+      branch: 'releases/v4'
+
   update-registries:
+    needs: call-integration-workflow
     name: Publish to Registries 📦
     runs-on: ubuntu-latest
     steps:
