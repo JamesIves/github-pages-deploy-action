@@ -113,7 +113,7 @@ jobs:
       - name: Tweak content to publish to existing branch
         if: ${{ matrix.branch == 'gh-pages' }}
         run: |
-          RANDOM_CHAR=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 1 | head -n 1)
+          RANDOM_CHAR=$(echo $RANDOM | tr -dc 'a-zA-Z0-9' | fold -w 1 | head -n 1)
           echo "<!-- just sayin $RANDOM_CHAR -->" >> integration/index.html
 
       - name: Deploy with modifications to existing branch
