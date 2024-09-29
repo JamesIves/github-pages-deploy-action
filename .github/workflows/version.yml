@@ -12,7 +12,13 @@ jobs:
     steps:
       - uses: nowactions/update-majorver@v1.1.2
 
+  call-integration-workflow:
+    name: Verify Major Tag 🚀
+    needs: update-majorver
+    uses: ./.github/workflows/integration.yml
+
   update-registries:
+    needs: call-integration-workflow
     name: Publish to Registries 📦
     runs-on: ubuntu-latest
     steps:

@@ -101,7 +101,7 @@ export async function generateWorktree(
         'Error encountered while checking out branch. Attempting to continue with a new branch name.'
       )
       branchName = `temp-${Date.now()}`
-      checkout = new GitCheckout(branchName, `origin/${action.branch}`)
+      checkout = new GitCheckout(branchName)
 
       await execute(
         checkout.toString(),
@@ -127,6 +127,19 @@ export async function generateWorktree(
           `${action.workspace}/${worktreedir}`,
           action.silent
         )
+      }
+
+      /**
+       * Ensure that the workspace is a safe directory.
+       */
+      try {
+        await execute(
+          `git config --global --add safe.directory "${action.workspace}/${worktreedir}"`,
+          action.workspace,
+          action.silent
+        )
+      } catch {
+        info('Unable to set worktree temp directory as a safe directory…')
       }
     }
   } catch (error) {
