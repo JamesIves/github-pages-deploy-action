@@ -100,14 +100,26 @@ export async function generateWorktree(
       info(
         'Error encountered while checking out branch. Attempting to continue with a new branch name.'
       )
-      branchName = `temp-${Date.now()}`
-      checkout = new GitCheckout(branchName)
 
-      await execute(
-        checkout.toString(),
-        `${action.workspace}/${worktreedir}`,
-        action.silent
-      )
+      branchName = `temp-${Date.now()}`
+
+      try {
+        checkout = new GitCheckout(branchName, `origin/${action.branch}`)
+        await execute(
+          checkout.toString(),
+          `${action.workspace}/${worktreedir}`,
+          action.silent
+        )
+      } catch (error) {
+        info('Unable to track the origin branch…')
+
+        checkout = new GitCheckout(branchName)
+        await execute(
+          checkout.toString(),
+          `${action.workspace}/${worktreedir}`,
+          action.silent
+        )
+      }
     }
 
     if (!branchExists) {
@@ -128,19 +140,19 @@ export async function generateWorktree(
           action.silent
         )
       }
+    }
 
-      /**
-       * Ensure that the workspace is a safe directory.
-       */
-      try {
-        await execute(
-          `git config --global --add safe.directory "${action.workspace}/${worktreedir}"`,
-          action.workspace,
-          action.silent
-        )
-      } catch {
-        info('Unable to set worktree temp directory as a safe directory…')
-      }
+    /**
+     * Ensure that the workspace is a safe directory.
+     */
+    try {
+      await execute(
+        `git config --global --add safe.directory "${action.workspace}/${worktreedir}"`,
+        action.workspace,
+        action.silent
+      )
+    } catch {
+      info('Unable to set worktree temp directory as a safe directory…')
     }
   } catch (error) {
     throw new Error(
