@@ -15,6 +15,7 @@ jobs:
   call-integration-workflow:
     name: Verify Major Tag 🚀
     needs: update-majorver
+    secrets: inherit
     uses: ./.github/workflows/integration.yml
 
   update-registries:

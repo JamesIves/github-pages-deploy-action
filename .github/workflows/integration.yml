@@ -28,7 +28,7 @@ jobs:
           folder: integration
           single-commit: true
           clean: true
-          silent: true
+          silent: false
 
   integration-checkout-v1:
     needs: integration-cross-repo-push
@@ -45,7 +45,7 @@ jobs:
           target-folder: cat/montezuma
           git-config-name: Montezuma
           git-config-email: montezuma@jamesiv.es
-          silent: true
+          silent: false
 
       - name: Cleanup Generated Branch
         uses: dawidd6/action-delete-branch@v3.1.0
@@ -67,7 +67,7 @@ jobs:
         with:
           folder: integration
           target-folder: cat/montezuma2
-          silent: true
+          silent: false
           git-config-name: Montezuma
           git-config-email: montezuma@jamesiv.es
 
@@ -100,7 +100,7 @@ jobs:
         with:
           folder: integration
           target-folder: cat/montezuma2
-          silent: true
+          silent: false
           git-config-name: Montezuma
           git-config-email: montezuma@jamesiv.es
 
@@ -126,7 +126,7 @@ jobs:
           ssh-key: ${{ secrets.DEPLOY_KEY }}
           folder: integration
           target-folder: cat/montezuma3
-          silent: true
+          silent: false
           git-config-name: Montezuma
           git-config-email: montezuma@jamesiv.es
 
@@ -157,7 +157,7 @@ jobs:
           ssh-key: true
           folder: integration
           target-folder: cat/montezuma4
-          silent: true
+          silent: false
           git-config-name: Montezuma
           git-config-email: montezuma@jamesiv.es
 
@@ -186,7 +186,7 @@ jobs:
           ssh-key: ${{ secrets.DEPLOY_KEY }}
           folder: integration
           target-folder: cat/montezuma4
-          silent: true
+          silent: false
           git-config-name: Montezuma
           git-config-email: montezuma@jamesiv.es
 
@@ -196,7 +196,7 @@ jobs:
           ssh-key: ${{ secrets.DEPLOY_KEY }}
           folder: integration
           target-folder: cat/subsequent
-          silent: true
+          silent: false
           git-config-name: Montezuma
           git-config-email: montezuma@jamesiv.es
 
@@ -230,7 +230,7 @@ jobs:
           token: ${{ secrets.ACCESS_TOKEN }}
           folder: integration
           clean: true
-          silent: true
+          silent: false
           git-config-name: Montezuma
           git-config-email: montezuma@jamesiv.es
 
@@ -251,7 +251,7 @@ jobs:
           branch: integration-test-delete-prod
           folder: integration
           single-commit: true
-          silent: true
+          silent: false
           git-config-name: Montezuma
           git-config-email: montezuma@jamesiv.es
 
@@ -263,7 +263,7 @@ jobs:
           folder: integration
           single-commit: true
           target-folder: jives
-          silent: true
+          silent: false
           git-config-name: Montezuma
           git-config-email: montezuma@jamesiv.es
 
@@ -350,7 +350,7 @@ jobs:
         with:
           folder: .
           target-folder: cat/montezuma5
-          silent: true
+          silent: false
           git-config-name: Montezuma
           git-config-email: montezuma@jamesiv.es
 
