@@ -239,7 +239,7 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toHaveBeenCalledTimes(13)
+      expect(execute).toHaveBeenCalledTimes(14)
       expect(rmRF).toHaveBeenCalledTimes(1)
     })
 
