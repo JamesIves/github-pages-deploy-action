@@ -15,7 +15,7 @@ When contributing to this repository, please first discuss the change you wish t
 
 ## Deploying 🚚
 
-In order to deploy and test your own fork of this action, you must commit the `node_modules` dependencies. Be sure to run `nvm use` before installing any dependencies. You can learn more about nvm [here](https://github.com/nvm-sh/nvm/blob/master/README.md).
+In order to deploy and test your own fork of this action, you must commit the `node_modules` dependencies. Be sure to switch to the Node version listed in the [.node-version](./.node-version) file first.
 
 To do this you can follow the instructions below:
 

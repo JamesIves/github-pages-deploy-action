@@ -30,7 +30,7 @@ jobs:
       # Setup .npmrc file to publish to npm
       - uses: actions/setup-node@v4
         with:
-          node-version-file: '.nvmrc'
+          node-version-file: '.node-version'
           registry-url: 'https://registry.npmjs.org'
           scope: '@jamesives'
 
@@ -61,7 +61,7 @@ jobs:
       # Setup .npmrc file to publish to GitHub Packages
       - uses: actions/setup-node@v4
         with:
-          node-version-file: '.nvmrc'
+          node-version-file: '.node-version'
           registry-url: 'https://npm.pkg.github.com'
           scope: '@jamesives'
 

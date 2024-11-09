@@ -17,7 +17,7 @@ export default tseslint.config(
     },
     rules: {
       'jest/no-conditional-expect': 'off',
-      '@typescript-eslint/ban-types': [
+      '@typescript-eslint/no-restricted-types': [
         'error',
         {
           types: {

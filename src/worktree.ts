@@ -97,6 +97,10 @@ export async function generateWorktree(
         action.silent
       )
     } catch (error) {
+      if (!action.silent) {
+        console.error(error)
+      }
+
       info(
         'Error encountered while checking out branch. Attempting to continue with a new branch name.'
       )
@@ -111,6 +115,10 @@ export async function generateWorktree(
           action.silent
         )
       } catch (error) {
+        if (!action.silent) {
+          console.error(error)
+        }
+
         info('Unable to track the origin branch…')
 
         checkout = new GitCheckout(branchName)
