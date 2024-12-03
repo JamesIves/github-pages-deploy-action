@@ -111,8 +111,8 @@ export async function deploy(action: ActionInterface): Promise<Status> {
   const temporaryDeploymentBranch = `github-pages-deploy-action/${Math.random()
     .toString(36)
     .substr(2, 9)}`
-  const rsyncVersion = getRsyncVersion();
-  const isMkpathSupported = rsyncVersion >= '3.2.3';
+  const rsyncVersion = getRsyncVersion()
+  const isMkpathSupported = rsyncVersion >= '3.2.3'
 
   info('Starting to commit changes…')
 
