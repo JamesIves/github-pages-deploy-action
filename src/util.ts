@@ -151,6 +151,8 @@ export function getRsyncVersion(): string {
     const versionMatch = versionOutput.match(/rsync\s+version\s+(\d+\.\d+\.\d+)/);
     return versionMatch ? versionMatch[1] : '';
   } catch (error) {
+    console.error(error);
+    
     return '';
   }
 }
