@@ -90,6 +90,11 @@ inputs:
     description: 'Silences the action output preventing it from displaying git messages.'
     required: false
 
+  attempt-limit:
+    description: 'How many rebase attempts to make before suspending the job. This option defaults to `3` and may be useful to increase when there are multiple deployments in a single branch.'
+    required: false
+    default: 3
+
 outputs:
   deployment-status:
     description: 'The status of the deployment that indicates if the run failed or passed. Possible outputs include: success|failed|skipped'
