@@ -55,7 +55,7 @@
     "jest-circus": "29.7.0",
     "prettier": "3.5.3",
     "rimraf": "6.0.1",
-    "ts-jest": "29.3.2",
+    "ts-jest": "29.3.3",
     "typescript": "5.8.3"
   }
 }
