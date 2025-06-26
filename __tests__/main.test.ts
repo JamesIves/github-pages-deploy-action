@@ -53,7 +53,7 @@ describe('main', () => {
       debug: true
     })
     await run(action)
-    expect(execute).toHaveBeenCalledTimes(19)
+    expect(execute).toHaveBeenCalledTimes(20)
     expect(rmRF).toHaveBeenCalledTimes(1)
     expect(exportVariable).toHaveBeenCalledTimes(1)
   })

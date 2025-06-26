@@ -327,7 +327,7 @@ describe('git', () => {
         await deploy(action)
 
         // Includes the call to generateWorktree
-        expect(execute).toHaveBeenCalledTimes(12)
+        expect(execute).toHaveBeenCalledTimes(13)
         expect(rmRF).toHaveBeenCalledTimes(1)
       })
     })
@@ -352,7 +352,7 @@ describe('git', () => {
       await deploy(action)
 
       // Includes the call to generateWorktree
-      expect(execute).toHaveBeenCalledTimes(12)
+      expect(execute).toHaveBeenCalledTimes(13)
       expect(rmRF).toHaveBeenCalledTimes(1)
     })
 
@@ -372,7 +372,7 @@ describe('git', () => {
 
       await deploy(action)
 
-      expect(execute).toHaveBeenCalledTimes(12)
+      expect(execute).toHaveBeenCalledTimes(13)
       expect(rmRF).toHaveBeenCalledTimes(1)
       expect(mkdirP).toHaveBeenCalledTimes(1)
     })
@@ -392,7 +392,7 @@ describe('git', () => {
       })
 
       const response = await deploy(action)
-      expect(execute).toHaveBeenCalledTimes(12)
+      expect(execute).toHaveBeenCalledTimes(13)
       expect(rmRF).toHaveBeenCalledTimes(1)
       expect(response).toBe(Status.SKIPPED)
     })

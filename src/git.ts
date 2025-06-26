@@ -217,6 +217,13 @@ export async function deploy(action: ActionInterface): Promise<Status> {
         ? `git diff origin/${action.branch}`
         : `git status --porcelain`
 
+    // Commits to GitHub.
+    await execute(
+      `git add --all .`,
+      `${action.workspace}/${temporaryDeploymentDirectory}`,
+      action.silent
+    )
+
     info(`Checking if there are files to commit…`)
 
     const hasFilesToCommit =
@@ -239,12 +246,6 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       return Status.SKIPPED
     }
 
-    // Commits to GitHub.
-    await execute(
-      `git add --all .`,
-      `${action.workspace}/${temporaryDeploymentDirectory}`,
-      action.silent
-    )
     await execute(
       `git checkout -b ${temporaryDeploymentBranch}`,
       `${action.workspace}/${temporaryDeploymentDirectory}`,
