@@ -15,7 +15,7 @@ jobs:
     if: github.event.pull_request.merged == false
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v5.0.0
 
       - name: Assign Labels 🏷️
         id: action-assign-labels
