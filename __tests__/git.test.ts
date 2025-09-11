@@ -469,5 +469,35 @@ describe('git', () => {
       expect(execute).toHaveBeenCalledTimes(17)
       expect(response).toBe(Status.SUCCESS)
     })
+
+    it('should generate temporary branch name without forward slashes to avoid conflicts', async () => {
+      Object.assign(action, {
+        hostname: 'github.com',
+        silent: false,
+        folder: 'assets',
+        branch: 'branch',
+        token: '123',
+        repositoryName: 'JamesIves/montezuma',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        isTest: TestFlag.HAS_CHANGED_FILES
+      })
+
+      await deploy(action)
+
+      // Check that execute was called with a checkout command that doesn't contain forward slashes in branch name
+      const executeCalls = (execute as jest.Mock).mock.calls
+      const checkoutCall = executeCalls.find((call) => 
+        call[0].includes('checkout -b') && call[0].includes('github-pages-deploy-action')
+      )
+      
+      expect(checkoutCall).toBeDefined()
+      // The branch name should contain 'github-pages-deploy-action-' (with hyphen, not slash)
+      expect(checkoutCall[0]).toMatch(/github-pages-deploy-action-[a-z0-9]+/)
+      // The branch name should NOT contain forward slashes
+      expect(checkoutCall[0]).not.toMatch(/github-pages-deploy-action\//)
+    })
   })
 })
