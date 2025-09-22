@@ -146,6 +146,56 @@ describe('git', () => {
       await init(action)
       expect(execute).toHaveBeenCalledTimes(7)
     })
+
+    it('should configure git lfs when gitLfs is enabled', async () => {
+      Object.assign(action, {
+        hostname: 'github.com',
+        silent: false,
+        repositoryPath: 'JamesIves/github-pages-deploy-action',
+        token: '123',
+        branch: 'branch',
+        folder: '.',
+        gitLfs: true,
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        isTest: TestFlag.HAS_CHANGED_FILES
+      })
+
+      await init(action)
+      expect(execute).toHaveBeenCalledTimes(8)
+      expect(execute).toHaveBeenCalledWith(
+        'git lfs install',
+        action.workspace,
+        false
+      )
+    })
+
+    it('should not configure git lfs when gitLfs is disabled', async () => {
+      Object.assign(action, {
+        hostname: 'github.com',
+        silent: false,
+        repositoryPath: 'JamesIves/github-pages-deploy-action',
+        token: '123',
+        branch: 'branch',
+        folder: '.',
+        gitLfs: false,
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        isTest: TestFlag.HAS_CHANGED_FILES
+      })
+
+      await init(action)
+      expect(execute).toHaveBeenCalledTimes(7)
+      expect(execute).not.toHaveBeenCalledWith(
+        'git lfs install',
+        action.workspace,
+        false
+      )
+    })
   })
 
   describe('deploy', () => {

@@ -91,6 +91,27 @@ export async function init(action: ActionInterface): Promise<void | Error> {
       action.workspace,
       action.silent
     )
+
+    // Configure Git LFS if enabled
+    if (action.gitLfs) {
+      info('Configuring Git LFS…')
+      try {
+        await execute(
+          `git lfs install`,
+          action.workspace,
+          action.silent
+        )
+        info('Git LFS configured… 📦')
+      } catch (error) {
+        throw new Error(
+          `There was an error configuring Git LFS: ${suppressSensitiveInformation(
+            extractErrorMessage(error),
+            action
+          )} ❌`
+        )
+      }
+    }
+
     info('Git configured… 🔧')
   } catch (error) {
     throw new Error(

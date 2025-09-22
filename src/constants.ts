@@ -38,6 +38,8 @@ export interface ActionInterface {
   folderPath?: string
   /** Whether to force-push or attempt to merge existing changes. */
   force?: boolean
+  /** Enable Git Large File Storage (LFS) support for handling large files. */
+  gitLfs?: boolean | null
   /** How many times to attempt to merge existing changes into the remote HEAD. */
   attemptLimit?: number
   /** Determines test scenarios the action is running in. */
@@ -97,6 +99,9 @@ export const action: ActionInterface = {
   force: !isNullOrUndefined(getInput('force'))
     ? getInput('force').toLowerCase() === 'true'
     : true,
+  gitLfs: !isNullOrUndefined(getInput('git-lfs'))
+    ? getInput('git-lfs').toLowerCase() === 'true'
+    : false,
   attemptLimit: !isNullOrUndefined(getInput('attempt-limit'))
     ? parseInt(getInput('attempt-limit'), 10)
     : 3,
