@@ -1,5 +1,7 @@
 # GitHub Pages Deploy Action
 
+This is a GitHub Action that automatically deploys your project to GitHub Pages with GitHub Actions. The action can be configured to push your production-ready code into any branch you'd like, including `gh-pages` and `docs`. It supports cross-repository deployments, works with GitHub Enterprise, and provides multiple authentication methods including SSH keys and personal access tokens.
+
 Always follow these instructions first and only fallback to additional search and context gathering if the information in these instructions is incomplete or found to be in error.
 
 ## Working Effectively
