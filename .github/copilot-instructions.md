@@ -6,7 +6,7 @@ Always follow these instructions first and only fallback to additional search an
 
 ### Bootstrap and build the repository:
 
-- Use Node.js version from `.node-version` file: `v22.11.0`
+- Use Node.js version from `.node-version` file
 - Install Yarn globally: `npm install -g yarn`
 - Install dependencies: `yarn install --frozen-lockfile` -- takes 1-25 seconds depending on cache state
 - Build the project: `yarn build` -- takes 9 seconds. NEVER CANCEL. Set timeout to 30+ seconds
@@ -79,7 +79,7 @@ integration/       # Sample files for testing deployments
 - `tsconfig.json` - TypeScript compilation settings
 - `jest.config.js` - Test configuration
 - `eslint.config.mjs` - Linting rules (ignores `lib/` directory)
-- `.node-version` - Required Node.js version (v22.11.0)
+- `.node-version` - Required Node.js version
 
 ### Understanding the codebase:
 
@@ -122,7 +122,7 @@ integration/       # Sample files for testing deployments
 
 ### Environment requirements:
 
-- Node.js v22.11.0 (specified in `.node-version`)
+- Node.js (specified in `.node-version`)
 - Yarn package manager
 - Git (for deployment operations)
 - rsync (for file operations, automatically available in GitHub Actions runners)
