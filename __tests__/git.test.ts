@@ -469,5 +469,38 @@ describe('git', () => {
       expect(execute).toHaveBeenCalledTimes(17)
       expect(response).toBe(Status.SUCCESS)
     })
+
+    it('should silently handle chmod failures on read-only folders', async () => {
+      let chmodCallCount = 0
+      ;(execute as jest.Mock).mockImplementation((cmd: string) => {
+        // Simulate chmod failures for read-only folders
+        if (cmd.includes('chmod -R +rw')) {
+          chmodCallCount++
+          throw new Error('Operation not permitted')
+        }
+        return {stdout: '', stderr: ''}
+      })
+
+      Object.assign(action, {
+        hostname: 'github.com',
+        silent: false,
+        folder: 'assets',
+        branch: 'branch',
+        token: '123',
+        repositoryName: 'JamesIves/montezuma',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        isTest: TestFlag.HAS_CHANGED_FILES
+      })
+
+      const response = await deploy(action)
+
+      // Verify that chmod was attempted twice (once for folderPath, once for temporaryDeploymentDirectory)
+      expect(chmodCallCount).toBe(2)
+      // Verify deployment still succeeds despite chmod failures
+      expect(response).toBe(Status.SUCCESS)
+    })
   })
 })

@@ -145,10 +145,10 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       await execute(
         `chmod -R +rw ${action.folderPath}`,
         action.workspace,
-        action.silent
+        true // Always silent to avoid flooding output on read-only folders
       )
     } catch {
-      info(`Unable to modify permissions…`)
+      // Silently ignore chmod failures - they are non-critical and often occur with read-only folders
     }
 
     // Ensures that items that need to be excluded from the clean job get parsed.
@@ -368,11 +368,15 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       action.silent
     )
 
-    await execute(
-      `chmod -R +rw ${temporaryDeploymentDirectory}`,
-      action.workspace,
-      action.silent
-    )
+    try {
+      await execute(
+        `chmod -R +rw ${temporaryDeploymentDirectory}`,
+        action.workspace,
+        true // Always silent to avoid flooding output on read-only folders
+      )
+    } catch {
+      // Silently ignore chmod failures - they are non-critical and often occur with read-only folders
+    }
 
     await execute(
       `git worktree remove ${temporaryDeploymentDirectory} --force`,
