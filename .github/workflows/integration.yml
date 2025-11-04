@@ -7,7 +7,7 @@ on:
 
 jobs:
   integration-cross-repo-push:
-    container: node:16.13
+    container: node:22
     runs-on: ubuntu-latest
     steps:
       - name: Install Container Dependencies 📚
@@ -82,7 +82,7 @@ jobs:
     needs: integration-checkout-v2
     runs-on: ubuntu-latest
     container:
-      image: ruby:2.6
+      image: ruby:3.3
       env:
         LANG: C.UTF-8
     steps:
