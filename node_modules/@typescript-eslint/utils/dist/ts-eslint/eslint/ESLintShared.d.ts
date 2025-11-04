@@ -87,7 +87,7 @@ export declare class ESLintBase<Config extends Linter.ConfigType, Options extend
 }
 export interface ESLintOptions<Config extends Linter.ConfigType> {
     /**
-     * If false is present, ESLint suppresses directive comments in source code.
+     * If false is present, ESLint suppresses comment directives in source code.
      * If this option is false, it overrides the noInlineConfig setting in your configurations.
      * @default true
      */
@@ -379,4 +379,3 @@ export interface Formatter {
      */
     format(results: LintResult[]): string | Promise<string>;
 }
-//# sourceMappingURL=ESLintShared.d.ts.map

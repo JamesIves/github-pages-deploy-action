@@ -1,5 +1,5 @@
-export type ObjectDefinition = import("./types.ts").ObjectDefinition;
-export type PropertyDefinition = import("./types.ts").PropertyDefinition;
+export type ObjectDefinition = import("./types.cts").ObjectDefinition;
+export type PropertyDefinition = import("./types.cts").PropertyDefinition;
 /**
  * @fileoverview Merge Strategy
  */

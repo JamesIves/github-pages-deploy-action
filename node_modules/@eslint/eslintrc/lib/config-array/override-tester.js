@@ -17,9 +17,9 @@
  * @author Toru Nagashima <https://github.com/mysticatea>
  */
 
-import assert from "assert";
-import path from "path";
-import util from "util";
+import assert from "node:assert";
+import path from "node:path";
+import util from "node:util";
 import minimatch from "minimatch";
 
 const { Minimatch } = minimatch;
@@ -94,6 +94,7 @@ class OverrideTester {
      * @param {string|string[]} excludedFiles The glob patterns for excluded files.
      * @param {string} basePath The path to the base directory to test paths.
      * @returns {OverrideTester|null} The created instance or `null`.
+     * @throws {Error} When invalid patterns are given.
      */
     static create(files, excludedFiles, basePath) {
         const includePatterns = normalizePatterns(files);
@@ -183,6 +184,7 @@ class OverrideTester {
      * Test if a given path is matched or not.
      * @param {string} filePath The absolute path to the target file.
      * @returns {boolean} `true` if the path was matched.
+     * @throws {Error} When invalid `filePath` is given.
      */
     test(filePath) {
         if (typeof filePath !== "string" || !path.isAbsolute(filePath)) {
@@ -196,8 +198,8 @@ class OverrideTester {
         ));
     }
 
-    // eslint-disable-next-line jsdoc/require-description
     /**
+     * Converts this instance to a JSON compatible object.
      * @returns {Object} a JSON compatible object.
      */
     toJSON() {
@@ -213,8 +215,8 @@ class OverrideTester {
         };
     }
 
-    // eslint-disable-next-line jsdoc/require-description
     /**
+     * Custom inspect method for Node.js `console.log()`.
      * @returns {Object} an object to display by `console.log()`.
      */
     [util.inspect.custom]() {

@@ -10,8 +10,7 @@ import type * as ts from 'typescript';
  *
  * @returns false if it's safe, or an object with the two types if it's unsafe
  */
-export declare function isUnsafeAssignment(type: ts.Type, receiver: ts.Type, checker: ts.TypeChecker, senderNode: TSESTree.Node | null): {
+export declare function isUnsafeAssignment(type: ts.Type, receiver: ts.Type, checker: ts.TypeChecker, senderNode: TSESTree.Node | null): false | {
     receiver: ts.Type;
     sender: ts.Type;
-} | false;
-//# sourceMappingURL=isUnsafeAssignment.d.ts.map
+};

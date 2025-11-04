@@ -421,7 +421,7 @@ class Scope {
     __referencing(node, assign, writeExpr, maybeImplicitGlobal, partial, init) {
 
         // because Array element may be null
-        if (!node || node.type !== Syntax.Identifier) {
+        if (!node || (node.type !== Syntax.Identifier && node.type !== "JSXIdentifier")) {
             return;
         }
 

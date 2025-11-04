@@ -11,4 +11,3 @@ export * from './TSEnumNameDefinition';
 export * from './TSModuleNameDefinition';
 export * from './TypeDefinition';
 export * from './VariableDefinition';
-//# sourceMappingURL=index.d.ts.map

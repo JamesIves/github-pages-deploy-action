@@ -3,7 +3,7 @@
  * @author Brandon Mills
  */
 
-/* eslint class-methods-use-this: "off" */
+/* eslint class-methods-use-this: "off" -- not needed in this file */
 
 //------------------------------------------------------------------------------
 // Typedefs
@@ -15,7 +15,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-import util from "util";
+import util from "node:util";
 import * as ConfigOps from "./config-ops.js";
 import { emitDeprecationWarning } from "./deprecation-warnings.js";
 import ajvOrig from "./ajv.js";
@@ -51,6 +51,9 @@ const noOptionsSchema = Object.freeze({
 // Exports
 //-----------------------------------------------------------------------------
 
+/**
+ * Validator for configuration objects.
+ */
 export default class ConfigValidator {
     constructor({ builtInRules = new Map() } = {}) {
         this.builtInRules = builtInRules;
@@ -110,6 +113,7 @@ export default class ConfigValidator {
      * Validates a rule's severity and returns the severity value. Throws an error if the severity is invalid.
      * @param {options} options The given options for the rule.
      * @returns {number|string} The rule's severity value
+     * @throws {Error} If the severity is invalid.
      */
     validateRuleSeverity(options) {
         const severity = Array.isArray(options) ? options[0] : options;
@@ -128,6 +132,7 @@ export default class ConfigValidator {
      * @param {{create: Function}} rule The rule to validate
      * @param {Array} localOptions The options for the rule, excluding severity
      * @returns {void}
+     * @throws {Error} If the options are invalid.
      */
     validateRuleSchema(rule, localOptions) {
         if (!ruleValidators.has(rule)) {
@@ -169,6 +174,7 @@ export default class ConfigValidator {
      * @param {string|null} source The name of the configuration source to report in any errors. If null or undefined,
      * no source is prepended to the message.
      * @returns {void}
+     * @throws {Error} If the options are invalid.
      */
     validateRuleOptions(rule, ruleId, options, source = null) {
         try {
@@ -200,8 +206,9 @@ export default class ConfigValidator {
      * Validates an environment object
      * @param {Object} environment The environment config object to validate.
      * @param {string} source The name of the configuration source to report in any errors.
-     * @param {function(envId:string): Object} [getAdditionalEnv] A map from strings to loaded environments.
+     * @param {(envId:string) => Object} [getAdditionalEnv] A map from strings to loaded environments.
      * @returns {void}
+     * @throws {Error} If the environment is invalid.
      */
     validateEnvironment(
         environment,
@@ -229,7 +236,7 @@ export default class ConfigValidator {
      * Validates a rules config object
      * @param {Object} rulesConfig The rules config object to validate.
      * @param {string} source The name of the configuration source to report in any errors.
-     * @param {function(ruleId:string): Object} getAdditionalRule A map from strings to loaded rules
+     * @param {(ruleId:string) => Object} getAdditionalRule A map from strings to loaded rules
      * @returns {void}
      */
     validateRules(
@@ -273,8 +280,9 @@ export default class ConfigValidator {
      * Validate `processor` configuration.
      * @param {string|undefined} processorName The processor name.
      * @param {string} source The name of config file.
-     * @param {function(id:string): Processor} getProcessor The getter of defined processors.
+     * @param {(id:string) => Processor} getProcessor The getter of defined processors.
      * @returns {void}
+     * @throws {Error} If the processor is invalid.
      */
     validateProcessor(processorName, source, getProcessor) {
         if (processorName && !getProcessor(processorName)) {
@@ -313,6 +321,7 @@ export default class ConfigValidator {
      * @param {Object} config The config object to validate.
      * @param {string} source The name of the configuration source to report in any errors.
      * @returns {void}
+     * @throws {Error} If the config is invalid.
      */
     validateConfigSchema(config, source = null) {
         validateSchema = validateSchema || ajv.compile(configSchema);
@@ -321,7 +330,7 @@ export default class ConfigValidator {
             throw new Error(`ESLint configuration in ${source} is invalid:\n${this.formatErrors(validateSchema.errors)}`);
         }
 
-        if (Object.hasOwnProperty.call(config, "ecmaFeatures")) {
+        if (Object.hasOwn(config, "ecmaFeatures")) {
             emitDeprecationWarning(source, "ESLINT_LEGACY_ECMAFEATURES");
         }
     }
@@ -330,8 +339,8 @@ export default class ConfigValidator {
      * Validates an entire config object.
      * @param {Object} config The config object to validate.
      * @param {string} source The name of the configuration source to report in any errors.
-     * @param {function(ruleId:string): Object} [getAdditionalRule] A map from strings to loaded rules.
-     * @param {function(envId:string): Object} [getAdditionalEnv] A map from strings to loaded envs.
+     * @param {(ruleId:string) => Object} [getAdditionalRule] A map from strings to loaded rules.
+     * @param {(envId:string) => Object} [getAdditionalEnv] A map from strings to loaded envs.
      * @returns {void}
      */
     validate(config, source, getAdditionalRule, getAdditionalEnv) {

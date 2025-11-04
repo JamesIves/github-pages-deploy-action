@@ -12,4 +12,3 @@ import type { TSESTreeOptions } from '../parser-options';
  * @returns Whether this is part of a single run, rather than a long-running process.
  */
 export declare function inferSingleRun(options: TSESTreeOptions | undefined): boolean;
-//# sourceMappingURL=inferSingleRun.d.ts.map

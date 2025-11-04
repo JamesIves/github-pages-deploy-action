@@ -283,13 +283,7 @@ function initializeNodeSystem() {
       return (_a = global.gc) == null ? void 0 : _a.call(global);
     };
   }
-  let cancellationToken;
-  try {
-    const factory = require("./cancellationToken.js");
-    cancellationToken = factory(sys4.args);
-  } catch {
-    cancellationToken = typescript_exports.server.nullCancellationToken;
-  }
+  const cancellationToken = createCancellationToken(sys4.args);
   const localeStr = typescript_exports.server.findArgument("--locale");
   if (localeStr) {
     (0, typescript_exports.validateLocaleAndSetLanguage)(localeStr, sys4);
@@ -575,6 +569,48 @@ function startNodeSession(options, logger, cancellationToken) {
     const homePath = import_os.default.homedir && import_os.default.homedir() || process.env.HOME || (process.env.LOGNAME || process.env.USER) && `/${usersDir}/${process.env.LOGNAME || process.env.USER}` || import_os.default.tmpdir();
     const cacheFolder = platformIsDarwin ? "Library/Caches" : ".cache";
     return (0, typescript_exports.combinePaths)((0, typescript_exports.normalizeSlashes)(homePath), cacheFolder);
+  }
+}
+function pipeExists(name) {
+  return import_fs.default.existsSync(name);
+}
+function createCancellationToken(args) {
+  let cancellationPipeName;
+  for (let i = 0; i < args.length - 1; i++) {
+    if (args[i] === "--cancellationPipeName") {
+      cancellationPipeName = args[i + 1];
+      break;
+    }
+  }
+  if (!cancellationPipeName) {
+    return typescript_exports.server.nullCancellationToken;
+  }
+  if (cancellationPipeName.charAt(cancellationPipeName.length - 1) === "*") {
+    const namePrefix = cancellationPipeName.slice(0, -1);
+    if (namePrefix.length === 0 || namePrefix.includes("*")) {
+      throw new Error("Invalid name for template cancellation pipe: it should have length greater than 2 characters and contain only one '*'.");
+    }
+    let perRequestPipeName;
+    let currentRequestId;
+    return {
+      isCancellationRequested: () => perRequestPipeName !== void 0 && pipeExists(perRequestPipeName),
+      setRequest(requestId) {
+        currentRequestId = requestId;
+        perRequestPipeName = namePrefix + requestId;
+      },
+      resetRequest(requestId) {
+        if (currentRequestId !== requestId) {
+          throw new Error(`Mismatched request id, expected ${currentRequestId}, actual ${requestId}`);
+        }
+        perRequestPipeName = void 0;
+      }
+    };
+  } else {
+    return {
+      isCancellationRequested: () => pipeExists(cancellationPipeName),
+      setRequest: (_requestId) => void 0,
+      resetRequest: (_requestId) => void 0
+    };
   }
 }
 

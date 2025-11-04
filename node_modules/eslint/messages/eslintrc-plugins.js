@@ -1,13 +1,16 @@
 "use strict";
 
-module.exports = function({ plugins }) {
+module.exports = function ({ plugins }) {
+	const isArrayOfStrings = typeof plugins[0] === "string";
 
-    const isArrayOfStrings = typeof plugins[0] === "string";
+	return `
+A config object has a "plugins" key defined as an array${isArrayOfStrings ? " of strings" : ""}. It looks something like this:
 
-    return `
-A config object has a "plugins" key defined as an array${isArrayOfStrings ? " of strings" : ""}.
+    {
+        "plugins": ${JSON.stringify(plugins)}
+    }
 
-Flat config requires "plugins" to be an object in this form:
+Flat config requires "plugins" to be an object, like this:
 
     {
         plugins: {

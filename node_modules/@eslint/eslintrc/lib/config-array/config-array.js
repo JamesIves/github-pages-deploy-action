@@ -178,6 +178,7 @@ class PluginConflictError extends Error {
  * @param {Record<string, DependentPlugin>} target The destination to merge
  * @param {Record<string, DependentPlugin>|undefined} source The source to merge.
  * @returns {void}
+ * @throws {PluginConflictError} When a plugin was conflicted.
  */
 function mergePlugins(target, source) {
     if (!isNonNullObject(source)) {
@@ -258,6 +259,7 @@ function mergeRuleConfigs(target, source) {
  * @param {ConfigArray} instance The config elements.
  * @param {number[]} indices The indices to use.
  * @returns {ExtractedConfig} The extracted config.
+ * @throws {Error} When a plugin is conflicted.
  */
 function createConfig(instance, indices) {
     const config = new ExtractedConfig();

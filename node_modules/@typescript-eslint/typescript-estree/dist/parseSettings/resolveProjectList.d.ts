@@ -16,4 +16,3 @@ export declare function resolveProjectList(options: Readonly<{
  * @internal
  */
 export declare function clearGlobResolutionCache(): void;
-//# sourceMappingURL=resolveProjectList.d.ts.map

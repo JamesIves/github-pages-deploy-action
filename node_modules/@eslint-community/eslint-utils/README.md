@@ -30,8 +30,8 @@ Please use GitHub's Issues/PRs.
 
 ### Development Tools
 
--   `npm test` runs tests and measures coverage.
--   `npm run clean` removes the coverage result of `npm test` command.
--   `npm run coverage` shows the coverage result of the last `npm test` command.
+-   `npm run test-coverage` runs tests and measures coverage.
+-   `npm run clean` removes the coverage result of `npm run test-coverage` command.
+-   `npm run coverage` shows the coverage result of the last `npm run test-coverage` command.
 -   `npm run lint` runs ESLint.
 -   `npm run watch` runs tests on each file change.

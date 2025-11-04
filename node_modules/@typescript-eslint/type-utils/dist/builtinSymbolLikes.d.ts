@@ -51,4 +51,3 @@ export declare function isBuiltinTypeAliasLike(program: ts.Program, type: ts.Typ
 } & ts.Type) => boolean): boolean;
 export declare function isBuiltinSymbolLike(program: ts.Program, type: ts.Type, symbolName: string | string[]): boolean;
 export declare function isBuiltinSymbolLikeRecurser(program: ts.Program, type: ts.Type, predicate: (subType: ts.Type) => boolean | null): boolean;
-//# sourceMappingURL=builtinSymbolLikes.d.ts.map

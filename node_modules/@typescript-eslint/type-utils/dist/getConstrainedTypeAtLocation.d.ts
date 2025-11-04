@@ -10,4 +10,3 @@ import type * as ts from 'typescript';
  * @see https://github.com/typescript-eslint/typescript-eslint/issues/10438
  */
 export declare function getConstrainedTypeAtLocation(services: ParserServicesWithTypeInformation, node: TSESTree.Node): ts.Type;
-//# sourceMappingURL=getConstrainedTypeAtLocation.d.ts.map

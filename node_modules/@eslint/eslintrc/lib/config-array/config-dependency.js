@@ -15,7 +15,7 @@
  * @author Toru Nagashima <https://github.com/mysticatea>
  */
 
-import util from "util";
+import util from "node:util";
 
 /**
  * The class is to store parsers or plugins.
@@ -88,8 +88,8 @@ class ConfigDependency {
         this.importerPath = importerPath;
     }
 
-    // eslint-disable-next-line jsdoc/require-description
     /**
+     * Converts this instance to a JSON compatible object.
      * @returns {Object} a JSON compatible object.
      */
     toJSON() {
@@ -103,14 +103,14 @@ class ConfigDependency {
         return obj;
     }
 
-    // eslint-disable-next-line jsdoc/require-description
     /**
+     * Custom inspect method for Node.js `console.log()`.
      * @returns {Object} an object to display by `console.log()`.
      */
     [util.inspect.custom]() {
         const {
-            definition: _ignore1, // eslint-disable-line no-unused-vars
-            original: _ignore2, // eslint-disable-line no-unused-vars
+            definition: _ignore1, // eslint-disable-line no-unused-vars -- needed to make `obj` correct
+            original: _ignore2, // eslint-disable-line no-unused-vars -- needed to make `obj` correct
             ...obj
         } = this;
 

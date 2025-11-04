@@ -9,4 +9,3 @@ export * from './Rule';
 export * from './RuleTester';
 export * from './Scope';
 export * from './SourceCode';
-//# sourceMappingURL=index.d.ts.map

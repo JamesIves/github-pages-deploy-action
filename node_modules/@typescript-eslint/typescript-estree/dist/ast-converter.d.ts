@@ -6,4 +6,3 @@ export declare function astConverter(ast: SourceFile, parseSettings: ParseSettin
     astMaps: ASTMaps;
     estree: TSESTree.Program;
 };
-//# sourceMappingURL=ast-converter.d.ts.map

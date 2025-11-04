@@ -3,7 +3,7 @@
  * @author Teddy Katz
  */
 
-import Module from "module";
+import Module from "node:module";
 
 /*
  * `Module.createRequire` is added in v12.2.0. It supports URL as well.
@@ -17,6 +17,7 @@ const createRequire = Module.createRequire;
  * @param {string} relativeToPath An absolute path indicating the module that `moduleName` should be resolved relative to. This must be
  * a file rather than a directory, but the file need not actually exist.
  * @returns {string} The absolute path that would result from calling `require.resolve(moduleName)` in a file located at `relativeToPath`
+ * @throws {Error} When the module cannot be resolved.
  */
 function resolve(moduleName, relativeToPath) {
     try {

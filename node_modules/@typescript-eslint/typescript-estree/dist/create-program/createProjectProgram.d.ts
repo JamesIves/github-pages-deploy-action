@@ -6,4 +6,3 @@ import type { ASTAndDefiniteProgram } from './shared';
  * @returns If found, the source file corresponding to the code and the containing program
  */
 export declare function createProjectProgram(parseSettings: ParseSettings, programsForProjects: readonly ts.Program[]): ASTAndDefiniteProgram;
-//# sourceMappingURL=createProjectProgram.d.ts.map

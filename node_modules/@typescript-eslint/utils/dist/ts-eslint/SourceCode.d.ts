@@ -319,7 +319,7 @@ declare namespace SourceCode {
     type ReturnTypeFromOptions<T> = T extends {
         includeComments: true;
     } ? GetFilterPredicateFromOptions<T, TSESTree.Token> : GetFilterPredicateFromOptions<T, Exclude<TSESTree.Token, TSESTree.Comment>>;
-    type CursorWithSkipOptions = number | {
+    type CursorWithSkipOptions = number | FilterPredicate | {
         /**
          * The predicate function to choose tokens.
          */
@@ -332,8 +332,8 @@ declare namespace SourceCode {
          * The count of tokens the cursor skips.
          */
         skip?: number;
-    } | FilterPredicate;
-    type CursorWithCountOptions = number | {
+    };
+    type CursorWithCountOptions = number | FilterPredicate | {
         /**
          * The maximum count of tokens the cursor iterates.
          */
@@ -346,10 +346,9 @@ declare namespace SourceCode {
          * The flag to iterate comments as well.
          */
         includeComments?: boolean;
-    } | FilterPredicate;
+    };
 }
 declare const SourceCode_base: typeof SourceCodeBase;
 declare class SourceCode extends SourceCode_base {
 }
 export { SourceCode };
-//# sourceMappingURL=SourceCode.d.ts.map

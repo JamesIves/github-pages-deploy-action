@@ -92,4 +92,3 @@ export declare namespace Parser {
         [nodeType: string]: readonly string[];
     }
 }
-//# sourceMappingURL=Parser.d.ts.map

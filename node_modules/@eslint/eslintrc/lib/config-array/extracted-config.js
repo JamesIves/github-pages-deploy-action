@@ -120,10 +120,10 @@ class ExtractedConfig {
      */
     toCompatibleObjectAsConfigFileContent() {
         const {
-            /* eslint-disable no-unused-vars */
+            /* eslint-disable no-unused-vars -- needed to make `config` correct */
             configNameOfNoInlineConfig: _ignore1,
             processor: _ignore2,
-            /* eslint-enable no-unused-vars */
+            /* eslint-enable no-unused-vars -- needed to make `config` correct */
             ignores,
             ...config
         } = this;

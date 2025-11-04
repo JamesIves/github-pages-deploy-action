@@ -5,4 +5,3 @@ export declare const meta: {
     name: string;
     version: string;
 };
-//# sourceMappingURL=index.d.ts.map

@@ -7,4 +7,3 @@
  * @see https://github.com/typescript-eslint/typescript-eslint/issues/8428
  */
 export declare function withoutProjectParserOptions<Options extends object>(opts: Options): Omit<Options, 'EXPERIMENTAL_useProjectService' | 'project' | 'projectService'>;
-//# sourceMappingURL=withoutProjectParserOptions.d.ts.map

@@ -13,4 +13,3 @@ export declare const TYPE_VALUE: Readonly<{
     isTypeVariable: true;
     isValueVariable: true;
 }>;
-//# sourceMappingURL=base-config.d.ts.map

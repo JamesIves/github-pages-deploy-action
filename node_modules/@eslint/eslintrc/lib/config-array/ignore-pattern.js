@@ -32,8 +32,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-import assert from "assert";
-import path from "path";
+import assert from "node:assert";
+import path from "node:path";
 import ignore from "ignore";
 import debugOrig from "debug";
 
@@ -117,6 +117,9 @@ const DotPatterns = Object.freeze([".*", "!.eslintrc.*", "!../"]);
 // Public
 //------------------------------------------------------------------------------
 
+/**
+ * Represents a set of glob patterns to ignore against a base path.
+ */
 class IgnorePattern {
 
     /**
@@ -153,9 +156,7 @@ class IgnorePattern {
         debug("Create with: %o", ignorePatterns);
 
         const basePath = getCommonAncestorPath(ignorePatterns.map(p => p.basePath));
-        const patterns = [].concat(
-            ...ignorePatterns.map(p => p.getPatternsRelativeTo(basePath))
-        );
+        const patterns = ignorePatterns.flatMap(p => p.getPatternsRelativeTo(basePath));
         const ig = ignore({ allowRelativePaths: true }).add([...DotPatterns, ...patterns]);
         const dotIg = ignore({ allowRelativePaths: true }).add(patterns);
 

@@ -13,7 +13,7 @@ const RULE_SEVERITY_STRINGS = ["off", "warn", "error"],
         map[value] = index;
         return map;
     }, {}),
-    VALID_SEVERITIES = [0, 1, 2, "off", "warn", "error"];
+    VALID_SEVERITIES = new Set([0, 1, 2, "off", "warn", "error"]);
 
 //------------------------------------------------------------------------------
 // Public Interface
@@ -83,7 +83,7 @@ function isValidSeverity(ruleConfig) {
     if (typeof severity === "string") {
         severity = severity.toLowerCase();
     }
-    return VALID_SEVERITIES.indexOf(severity) !== -1;
+    return VALID_SEVERITIES.has(severity);
 }
 
 /**

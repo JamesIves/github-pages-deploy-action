@@ -7,4 +7,3 @@ import * as ts from 'typescript';
  * @returns Whether the type is, extends, or contains the allowed names (or all matches the allowed names, if mustMatchAll is true).
  */
 export declare function containsAllTypesByName(type: ts.Type, allowAny: boolean, allowedNames: Set<string>, matchAnyInstead?: boolean): boolean;
-//# sourceMappingURL=containsAllTypesByName.d.ts.map

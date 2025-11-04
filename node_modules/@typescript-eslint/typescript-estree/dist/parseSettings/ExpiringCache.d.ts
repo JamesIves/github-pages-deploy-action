@@ -14,4 +14,3 @@ export declare class ExpiringCache<Key, Value> implements CacheLike<Key, Value> 
     get(key: Key): Value | undefined;
     set(key: Key, value: Value): this;
 }
-//# sourceMappingURL=ExpiringCache.d.ts.map

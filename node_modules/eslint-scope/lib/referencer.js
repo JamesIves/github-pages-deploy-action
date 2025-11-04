@@ -649,6 +649,58 @@ class Referencer extends esrecurse.Visitor {
 
         // do nothing.
     }
+
+    JSXIdentifier(node) {
+
+        // Special case: "this" should not count as a reference
+        if (this.scopeManager.__isJSXEnabled() && node.name !== "this") {
+            this.currentScope().__referencing(node);
+        }
+    }
+
+    JSXMemberExpression(node) {
+        this.visit(node.object);
+    }
+
+    JSXElement(node) {
+        if (this.scopeManager.__isJSXEnabled()) {
+            this.visit(node.openingElement);
+            node.children.forEach(this.visit, this);
+        } else {
+            this.visitChildren(node);
+        }
+    }
+
+    JSXOpeningElement(node) {
+        if (this.scopeManager.__isJSXEnabled()) {
+
+            const nameNode = node.name;
+            const isComponentName = nameNode.type === "JSXIdentifier" && nameNode.name[0].toUpperCase() === nameNode.name[0];
+            const isComponent = isComponentName || nameNode.type === "JSXMemberExpression";
+
+            // we only want to visit JSXIdentifier nodes if they are capitalized
+            if (isComponent) {
+                this.visit(nameNode);
+            }
+        }
+
+        node.attributes.forEach(this.visit, this);
+    }
+
+    JSXAttribute(node) {
+        if (node.value) {
+            this.visit(node.value);
+        }
+    }
+
+    JSXExpressionContainer(node) {
+        this.visit(node.expression);
+    }
+
+    JSXNamespacedName(node) {
+        this.visit(node.namespace);
+        this.visit(node.name);
+    }
 }
 
 export default Referencer;

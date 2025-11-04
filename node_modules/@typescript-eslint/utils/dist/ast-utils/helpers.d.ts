@@ -16,4 +16,3 @@ export declare const isTokenOfTypeWithConditions: <TokenType extends AST_TOKEN_T
 export declare const isNotTokenOfTypeWithConditions: <TokenType extends AST_TOKEN_TYPES, ExtractedToken extends Extract<TSESTree.Token, {
     type: TokenType;
 }>, Conditions extends Partial<ExtractedToken>>(tokenType: TokenType, conditions: Conditions) => ((token: TSESTree.Token | null | undefined) => token is Exclude<TSESTree.Token, Conditions & ExtractedToken>);
-//# sourceMappingURL=helpers.d.ts.map

@@ -23,8 +23,8 @@
 //------------------------------------------------------------------------------
 
 import debugOrig from "debug";
-import os from "os";
-import path from "path";
+import os from "node:os";
+import path from "node:path";
 
 import { ConfigArrayFactory } from "./config-array-factory.js";
 import {
@@ -193,7 +193,7 @@ function createCLIConfigArray({
  */
 class ConfigurationNotFoundError extends Error {
 
-    // eslint-disable-next-line jsdoc/require-description
+
     /**
      * @param {string} directoryPath The directory path.
      */
@@ -345,6 +345,7 @@ class CascadingConfigArrayFactory {
      * @param {string} directoryPath The path to a leaf directory.
      * @param {boolean} configsExistInSubdirs `true` if configurations exist in subdirectories.
      * @returns {ConfigArray} The loaded config.
+     * @throws {Error} If a config file is invalid.
      * @private
      */
     _loadConfigInAncestors(directoryPath, configsExistInSubdirs = false) {
@@ -446,6 +447,7 @@ class CascadingConfigArrayFactory {
      * @param {string} directoryPath The path to the leaf directory to find config files.
      * @param {boolean} ignoreNotFoundError If `true` then it doesn't throw `ConfigurationNotFoundError`.
      * @returns {ConfigArray} The loaded config.
+     * @throws {Error} If a config file is invalid.
      * @private
      */
     _finalizeConfigArray(configArray, directoryPath, ignoreNotFoundError) {
@@ -482,7 +484,7 @@ class CascadingConfigArrayFactory {
                     !directoryPath.startsWith(homePath)
                 ) {
                     const lastElement =
-                        personalConfigArray[personalConfigArray.length - 1];
+                        personalConfigArray.at(-1);
 
                     emitDeprecationWarning(
                         lastElement.filePath,

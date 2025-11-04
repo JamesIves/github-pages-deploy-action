@@ -7,4 +7,3 @@
  * @see https://github.com/millsp/ts-toolbelt/blob/master/sources/Function/NoInfer.ts
  */
 export type NoInfer<A> = [A][A extends unknown ? 0 : never];
-//# sourceMappingURL=NoInfer.d.ts.map

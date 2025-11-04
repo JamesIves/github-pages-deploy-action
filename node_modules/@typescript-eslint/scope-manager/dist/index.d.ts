@@ -6,4 +6,3 @@ export { Visitor } from './referencer/Visitor';
 export * from './scope';
 export { ScopeManager } from './ScopeManager';
 export * from './variable';
-//# sourceMappingURL=index.d.ts.map

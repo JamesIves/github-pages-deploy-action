@@ -59,6 +59,10 @@ class ScopeManager {
         return this.__options.ignoreEval;
     }
 
+    __isJSXEnabled() {
+        return this.__options.jsx === true;
+    }
+
     isGlobalReturn() {
         return this.__options.nodejsScope || this.__options.sourceType === "commonjs";
     }

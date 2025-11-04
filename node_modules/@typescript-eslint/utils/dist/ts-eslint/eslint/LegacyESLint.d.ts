@@ -70,4 +70,3 @@ export declare namespace LegacyESLint {
     type SuppressedLintMessage = Shared.SuppressedLintMessage;
 }
 export {};
-//# sourceMappingURL=LegacyESLint.d.ts.map

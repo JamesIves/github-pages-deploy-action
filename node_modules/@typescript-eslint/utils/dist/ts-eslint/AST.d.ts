@@ -6,4 +6,3 @@ declare namespace AST {
     type Range = TSESTree.Range;
 }
 export type { AST };
-//# sourceMappingURL=AST.d.ts.map

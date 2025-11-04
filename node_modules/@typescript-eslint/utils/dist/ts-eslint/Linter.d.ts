@@ -171,7 +171,10 @@ declare namespace Linter {
          */
         message: string;
         messageId?: string;
-        nodeType: string;
+        /**
+         * @deprecated `nodeType` is deprecated and will be removed in the next major version.
+         */
+        nodeType?: string;
         /**
          * The ID of the rule which makes this message.
          */
@@ -250,4 +253,3 @@ declare const Linter_base: typeof LinterBase;
 declare class Linter extends Linter_base {
 }
 export { Linter };
-//# sourceMappingURL=Linter.d.ts.map

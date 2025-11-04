@@ -15,4 +15,3 @@ export declare function getTypeFlags(type: ts.Type): ts.TypeFlags;
 export declare function isTypeFlagSet(type: ts.Type, flagsToCheck: ts.TypeFlags, 
 /** @deprecated This params is not used and will be removed in the future.*/
 isReceiver?: boolean): boolean;
-//# sourceMappingURL=typeFlagUtils.d.ts.map

@@ -9,4 +9,3 @@ type SimpleTraverseOptions = Readonly<{
 }>;
 export declare function simpleTraverse(startingNode: TSESTree.Node, options: SimpleTraverseOptions, setParentPointers?: boolean): void;
 export {};
-//# sourceMappingURL=simple-traverse.d.ts.map

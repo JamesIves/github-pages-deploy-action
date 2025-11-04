@@ -23,7 +23,7 @@ function getDiff(current, prev) {
     const retv = {};
 
     for (const [key, value] of Object.entries(current)) {
-        if (!Object.hasOwnProperty.call(prev, key)) {
+        if (!Object.hasOwn(prev, key)) {
             retv[key] = value;
         }
     }

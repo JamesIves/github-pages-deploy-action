@@ -5,4 +5,3 @@ export {
  * @deprecated - use ESLint instead
  */
 LegacyESLint, } from './eslint/LegacyESLint';
-//# sourceMappingURL=ESLint.d.ts.map

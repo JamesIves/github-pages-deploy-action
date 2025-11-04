@@ -10,4 +10,3 @@ import type { ParseSettings } from './index';
  * in https://github.com/typescript-eslint/typescript-eslint/issues/101.
  */
 export declare function getProjectConfigFiles(parseSettings: Pick<ParseSettings, 'filePath' | 'tsconfigMatchCache' | 'tsconfigRootDir'>, project: TSESTreeOptions['project']): string[] | null;
-//# sourceMappingURL=getProjectConfigFiles.d.ts.map

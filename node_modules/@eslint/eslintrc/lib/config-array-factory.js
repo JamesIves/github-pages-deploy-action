@@ -39,10 +39,10 @@
 //------------------------------------------------------------------------------
 
 import debugOrig from "debug";
-import fs from "fs";
+import fs from "node:fs";
 import importFresh from "import-fresh";
-import { createRequire } from "module";
-import path from "path";
+import { createRequire } from "node:module";
+import path from "node:path";
 import stripComments from "strip-json-comments";
 
 import {
@@ -254,7 +254,7 @@ function loadPackageJSONConfigFile(filePath) {
     try {
         const packageData = loadJSONConfigFile(filePath);
 
-        if (!Object.hasOwnProperty.call(packageData, "eslintConfig")) {
+        if (!Object.hasOwn(packageData, "eslintConfig")) {
             throw Object.assign(
                 new Error("package.json file doesn't have 'eslintConfig' field."),
                 { code: "ESLINT_CONFIG_FIELD_NOT_FOUND" }
@@ -273,6 +273,7 @@ function loadPackageJSONConfigFile(filePath) {
  * Loads a `.eslintignore` from a file.
  * @param {string} filePath The filename to load.
  * @returns {string[]} The ignore patterns from the file.
+ * @throws {Error} If the file cannot be read.
  * @private
  */
 function loadESLintIgnoreFile(filePath) {
@@ -345,7 +346,7 @@ function loadConfigFile(filePath) {
 function writeDebugLogForLoading(request, relativeTo, filePath) {
     /* istanbul ignore next */
     if (debug.enabled) {
-        let nameAndVersion = null;
+        let nameAndVersion = null; // eslint-disable-line no-useless-assignment -- known bug in the rule
 
         try {
             const packageJsonPath = ModuleResolver.resolve(
@@ -510,6 +511,7 @@ class ConfigArrayFactory {
      * @param {Object} [options] The options.
      * @param {string} [options.basePath] The base path to resolve relative paths in `overrides[].files`, `overrides[].excludedFiles`, and `ignorePatterns`.
      * @param {string} [options.name] The config name.
+     * @throws {Error} If the config file is invalid.
      * @returns {ConfigArray} Loaded config. An empty `ConfigArray` if any config doesn't exist.
      */
     loadInDirectory(directoryPath, { basePath, name } = {}) {
@@ -595,6 +597,7 @@ class ConfigArrayFactory {
     /**
      * Load `.eslintignore` file in the current working directory.
      * @returns {ConfigArray} Loaded config. An empty `ConfigArray` if any config doesn't exist.
+     * @throws {Error} If the ignore file is invalid.
      */
     loadDefaultESLintIgnore() {
         const slots = internalSlotsMap.get(this);
@@ -607,7 +610,7 @@ class ConfigArrayFactory {
         if (fs.existsSync(packageJsonPath)) {
             const data = loadJSONConfigFile(packageJsonPath);
 
-            if (Object.hasOwnProperty.call(data, "eslintIgnore")) {
+            if (Object.hasOwn(data, "eslintIgnore")) {
                 if (!Array.isArray(data.eslintIgnore)) {
                     throw new Error("Package.json eslintIgnore property requires an array of paths");
                 }
@@ -796,6 +799,7 @@ class ConfigArrayFactory {
      * @param {string} extendName The name of a base config.
      * @param {ConfigArrayFactoryLoadingContext} ctx The loading context.
      * @returns {IterableIterator<ConfigArrayElement>} The normalized config.
+     * @throws {Error} If the extended config file can't be loaded.
      * @private
      */
     _loadExtends(extendName, ctx) {
@@ -819,6 +823,7 @@ class ConfigArrayFactory {
      * @param {string} extendName The name of a base config.
      * @param {ConfigArrayFactoryLoadingContext} ctx The loading context.
      * @returns {IterableIterator<ConfigArrayElement>} The normalized config.
+     * @throws {Error} If the extended config file can't be loaded.
      * @private
      */
     _loadExtendedBuiltInConfig(extendName, ctx) {
@@ -868,6 +873,7 @@ class ConfigArrayFactory {
      * @param {string} extendName The name of a base config.
      * @param {ConfigArrayFactoryLoadingContext} ctx The loading context.
      * @returns {IterableIterator<ConfigArrayElement>} The normalized config.
+     * @throws {Error} If the extended config file can't be loaded.
      * @private
      */
     _loadExtendedPluginConfig(extendName, ctx) {
@@ -905,6 +911,7 @@ class ConfigArrayFactory {
      * @param {string} extendName The name of a base config.
      * @param {ConfigArrayFactoryLoadingContext} ctx The loading context.
      * @returns {IterableIterator<ConfigArrayElement>} The normalized config.
+     * @throws {Error} If the extended config file can't be loaded.
      * @private
      */
     _loadExtendedShareableConfig(extendName, ctx) {

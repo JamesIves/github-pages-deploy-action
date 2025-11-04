@@ -385,4 +385,3 @@ export interface JSONSchema4AnySchema extends JSONSchema4Base {
     type: 'any';
 }
 export {};
-//# sourceMappingURL=json-schema.d.ts.map

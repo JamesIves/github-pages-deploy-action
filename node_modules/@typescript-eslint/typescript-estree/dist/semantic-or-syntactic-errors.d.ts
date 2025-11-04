@@ -10,4 +10,3 @@ export interface SemanticOrSyntacticError extends Diagnostic {
  * the user opts in to throwing errors on semantic issues.
  */
 export declare function getFirstSemanticOrSyntacticError(program: Program, ast: SourceFile): SemanticOrSyntacticError | undefined;
-//# sourceMappingURL=semantic-or-syntactic-errors.d.ts.map

@@ -5,4 +5,3 @@ import * as ts from 'typescript';
  * i.e. the type of a called function's parameter, or the defined type of a variable declaration
  */
 export declare function getContextualType(checker: ts.TypeChecker, node: ts.Expression): ts.Type | undefined;
-//# sourceMappingURL=getContextualType.d.ts.map

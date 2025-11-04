@@ -176,4 +176,3 @@ export interface EstreeToTsNodeTypes {
  * This mapping is based on the internal logic of the parser.
  */
 export type TSESTreeToTSNode<T extends TSESTree.Node = TSESTree.Node> = Extract<ts.Token<ts.SyntaxKind.ImportKeyword | ts.SyntaxKind.NewKeyword> | TSNode, EstreeToTsNodeTypes[T['type']]>;
-//# sourceMappingURL=estree-to-ts-node-types.d.ts.map

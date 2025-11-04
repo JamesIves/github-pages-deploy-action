@@ -8,7 +8,7 @@
 //-----------------------------------------------------------------------------
 
 import createDebug from "debug";
-import path from "path";
+import path from "node:path";
 
 import environments from "../conf/environments.js";
 import { ConfigArrayFactory } from "./config-array-factory.js";
@@ -37,6 +37,7 @@ const cafactory = Symbol("cafactory");
  * @param {ReadOnlyMap<string,Processor>} options.pluginProcessors A map of plugin processor
  *      names to objects.
  * @returns {Object} A flag-config-style config object.
+ * @throws {Error} If a plugin or environment cannot be resolved.
  */
 function translateESLintRC(eslintrcConfig, {
     resolveConfigRelativeTo,
@@ -219,7 +220,7 @@ class FlatCompat {
         this[cafactory] = new ConfigArrayFactory({
             cwd: baseDirectory,
             resolvePluginsRelativeTo,
-            getEslintAllConfig: () => {
+            getEslintAllConfig() {
 
                 if (!allConfig) {
                     throw new TypeError("Missing parameter 'allConfig' in FlatCompat constructor.");
@@ -227,7 +228,7 @@ class FlatCompat {
 
                 return allConfig;
             },
-            getEslintRecommendedConfig: () => {
+            getEslintRecommendedConfig() {
 
                 if (!recommendedConfig) {
                     throw new TypeError("Missing parameter 'recommendedConfig' in FlatCompat constructor.");

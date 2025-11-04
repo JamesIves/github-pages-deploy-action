@@ -1,5 +1,5 @@
+import type { ProjectServiceAndMetadata } from '@typescript-eslint/project-service';
 import type * as ts from 'typescript';
-import type { ProjectServiceSettings } from '../create-program/createProjectService';
 import type { CanonicalPath } from '../create-program/shared';
 import type { TSESTree } from '../ts-estree';
 import type { CacheLike } from './ExpiringCache';
@@ -96,7 +96,7 @@ export interface MutableParseSettings {
     /**
      * TypeScript server to power program creation.
      */
-    projectService: ProjectServiceSettings | undefined;
+    projectService: ProjectServiceAndMetadata | undefined;
     /**
      * Whether to add the `range` property to AST nodes.
      */
@@ -124,4 +124,3 @@ export interface MutableParseSettings {
 }
 export type ParseSettings = Readonly<MutableParseSettings>;
 export {};
-//# sourceMappingURL=index.d.ts.map

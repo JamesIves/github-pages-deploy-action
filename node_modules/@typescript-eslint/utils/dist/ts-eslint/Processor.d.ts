@@ -61,4 +61,3 @@ export declare namespace Processor {
         supportsAutofix?: boolean | undefined;
     }
 }
-//# sourceMappingURL=Processor.d.ts.map
