@@ -54,7 +54,7 @@ describe('git', () => {
       })
 
       await init(action)
-      expect(execute).toHaveBeenCalledTimes(7)
+      expect(execute).toHaveBeenCalledTimes(8)
     })
 
     it('should catch when a function throws an error', async () => {
@@ -101,7 +101,7 @@ describe('git', () => {
       })
 
       await init(action)
-      expect(execute).toHaveBeenCalledTimes(7)
+      expect(execute).toHaveBeenCalledTimes(8)
     })
 
     it('should not unset git config if a user is using ssh', async () => {
@@ -144,7 +144,54 @@ describe('git', () => {
       })
 
       await init(action)
-      expect(execute).toHaveBeenCalledTimes(7)
+      expect(execute).toHaveBeenCalledTimes(8)
+    })
+
+    it('should remove includeIf git config sections when present', async () => {
+      // Mock execute to return includeIf config entries
+      ;(execute as jest.Mock)
+        .mockImplementationOnce(() => {
+          // First call: git config safe.directory
+          return {stdout: '', stderr: ''}
+        })
+        .mockImplementationOnce(() => ({stdout: '', stderr: ''})) // user.name
+        .mockImplementationOnce(() => ({stdout: '', stderr: ''})) // user.email
+        .mockImplementationOnce(() => ({stdout: '', stderr: ''})) // core.ignorecase
+        .mockImplementationOnce(() => ({stdout: '', stderr: ''})) // unset extraheader
+        .mockImplementationOnce(() => {
+          // git config --get-regexp includeIf - simulate checkout@v6 style config
+          return {
+            stdout:
+              'includeIf.gitdir:/home/runner/work/repo/.git.path /home/runner/work/_temp/git-credentials-123.config\n',
+            stderr: ''
+          }
+        })
+        .mockImplementationOnce(() => ({stdout: '', stderr: ''})) // remove-section includeIf
+        .mockImplementationOnce(() => ({stdout: '', stderr: ''})) // git remote rm
+        .mockImplementationOnce(() => ({stdout: '', stderr: ''})) // git remote add
+
+      Object.assign(action, {
+        hostname: 'github.com',
+        silent: false,
+        repositoryPath: 'JamesIves/github-pages-deploy-action',
+        token: '123',
+        branch: 'branch',
+        folder: '.',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        isTest: TestFlag.HAS_CHANGED_FILES
+      })
+
+      await init(action)
+
+      // Verify that git config --remove-section was called for includeIf
+      expect(execute).toHaveBeenCalledWith(
+        expect.stringContaining('git config --local --remove-section'),
+        action.workspace,
+        true
+      )
     })
   })
 
