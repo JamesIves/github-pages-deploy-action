@@ -93,6 +93,7 @@ export async function init(action: ActionInterface): Promise<void | Error> {
           const lines = includeIfResult.stdout.trim().split('\n')
           for (const line of lines) {
             // Each line is in format: includeIf.gitdir:/path/.git.path /path/to/config
+            // The regex captures the section name without the trailing .path suffix
             const match = line.match(/^(includeIf\.[^\s]+)\.path\s+/)
             if (match) {
               const section = match[1]
