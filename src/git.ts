@@ -77,54 +77,62 @@ export async function init(action: ActionInterface): Promise<void | Error> {
     }
 
     // Remove includeIf directives that point to credential files (actions/checkout@v6+)
+    // This runs unconditionally because checkout@v6 credentials must be cleared
     try {
-      // Always try to remove includeIf credentials when not using SSH key
-      // This is necessary because actions/checkout@v6+ uses includeIf to inject credentials
-      if (!action.sshKey || action.isTest) {
-        /* actions/checkout@v6+ uses includeIf directives to inject credentials.
-           We need to remove these to ensure the provided token/SSH key is used instead.
-           Check local, global, and system scopes as containers may configure differently.
-        */
-        for (const scope of ['--local', '--global', '--system']) {
-          try {
-            const includeIfResult = await execute(
-              `git config ${scope} --get-regexp 'includeIf\\..*\\.path'`,
-              action.workspace,
-              true // Always silent to avoid exposing credential paths
-            )
+      /* actions/checkout@v6+ uses includeIf directives to inject credentials.
+         We need to remove these to ensure the provided token/SSH key is used instead.
+         Check local, global, and system scopes as containers may configure differently.
+      */
+      info('Checking for includeIf credential directives from actions/checkout@v6...')
+      let foundAny = false
+      
+      for (const scope of ['--local', '--global', '--system']) {
+        try {
+          const includeIfResult = await execute(
+            `git config ${scope} --get-regexp 'includeIf\\..*\\.path'`,
+            action.workspace,
+            true // Always silent to avoid exposing credential paths
+          )
 
-            // Parse the output to find includeIf sections
-            if (includeIfResult.stdout) {
-              const lines = includeIfResult.stdout.trim().split('\n')
-              for (const line of lines) {
-                // Skip empty lines
-                if (!line.trim()) {
-                  continue
-                }
-                // Each line is in format: includeIf.gitdir:/path/.git.path /path/to/config
-                // The regex captures the section name without the trailing .path suffix
-                const match = line.match(/^(includeIf\.[^\s]+)\.path\s+/)
-                if (match) {
-                  const section = match[1]
-                  try {
-                    await execute(
-                      `git config ${scope} --remove-section "${section}"`,
-                      action.workspace,
-                      true // Always silent
-                    )
-                  } catch {
-                    // Continue if section cannot be removed
-                  }
+          // Parse the output to find includeIf sections
+          if (includeIfResult.stdout) {
+            const lines = includeIfResult.stdout.trim().split('\n')
+            for (const line of lines) {
+              // Skip empty lines
+              if (!line.trim()) {
+                continue
+              }
+              // Each line is in format: includeIf.gitdir:/path/.git.path /path/to/config
+              // The regex captures the section name without the trailing .path suffix
+              const match = line.match(/^(includeIf\.[^\s]+)\.path\s+/)
+              if (match) {
+                const section = match[1]
+                foundAny = true
+                info(`Found includeIf directive in ${scope} scope: ${section}`)
+                try {
+                  await execute(
+                    `git config ${scope} --remove-section "${section}"`,
+                    action.workspace,
+                    true // Always silent
+                  )
+                  info(`Removed includeIf section: ${section}`)
+                } catch (error) {
+                  info(`Failed to remove includeIf section ${section}: ${extractErrorMessage(error)}`)
                 }
               }
             }
-          } catch {
-            // Continue if no includeIf directives exist in this scope
           }
+        } catch (error) {
+          // Log but continue - this is expected if no config exists in this scope
+          info(`No includeIf directives found in ${scope} scope (or scope not accessible)`)
         }
       }
-    } catch {
-      // Silently continue if no includeIf directives exist or cannot be read
+      
+      if (!foundAny) {
+        info('No includeIf credential directives found')
+      }
+    } catch (error) {
+      info(`Error while checking for includeIf directives: ${extractErrorMessage(error)}`)
     }
 
     try {
