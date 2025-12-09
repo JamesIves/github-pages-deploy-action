@@ -54,7 +54,7 @@ describe('git', () => {
       })
 
       await init(action)
-      expect(execute).toHaveBeenCalledTimes(9)
+      expect(execute).toHaveBeenCalledTimes(10)
     })
 
     it('should catch when a function throws an error', async () => {
@@ -101,7 +101,7 @@ describe('git', () => {
       })
 
       await init(action)
-      expect(execute).toHaveBeenCalledTimes(9)
+      expect(execute).toHaveBeenCalledTimes(10)
     })
 
     it('should not unset git config if a user is using ssh', async () => {
@@ -144,7 +144,7 @@ describe('git', () => {
       })
 
       await init(action)
-      expect(execute).toHaveBeenCalledTimes(9)
+      expect(execute).toHaveBeenCalledTimes(10)
     })
 
     it('should remove includeIf git config sections when present', async () => {
@@ -168,6 +168,7 @@ describe('git', () => {
         })
         .mockImplementationOnce(() => ({stdout: '', stderr: ''})) // remove-section includeIf --local
         .mockImplementationOnce(() => ({stdout: '', stderr: ''})) // git config --global --get-regexp includeIf
+        .mockImplementationOnce(() => ({stdout: '', stderr: ''})) // git config --system --get-regexp includeIf
         .mockImplementationOnce(() => ({stdout: '', stderr: ''})) // git remote rm
         .mockImplementationOnce(() => ({stdout: '', stderr: ''})) // git remote add
 
