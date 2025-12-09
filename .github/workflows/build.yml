@@ -14,9 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v6.0.1
 
-      - uses: actions/setup-node@v6.0.0
+      - uses: actions/setup-node@v6.1.0
         with:
           node-version-file: '.node-version'
           registry-url: 'https://registry.npmjs.org'
@@ -40,9 +40,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v6.0.1
 
-      - uses: actions/setup-node@v6.0.0
+      - uses: actions/setup-node@v6.1.0
         with:
           node-version-file: '.node-version'
           registry-url: 'https://registry.npmjs.org'
@@ -78,11 +78,11 @@ jobs:
       max-parallel: 1
     steps:
       - name: Checkout
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v6.0.1
         with:
           persist-credentials: false
 
-      - uses: actions/setup-node@v6.0.0
+      - uses: actions/setup-node@v6.1.0
         with:
           node-version-file: '.node-version'
           registry-url: 'https://registry.npmjs.org'
