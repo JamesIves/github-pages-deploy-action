@@ -24,6 +24,20 @@ export async function init(action: ActionInterface): Promise<void | Error> {
     info(`Deploying using ${action.tokenType}… 🔑`)
     info('Configuring git…')
 
+    // Clear any GIT_CONFIG environment variables that might contain credentials
+    // These can be set by actions/checkout and persist in the environment
+    if (process.env.GIT_CONFIG_COUNT) {
+      info('Clearing GIT_CONFIG environment variables...')
+      delete process.env.GIT_CONFIG_COUNT
+      // Clear all GIT_CONFIG_KEY_* and GIT_CONFIG_VALUE_* vars
+      Object.keys(process.env).forEach(key => {
+        if (key.startsWith('GIT_CONFIG_KEY_') || key.startsWith('GIT_CONFIG_VALUE_')) {
+          delete process.env[key]
+        }
+      })
+      info('Cleared GIT_CONFIG environment variables')
+    }
+
     /**
      * Ensure that the workspace is a safe directory.
      */
@@ -135,6 +149,70 @@ export async function init(action: ActionInterface): Promise<void | Error> {
       info(`Error while checking for includeIf directives: ${extractErrorMessage(error)}`)
     }
 
+    // Also check for and clear any credential helpers that might be set
+    try {
+      info('Checking for credential helpers...')
+      const credentialHelperResult = await execute(
+        `git config --get-all credential.helper`,
+        action.workspace,
+        true
+      )
+      if (credentialHelperResult.stdout) {
+        info(`Found credential helper: ${credentialHelperResult.stdout}`)
+        await execute(
+          `git config --unset-all credential.helper`,
+          action.workspace,
+          true
+        )
+        info('Removed credential helper')
+      }
+    } catch {
+      info('No credential helper configured')
+    }
+
+    // Clear the extraheader from global scope as well (might be set there in containers)
+    try {
+      await execute(
+        `git config --global --unset-all http.https://${action.hostname}/.extraheader`,
+        action.workspace,
+        true
+      )
+      info('Removed global extraheader configuration')
+    } catch {
+      // Ignore - may not exist
+    }
+
+    // Clear any http.extraheader configs (without the URL prefix)
+    try {
+      const extraHeaderCheck = await execute(
+        `git config --get-regexp 'http.*extraheader'`,
+        action.workspace,
+        true
+      )
+      if (extraHeaderCheck.stdout) {
+        info(`Found extraheader configs: ${extraHeaderCheck.stdout}`)
+        // Remove each one
+        const lines = extraHeaderCheck.stdout.trim().split('\n')
+        for (const line of lines) {
+          const key = line.split(' ')[0]
+          if (key) {
+            try {
+              await execute(
+                `git config --unset-all ${key}`,
+                action.workspace,
+                true
+              )
+              info(`Removed ${key}`)
+            } catch {
+              // Continue
+            }
+          }
+        }
+      }
+    } catch {
+      // Ignore
+    }
+
     try {
       await execute(`git remote rm origin`, action.workspace, action.silent)
 
@@ -150,6 +228,19 @@ export async function init(action: ActionInterface): Promise<void | Error> {
       action.workspace,
       action.silent
     )
+    
+    // Verify the remote was set correctly
+    try {
+      const remoteCheck = await execute(
+        `git remote get-url origin`,
+        action.workspace,
+        true
+      )
+      info(`Origin remote URL configured (credentials hidden)`)
+    } catch {
+      info('Warning: Could not verify origin remote URL')
+    }
+    
     info('Git configured… 🔧')
   } catch (error) {
     throw new Error(
