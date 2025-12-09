@@ -54,7 +54,7 @@ describe('git', () => {
       })
 
       await init(action)
-      expect(execute).toHaveBeenCalledTimes(8)
+      expect(execute).toHaveBeenCalledTimes(9)
     })
 
     it('should catch when a function throws an error', async () => {
@@ -101,7 +101,7 @@ describe('git', () => {
       })
 
       await init(action)
-      expect(execute).toHaveBeenCalledTimes(8)
+      expect(execute).toHaveBeenCalledTimes(9)
     })
 
     it('should not unset git config if a user is using ssh', async () => {
@@ -144,7 +144,7 @@ describe('git', () => {
       })
 
       await init(action)
-      expect(execute).toHaveBeenCalledTimes(8)
+      expect(execute).toHaveBeenCalledTimes(9)
     })
 
     it('should remove includeIf git config sections when present', async () => {
@@ -159,14 +159,15 @@ describe('git', () => {
         .mockImplementationOnce(() => ({stdout: '', stderr: ''})) // core.ignorecase
         .mockImplementationOnce(() => ({stdout: '', stderr: ''})) // unset extraheader
         .mockImplementationOnce(() => {
-          // git config --get-regexp includeIf - simulate checkout@v6 style config
+          // git config --local --get-regexp includeIf - simulate checkout@v6 style config
           return {
             stdout:
               'includeIf.gitdir:/home/runner/work/repo/.git.path /home/runner/work/_temp/git-credentials-123.config\n',
             stderr: ''
           }
         })
-        .mockImplementationOnce(() => ({stdout: '', stderr: ''})) // remove-section includeIf
+        .mockImplementationOnce(() => ({stdout: '', stderr: ''})) // remove-section includeIf --local
+        .mockImplementationOnce(() => ({stdout: '', stderr: ''})) // git config --global --get-regexp includeIf
         .mockImplementationOnce(() => ({stdout: '', stderr: ''})) // git remote rm
         .mockImplementationOnce(() => ({stdout: '', stderr: ''})) // git remote add
 
@@ -186,7 +187,7 @@ describe('git', () => {
 
       await init(action)
 
-      // Verify that git config --remove-section was called for includeIf
+      // Verify that git config --remove-section was called for includeIf in both scopes
       expect(execute).toHaveBeenCalledWith(
         expect.stringContaining('git config --local --remove-section'),
         action.workspace,

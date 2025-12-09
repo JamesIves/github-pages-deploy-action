@@ -81,32 +81,43 @@ export async function init(action: ActionInterface): Promise<void | Error> {
       if ((process.env.CI && !action.sshKey) || action.isTest) {
         /* actions/checkout@v6+ uses includeIf directives to inject credentials.
            We need to remove these to ensure the provided token/SSH key is used instead.
+           Check both local and global scopes as containers may configure differently.
         */
-        const includeIfResult = await execute(
-          `git config --local --get-regexp 'includeIf\\..*\\.path'`,
-          action.workspace,
-          true // Always silent to avoid exposing credential paths
-        )
+        for (const scope of ['--local', '--global']) {
+          try {
+            const includeIfResult = await execute(
+              `git config ${scope} --get-regexp 'includeIf\\..*\\.path'`,
+              action.workspace,
+              true // Always silent to avoid exposing credential paths
+            )
 
-        // Parse the output to find includeIf sections
-        if (includeIfResult.stdout) {
-          const lines = includeIfResult.stdout.trim().split('\n')
-          for (const line of lines) {
-            // Each line is in format: includeIf.gitdir:/path/.git.path /path/to/config
-            // The regex captures the section name without the trailing .path suffix
-            const match = line.match(/^(includeIf\.[^\s]+)\.path\s+/)
-            if (match) {
-              const section = match[1]
-              try {
-                await execute(
-                  `git config --local --remove-section "${section}"`,
-                  action.workspace,
-                  true // Always silent
-                )
-              } catch {
-                // Continue if section cannot be removed
+            // Parse the output to find includeIf sections
+            if (includeIfResult.stdout) {
+              const lines = includeIfResult.stdout.trim().split('\n')
+              for (const line of lines) {
+                // Skip empty lines
+                if (!line.trim()) {
+                  continue
+                }
+                // Each line is in format: includeIf.gitdir:/path/.git.path /path/to/config
+                // The regex captures the section name without the trailing .path suffix
+                const match = line.match(/^(includeIf\.[^\s]+)\.path\s+/)
+                if (match) {
+                  const section = match[1]
+                  try {
+                    await execute(
+                      `git config ${scope} --remove-section "${section}"`,
+                      action.workspace,
+                      true // Always silent
+                    )
+                  } catch {
+                    // Continue if section cannot be removed
+                  }
+                }
               }
             }
+          } catch {
+            // Continue if no includeIf directives exist in this scope
           }
         }
       }
