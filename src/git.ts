@@ -24,18 +24,21 @@ export async function init(action: ActionInterface): Promise<void | Error> {
     info(`Deploying using ${action.tokenType}… 🔑`)
     info('Configuring git…')
 
-    // Clear any GIT_CONFIG environment variables that might contain credentials
+    // Clear any GIT_CONFIG and git credential environment variables
     // These can be set by actions/checkout and persist in the environment
-    if (process.env.GIT_CONFIG_COUNT) {
-      info('Clearing GIT_CONFIG environment variables...')
-      delete process.env.GIT_CONFIG_COUNT
-      // Clear all GIT_CONFIG_KEY_* and GIT_CONFIG_VALUE_* vars
-      Object.keys(process.env).forEach(key => {
-        if (key.startsWith('GIT_CONFIG_KEY_') || key.startsWith('GIT_CONFIG_VALUE_')) {
-          delete process.env[key]
-        }
+    info('Checking for git credential environment variables...')
+    const gitConfigVars = Object.keys(process.env).filter(key => 
+      key.startsWith('GIT_CONFIG') || key === 'GIT_ASKPASS' || key === 'GIT_TERMINAL_PROMPT'
+    )
+    
+    if (gitConfigVars.length > 0) {
+      info(`Found git environment variables: ${gitConfigVars.join(', ')}`)
+      gitConfigVars.forEach(key => {
+        delete process.env[key]
       })
-      info('Cleared GIT_CONFIG environment variables')
+      info(`Cleared ${gitConfigVars.length} git environment variables`)
+    } else {
+      info('No problematic git environment variables found')
     }
 
     /**
@@ -158,7 +161,7 @@ export async function init(action: ActionInterface): Promise<void | Error> {
         true
       )
       if (credentialHelperResult.stdout) {
-        info(`Found credential helper: ${credentialHelperResult.stdout}`)
+        info(`Found credential helper: ${credentialHelperResult.stdout.trim()}`)
         await execute(
           `git config --unset-all credential.helper`,
           action.workspace,
@@ -167,7 +170,43 @@ export async function init(action: ActionInterface): Promise<void | Error> {
         info('Removed credential helper')
       }
     } catch {
-      info('No credential helper configured')
+      info('No credential helper configured in local config')
+    }
+
+    // Check global credential helper
+    try {
+      const globalCredentialHelperResult = await execute(
+        `git config --global --get-all credential.helper`,
+        action.workspace,
+        true
+      )
+      if (globalCredentialHelperResult.stdout) {
+        info(`Found global credential helper: ${globalCredentialHelperResult.stdout.trim()}`)
+        await execute(
+          `git config --global --unset-all credential.helper`,
+          action.workspace,
+          true
+        )
+        info('Removed global credential helper')
+      }
+    } catch {
+      info('No global credential helper configured')
+    }
+
+    // Check system credential helper
+    try {
+      const systemCredentialHelperResult = await execute(
+        `git config --system --get-all credential.helper`,
+        action.workspace,
+        true
+      )
+      if (systemCredentialHelperResult.stdout) {
+        info(`Found system credential helper: ${systemCredentialHelperResult.stdout.trim()}`)
+        // Note: Usually can't unset system config without root, so just log it
+        info('Warning: System-level credential helper detected but cannot be removed')
+      }
+    } catch {
+      info('No system credential helper configured')
     }
 
     // Clear the extraheader from global scope as well (might be set there in containers)
