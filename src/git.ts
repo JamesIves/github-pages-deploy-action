@@ -78,12 +78,14 @@ export async function init(action: ActionInterface): Promise<void | Error> {
 
     // Remove includeIf directives that point to credential files (actions/checkout@v6+)
     try {
-      if ((process.env.CI && !action.sshKey) || action.isTest) {
+      // Always try to remove includeIf credentials when not using SSH key
+      // This is necessary because actions/checkout@v6+ uses includeIf to inject credentials
+      if (!action.sshKey || action.isTest) {
         /* actions/checkout@v6+ uses includeIf directives to inject credentials.
            We need to remove these to ensure the provided token/SSH key is used instead.
-           Check both local and global scopes as containers may configure differently.
+           Check local, global, and system scopes as containers may configure differently.
         */
-        for (const scope of ['--local', '--global']) {
+        for (const scope of ['--local', '--global', '--system']) {
           try {
             const includeIfResult = await execute(
               `git config ${scope} --get-regexp 'includeIf\\..*\\.path'`,
