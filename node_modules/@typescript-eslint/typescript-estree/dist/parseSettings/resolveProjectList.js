@@ -7,8 +7,7 @@ exports.clearGlobCache = clearGlobCache;
 exports.resolveProjectList = resolveProjectList;
 exports.clearGlobResolutionCache = clearGlobResolutionCache;
 const debug_1 = __importDefault(require("debug"));
-const fast_glob_1 = require("fast-glob");
-const is_glob_1 = __importDefault(require("is-glob"));
+const tinyglobby_1 = require("tinyglobby");
 const shared_1 = require("../create-program/shared");
 const ExpiringCache_1 = require("./ExpiringCache");
 const log = (0, debug_1.default)('typescript-eslint:typescript-estree:parseSettings:resolveProjectList');
@@ -32,10 +31,7 @@ function resolveProjectList(options) {
     if (sanitizedProjects.length === 0) {
         return new Map();
     }
-    const projectFolderIgnoreList = (options.projectFolderIgnoreList ?? ['**/node_modules/**'])
-        .filter(folder => typeof folder === 'string')
-        // prefix with a ! for not match glob
-        .map(folder => (folder.startsWith('!') ? folder : `!${folder}`));
+    const projectFolderIgnoreList = (options.projectFolderIgnoreList ?? ['**/node_modules/**']).filter(folder => typeof folder === 'string');
     const cacheKey = getHash({
         project: sanitizedProjects,
         projectFolderIgnoreList,
@@ -58,15 +54,15 @@ function resolveProjectList(options) {
         }
     }
     // Transform glob patterns into paths
-    const nonGlobProjects = sanitizedProjects.filter(project => !(0, is_glob_1.default)(project));
-    const globProjects = sanitizedProjects.filter(project => (0, is_glob_1.default)(project));
+    const nonGlobProjects = sanitizedProjects.filter(project => !(0, tinyglobby_1.isDynamicPattern)(project));
+    const globProjects = sanitizedProjects.filter(project => (0, tinyglobby_1.isDynamicPattern)(project));
     let globProjectPaths = [];
     if (globProjects.length > 0) {
-        // Although fast-glob supports multiple patterns, fast-glob returns arbitrary order of results
-        // to improve performance. To ensure the order is correct, we need to call fast-glob for each pattern
+        // To ensure the order is correct, we need to glob for each pattern
         // separately and then concatenate the results in patterns' order.
-        globProjectPaths = globProjects.flatMap(pattern => (0, fast_glob_1.sync)(pattern, {
+        globProjectPaths = globProjects.flatMap(pattern => (0, tinyglobby_1.globSync)(pattern, {
             cwd: options.tsconfigRootDir,
+            expandDirectories: false,
             ignore: projectFolderIgnoreList,
         }));
     }
