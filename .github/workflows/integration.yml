@@ -16,6 +16,8 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v6.0.1
+        with:
+          persist-credentials: false
 
       - name: Build and Deploy
         uses: JamesIves/github-pages-deploy-action@v4
@@ -36,6 +38,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6.0.1
+        with:
+          persist-credentials: false
 
       - name: Build and Deploy
         uses: JamesIves/github-pages-deploy-action@v4
@@ -281,6 +285,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6.0.1
+        with:
+          persist-credentials: false
 
       - name: Create random file
         run: echo $RANDOM > integration/1
@@ -303,6 +309,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6.0.1
+        with:
+          persist-credentials: false
 
       - name: Create random file
         run: echo $RANDOM > integration/2
