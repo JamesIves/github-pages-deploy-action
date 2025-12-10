@@ -113,7 +113,7 @@ By default, the action does not need any token configuration and uses the provid
 | `single-commit`    | This option can be toggled to `true` if you'd prefer to have a single commit on the deployment branch instead of maintaining the full history. **Using this option will also cause any existing history to be wiped from the deployment branch**.                                                                                                                           | `with` | **No**   |
 | `force`            | Force-push new deployments to overwrite the previous version; otherwise, attempt to rebase new deployments onto any existing ones. This option is turned on by default and can be toggled off by setting it to `false`, which may be useful if there are multiple deployments in a single branch.                                                                           | `with` | **No**   |
 | `attempt-limit`    | How many rebase attempts to make before suspending the job. This option defaults to `3` and may be useful to increase when there are multiple deployments in a single branch.                                                                                                                                                                                               | `with` | **No**   |
-| `git-lfs`          | Enable Git Large File Storage (LFS) support for handling large files. This should be set to `true` if your deployment folder contains files tracked by Git LFS. Defaults to `false`.                                                                                                                                                                                    | `with` | **No**   |
+| `lfs`              | Enable Git Large File Storage (LFS) support for handling large files. This should be set to `true` if your deployment folder contains files tracked by Git LFS. Defaults to `false`.                                                                                                                                                                                    | `with` | **No**   |
 | `silent`           | Silences the action output preventing it from displaying git messages.                                                                                                                                                                                                                                                                                                      | `with` | **No**   |
 | `tag`              | Add a tag to the commit. Only works when `dry-run` is not used.                                                                                                                                                                                                                                                                                                             | `with` | **No**   |
 
@@ -135,17 +135,17 @@ This value is also set as a step output as `deployment-status`.
 
 ### Using Git Large File Storage (LFS) 📦
 
-If your project contains files larger than 100MB, you'll need to use [Git Large File Storage (LFS)](https://git-lfs.github.com/) to avoid GitHub's file size limits. This action supports LFS files when the `git-lfs` input is set to `true`.
+If your project contains files larger than 100MB, you'll need to use [Git Large File Storage (LFS)](https://git-lfs.github.com/) to avoid GitHub's file size limits. This action supports LFS files when the `lfs` input is set to `true`.
 
 ```yml
 - name: Deploy to GitHub Pages
   uses: JamesIves/github-pages-deploy-action@v4
   with:
     folder: build
-    git-lfs: true
+    lfs: true
 ```
 
-When `git-lfs` is enabled, the action will:
+When `lfs` is enabled, the action will:
 1. Install and configure Git LFS in the deployment environment
 2. Properly handle LFS pointer files during the deployment process
 3. Ensure large files are correctly pushed to GitHub Pages

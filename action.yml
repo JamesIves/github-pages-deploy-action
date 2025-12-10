@@ -95,7 +95,7 @@ inputs:
     required: false
     default: 3
 
-  git-lfs:
+  lfs:
     description: 'Enable Git Large File Storage (LFS) support for handling large files. This should be set to true if your deployment folder contains files tracked by Git LFS.'
     required: false
     default: false

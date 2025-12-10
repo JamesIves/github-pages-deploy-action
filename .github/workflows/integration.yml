@@ -359,3 +359,30 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branches: gh-pages
+
+  # Deploys using Git LFS support for large files.
+  integration-lfs:
+    needs: integration-root-folder
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5.0.0
+        with:
+          persist-credentials: false
+          lfs: true
+
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: integration
+          target-folder: cat/lfs-test
+          lfs: true
+          silent: false
+          git-config-name: Montezuma
+          git-config-email: montezuma@jamesiv.es
+
+      - name: Cleanup Generated Branch
+        uses: dawidd6/action-delete-branch@v3.1.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branches: gh-pages
