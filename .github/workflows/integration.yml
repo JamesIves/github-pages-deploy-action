@@ -9,7 +9,7 @@ on:
 
 jobs:
   integration-cross-repo-push:
-    container: node:16.13
+    container: node:22
     runs-on: ubuntu-latest
     steps:
       - name: Install Container Dependencies 📚
@@ -17,7 +17,9 @@ jobs:
           apt-get update && apt-get install -y rsync
 
       - name: Checkout
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v6.0.1
+        with:
+          persist-credentials: false
 
       - name: Build and Deploy
         uses: JamesIves/github-pages-deploy-action@v4
@@ -37,7 +39,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v6.0.1
+        with:
+          persist-credentials: false
 
       - name: Build and Deploy
         uses: JamesIves/github-pages-deploy-action@v4
@@ -60,7 +64,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v6.0.1
         with:
           persist-credentials: false
 
@@ -84,12 +88,12 @@ jobs:
     needs: integration-checkout-v2
     runs-on: ubuntu-latest
     container:
-      image: ruby:2.6
+      image: ruby:3.3
       env:
         LANG: C.UTF-8
     steps:
       - name: Checkout
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v6.0.1
         with:
           persist-credentials: false
 
@@ -118,7 +122,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v6.0.1
         with:
           persist-credentials: false
 
@@ -144,7 +148,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v6.0.1
         with:
           persist-credentials: false
 
@@ -174,11 +178,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v6.0.1
         with:
           persist-credentials: false
 
-      - uses: actions/setup-node@v5.0.0
+      - uses: actions/setup-node@v6.1.0
         with:
           node-version-file: '.node-version'
 
@@ -222,7 +226,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v6.0.1
         with:
           persist-credentials: false
 
@@ -242,7 +246,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v6.0.1
         with:
           persist-credentials: false
 
@@ -284,7 +288,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v6.0.1
+        with:
+          persist-credentials: false
 
       - name: Create random file
         run: echo $RANDOM > integration/1
@@ -308,7 +314,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v6.0.1
+        with:
+          persist-credentials: false
 
       - name: Create random file
         run: echo $RANDOM > integration/2
@@ -346,7 +354,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v6.0.1
         with:
           persist-credentials: false
 

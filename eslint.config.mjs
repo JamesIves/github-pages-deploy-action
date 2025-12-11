@@ -4,6 +4,9 @@ import eslintConfigPrettier from 'eslint-config-prettier'
 import jest from 'eslint-plugin-jest'
 
 export default tseslint.config(
+  {
+    ignores: ['lib/**']
+  },
   eslintConfigPrettier,
   jest.configs['flat/recommended'],
   eslint.configs.recommended,
