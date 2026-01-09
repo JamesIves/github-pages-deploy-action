@@ -32,7 +32,7 @@ jobs:
           yarn test
 
       - name: Uploade CodeCov Report
-        uses: codecov/codecov-action@v5.5.1
+        uses: codecov/codecov-action@v5.5.2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
@@ -61,7 +61,7 @@ jobs:
           ls node_modules
 
       - name: artifact
-        uses: actions/upload-artifact@v5.0.0
+        uses: actions/upload-artifact@v6.0.0
         with:
           name: dist
           path: |
@@ -88,7 +88,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - name: Download artifact
-        uses: actions/download-artifact@v6.0.0
+        uses: actions/download-artifact@v7.0.0
         with:
           name: dist
 

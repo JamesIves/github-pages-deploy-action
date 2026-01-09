@@ -7,7 +7,7 @@ on:
 
 jobs:
   integration-cross-repo-push:
-    container: node:22
+    container: node:24
     runs-on: ubuntu-latest
     steps:
       - name: Install Container Dependencies 📚
