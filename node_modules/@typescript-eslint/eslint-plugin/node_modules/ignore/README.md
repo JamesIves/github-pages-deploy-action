@@ -352,7 +352,7 @@ instead.
 
 ### `options.ignorecase` since 4.0.0
 
-Similar as the `core.ignorecase` option of [git-config](https://git-scm.com/docs/git-config), `node-ignore` will be case insensitive if `options.ignorecase` is set to `true` (the default value), otherwise case sensitive.
+Similar to the `core.ignorecase` option of [git-config](https://git-scm.com/docs/git-config), `node-ignore` will be case insensitive if `options.ignorecase` is set to `true` (the default value), otherwise case sensitive.
 
 ```js
 const ig = ignore({
@@ -366,7 +366,7 @@ ig.ignores('*.PNG')  // false
 
 ### `options.ignoreCase?: boolean` since 5.2.0
 
-Which is alternative to `options.ignoreCase`
+Which is an alternative to `options.ignoreCase`
 
 ### `options.allowRelativePaths?: boolean` since 5.2.0
 

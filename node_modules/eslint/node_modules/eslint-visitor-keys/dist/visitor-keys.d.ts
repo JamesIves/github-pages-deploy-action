@@ -1,6 +1,6 @@
 export default KEYS;
 export type VisitorKeys = {
-    readonly [type: string]: readonly string[];
+    readonly [type: string]: ReadonlyArray<string>;
 };
 /**
  * @typedef {{ readonly [type: string]: ReadonlyArray<string> }} VisitorKeys

@@ -26,8 +26,7 @@ exports.default = (0, util_1.createRule)({
                 }
                 // Get tokens of the declaration header.
                 const moduleType = context.sourceCode.getTokenBefore(node.id);
-                if (moduleType &&
-                    moduleType.type === utils_1.AST_TOKEN_TYPES.Identifier &&
+                if (moduleType?.type === utils_1.AST_TOKEN_TYPES.Identifier &&
                     moduleType.value === 'module') {
                     context.report({
                         node,

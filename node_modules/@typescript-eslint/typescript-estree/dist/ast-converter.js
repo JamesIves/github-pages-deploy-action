@@ -53,7 +53,7 @@ function astConverter(ast, parseSettings, shouldPreserveNodeMaps) {
      * Optionally convert and include all comments in the AST
      */
     if (parseSettings.comment) {
-        estree.comments = (0, convert_comments_1.convertComments)(ast, parseSettings.codeFullText);
+        estree.comments = (0, convert_comments_1.convertComments)(ast);
     }
     const astMaps = instance.getASTMaps();
     return { astMaps, estree };

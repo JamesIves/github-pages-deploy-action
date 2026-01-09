@@ -10,7 +10,6 @@ exports.default = (0, util_1.createRule)({
             description: 'Disallow using the `delete` operator on computed key expressions',
             recommended: 'strict',
         },
-        fixable: 'code',
         messages: {
             dynamicDelete: 'Do not delete dynamically computed property keys.',
         },
@@ -18,13 +17,6 @@ exports.default = (0, util_1.createRule)({
     },
     defaultOptions: [],
     create(context) {
-        function createFixer(member) {
-            if (member.property.type === utils_1.AST_NODE_TYPES.Literal &&
-                typeof member.property.value === 'string') {
-                return createPropertyReplacement(member.property, `.${member.property.value}`);
-            }
-            return undefined;
-        }
         return {
             'UnaryExpression[operator=delete]'(node) {
                 if (node.argument.type !== utils_1.AST_NODE_TYPES.MemberExpression ||
@@ -35,19 +27,9 @@ exports.default = (0, util_1.createRule)({
                 context.report({
                     node: node.argument.property,
                     messageId: 'dynamicDelete',
-                    fix: createFixer(node.argument),
                 });
             },
         };
-        function createPropertyReplacement(property, replacement) {
-            return (fixer) => fixer.replaceTextRange(getTokenRange(property), replacement);
-        }
-        function getTokenRange(property) {
-            return [
-                (0, util_1.nullThrows)(context.sourceCode.getTokenBefore(property), util_1.NullThrowsReasons.MissingToken('token before', 'property')).range[0],
-                (0, util_1.nullThrows)(context.sourceCode.getTokenAfter(property), util_1.NullThrowsReasons.MissingToken('token after', 'property')).range[1],
-            ];
-        }
     },
 });
 function isAcceptableIndexExpression(property) {

@@ -188,9 +188,8 @@ exports.default = (0, util_1.createRule)({
                 findVariablesInScope(scope);
                 // Node.js or ES modules has a special scope.
                 if (scope.type === scope_manager_1.ScopeType.global &&
-                    scope.childScopes[0] &&
                     // The special scope's block is the Program node.
-                    scope.block === scope.childScopes[0].block) {
+                    scope.block === scope.childScopes[0]?.block) {
                     findVariablesInScope(scope.childScopes[0]);
                 }
             },

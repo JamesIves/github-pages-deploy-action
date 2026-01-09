@@ -25,8 +25,7 @@ exports.default = (0, util_1.createRule)({
                 if (node.computed) {
                     return;
                 }
-                if (node.value &&
-                    node.value.type === utils_1.AST_NODE_TYPES.TSEmptyBodyFunctionExpression) {
+                if (node.value?.type === utils_1.AST_NODE_TYPES.TSEmptyBodyFunctionExpression) {
                     return;
                 }
                 return coreListener(node);

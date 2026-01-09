@@ -165,8 +165,7 @@ exports.default = (0, util_1.createRule)({
             }
             if (type.node.type === utils_1.AST_NODE_TYPES.TSTypeOperator &&
                 ['keyof', 'readonly'].includes(type.node.operator) &&
-                type.node.typeAnnotation &&
-                type.node.typeAnnotation.type === utils_1.AST_NODE_TYPES.TSTupleType) {
+                type.node.typeAnnotation?.type === utils_1.AST_NODE_TYPES.TSTupleType) {
                 return true;
             }
             return false;
