@@ -108,7 +108,7 @@ export async function init(action: ActionInterface): Promise<void | Error> {
 export async function deploy(action: ActionInterface): Promise<Status> {
   const temporaryDeploymentDirectory =
     'github-pages-deploy-action-temp-deployment-folder'
-  const temporaryDeploymentBranch = `github-pages-deploy-action/${Math.random()
+  const temporaryDeploymentBranch = `github-pages-deploy-action-${Math.random()
     .toString(36)
     .substr(2, 9)}`
   const rsyncVersion = getRsyncVersion()
