@@ -1,4 +1,4 @@
-import {ActionInterface, TestFlag} from '../src/constants'
+import {ActionInterface, TestFlag} from '../src/constants.js'
 import {
   isNullOrUndefined,
   generateTokenType,
@@ -8,7 +8,7 @@ import {
   checkParameters,
   stripProtocolFromUrl,
   extractErrorMessage
-} from '../src/util'
+} from '../src/util.js'
 
 describe('util', () => {
   describe('isNullOrUndefined', () => {

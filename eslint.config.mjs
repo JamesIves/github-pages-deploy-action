@@ -5,7 +5,7 @@ import jest from 'eslint-plugin-jest'
 
 export default tseslint.config(
   {
-    ignores: ['lib/**', '__tests__/stubs/**']
+    ignores: ['lib/**', '__mocks__/**']
   },
   eslintConfigPrettier,
   jest.configs['flat/recommended'],

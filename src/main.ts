@@ -1,3 +1,3 @@
-import run from './lib'
+import run from './lib.js'
 
 run()

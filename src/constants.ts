@@ -1,6 +1,6 @@
 import {getInput} from '@actions/core'
 import * as github from '@actions/github'
-import {isNullOrUndefined, stripProtocolFromUrl} from './util'
+import {isNullOrUndefined, stripProtocolFromUrl} from './util.js'
 
 const {pusher, repository} = github.context.payload
 

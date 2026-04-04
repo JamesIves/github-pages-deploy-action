@@ -2,8 +2,8 @@ import {exportVariable, info} from '@actions/core'
 import {mkdirP} from '@actions/io'
 import {execFileSync, execSync} from 'child_process'
 import {appendFileSync} from 'fs'
-import {ActionInterface} from './constants'
-import {extractErrorMessage, suppressSensitiveInformation} from './util'
+import {ActionInterface} from './constants.js'
+import {extractErrorMessage, suppressSensitiveInformation} from './util.js'
 
 /**
  * Configures SSH for the workflow.

@@ -7,7 +7,7 @@ import {
   OperatingSystems,
   RequiredActionParameters,
   SupportedOperatingSystems
-} from './constants'
+} from './constants.js'
 
 /**
  * Replaces all instances of a match in a string.

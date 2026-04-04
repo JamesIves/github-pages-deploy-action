@@ -6,15 +6,15 @@ import {
   DefaultExcludedFiles,
   Status,
   TestFlag
-} from './constants'
-import {execute} from './execute'
-import {generateWorktree} from './worktree'
+} from './constants.js'
+import {execute} from './execute.js'
+import {generateWorktree} from './worktree.js'
 import {
   extractErrorMessage,
   isNullOrUndefined,
   suppressSensitiveInformation,
   getRsyncVersion
-} from './util'
+} from './util.js'
 
 /**
  * Initializes git in the workspace.

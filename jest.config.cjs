@@ -4,13 +4,16 @@ module.exports = {
   testEnvironment: 'node',
   testMatch: ['**/*.test.ts'],
   moduleNameMapper: {
-    '^@actions/core$': '<rootDir>/__tests__/stubs/@actions/core.js',
-    '^@actions/exec$': '<rootDir>/__tests__/stubs/@actions/exec.js',
-    '^@actions/github$': '<rootDir>/__tests__/stubs/@actions/github.js',
-    '^@actions/io$': '<rootDir>/__tests__/stubs/@actions/io.js'
+    // Map .js relative imports back to source .ts files for ts-jest
+    '^(\\.{1,2}/.*)\\.js$': '$1'
   },
   transform: {
-    '^.+\\.ts$': 'ts-jest'
+    '^.+\\.ts$': [
+      'ts-jest',
+      {
+        tsconfig: {module: 'commonjs', moduleResolution: 'node'}
+      }
+    ]
   },
   verbose: true,
   setupFiles: ['<rootDir>/__tests__/env.js'],

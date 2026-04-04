@@ -3,9 +3,9 @@ process.env['INPUT_FOLDER'] = 'build'
 process.env['GITHUB_SHA'] = '123'
 
 import {mkdirP, rmRF} from '@actions/io'
-import {action, Status, TestFlag} from '../src/constants'
-import {execute} from '../src/execute'
-import {deploy, init} from '../src/git'
+import {action, Status, TestFlag} from '../src/constants.js'
+import {execute} from '../src/execute.js'
+import {deploy, init} from '../src/git.js'
 import fs from 'fs'
 
 const originalAction = JSON.stringify(action)
@@ -14,18 +14,9 @@ jest.mock('fs', () => ({
   existsSync: jest.fn()
 }))
 
-jest.mock('@actions/core', () => ({
-  setFailed: jest.fn(),
-  getInput: jest.fn(),
-  setOutput: jest.fn(),
-  isDebug: jest.fn(),
-  info: jest.fn()
-}))
+jest.mock('@actions/core')
 
-jest.mock('@actions/io', () => ({
-  rmRF: jest.fn(),
-  mkdirP: jest.fn()
-}))
+jest.mock('@actions/io')
 
 jest.mock('../src/execute', () => ({
   __esModule: true,

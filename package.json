@@ -4,6 +4,7 @@
   "author": "James Ives <iam@jamesiv.es> (https://jamesiv.es)",
   "version": "4.8.0",
   "license": "MIT",
+  "type": "module",
   "main": "lib/lib.js",
   "types": "lib/lib.d.ts",
   "scripts": {
