@@ -3,7 +3,12 @@ module.exports = {
   moduleFileExtensions: ['js', 'ts'],
   testEnvironment: 'node',
   testMatch: ['**/*.test.ts'],
-  testRunner: 'jest-circus/runner',
+  moduleNameMapper: {
+    '^@actions/core$': '<rootDir>/__tests__/stubs/@actions/core.js',
+    '^@actions/exec$': '<rootDir>/__tests__/stubs/@actions/exec.js',
+    '^@actions/github$': '<rootDir>/__tests__/stubs/@actions/github.js',
+    '^@actions/io$': '<rootDir>/__tests__/stubs/@actions/io.js'
+  },
   transform: {
     '^.+\\.ts$': 'ts-jest'
   },

@@ -17,6 +17,7 @@ import {
 export default async function run(
   configuration?: ActionInterface | NodeActionInterface
 ): Promise<void> {
+  // eslint-disable-next-line no-useless-assignment
   let status: Status = Status.RUNNING
 
   try {

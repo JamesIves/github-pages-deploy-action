@@ -51,7 +51,8 @@ export async function configureSSH(action: ActionInterface): Promise<void> {
       `The ssh client configuration encountered an error: ${suppressSensitiveInformation(
         extractErrorMessage(error),
         action
-      )} ❌`
+      )} ❌`,
+      {cause: error}
     )
   }
 }

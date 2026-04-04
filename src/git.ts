@@ -97,7 +97,8 @@ export async function init(action: ActionInterface): Promise<void | Error> {
       `There was an error initializing the repository: ${suppressSensitiveInformation(
         extractErrorMessage(error),
         action
-      )} ❌`
+      )} ❌`,
+      {cause: error}
     )
   }
 }
@@ -356,7 +357,8 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       `The deploy step encountered an error: ${suppressSensitiveInformation(
         extractErrorMessage(error),
         action
-      )} ❌`
+      )} ❌`,
+      {cause: error}
     )
   } finally {
     // Cleans up temporary files/folders and restores the git state.

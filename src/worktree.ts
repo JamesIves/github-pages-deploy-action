@@ -167,7 +167,8 @@ export async function generateWorktree(
       `There was an error creating the worktree: ${suppressSensitiveInformation(
         extractErrorMessage(error),
         action
-      )} ❌`
+      )} ❌`,
+      {cause: error}
     )
   }
 }
