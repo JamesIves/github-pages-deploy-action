@@ -1,6 +1,6 @@
-import {TestFlag} from '../src/constants'
-import {execute} from '../src/execute'
-import {generateWorktree} from '../src/worktree'
+import {TestFlag} from '../src/constants.js'
+import {execute} from '../src/execute.js'
+import {generateWorktree} from '../src/worktree.js'
 
 jest.mock('../src/execute', () => ({
   __esModule: true,

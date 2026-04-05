@@ -1,7 +1,12 @@
 import {exportVariable, info, notice, setFailed, setOutput} from '@actions/core'
-import {action, ActionInterface, NodeActionInterface, Status} from './constants'
-import {deploy, init} from './git'
-import {configureSSH} from './ssh'
+import {
+  action,
+  ActionInterface,
+  NodeActionInterface,
+  Status
+} from './constants.js'
+import {deploy, init} from './git.js'
+import {configureSSH} from './ssh.js'
 import {
   checkParameters,
   extractErrorMessage,
@@ -9,7 +14,7 @@ import {
   generateRepositoryPath,
   generateTokenType,
   isNullOrUndefined
-} from './util'
+} from './util.js'
 
 /**
  * Initializes and runs the action.
@@ -17,6 +22,7 @@ import {
 export default async function run(
   configuration?: ActionInterface | NodeActionInterface
 ): Promise<void> {
+  // eslint-disable-next-line no-useless-assignment
   let status: Status = Status.RUNNING
 
   try {

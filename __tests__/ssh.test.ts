@@ -2,9 +2,9 @@ import {exportVariable} from '@actions/core'
 import {mkdirP} from '@actions/io'
 import child_process, {execFileSync, execSync} from 'child_process'
 import {appendFileSync} from 'fs'
-import {action, TestFlag} from '../src/constants'
-import {execute} from '../src/execute'
-import {configureSSH} from '../src/ssh'
+import {action, TestFlag} from '../src/constants.js'
+import {execute} from '../src/execute.js'
+import {configureSSH} from '../src/ssh.js'
 
 const originalAction = JSON.stringify(action)
 
@@ -18,19 +18,9 @@ jest.mock('child_process', () => ({
   execSync: jest.fn()
 }))
 
-jest.mock('@actions/io', () => ({
-  rmRF: jest.fn(),
-  mkdirP: jest.fn()
-}))
+jest.mock('@actions/io')
 
-jest.mock('@actions/core', () => ({
-  setFailed: jest.fn(),
-  getInput: jest.fn(),
-  setOutput: jest.fn(),
-  isDebug: jest.fn(),
-  info: jest.fn(),
-  exportVariable: jest.fn()
-}))
+jest.mock('@actions/core')
 
 jest.mock('../src/execute', () => ({
   execute: jest.fn(() => ({stdout: '', stderr: ''}))

@@ -1,17 +1,12 @@
 import {rmRF} from '@actions/io'
-import {TestFlag} from '../src/constants'
-import {generateWorktree} from '../src/worktree'
-import {execute} from '../src/execute'
+import {TestFlag} from '../src/constants.js'
+import {generateWorktree} from '../src/worktree.js'
+import {execute} from '../src/execute.js'
 import fs from 'fs'
 import os from 'os'
 import path from 'path'
 
-jest.mock('@actions/core', () => ({
-  setFailed: jest.fn(),
-  getInput: jest.fn(),
-  isDebug: jest.fn(),
-  info: jest.fn()
-}))
+jest.mock('@actions/core')
 
 /*
   Test generateWorktree against a known git repository.

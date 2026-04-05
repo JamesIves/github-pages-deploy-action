@@ -6,10 +6,10 @@ process.env['GITHUB_REF_NAME'] = 'test'
 process.env['RUNNER_OS'] = 'Linux'
 process.env['CI'] = 'true'
 
-import '../src/main'
-import {action, TestFlag} from '../src/constants'
-import run from '../src/lib'
-import {execute} from '../src/execute'
+import '../src/main.js'
+import {action, TestFlag} from '../src/constants.js'
+import run from '../src/lib.js'
+import {execute} from '../src/execute.js'
 import {rmRF} from '@actions/io'
 import {setFailed, exportVariable} from '@actions/core'
 
@@ -19,19 +19,9 @@ jest.mock('../src/execute', () => ({
   execute: jest.fn(() => ({stdout: '', stderr: ''}))
 }))
 
-jest.mock('@actions/io', () => ({
-  rmRF: jest.fn()
-}))
+jest.mock('@actions/io')
 
-jest.mock('@actions/core', () => ({
-  setFailed: jest.fn(),
-  getInput: jest.fn(),
-  setOutput: jest.fn(),
-  exportVariable: jest.fn(),
-  isDebug: jest.fn(),
-  info: jest.fn(),
-  notice: jest.fn()
-}))
+jest.mock('@actions/core')
 
 describe('main', () => {
   afterEach(() => {

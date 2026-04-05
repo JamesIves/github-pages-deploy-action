@@ -2,8 +2,8 @@ import {exportVariable, info} from '@actions/core'
 import {mkdirP} from '@actions/io'
 import {execFileSync, execSync} from 'child_process'
 import {appendFileSync} from 'fs'
-import {ActionInterface} from './constants'
-import {extractErrorMessage, suppressSensitiveInformation} from './util'
+import {ActionInterface} from './constants.js'
+import {extractErrorMessage, suppressSensitiveInformation} from './util.js'
 
 /**
  * Configures SSH for the workflow.
@@ -51,7 +51,8 @@ export async function configureSSH(action: ActionInterface): Promise<void> {
       `The ssh client configuration encountered an error: ${suppressSensitiveInformation(
         extractErrorMessage(error),
         action
-      )} ❌`
+      )} ❌`,
+      {cause: error}
     )
   }
 }

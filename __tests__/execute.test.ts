@@ -1,9 +1,7 @@
-import {execute, stdout} from '../src/execute'
+import {execute, stdout} from '../src/execute.js'
 import {exec} from '@actions/exec'
 
-jest.mock('@actions/exec', () => ({
-  exec: jest.fn()
-}))
+jest.mock('@actions/exec')
 
 describe('execute', () => {
   it('should be called with the correct arguments when silent mode is enabled', async () => {

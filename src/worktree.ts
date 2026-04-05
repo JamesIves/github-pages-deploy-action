@@ -1,7 +1,7 @@
 import {info} from '@actions/core'
-import {ActionInterface} from './constants'
-import {execute} from './execute'
-import {extractErrorMessage, suppressSensitiveInformation} from './util'
+import {ActionInterface} from './constants.js'
+import {execute} from './execute.js'
+import {extractErrorMessage, suppressSensitiveInformation} from './util.js'
 
 /**
  * Git checkout command.
@@ -167,7 +167,8 @@ export async function generateWorktree(
       `There was an error creating the worktree: ${suppressSensitiveInformation(
         extractErrorMessage(error),
         action
-      )} ❌`
+      )} ❌`,
+      {cause: error}
     )
   }
 }
