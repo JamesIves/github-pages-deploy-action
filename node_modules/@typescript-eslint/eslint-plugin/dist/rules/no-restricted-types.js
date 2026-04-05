@@ -139,10 +139,16 @@ exports.default = (0, util_1.createRule)({
         return {
             ...keywordSelectors,
             TSClassImplements(node) {
-                checkBannedTypes(node);
+                checkBannedTypes(node.expression);
+                if (node.typeArguments) {
+                    checkBannedTypes(node);
+                }
             },
             TSInterfaceHeritage(node) {
-                checkBannedTypes(node);
+                checkBannedTypes(node.expression);
+                if (node.typeArguments) {
+                    checkBannedTypes(node);
+                }
             },
             TSTupleType(node) {
                 if (!node.elementTypes.length) {

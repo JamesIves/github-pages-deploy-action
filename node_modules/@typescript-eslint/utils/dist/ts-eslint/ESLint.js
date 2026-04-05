@@ -6,7 +6,7 @@ Object.defineProperty(exports, "FlatESLint", { enumerable: true, get: function (
 var FlatESLint_2 = require("./eslint/FlatESLint");
 Object.defineProperty(exports, "ESLint", { enumerable: true, get: function () { return FlatESLint_2.FlatESLint; } });
 var LegacyESLint_1 = require("./eslint/LegacyESLint");
-// TODO(eslint@v10) - remove this in the next major
+// TODO(typescript-eslint@v9) - remove this in the next major release
 /**
  * @deprecated - use ESLint instead
  */

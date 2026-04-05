@@ -10,9 +10,9 @@ import KEYS from "./visitor-keys.js";
 
 // List to ignore keys.
 const KEY_BLACKLIST = new Set([
-    "parent",
-    "leadingComments",
-    "trailingComments"
+	"parent",
+	"leadingComments",
+	"trailingComments",
 ]);
 
 /**
@@ -21,45 +21,47 @@ const KEY_BLACKLIST = new Set([
  * @returns {boolean} `true` if the key should be used.
  */
 function filterKey(key) {
-    return !KEY_BLACKLIST.has(key) && key[0] !== "_";
+	return !KEY_BLACKLIST.has(key) && key[0] !== "_";
 }
 
+/* eslint-disable jsdoc/valid-types -- doesn't allow `readonly`.
+   TODO: remove eslint-disable when https://github.com/jsdoc-type-pratt-parser/jsdoc-type-pratt-parser/issues/164 is fixed
+*/
 /**
  * Get visitor keys of a given node.
- * @param {object} node The AST node to get keys.
+ * @param {Object} node The AST node to get keys.
  * @returns {readonly string[]} Visitor keys of the node.
  */
 export function getKeys(node) {
-    return Object.keys(node).filter(filterKey);
+	return Object.keys(node).filter(filterKey);
 }
+/* eslint-enable jsdoc/valid-types -- doesn't allow `readonly` */
 
-// Disable valid-jsdoc rule because it reports syntax error on the type of @returns.
-// eslint-disable-next-line valid-jsdoc
 /**
  * Make the union set with `KEYS` and given keys.
  * @param {VisitorKeys} additionalKeys The additional keys.
  * @returns {VisitorKeys} The union set.
  */
 export function unionWith(additionalKeys) {
-    const retv = /** @type {{
-        [type: string]: ReadonlyArray<string>
-    }} */ (Object.assign({}, KEYS));
+	const retv =
+		/** @type {{ [type: string]: ReadonlyArray<string> }} */
+		(Object.assign({}, KEYS));
 
-    for (const type of Object.keys(additionalKeys)) {
-        if (Object.prototype.hasOwnProperty.call(retv, type)) {
-            const keys = new Set(additionalKeys[type]);
+	for (const type of Object.keys(additionalKeys)) {
+		if (Object.hasOwn(retv, type)) {
+			const keys = new Set(additionalKeys[type]);
 
-            for (const key of retv[type]) {
-                keys.add(key);
-            }
+			for (const key of retv[type]) {
+				keys.add(key);
+			}
 
-            retv[type] = Object.freeze(Array.from(keys));
-        } else {
-            retv[type] = Object.freeze(Array.from(additionalKeys[type]));
-        }
-    }
+			retv[type] = Object.freeze(Array.from(keys));
+		} else {
+			retv[type] = Object.freeze(Array.from(additionalKeys[type]));
+		}
+	}
 
-    return Object.freeze(retv);
+	return Object.freeze(retv);
 }
 
 export { KEYS };

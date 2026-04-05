@@ -89,6 +89,7 @@ exports.default = (0, util_1.createRule)({
                             prop.type === utils_1.AST_NODE_TYPES.MethodDefinition ||
                             prop.type === utils_1.AST_NODE_TYPES.AccessorProperty) &&
                             !prop.static) ||
+                            prop.type === utils_1.AST_NODE_TYPES.TSIndexSignature ||
                             prop.type === utils_1.AST_NODE_TYPES.TSAbstractPropertyDefinition ||
                             prop.type === utils_1.AST_NODE_TYPES.TSAbstractMethodDefinition || // `static abstract` methods and properties are currently not supported. See: https://github.com/microsoft/TypeScript/issues/34516
                             prop.type === utils_1.AST_NODE_TYPES.TSAbstractAccessorProperty) {

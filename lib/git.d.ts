@@ -1,4 +1,4 @@
-import { ActionInterface, Status } from './constants';
+import { ActionInterface, Status } from './constants.js';
 /**
  * Initializes git in the workspace.
  */

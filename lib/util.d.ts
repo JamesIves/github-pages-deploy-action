@@ -1,4 +1,4 @@
-import { ActionInterface } from './constants';
+import { ActionInterface } from './constants.js';
 /**
  * Utility function that checks to see if a value is undefined or not.
  * If allowEmptyString is passed the parameter is allowed to contain an empty string as a valid parameter.

@@ -6,12 +6,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.esnext_collection = void 0;
 const base_config_1 = require("./base-config");
-const es2024_collection_1 = require("./es2024.collection");
+const es2025_collection_1 = require("./es2025.collection");
 exports.esnext_collection = {
-    libs: [es2024_collection_1.es2024_collection],
+    libs: [es2025_collection_1.es2025_collection],
     variables: [
-        ['ReadonlySetLike', base_config_1.TYPE],
-        ['Set', base_config_1.TYPE],
-        ['ReadonlySet', base_config_1.TYPE],
+        ['Map', base_config_1.TYPE],
+        ['WeakMap', base_config_1.TYPE],
     ],
 };

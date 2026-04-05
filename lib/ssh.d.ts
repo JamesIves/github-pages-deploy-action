@@ -1,4 +1,4 @@
-import { ActionInterface } from './constants';
+import { ActionInterface } from './constants.js';
 /**
  * Configures SSH for the workflow.
  */
