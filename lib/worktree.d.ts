@@ -1,4 +1,4 @@
-import { ActionInterface } from './constants';
+import { ActionInterface } from './constants.js';
 /**
  * Git checkout command.
  */

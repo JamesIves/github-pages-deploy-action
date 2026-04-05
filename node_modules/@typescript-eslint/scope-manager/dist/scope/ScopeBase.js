@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ScopeBase = void 0;
 const types_1 = require("@typescript-eslint/types");
 const assert_1 = require("../assert");
-const definition_1 = require("../definition");
 const ID_1 = require("../ID");
 const Reference_1 = require("../referencer/Reference");
 const variable_1 = require("../variable");
@@ -60,20 +59,11 @@ function isStrictScope(scope, block, isMethodDefinition) {
     }
     // Search 'use strict' directive.
     for (const stmt of body.body) {
-        if (stmt.type !== types_1.AST_NODE_TYPES.ExpressionStatement) {
+        if (stmt.type !== types_1.AST_NODE_TYPES.ExpressionStatement ||
+            stmt.directive == null) {
             break;
         }
         if (stmt.directive === 'use strict') {
-            return true;
-        }
-        const expr = stmt.expression;
-        if (expr.type !== types_1.AST_NODE_TYPES.Literal) {
-            break;
-        }
-        if (expr.raw === '"use strict"' || expr.raw === "'use strict'") {
-            return true;
-        }
-        if (expr.value === 'use strict') {
             return true;
         }
     }
@@ -187,16 +177,6 @@ class ScopeBase {
             /* eslint-enable @typescript-eslint/no-non-null-assertion */
         } while (current);
     };
-    #globalCloseRef = (ref, scopeManager) => {
-        // let/const/class declarations should be resolved statically.
-        // others should be resolved dynamically.
-        if (this.shouldStaticallyCloseForGlobal(ref, scopeManager)) {
-            this.#staticCloseRef(ref);
-        }
-        else {
-            this.#dynamicCloseRef(ref);
-        }
-    };
     #staticCloseRef = (ref) => {
         const resolve = () => {
             const name = ref.identifier.name;
@@ -246,50 +226,18 @@ class ScopeBase {
     isVariableScope() {
         return VARIABLE_SCOPE_TYPES.has(this.type);
     }
-    shouldStaticallyCloseForGlobal(ref, scopeManager) {
-        // On global scope, let/const/class declarations should be resolved statically.
-        const name = ref.identifier.name;
-        const variable = this.set.get(name);
-        if (!variable) {
-            return false;
-        }
-        // variable exists on the scope
-        // in module mode, we can statically resolve everything, regardless of its decl type
-        if (scopeManager.isModule()) {
-            return true;
-        }
-        // in script mode, only certain cases should be statically resolved
-        // Example:
-        // a `var` decl is ignored by the runtime if it clashes with a global name
-        // this means that we should not resolve the reference to the variable
-        const defs = variable.defs;
-        return (defs.length > 0 &&
-            defs.every(def => {
-                if (def.type === definition_1.DefinitionType.Variable && def.parent.kind === 'var') {
-                    return false;
-                }
-                return true;
-            }));
-    }
-    close(scopeManager) {
-        let closeRef;
-        if (this.shouldStaticallyClose()) {
-            closeRef = this.#staticCloseRef;
-        }
-        else if (this.type !== 'global') {
-            closeRef = this.#dynamicCloseRef;
-        }
-        else {
-            closeRef = this.#globalCloseRef;
-        }
+    close(_scopeManager) {
+        const closeRef = this.shouldStaticallyClose()
+            ? this.#staticCloseRef
+            : this.#dynamicCloseRef;
         // Try Resolving all references in this scope.
         (0, assert_1.assert)(this.leftToResolve);
-        this.leftToResolve.forEach(ref => closeRef(ref, scopeManager));
+        this.leftToResolve.forEach(ref => closeRef(ref));
         this.leftToResolve = null;
         return this.upper;
     }
     shouldStaticallyClose() {
-        return !this.#dynamic;
+        return !this.#dynamic || this.type === 'global';
     }
     /**
      * To override by function scopes.

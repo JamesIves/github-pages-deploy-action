@@ -45,13 +45,17 @@ exports.default = (0, util_1.createRule)({
             requiresTypeChecking: true,
         },
         messages: {
-            unsafeCall: 'Unsafe call of a(n) {{type}} typed value.',
+            errorCall: 'Unsafe call of a type that could not be resolved.',
+            errorCallThis: 'Unsafe call of a `this` type that could not be resolved.',
+            errorNew: 'Unsafe construction of a type that could not be resolved.',
+            errorTemplateTag: 'Unsafe use of a template tag whose type could not be resolved.',
+            unsafeCall: 'Unsafe call of {{type}} typed value.',
             unsafeCallThis: [
-                'Unsafe call of a(n) {{type}} typed value. `this` is typed as {{type}}.',
+                'Unsafe call of {{type}} typed value. `this` is typed as {{type}}.',
                 'You can try to fix this by turning on the `noImplicitThis` compiler option, or adding a `this` parameter to the function.',
             ].join('\n'),
-            unsafeNew: 'Unsafe construction of a(n) {{type}} typed value.',
-            unsafeTemplateTag: 'Unsafe use of a(n) {{type}} typed template tag.',
+            unsafeNew: 'Unsafe construction of {{type}} typed value.',
+            unsafeTemplateTag: 'Unsafe use of {{type}} typed template tag.',
         },
         schema: [],
     },
@@ -60,7 +64,7 @@ exports.default = (0, util_1.createRule)({
         const services = (0, util_1.getParserServices)(context);
         const compilerOptions = services.program.getCompilerOptions();
         const isNoImplicitThis = tsutils.isStrictCompilerOptionEnabled(compilerOptions, 'noImplicitThis');
-        function checkCall(node, reportingNode, messageId) {
+        function checkCall(node, reportingNode, unsafeMessageId, errorMessageId) {
             const type = (0, util_1.getConstrainedTypeAtLocation)(services, node);
             if ((0, util_1.isTypeAnyType)(type)) {
                 if (!isNoImplicitThis) {
@@ -68,15 +72,16 @@ exports.default = (0, util_1.createRule)({
                     const thisExpression = (0, util_1.getThisExpression)(node);
                     if (thisExpression &&
                         (0, util_1.isTypeAnyType)((0, util_1.getConstrainedTypeAtLocation)(services, thisExpression))) {
-                        messageId = 'unsafeCallThis';
+                        unsafeMessageId = 'unsafeCallThis';
+                        errorMessageId = 'errorCallThis';
                     }
                 }
                 const isErrorType = tsutils.isIntrinsicErrorType(type);
                 context.report({
                     node: reportingNode,
-                    messageId,
+                    messageId: isErrorType ? errorMessageId : unsafeMessageId,
                     data: {
-                        type: isErrorType ? '`error` type' : '`any`',
+                        type: 'an `any`',
                     },
                 });
                 return;
@@ -98,7 +103,7 @@ exports.default = (0, util_1.createRule)({
                     return;
                 }
                 const callSignatures = type.getCallSignatures();
-                if (messageId === 'unsafeNew') {
+                if (unsafeMessageId === 'unsafeNew') {
                     if (callSignatures.some(signature => !tsutils.isIntrinsicVoidType(signature.getReturnType()))) {
                         return;
                     }
@@ -108,9 +113,9 @@ exports.default = (0, util_1.createRule)({
                 }
                 context.report({
                     node: reportingNode,
-                    messageId,
+                    messageId: unsafeMessageId,
                     data: {
-                        type: '`Function`',
+                        type: 'a `Function`',
                     },
                 });
                 return;
@@ -118,13 +123,13 @@ exports.default = (0, util_1.createRule)({
         }
         return {
             'CallExpression > *.callee'(node) {
-                checkCall(node, node, 'unsafeCall');
+                checkCall(node, node, 'unsafeCall', 'errorCall');
             },
             NewExpression(node) {
-                checkCall(node.callee, node, 'unsafeNew');
+                checkCall(node.callee, node, 'unsafeNew', 'errorNew');
             },
             'TaggedTemplateExpression > *.tag'(node) {
-                checkCall(node, node, 'unsafeTemplateTag');
+                checkCall(node, node, 'unsafeTemplateTag', 'errorTemplateTag');
             },
         };
     },

@@ -1,4 +1,4 @@
-import { ActionInterface, NodeActionInterface } from './constants';
+import { ActionInterface, NodeActionInterface } from './constants.js';
 /**
  * Initializes and runs the action.
  */

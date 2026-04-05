@@ -1,3 +1,47 @@
+## 8.16.0 (2026-02-19)
+
+### New features
+
+The `sourceType` option can now be set to `"commonjs"` to have the parser treat the top level scope as a function scope.
+
+Add support for Unicode 17.
+
+### Bug fixes
+
+Don't recognize `await using` as contextual keywords when followed directly by a backslash.
+
+Fix an issue where the parser would allow `return` statements in `static` blocks when `allowReturnOutsideFunction` was enabled.
+
+Properly reject `using` declarations that appear directly in `switch` or `for` head scopes.
+
+Fix some corner case issues in the recognition of `using` syntax.
+
+## 8.15.0 (2025-06-08)
+
+### New features
+
+Support `using` and `await using` syntax.
+
+The `AnyNode` type is now defined in such a way that plugins can extend it.
+
+### Bug fixes
+
+Fix an issue where the `bigint` property of literal nodes for non-decimal bigints had the wrong format.
+
+The `acorn` CLI tool no longer crashes when emitting a tree that contains a bigint.
+
+## 8.14.1 (2025-03-05)
+
+### Bug fixes
+
+Fix an issue where `await` expressions in class field initializers were inappropriately allowed.
+
+Properly allow await inside an async arrow function inside a class field initializer.
+
+Mention the source file name in syntax error messages when given.
+
+Properly add an empty `attributes` property to every form of `ExportNamedDeclaration`.
+
 ## 8.14.0 (2024-10-27)
 
 ### New features

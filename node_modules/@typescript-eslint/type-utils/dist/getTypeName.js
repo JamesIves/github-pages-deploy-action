@@ -34,6 +34,7 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getTypeName = getTypeName;
+const tsutils = __importStar(require("ts-api-utils"));
 const ts = __importStar(require("typescript"));
 /**
  * Get the type name of a given type.
@@ -42,13 +43,13 @@ const ts = __importStar(require("typescript"));
  */
 function getTypeName(typeChecker, type) {
     // It handles `string` and string literal types as string.
-    if ((type.flags & ts.TypeFlags.StringLike) !== 0) {
+    if (tsutils.isTypeFlagSet(type, ts.TypeFlags.StringLike)) {
         return 'string';
     }
     // If the type is a type parameter which extends primitive string types,
     // but it was not recognized as a string like. So check the constraint
     // type of the type parameter.
-    if ((type.flags & ts.TypeFlags.TypeParameter) !== 0) {
+    if (tsutils.isTypeFlagSet(type, ts.TypeFlags.TypeParameter)) {
         // `type.getConstraint()` method doesn't return the constraint type of
         // the type parameter for some reason. So this gets the constraint type
         // via AST.

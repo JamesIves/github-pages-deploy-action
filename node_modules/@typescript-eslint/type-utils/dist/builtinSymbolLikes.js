@@ -152,9 +152,10 @@ function isBuiltinSymbolLikeRecurser(program, type, predicate) {
     }
     const symbol = type.getSymbol();
     if (symbol &&
-        symbol.flags & (ts.SymbolFlags.Class | ts.SymbolFlags.Interface)) {
+        tsutils.isSymbolFlagSet(symbol, ts.SymbolFlags.Class | ts.SymbolFlags.Interface)) {
         const checker = program.getTypeChecker();
-        for (const baseType of checker.getBaseTypes(type)) {
+        const declaredType = checker.getDeclaredTypeOfSymbol(symbol);
+        for (const baseType of checker.getBaseTypes(declaredType)) {
             if (isBuiltinSymbolLikeRecurser(program, baseType, predicate)) {
                 return true;
             }

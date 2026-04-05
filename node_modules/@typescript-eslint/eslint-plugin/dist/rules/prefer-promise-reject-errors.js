@@ -20,6 +20,10 @@ exports.default = (0, util_1.createRule)({
                 type: 'object',
                 additionalProperties: false,
                 properties: {
+                    allow: {
+                        ...util_1.typeOrValueSpecifiersSchema,
+                        description: 'Type specifiers that can be used as Promise rejection reasons.',
+                    },
                     allowEmptyReject: {
                         type: 'boolean',
                         description: 'Whether to allow calls to `Promise.reject()` with no arguments.',
@@ -38,6 +42,7 @@ exports.default = (0, util_1.createRule)({
     },
     defaultOptions: [
         {
+            allow: [],
             allowEmptyReject: false,
             allowThrowingAny: false,
             allowThrowingUnknown: false,
@@ -49,6 +54,9 @@ exports.default = (0, util_1.createRule)({
             const argument = callExpression.arguments.at(0);
             if (argument) {
                 const type = services.getTypeAtLocation(argument);
+                if ((0, util_1.typeMatchesSomeSpecifier)(type, options.allow, services.program)) {
+                    return;
+                }
                 if (options.allowThrowingAny && (0, util_1.isTypeAnyType)(type)) {
                     return;
                 }

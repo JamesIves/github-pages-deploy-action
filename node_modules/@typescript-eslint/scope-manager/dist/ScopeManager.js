@@ -98,6 +98,14 @@ class ScopeManager {
         }
         return scopes.find(predicate) ?? null;
     }
+    /**
+     * Adds dynamically created globals to the global scope and resolve their references.
+     * This method is called by ESLint.
+     * @param names Names of the globals to create
+     */
+    addGlobals(names) {
+        this.globalScope?.addVariables(names);
+    }
     nestBlockScope(node) {
         (0, assert_1.assert)(this.currentScope);
         return this.nestScope(new scope_1.BlockScope(this, this.currentScope, node));
