@@ -86,6 +86,10 @@ inputs:
     description: "This option can be used if you'd prefer to have a single commit on the deployment branch instead of maintaining the full history."
     required: false
 
+  lfs:
+    description: 'Enables Git Large File Storage (LFS) support. When enabled, the action will initialize LFS in the deployment branch, allowing files tracked by LFS (via .gitattributes) to be pushed as LFS objects instead of regular Git objects.'
+    required: false
+
   silent:
     description: 'Silences the action output preventing it from displaying git messages.'
     required: false

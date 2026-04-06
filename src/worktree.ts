@@ -162,6 +162,20 @@ export async function generateWorktree(
     } catch {
       info('Unable to set worktree temp directory as a safe directory…')
     }
+
+    if (action.lfs) {
+      try {
+        await execute(
+          `git lfs install --local`,
+          `${action.workspace}/${worktreedir}`,
+          action.silent
+        )
+      } catch (error) {
+        info(
+          `Unable to install Git LFS: ${extractErrorMessage(error)} Continuing without LFS support…`
+        )
+      }
+    }
   } catch (error) {
     throw new Error(
       `There was an error creating the worktree: ${suppressSensitiveInformation(
