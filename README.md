@@ -117,7 +117,7 @@ By default, the action does not need any token configuration and uses the provid
 | `silent`           | Silences the action output preventing it from displaying git messages.                                                                                                                                                                                                                                                                                                                                               | `with` | **No**   |
 | `tag`              | Add a tag to the commit. Only works when `dry-run` is not used.                                                                                                                                                                                                                                                                                                                                                      | `with` | **No**   |
 
-By default, the action excludes `.git`, `.github`, and `.ssh` during deployment to help prevent accidental circular workflows and deployment conflicts. If you provide `exclude`, those defaults are replaced by your custom list.
+**⚠️ Warning:** By default, the action excludes `.git`, `.github`, and `.ssh` during deployment to help prevent accidental circular workflows and deployment conflicts. If you provide `exclude`, those defaults are replaced by your custom list.
 
 With the action correctly configured you should see the workflow trigger the deployment under the configured conditions.
 

@@ -169,13 +169,15 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       action.exclude && action.exclude.length > 0
         ? action.exclude
         : defaultExcludes
-    const rsyncExcludes = `${deployExcludes
+    const rsyncExcludeList = [...deployExcludes]
+
+    if (action.folderPath === action.workspace) {
+      rsyncExcludeList.push(temporaryDeploymentDirectory)
+    }
+
+    const rsyncExcludes = rsyncExcludeList
       .map(item => `--exclude ${item}`)
-      .join(' ')} ${
-      action.folderPath === action.workspace
-        ? `--exclude ${temporaryDeploymentDirectory}`
-        : ''
-    }`
+      .join(' ')
 
     if (action.targetFolder) {
       info(`Creating target folder if it doesn't already exist… 📌`)
