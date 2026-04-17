@@ -57,6 +57,10 @@ inputs:
     description: 'If you need to use clean but you would like to preserve certain files or folders you can use this option. This should contain each pattern as a single line in a multiline string.'
     required: false
 
+  exclude:
+    description: 'Custom files and folders to exclude from deployment. This should contain each pattern as a single line in a multiline string. If omitted, the action excludes .git, .github and .ssh by default.'
+    required: false
+
   dry-run:
     description: 'Do not actually push back, but use `--dry-run` on `git push` invocations instead.'
     required: false

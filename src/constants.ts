@@ -26,6 +26,8 @@ export interface ActionInterface {
   clean?: boolean | null
   /** If you need to use CLEAN but you'd like to preserve certain files or folders you can use this option. */
   cleanExclude?: string[]
+  /** Custom list of files or folders to exclude from deployment. */
+  exclude?: string[]
   /** If you need to customize the commit message for an integration you can do so. */
   commitMessage?: string
   /** The hostname of which the GitHub Workflow is being run on, ie: github.com */
@@ -106,6 +108,7 @@ export const action: ActionInterface = {
   cleanExclude: (getInput('clean-exclude') || '')
     .split('\n')
     .filter(l => l !== ''),
+  exclude: (getInput('exclude') || '').split('\n').filter(l => l !== ''),
   hostname: process.env.GITHUB_SERVER_URL
     ? stripProtocolFromUrl(process.env.GITHUB_SERVER_URL)
     : 'github.com',

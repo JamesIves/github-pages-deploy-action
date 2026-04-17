@@ -347,6 +347,60 @@ describe('git', () => {
       expect(rmRF).toHaveBeenCalledTimes(1)
     })
 
+    it('should use default deploy excludes when no custom excludes are provided', async () => {
+      Object.assign(action, {
+        hostname: 'github.com',
+        silent: false,
+        folder: 'assets',
+        folderPath: 'assets',
+        branch: 'branch',
+        token: '123',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        isTest: TestFlag.HAS_CHANGED_FILES
+      })
+
+      await deploy(action)
+
+      const rsyncCommand = (execute as jest.Mock).mock.calls.find(
+        ([cmd]) => typeof cmd === 'string' && cmd.startsWith('rsync ')
+      )?.[0]
+
+      expect(rsyncCommand).toContain('--exclude .ssh')
+      expect(rsyncCommand).toMatch(/--exclude \.git(\s|$)/)
+      expect(rsyncCommand).toContain('--exclude .github')
+    })
+
+    it('should use custom deploy excludes instead of defaults', async () => {
+      Object.assign(action, {
+        hostname: 'github.com',
+        silent: false,
+        folder: 'assets',
+        folderPath: 'assets',
+        branch: 'branch',
+        token: '123',
+        exclude: ['.github', 'file.xml'],
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        isTest: TestFlag.HAS_CHANGED_FILES
+      })
+
+      await deploy(action)
+
+      const rsyncCommand = (execute as jest.Mock).mock.calls.find(
+        ([cmd]) => typeof cmd === 'string' && cmd.startsWith('rsync ')
+      )?.[0]
+
+      expect(rsyncCommand).toContain('--exclude .github')
+      expect(rsyncCommand).toContain('--exclude file.xml')
+      expect(rsyncCommand).not.toContain('--exclude .ssh')
+      expect(rsyncCommand).not.toMatch(/--exclude \.git(\s|$)/)
+    })
+
     it('should gracefully handle target folder', async () => {
       Object.assign(action, {
         hostname: 'github.com',

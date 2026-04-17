@@ -160,6 +160,23 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       }
     }
 
+    const defaultExcludes = [
+      DefaultExcludedFiles.SSH,
+      DefaultExcludedFiles.GIT,
+      DefaultExcludedFiles.GITHUB
+    ]
+    const deployExcludes =
+      action.exclude && action.exclude.length > 0
+        ? action.exclude
+        : defaultExcludes
+    const rsyncExcludes = `${deployExcludes
+      .map(item => `--exclude ${item}`)
+      .join(' ')} ${
+      action.folderPath === action.workspace
+        ? `--exclude ${temporaryDeploymentDirectory}`
+        : ''
+    }`
+
     if (action.targetFolder) {
       info(`Creating target folder if it doesn't already exist… 📌`)
       await mkdirP(`${temporaryDeploymentDirectory}/${action.targetFolder}`)
@@ -190,13 +207,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
                 : ''
             }`
           : ''
-      }  --exclude ${DefaultExcludedFiles.SSH} --exclude ${
-        DefaultExcludedFiles.GIT
-      } --exclude ${DefaultExcludedFiles.GITHUB} ${
-        action.folderPath === action.workspace
-          ? `--exclude ${temporaryDeploymentDirectory}`
-          : ''
-      }`,
+      } ${rsyncExcludes}`,
       action.workspace,
       action.silent
     )
