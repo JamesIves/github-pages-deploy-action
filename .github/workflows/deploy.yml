@@ -1,6 +1,10 @@
-name: Deploy Code to Release Branch 🚀
+name: Deploy Code to Release Branch
+
 on:
   workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   build:
@@ -12,7 +16,8 @@ jobs:
 
       # Workflow dispatch event that pushes the current version to the release branch.
       # From here the secondary production deployment workflow will trigger to build the dependencies.
-      - name: Deploy 🚀
+
+      - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: releases/v4
