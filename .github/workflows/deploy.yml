@@ -19,3 +19,9 @@ jobs:
           folder: .
           clean: false
           single-commit: true
+- name: Build Application
+  env:
+    VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID }}
+    VITE_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+    # ... el resto que ya tienes
+  run: npm run build
