@@ -1,21 +1,55 @@
-name: Deploy Code to Release Branch 🚀
+# .github/workflows/deploy.yml
+name: Deploy to GitHub Pages
+
 on:
-  workflow_dispatch:
+  push:
+    branches: ["main"]
+  workflow_dispatch: # Allows manual trigger
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   build:
-    name: Push to Release Branch
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v7.0.0
+        uses: actions/checkout@v4
 
-      # Workflow dispatch event that pushes the current version to the release branch.
-      # From here the secondary production deployment workflow will trigger to build the dependencies.
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          branch: releases/v4
-          folder: .
-          clean: false
-          single-commit: true
+          node-version: '20'
+          cache: 'npm' # Or 'pnpm' if you use pnpm
+
+      - name: Install Dependencies
+        # Note: We use 'npm' here even if you have bun.lock, 
+        # as GitHub Actions defaults to Node. 
+        # If your package.json is compatible, this works.
+        # If you strictly need Bun, see Option 2 below.
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload build artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
