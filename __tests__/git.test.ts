@@ -405,6 +405,55 @@ describe('git', () => {
       expect(rsyncCall[0]).not.toContain('--exclude montezuma')
     })
 
+    it('should exclude the .github folder by default', async () => {
+      Object.assign(action, {
+        hostname: 'github.com',
+        silent: false,
+        folder: 'assets',
+        folderPath: 'assets',
+        branch: 'branch',
+        token: '123',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        isTest: TestFlag.NONE
+      })
+
+      await deploy(action)
+
+      const rsyncCall = (execute as jest.Mock).mock.calls.find(args =>
+        (args[0] as string).startsWith('rsync')
+      )
+
+      expect(rsyncCall[0]).toContain('--exclude .github')
+    })
+
+    it('should sync the .github folder when include-github-folder is true', async () => {
+      Object.assign(action, {
+        hostname: 'github.com',
+        silent: false,
+        folder: 'assets',
+        folderPath: 'assets',
+        branch: 'branch',
+        token: '123',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        includeGithubFolder: true,
+        isTest: TestFlag.NONE
+      })
+
+      await deploy(action)
+
+      const rsyncCall = (execute as jest.Mock).mock.calls.find(args =>
+        (args[0] as string).startsWith('rsync')
+      )
+
+      expect(rsyncCall[0]).not.toContain('--exclude .github')
+    })
+
     it('should gracefully handle target folder', async () => {
       Object.assign(action, {
         hostname: 'github.com',
