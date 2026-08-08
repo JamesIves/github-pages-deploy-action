@@ -79,22 +79,22 @@ describe('configureSSH', () => {
     expect(exportVariable).toHaveBeenCalledTimes(2)
     expect(execSync).toHaveBeenCalledTimes(3)
     expect(appendFileSync).toHaveBeenCalledTimes(3)
-expect(appendFileSync).toHaveBeenCalledWith(
-  `${process.env['HOME']}/.ssh/known_hosts`,
-  expectedGitHubKnownHostRsa
-)
-expect(appendFileSync).toHaveBeenCalledWith(
-  `${process.env['HOME']}/.ssh/known_hosts`,
-  expectedGitHubKnownHostEcdsa
-)
-expect(appendFileSync).toHaveBeenCalledWith(
-  `${process.env['HOME']}/.ssh/known_hosts`,
-  expectedGitHubKnownHostEd25519
-)
-expect(appendFileSync).not.toHaveBeenCalledWith(
-  expect.any(String),
-  expect.stringContaining('ssh-dss')
-)
+    expect(appendFileSync).toHaveBeenCalledWith(
+      `${process.env['HOME']}/.ssh/known_hosts`,
+      expectedGitHubKnownHostRsa
+    )
+    expect(appendFileSync).toHaveBeenCalledWith(
+      `${process.env['HOME']}/.ssh/known_hosts`,
+      expectedGitHubKnownHostEcdsa
+    )
+    expect(appendFileSync).toHaveBeenCalledWith(
+      `${process.env['HOME']}/.ssh/known_hosts`,
+      expectedGitHubKnownHostEd25519
+    )
+    expect(appendFileSync).not.toHaveBeenCalledWith(
+      expect.any(String),
+      expect.stringContaining('ssh-dss')
+    )
   })
 
   it('should not export variables if the return from ssh-agent is skewed', async () => {
