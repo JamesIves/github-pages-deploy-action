@@ -14,10 +14,12 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCanonicalFileName = exports.typescriptVersionIsAtLeast = void 0;
+exports.getCanonicalFileName = exports.typescriptVersionIsAtLeast = exports.SUPPORTED_TYPESCRIPT_VERSIONS = void 0;
 // required by website
 __exportStar(require("./ast-converter"), exports);
 __exportStar(require("./create-program/getScriptKind"), exports);
+var warnAboutTSVersion_1 = require("./parseSettings/warnAboutTSVersion");
+Object.defineProperty(exports, "SUPPORTED_TYPESCRIPT_VERSIONS", { enumerable: true, get: function () { return warnAboutTSVersion_1.SUPPORTED_TYPESCRIPT_VERSIONS; } });
 // required by packages/utils/src/ts-estree.ts
 __exportStar(require("./getModifiers"), exports);
 var version_check_1 = require("./version-check");

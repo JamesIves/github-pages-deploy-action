@@ -359,7 +359,12 @@ export class NodeHfsImpl {
 	 * @throws {Error} If the source file is a directory.
 	 * @throws {Error} If the destination file is a directory.
 	 */
-	copy(source, destination) {
+	async copy(source, destination) {
+		const stat = await this.#fsp.lstat(source);
+		if (stat.isSymbolicLink()) {
+			const target = await this.#fsp.readlink(source);
+			return this.#fsp.symlink(target, destination);
+		}
 		return this.#fsp.copyFile(source, destination);
 	}
 
@@ -393,7 +398,10 @@ export class NodeHfsImpl {
 			const fromEntryPath = path.join(sourceStr, entry.name);
 			const toEntryPath = path.join(destinationStr, entry.name);
 
-			if (entry.isDirectory) {
+			if (entry.isSymlink) {
+				const target = await this.#fsp.readlink(fromEntryPath);
+				await this.#fsp.symlink(target, toEntryPath);
+			} else if (entry.isDirectory) {
 				await this.copyAll(fromEntryPath, toEntryPath);
 			} else {
 				await this.copy(fromEntryPath, toEntryPath);

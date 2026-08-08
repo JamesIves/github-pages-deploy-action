@@ -21,7 +21,7 @@ exports.default = (0, util_1.createRule)({
                 properties: {
                     allowDestructuring: {
                         type: 'boolean',
-                        description: 'Whether to ignore destructurings, such as `const { props, state } = this`.',
+                        description: 'Whether to ignore destructuring, such as `const { props, state } = this`.',
                     },
                     allowedNames: {
                         type: 'array',

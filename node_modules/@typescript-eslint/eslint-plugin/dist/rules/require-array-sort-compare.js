@@ -37,7 +37,7 @@ exports.default = (0, util_1.createRule)({
          * Check if a given node is an array which all elements are string.
          */
         function isStringArrayNode(node) {
-            const type = services.getTypeAtLocation(node);
+            const type = (0, util_1.getConstrainedTypeAtLocation)(services, node);
             if (checker.isArrayType(type) || checker.isTupleType(type)) {
                 const typeArgs = checker.getTypeArguments(type);
                 return typeArgs.every(arg => (0, util_1.getTypeName)(checker, arg) === 'string');

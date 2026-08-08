@@ -108,7 +108,14 @@ exports.default = (0, util_1.createRule)({
             const expressionWidenedType = isObjectLiteralType(expressionType)
                 ? checker.getWidenedType(expressionType)
                 : expressionType;
-            const isAssertionSafe = checker.isTypeAssignableTo(expressionWidenedType, assertedType);
+            let isAssertionSafe;
+            try {
+                isAssertionSafe = checker.isTypeAssignableTo(expressionWidenedType, assertedType);
+            }
+            catch {
+                // workaround for https://github.com/microsoft/TypeScript/issues/62933
+                return;
+            }
             if (isAssertionSafe) {
                 return;
             }

@@ -1,6 +1,6 @@
 {
   "name": "@eslint/config-array",
-  "version": "0.23.4",
+  "version": "0.23.5",
   "description": "General purpose glob-based configuration matching.",
   "author": "Nicholas C. Zakas",
   "type": "module",
@@ -51,7 +51,7 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "@eslint/object-schema": "^3.0.4",
+    "@eslint/object-schema": "^3.0.5",
     "debug": "^4.3.1",
     "minimatch": "^10.2.4"
   },

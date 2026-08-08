@@ -64,6 +64,17 @@ const expansions = expand('{1..100}'.repeat(5), {
 // expansions.length will be 100, not 100^5
 ```
 
+The `options` object can also provide a `maxLength` value to cap the
+total number of characters across all expansions. This is limited to
+`4_000_000` by default, to prevent memory exhaustion from inputs whose
+result count stays under `max` while each result grows very long.
+
+```js
+const expansions = expand('{a,b}'.repeat(1500), {
+  maxLength: 10_000,
+})
+```
+
 Valid expansions are:
 
 ```js

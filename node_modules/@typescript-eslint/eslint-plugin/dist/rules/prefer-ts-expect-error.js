@@ -40,7 +40,7 @@ exports.default = (0, util_1.createRule)({
                 return comment.value;
             }
             // For multiline comments - we look at only the last line.
-            const commentlines = comment.value.split('\n');
+            const commentlines = comment.value.split(utils_1.ASTUtils.LINEBREAK_MATCHER);
             return commentlines[commentlines.length - 1];
         }
         function isValidTsIgnorePresent(comment) {

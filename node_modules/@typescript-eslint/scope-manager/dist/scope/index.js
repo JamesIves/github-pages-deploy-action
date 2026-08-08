@@ -18,6 +18,7 @@ __exportStar(require("./BlockScope"), exports);
 __exportStar(require("./CatchScope"), exports);
 __exportStar(require("./ClassFieldInitializerScope"), exports);
 __exportStar(require("./ClassScope"), exports);
+__exportStar(require("./ClassStaticBlockScope"), exports);
 __exportStar(require("./ConditionalTypeScope"), exports);
 __exportStar(require("./ForScope"), exports);
 __exportStar(require("./FunctionExpressionNameScope"), exports);

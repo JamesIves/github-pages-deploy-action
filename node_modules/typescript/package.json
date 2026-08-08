@@ -2,7 +2,7 @@
     "name": "typescript",
     "author": "Microsoft Corp.",
     "homepage": "https://www.typescriptlang.org/",
-    "version": "6.0.2",
+    "version": "6.0.3",
     "license": "Apache-2.0",
     "description": "TypeScript is a language for application scale JavaScript development",
     "keywords": [
@@ -114,5 +114,5 @@
         "node": "22.22.0",
         "npm": "8.19.4"
     },
-    "gitHead": "607a22a90d1a5a1b507ce01bb8cd7ec020f954e7"
+    "gitHead": "050880ce59e30b356b686bd3144efe24f875ebc8"
 }

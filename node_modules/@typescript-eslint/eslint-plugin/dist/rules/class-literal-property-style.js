@@ -113,22 +113,29 @@ exports.default = (0, util_1.createRule)({
                     if (hasDuplicateKeySetter) {
                         return;
                     }
+                    const getterBody = node.value.body;
                     context.report({
                         node: node.key,
                         messageId: 'preferFieldStyle',
-                        suggest: [
-                            {
+                        ...(0, util_1.getFixOrSuggest)({
+                            fixOrSuggest: node.decorators.length === 0 ? 'suggest' : 'none',
+                            suggestion: {
                                 messageId: 'preferFieldStyleSuggestion',
                                 fix(fixer) {
                                     const name = context.sourceCode.getText(node.key);
+                                    const closingParen = (0, util_1.nullThrows)(context.sourceCode.getTokenBefore(node.value.returnType ?? getterBody), 'Getter should have a closing parenthesis.');
+                                    const betweenParensAndBody = context.sourceCode
+                                        .getText()
+                                        .slice(closingParen.range[1], getterBody.range[0]);
                                     let text = '';
                                     text += printNodeModifiers(node, 'readonly');
                                     text += node.computed ? `[${name}]` : name;
-                                    text += ` = ${context.sourceCode.getText(argument)};`;
+                                    text += betweenParensAndBody;
+                                    text += `= ${context.sourceCode.getText(argument)};`;
                                     return fixer.replaceText(node, text);
                                 },
                             },
-                        ],
+                        }),
                     });
                 },
             }),
