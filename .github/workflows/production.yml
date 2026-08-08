@@ -18,10 +18,15 @@ on:
     tags-ignore:
       - '*.*'
 
+permissions:
+  contents: read
+
 jobs:
   build:
     name: Build Production
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v7.0.1
@@ -61,6 +66,8 @@ jobs:
   validate:
     name: Validate Release Candidate 🧪
     needs: build
+    permissions:
+      contents: write
     secrets: inherit
     uses: ./.github/workflows/integration.yml
     with:

@@ -12,10 +12,15 @@ on:
           - minor
           - major
 
+permissions:
+  contents: read
+
 jobs:
   prepare:
     name: Merge dev into the release branch
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     outputs:
       next-version: ${{ steps.version.outputs.next-version }}
       target-branch: ${{ steps.version.outputs.target-branch }}
@@ -89,6 +94,8 @@ jobs:
   build:
     name: Build Production 🔧
     needs: prepare
+    permissions:
+      contents: write
     uses: ./.github/workflows/production.yml
     with:
       ref: ${{ needs.prepare.outputs.target-branch }}

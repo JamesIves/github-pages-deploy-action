@@ -9,6 +9,10 @@ on:
       - '*'
     tags-ignore:
       - '*.*'
+
+permissions:
+  contents: read
+
 jobs:
   unit-tests:
     runs-on: ubuntu-latest

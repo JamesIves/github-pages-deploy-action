@@ -2,6 +2,9 @@ name: Deploy Code to Release Branch 🚀
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Push to Release Branch
