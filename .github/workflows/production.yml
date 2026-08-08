@@ -1,6 +1,17 @@
 name: Deploy Production Dependencies and Code 🚀
 on:
   workflow_dispatch:
+    inputs:
+      ref:
+        description: 'The branch to build (defaults to whichever branch triggered this run).'
+        required: false
+        type: string
+  workflow_call:
+    inputs:
+      ref:
+        description: 'The branch to build (defaults to whichever branch triggered this run).'
+        required: false
+        type: string
   push:
     branches:
       - 'releases/v*'
@@ -14,6 +25,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7.0.1
+        with:
+          ref: ${{ inputs.ref || github.ref_name }}
 
       - uses: actions/setup-node@v7.0.0
         with:
@@ -51,4 +64,4 @@ jobs:
     secrets: inherit
     uses: ./.github/workflows/integration.yml
     with:
-      action-ref: ${{ github.ref_name }}
+      action-ref: ${{ inputs.ref || github.ref_name }}
