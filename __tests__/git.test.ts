@@ -76,6 +76,32 @@ describe('git', () => {
       }
     })
 
+    it('should throw the outer error when a later, unprotected execute call fails', async () => {
+      ;(execute as jest.Mock)
+        .mockImplementationOnce(() => ({stdout: '', stderr: ''})) // safe.directory (inner try/catch — succeeds)
+        .mockImplementationOnce(() => {
+          throw new Error('Mocked throw')
+        }) // git config user.name (unprotected)
+
+      Object.assign(action, {
+        hostname: 'github.com',
+        silent: false,
+        repositoryPath: 'JamesIves/github-pages-deploy-action',
+        token: '123',
+        branch: 'branch',
+        folder: '.',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        isTest: TestFlag.HAS_CHANGED_FILES
+      })
+
+      await expect(init(action)).rejects.toThrow(
+        'There was an error initializing the repository: Mocked throw ❌'
+      )
+    })
+
     it('should correctly continue when it cannot unset a git config value', async () => {
       Object.assign(action, {
         hostname: 'github.com',
@@ -347,6 +373,87 @@ describe('git', () => {
       expect(rmRF).toHaveBeenCalledTimes(1)
     })
 
+    it('should protect clean-exclude items from deletion without blocking them from being synced', async () => {
+      Object.assign(action, {
+        hostname: 'github.com',
+        silent: false,
+        folder: 'assets',
+        folderPath: 'assets',
+        branch: 'branch',
+        token: '123',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        clean: true,
+        cleanExclude: ['cat', 'montezuma'],
+        isTest: TestFlag.NONE
+      })
+
+      await deploy(action)
+
+      const rsyncCall = (execute as jest.Mock).mock.calls.find(args =>
+        (args[0] as string).startsWith('rsync')
+      )
+
+      // A protect filter keeps the item from being deleted during the --delete
+      // pass, but unlike --exclude it does not stop the item from being synced
+      // if a newer version exists in the source folder.
+      expect(rsyncCall[0]).toContain('--filter "P cat"')
+      expect(rsyncCall[0]).toContain('--filter "P montezuma"')
+      expect(rsyncCall[0]).not.toContain('--exclude cat')
+      expect(rsyncCall[0]).not.toContain('--exclude montezuma')
+    })
+
+    it('should exclude the .github folder by default', async () => {
+      Object.assign(action, {
+        hostname: 'github.com',
+        silent: false,
+        folder: 'assets',
+        folderPath: 'assets',
+        branch: 'branch',
+        token: '123',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        isTest: TestFlag.NONE
+      })
+
+      await deploy(action)
+
+      const rsyncCall = (execute as jest.Mock).mock.calls.find(args =>
+        (args[0] as string).startsWith('rsync')
+      )
+
+      expect(rsyncCall[0]).toContain('--exclude .github')
+    })
+
+    it('should sync the .github folder when include-github-folder is true', async () => {
+      Object.assign(action, {
+        hostname: 'github.com',
+        silent: false,
+        folder: 'assets',
+        folderPath: 'assets',
+        branch: 'branch',
+        token: '123',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        includeGithubFolder: true,
+        isTest: TestFlag.NONE
+      })
+
+      await deploy(action)
+
+      const rsyncCall = (execute as jest.Mock).mock.calls.find(args =>
+        (args[0] as string).startsWith('rsync')
+      )
+
+      expect(rsyncCall[0]).not.toContain('--exclude .github')
+    })
+
     it('should gracefully handle target folder', async () => {
       Object.assign(action, {
         hostname: 'github.com',
@@ -492,6 +599,50 @@ describe('git', () => {
       expect(chmodCallCount).toBe(2)
       // Verify deployment still succeeds despite chmod failures
       expect(response).toBe(Status.SUCCESS)
+    })
+
+    describe('push rejection handling', () => {
+      afterEach(() => {
+        ;(execute as jest.Mock).mockImplementation(() => ({
+          stdout: '',
+          stderr: ''
+        }))
+      })
+
+      it('should throw for a genuinely fatal push error when isTest is falsy', async () => {
+        ;(execute as jest.Mock).mockImplementation(async (cmd: string) => {
+          if (cmd.startsWith('git status --porcelain')) {
+            return {stdout: 'M assets/file.txt', stderr: ''}
+          }
+          if (cmd.startsWith('git push --porcelain')) {
+            return {
+              stdout: '',
+              stderr:
+                "fatal: unable to access 'https://github.com/JamesIves/montezuma.git/': Could not resolve host: github.com\n"
+            }
+          }
+          return {stdout: '', stderr: ''}
+        })
+
+        Object.assign(action, {
+          hostname: 'github.com',
+          silent: false,
+          folder: 'assets',
+          branch: 'branch',
+          force: false,
+          token: '123',
+          repositoryName: 'JamesIves/montezuma',
+          pusher: {
+            name: 'asd',
+            email: 'as@cat'
+          },
+          isTest: TestFlag.NONE
+        })
+
+        await expect(deploy(action)).rejects.toThrow(
+          "The deploy step encountered an error: fatal: unable to access 'https://github.com/JamesIves/montezuma.git/': Could not resolve host: github.com\n ❌"
+        )
+      })
     })
   })
 })

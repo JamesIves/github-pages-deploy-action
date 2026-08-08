@@ -1,3 +1,5 @@
+import * as core from '@actions/core'
+import {execSync} from 'child_process'
 import {ActionInterface, TestFlag} from '../src/constants.js'
 import {
   isNullOrUndefined,
@@ -7,8 +9,13 @@ import {
   suppressSensitiveInformation,
   checkParameters,
   stripProtocolFromUrl,
-  extractErrorMessage
+  extractErrorMessage,
+  getRsyncVersion
 } from '../src/util.js'
+
+jest.mock('child_process', () => ({
+  execSync: jest.fn()
+}))
 
 describe('util', () => {
   describe('isNullOrUndefined', () => {
@@ -307,6 +314,35 @@ describe('util', () => {
         )
       }
     })
+
+    it('should warn when running on an unsupported operating system', () => {
+      const warningSpy = jest.spyOn(core, 'warning').mockImplementation(() => {
+        return undefined
+      })
+      const originalRunnerOs = process.env.RUNNER_OS
+      process.env.RUNNER_OS = 'Windows'
+
+      const action: ActionInterface = {
+        silent: false,
+        token: '123',
+        branch: 'branch',
+        folder: '.',
+        folderPath: '.',
+        workspace: '.',
+        isTest: TestFlag.NONE
+      }
+
+      checkParameters(action)
+
+      expect(warningSpy).toHaveBeenCalledWith(
+        expect.stringContaining(
+          "operating system you're using is not supported"
+        )
+      )
+
+      process.env.RUNNER_OS = originalRunnerOs
+      warningSpy.mockRestore()
+    })
   })
 
   describe('stripProtocolFromUrl', () => {
@@ -344,6 +380,32 @@ describe('util', () => {
       expect(extractErrorMessage({special: 'a error message'})).toBe(
         `{"special":"a error message"}`
       )
+    })
+  })
+
+  describe('getRsyncVersion', () => {
+    afterEach(() => {
+      ;(execSync as jest.Mock).mockReset()
+    })
+
+    it('parses the version number out of `rsync --version` output', () => {
+      ;(execSync as jest.Mock).mockImplementation(
+        () => 'rsync  version 3.2.7  protocol version 31\nCopyright ...'
+      )
+      expect(getRsyncVersion()).toBe('3.2.7')
+    })
+
+    it('returns an empty string and swallows the error when execSync throws (e.g. rsync missing)', () => {
+      const consoleErrorSpy = jest
+        .spyOn(console, 'error')
+        .mockImplementation(() => undefined)
+      ;(execSync as jest.Mock).mockImplementation(() => {
+        throw new Error('spawnSync rsync ENOENT')
+      })
+
+      expect(getRsyncVersion()).toBe('')
+      expect(consoleErrorSpy).toHaveBeenCalledWith(expect.any(Error))
+      consoleErrorSpy.mockRestore()
     })
   })
 })

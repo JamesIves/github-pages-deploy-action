@@ -57,6 +57,11 @@ inputs:
     description: 'If you need to use clean but you would like to preserve certain files or folders you can use this option. This should contain each pattern as a single line in a multiline string.'
     required: false
 
+  include-github-folder:
+    description: 'A .github folder in your deployment source is excluded by default to avoid circular deployment issues. Set this to true if you actually want to deploy a .github folder from your build output. This does not affect .git or .ssh, which are always excluded.'
+    required: false
+    default: false
+
   dry-run:
     description: 'Do not actually push back, but use `--dry-run` on `git push` invocations instead.'
     required: false

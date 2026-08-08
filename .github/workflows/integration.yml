@@ -1,9 +1,24 @@
 name: Integration Tests 🧪
 on:
   workflow_call:
+    inputs:
+      action-ref:
+        description: 'The github-pages-deploy-action ref (tag, branch, or SHA) to validate.'
+        required: false
+        type: string
+        default: 'v4'
   workflow_dispatch:
+    inputs:
+      action-ref:
+        description: 'The github-pages-deploy-action ref (tag, branch, or SHA) to validate.'
+        required: false
+        type: string
+        default: 'v4'
   schedule:
     - cron: 30 15 * * 0-6
+
+permissions:
+  contents: write
 
 jobs:
   integration-cross-repo-push:
@@ -15,12 +30,20 @@ jobs:
           apt-get update && apt-get install -y rsync
 
       - name: Checkout
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
+          persist-credentials: false
+
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: ./action-under-test
         with:
           git-config-name: Montezuma
           git-config-email: montezuma@jamesiv.es
@@ -37,12 +60,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
+          persist-credentials: false
+
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: ./action-under-test
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
           folder: integration
@@ -62,12 +93,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
+          persist-credentials: false
+
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: ./action-under-test
         with:
           folder: integration
           target-folder: cat/montezuma2
@@ -91,8 +130,16 @@ jobs:
         LANG: C.UTF-8
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7.0.1
         with:
+          persist-credentials: false
+
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
           persist-credentials: false
 
       - name: Install rsync
@@ -100,7 +147,7 @@ jobs:
           apt-get update && apt-get install -y rsync
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: ./action-under-test
         with:
           folder: integration
           target-folder: cat/montezuma2
@@ -120,12 +167,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
+          persist-credentials: false
+
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: ./action-under-test
         with:
           ssh-key: ${{ secrets.DEPLOY_KEY }}
           folder: integration
@@ -146,8 +201,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7.0.1
         with:
+          persist-credentials: false
+
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
           persist-credentials: false
 
       - name: Install SSH Client
@@ -156,7 +219,7 @@ jobs:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: ./action-under-test
         with:
           ssh-key: true
           folder: integration
@@ -176,16 +239,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
-      - uses: actions/setup-node@v6.3.0
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
+          persist-credentials: false
+
+      - uses: actions/setup-node@v7.0.0
         with:
           node-version-file: '.node-version'
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: ./action-under-test
         with:
           ssh-key: ${{ secrets.DEPLOY_KEY }}
           folder: integration
@@ -195,7 +266,7 @@ jobs:
           git-config-email: montezuma@jamesiv.es
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: ./action-under-test
         with:
           ssh-key: ${{ secrets.DEPLOY_KEY }}
           folder: integration
@@ -224,12 +295,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
+          persist-credentials: false
+
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: ./action-under-test
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
           folder: integration
@@ -244,12 +323,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
+          persist-credentials: false
+
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: ./action-under-test
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
           branch: integration-test-delete-prod
@@ -260,7 +347,7 @@ jobs:
           git-config-email: montezuma@jamesiv.es
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: ./action-under-test
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
           branch: integration-test-delete-prod
@@ -284,15 +371,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7.0.1
         with:
+          persist-credentials: false
+
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
           persist-credentials: false
 
       - name: Create random file
         run: echo $RANDOM > integration/1
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: ./action-under-test
         with:
           git-config-name: Montezuma
           git-config-email: montezuma@jamesiv.es
@@ -308,15 +403,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7.0.1
         with:
+          persist-credentials: false
+
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
           persist-credentials: false
 
       - name: Create random file
         run: echo $RANDOM > integration/2
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: ./action-under-test
         with:
           git-config-name: Montezuma
           git-config-email: montezuma@jamesiv.es
@@ -344,8 +447,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7.0.1
         with:
+          persist-credentials: false
+
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
           persist-credentials: false
 
       - name: Echo
@@ -354,7 +465,7 @@ jobs:
           echo "Here"
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: ./action-under-test
         with:
           folder: .
           target-folder: cat/montezuma5
@@ -367,3 +478,462 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branches: gh-pages
+
+  # Deploys with dry-run and verifies the branch was never actually pushed.
+  integration-dry-run:
+    needs: integration-root-folder
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
+          persist-credentials: false
+
+      - name: Build and Deploy (Dry Run)
+        uses: ./action-under-test
+        with:
+          branch: integration-test-dry-run
+          folder: integration
+          dry-run: true
+          silent: false
+          git-config-name: Montezuma
+          git-config-email: montezuma@jamesiv.es
+
+      - name: Verify the dry-run did not push a branch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          status=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "Authorization: token $GH_TOKEN" \
+            https://api.github.com/repos/${{ github.repository }}/branches/integration-test-dry-run)
+          if [ "$status" != "404" ]; then
+            echo "Expected branch to NOT exist after a dry-run, got HTTP $status"
+            exit 1
+          fi
+
+  # Deploys with a tag and verifies the tag was pushed.
+  integration-tag:
+    needs: integration-dry-run
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
+          persist-credentials: false
+
+      - name: Build and Deploy with a Tag
+        uses: ./action-under-test
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          branch: integration-test-tag-branch
+          folder: integration
+          single-commit: true
+          tag: integration-test-${{ github.run_id }}
+          silent: false
+          git-config-name: Montezuma
+          git-config-email: montezuma@jamesiv.es
+
+      - name: Verify the tag was pushed
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          status=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "Authorization: token $GH_TOKEN" \
+            https://api.github.com/repos/${{ github.repository }}/git/refs/tags/integration-test-${{ github.run_id }})
+          [ "$status" == "200" ] || { echo "Expected tag to exist, got HTTP $status"; exit 1; }
+
+      - name: Cleanup Generated Branch
+        uses: dawidd6/action-delete-branch@v3.1.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branches: integration-test-tag-branch
+
+      - name: Cleanup Generated Tag
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -s -X DELETE -H "Authorization: token $GH_TOKEN" \
+            https://api.github.com/repos/${{ github.repository }}/git/refs/tags/integration-test-${{ github.run_id }}
+
+  # Deploys twice to the same branch, using clean-exclude to protect a file
+  # from the second deploy's --delete clean pass.
+  integration-clean-exclude:
+    needs: integration-tag
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
+          persist-credentials: false
+
+      - name: Create excluded fixture file
+        run: echo "keep me" > integration/keep-me.txt
+
+      - name: Initial Deploy (includes keep-me.txt)
+        uses: ./action-under-test
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          branch: integration-test-clean-exclude
+          folder: integration
+          clean: true
+          silent: false
+          git-config-name: Montezuma
+          git-config-email: montezuma@jamesiv.es
+
+      - name: Remove the fixture file locally before the second deploy
+        run: rm integration/keep-me.txt
+
+      - name: Second Deploy with clean-exclude protecting keep-me.txt
+        uses: ./action-under-test
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          branch: integration-test-clean-exclude
+          folder: integration
+          clean: true
+          clean-exclude: |
+            keep-me.txt
+          silent: false
+          git-config-name: Montezuma
+          git-config-email: montezuma@jamesiv.es
+
+      - name: Verify keep-me.txt survived the clean
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          status=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "Authorization: token $GH_TOKEN" \
+            "https://api.github.com/repos/${{ github.repository }}/contents/keep-me.txt?ref=integration-test-clean-exclude")
+          [ "$status" == "200" ] || { echo "Expected keep-me.txt to survive, got HTTP $status"; exit 1; }
+
+      - name: Cleanup Generated Branch
+        uses: dawidd6/action-delete-branch@v3.1.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branches: integration-test-clean-exclude
+
+  # Deploys twice to the same branch with clean: false, expecting a stale
+  # file from the first deploy to survive the second.
+  integration-clean-false:
+    needs: integration-clean-exclude
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
+          persist-credentials: false
+
+      - name: Create stale fixture file
+        run: echo "stale" > integration/stale-me.txt
+
+      - name: Initial Deploy (includes stale-me.txt)
+        uses: ./action-under-test
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          branch: integration-test-clean-false
+          folder: integration
+          clean: true
+          silent: false
+          git-config-name: Montezuma
+          git-config-email: montezuma@jamesiv.es
+
+      - name: Remove the fixture file locally before the second deploy
+        run: rm integration/stale-me.txt
+
+      - name: Second Deploy with clean disabled
+        uses: ./action-under-test
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          branch: integration-test-clean-false
+          folder: integration
+          clean: false
+          silent: false
+          git-config-name: Montezuma
+          git-config-email: montezuma@jamesiv.es
+
+      - name: Verify stale-me.txt survived because clean was disabled
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          status=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "Authorization: token $GH_TOKEN" \
+            "https://api.github.com/repos/${{ github.repository }}/contents/stale-me.txt?ref=integration-test-clean-false")
+          [ "$status" == "200" ] || { echo "Expected stale-me.txt to survive, got HTTP $status"; exit 1; }
+
+      - name: Cleanup Generated Branch
+        uses: dawidd6/action-delete-branch@v3.1.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branches: integration-test-clean-false
+
+  # Combines force: false with single-commit: true, a combination never
+  # exercised elsewhere (existing single-commit jobs default force: true).
+  integration-force-false-single-commit:
+    needs: integration-clean-false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
+          persist-credentials: false
+
+      - name: First Deploy
+        uses: ./action-under-test
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          branch: integration-test-force-false-single-commit
+          folder: integration
+          single-commit: true
+          force: false
+          silent: false
+          git-config-name: Montezuma
+          git-config-email: montezuma@jamesiv.es
+
+      - name: Second Deploy (should rebase cleanly onto the orphan history)
+        uses: ./action-under-test
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          branch: integration-test-force-false-single-commit
+          folder: integration
+          single-commit: true
+          force: false
+          silent: false
+          git-config-name: Montezuma
+          git-config-email: montezuma@jamesiv.es
+
+      - name: Cleanup Generated Branch
+        uses: dawidd6/action-delete-branch@v3.1.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branches: integration-test-force-false-single-commit
+
+  # Deploys with attempt-limit: 1 after forcing a rejection, expecting a
+  # clean failure once the limit is exceeded.
+  integration-attempt-limit:
+    needs: integration-force-false-single-commit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
+          persist-credentials: false
+
+      - name: Establish the target branch
+        uses: ./action-under-test
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          branch: integration-test-attempt-limit
+          folder: integration
+          single-commit: true
+          silent: false
+          git-config-name: Montezuma
+          git-config-email: montezuma@jamesiv.es
+
+      - name: Simulate a competing push to force a rejection
+        env:
+          GIT_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        run: |
+          git clone --branch integration-test-attempt-limit --depth 1 \
+            "https://x-access-token:${GIT_TOKEN}@github.com/${{ github.repository }}.git" competitor
+          cd competitor
+          git config user.name "Competitor"
+          git config user.email "competitor@jamesiv.es"
+          echo "$RANDOM" > competing-change.txt
+          git add . && git commit -m "Competing change"
+          git push origin integration-test-attempt-limit
+
+      - name: Attempt to deploy with an attempt-limit of 1 (should fail)
+        id: low-attempt-limit
+        continue-on-error: true
+        uses: ./action-under-test
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          branch: integration-test-attempt-limit
+          folder: integration
+          force: false
+          attempt-limit: 1
+          silent: false
+          git-config-name: Montezuma
+          git-config-email: montezuma@jamesiv.es
+
+      - name: Verify the deploy failed once the attempt limit was exceeded
+        if: steps.low-attempt-limit.outcome != 'failure'
+        run: |
+          echo "Expected failure after exceeding attempt-limit: 1"; exit 1
+
+      - name: Cleanup Generated Branch
+        uses: dawidd6/action-delete-branch@v3.1.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branches: integration-test-attempt-limit
+
+  # Deploys without git-config-name/git-config-email, verifying the
+  # default GitHub-context-derived author is resolved rather than crashing.
+  integration-default-git-config:
+    needs: integration-attempt-limit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
+          persist-credentials: false
+
+      - name: Build and Deploy without a custom git-config-name/email
+        uses: ./action-under-test
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          branch: integration-test-default-git-config
+          folder: integration
+          single-commit: true
+          silent: false
+
+      - name: Verify a non-empty author was resolved
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          author_name=$(curl -s -H "Authorization: token $GH_TOKEN" \
+            "https://api.github.com/repos/${{ github.repository }}/commits/integration-test-default-git-config" \
+            | jq -r '.commit.author.name // empty')
+          if [ -z "$author_name" ]; then
+            echo "Expected a non-empty default commit author name"; exit 1
+          fi
+          echo "Resolved default author: $author_name"
+
+      - name: Cleanup Generated Branch
+        uses: dawidd6/action-delete-branch@v3.1.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branches: integration-test-default-git-config
+
+  # Deploys using a ~-prefixed absolute folder path, per the documented
+  # "utilize absolute file paths by prepending ~" behavior.
+  integration-tilde-folder:
+    needs: integration-default-git-config
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
+          persist-credentials: false
+
+      - name: Populate a folder outside the workspace
+        run: |
+          mkdir -p ~/integration-tilde-test
+          cp -r integration/. ~/integration-tilde-test/
+
+      - name: Build and Deploy from a ~-prefixed folder
+        uses: ./action-under-test
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          branch: integration-test-tilde-folder
+          folder: ~/integration-tilde-test
+          single-commit: true
+          silent: false
+          git-config-name: Montezuma
+          git-config-email: montezuma@jamesiv.es
+
+      - name: Cleanup Generated Branch
+        uses: dawidd6/action-delete-branch@v3.1.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branches: integration-test-tilde-folder
+
+  # Deploys with a folder that doesn't exist, expecting checkParameters's
+  # own validation to fail the step cleanly rather than a runner-generic error.
+  integration-invalid-input:
+    needs: integration-tilde-folder
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
+          persist-credentials: false
+
+      - name: Attempt to deploy a folder that does not exist
+        id: invalid-folder
+        continue-on-error: true
+        uses: ./action-under-test
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          branch: integration-test-invalid-input
+          folder: this-directory-does-not-exist
+          silent: false
+          git-config-name: Montezuma
+          git-config-email: montezuma@jamesiv.es
+
+      - name: Verify the step failed cleanly
+        if: steps.invalid-folder.outcome != 'failure'
+        run: |
+          echo "Expected the step to fail for a non-existent folder"; exit 1

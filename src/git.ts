@@ -152,11 +152,11 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       // Silently ignore chmod failures - they are non-critical and often occur with read-only folders
     }
 
-    // Ensures that items that need to be excluded from the clean job get parsed.
-    let excludes = ''
+    // Protects clean-exclude items from --delete without blocking them from syncing.
+    let cleanExcludeFilters = ''
     if (action.clean && action.cleanExclude) {
       for (const item of action.cleanExclude) {
-        excludes += `--exclude ${item} `
+        cleanExcludeFilters += `--filter "P ${item}" `
       }
     }
 
@@ -176,7 +176,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
           : temporaryDeploymentDirectory
       } ${
         action.clean
-          ? `--delete ${excludes} ${
+          ? `--delete ${cleanExcludeFilters} ${
               !fs.existsSync(
                 `${action.folderPath}/${DefaultExcludedFiles.CNAME}`
               )
@@ -192,7 +192,11 @@ export async function deploy(action: ActionInterface): Promise<Status> {
           : ''
       }  --exclude ${DefaultExcludedFiles.SSH} --exclude ${
         DefaultExcludedFiles.GIT
-      } --exclude ${DefaultExcludedFiles.GITHUB} ${
+      } ${
+        action.includeGithubFolder
+          ? ''
+          : `--exclude ${DefaultExcludedFiles.GITHUB}`
+      } ${
         action.folderPath === action.workspace
           ? `--exclude ${temporaryDeploymentDirectory}`
           : ''

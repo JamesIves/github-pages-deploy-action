@@ -9,30 +9,31 @@ on:
       - '*'
     tags-ignore:
       - '*.*'
+
+permissions:
+  contents: read
+
 jobs:
   unit-tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7.0.1
 
-      - uses: actions/setup-node@v6.3.0
+      - uses: actions/setup-node@v7.0.0
         with:
           node-version-file: '.node-version'
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Install Yarn
-        run: npm install -g yarn
-
       - name: Install and Test
         run: |
-          yarn install --frozen-lockfile
-          yarn lint:check
-          yarn lint:format:check
-          yarn test
+          npm ci
+          npm run lint:check
+          npm run lint:format:check
+          npm test
 
       - name: Uploade CodeCov Report
-        uses: codecov/codecov-action@v6.0.0
+        uses: codecov/codecov-action@v7.0.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
@@ -40,28 +41,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7.0.1
 
-      - uses: actions/setup-node@v6.3.0
+      - uses: actions/setup-node@v7.0.0
         with:
           node-version-file: '.node-version'
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Install Yarn
-        run: npm install -g yarn
-
       - name: Build lib
         run: |
-          yarn install --frozen-lockfile
-          yarn build
+          npm ci
+          npm run build
 
       - name: Rebuild production node_modules
         run: |
-          yarn install --production --frozen-lockfile
+          npm ci --omit=dev
           ls node_modules
 
       - name: artifact
-        uses: actions/upload-artifact@v7.0.0
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: dist
           path: |
@@ -78,11 +76,11 @@ jobs:
       max-parallel: 1
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
-      - uses: actions/setup-node@v6.3.0
+      - uses: actions/setup-node@v7.0.0
         with:
           node-version-file: '.node-version'
           registry-url: 'https://registry.npmjs.org'

@@ -2,13 +2,16 @@ name: Deploy Code to Release Branch 🚀
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Push to Release Branch
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7.0.1
 
       # Workflow dispatch event that pushes the current version to the release branch.
       # From here the secondary production deployment workflow will trigger to build the dependencies.

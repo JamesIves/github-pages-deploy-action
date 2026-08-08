@@ -1,27 +1,41 @@
 name: Deploy Production Dependencies and Code 🚀
 on:
   workflow_dispatch:
+    inputs:
+      ref:
+        description: 'The branch to build (defaults to whichever branch triggered this run).'
+        required: false
+        type: string
+  workflow_call:
+    inputs:
+      ref:
+        description: 'The branch to build (defaults to whichever branch triggered this run).'
+        required: false
+        type: string
   push:
     branches:
       - 'releases/v*'
     tags-ignore:
       - '*.*'
 
+permissions:
+  contents: read
+
 jobs:
   build:
     name: Build Production
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7.0.1
+        with:
+          ref: ${{ inputs.ref || github.ref_name }}
 
-      - uses: actions/setup-node@v6.3.0
+      - uses: actions/setup-node@v7.0.0
         with:
           node-version-file: '.node-version'
-          registry-url: 'https://registry.npmjs.org'
-
-      - name: Install Yarn
-        run: npm install -g yarn
 
       - name: Clobber lib
         run: rm -rf lib
@@ -32,12 +46,12 @@ jobs:
 
       - name: Build
         run: |
-          yarn install --frozen-lockfile
-          yarn build
+          npm ci
+          npm run build
 
       - name: Install Production node_modules
         run: |
-          yarn install --production --frozen-lockfile
+          npm ci --omit=dev
 
       - name: Commit and Push
         # Keep the run green if the commit fails for the lack of changes
@@ -48,3 +62,13 @@ jobs:
           git add .
           git commit -m "Deploy Production Code for Commit ${{ github.sha }} 🚀"
           git push
+
+  validate:
+    name: Validate Release Candidate 🧪
+    needs: build
+    permissions:
+      contents: write
+    secrets: inherit
+    uses: ./.github/workflows/integration.yml
+    with:
+      action-ref: ${{ inputs.ref || github.ref_name }}

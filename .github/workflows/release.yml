@@ -1,0 +1,121 @@
+name: Release 🚀
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: 'Version bump type'
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+permissions:
+  contents: read
+
+jobs:
+  prepare:
+    name: Merge dev into the release branch
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      next-version: ${{ steps.version.outputs.next-version }}
+      target-branch: ${{ steps.version.outputs.target-branch }}
+    steps:
+      - name: Checkout dev
+        uses: actions/checkout@v7.0.1
+        with:
+          ref: dev
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.email "${{ secrets.GIT_CONFIG_EMAIL }}"
+          git config user.name "${{ secrets.GIT_CONFIG_NAME }}"
+
+      - name: Compute the next version and target release branch
+        id: version
+        run: |
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          CURRENT_MAJOR="${CURRENT_VERSION%%.*}"
+          NEXT_VERSION=$(npm --no-git-tag-version version "${{ inputs.bump }}")
+          NEXT_VERSION="${NEXT_VERSION#v}"
+          NEXT_MAJOR="${NEXT_VERSION%%.*}"
+          # The version bump above is only used to compute the next version
+          # number - the actual package.json bump on dev happens later, via
+          # version.yml, once the release tag has been pushed.
+          git checkout -- package.json package-lock.json
+
+          echo "Bumping $CURRENT_VERSION -> $NEXT_VERSION"
+
+          echo "next-version=$NEXT_VERSION" >> "$GITHUB_OUTPUT"
+          echo "target-branch=releases/v$NEXT_MAJOR" >> "$GITHUB_OUTPUT"
+          if [ "$NEXT_MAJOR" != "$CURRENT_MAJOR" ]; then
+            echo "is-new-major=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "is-new-major=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create the new major release branch
+        if: steps.version.outputs.is-new-major == 'true'
+        run: |
+          git checkout -b ${{ steps.version.outputs.target-branch }}
+          git push origin ${{ steps.version.outputs.target-branch }}
+
+      - name: Merge dev into the existing release branch
+        if: steps.version.outputs.is-new-major == 'false'
+        run: |
+          git fetch origin ${{ steps.version.outputs.target-branch }}
+          git checkout ${{ steps.version.outputs.target-branch }}
+
+          if ! git merge origin/dev --no-edit; then
+            CONFLICTS=$(git diff --name-only --diff-filter=U)
+
+            # production.yml always comments out lib/node_modules in .gitignore on release
+            # branches so the build output can be committed. This makes .gitignore permanently
+            # diverge from dev, so keep the release branch's version rather than failing here.
+            if [ "$CONFLICTS" = ".gitignore" ]; then
+              echo "Resolving expected .gitignore conflict in favor of the release branch..."
+              git checkout --ours .gitignore
+              git add .gitignore
+              git commit --no-edit
+            else
+              echo "::error::Unresolved merge conflicts outside of .gitignore, manual intervention required:"
+              echo "$CONFLICTS"
+              exit 1
+            fi
+          fi
+
+          git push origin ${{ steps.version.outputs.target-branch }}
+
+  build:
+    name: Build Production 🔧
+    needs: prepare
+    permissions:
+      contents: write
+    uses: ./.github/workflows/production.yml
+    with:
+      ref: ${{ needs.prepare.outputs.target-branch }}
+    secrets: inherit
+
+  release:
+    name: Tag and Publish the Release 🚀
+    needs: [prepare, build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+        with:
+          ref: ${{ needs.prepare.outputs.target-branch }}
+
+      - name: Create the GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.PAT }}
+        run: |
+          gh release create "v${{ needs.prepare.outputs.next-version }}" \
+            --title "v${{ needs.prepare.outputs.next-version }}" \
+            --target "${{ needs.prepare.outputs.target-branch }}" \
+            --generate-notes

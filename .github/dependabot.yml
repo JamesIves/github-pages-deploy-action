@@ -3,30 +3,42 @@ updates:
   - package-ecosystem: npm
     directory: '/'
     schedule:
-      interval: daily
+      interval: weekly
+      day: monday
       time: '10:00'
     open-pull-requests-limit: 10
+    cooldown:
+      default-days: 5
+      semver-major-days: 15
+      semver-minor-days: 7
+      semver-patch-days: 3
     groups:
-      eslint:
+      lint:
         patterns:
-          - 'eslint-*'
-          - '@typescript-eslint/*'
+          - 'eslint*'
           - '@eslint/*'
+          - '@typescript-eslint/*'
+          - 'typescript-eslint'
+          - 'prettier*'
 
       typescript:
         patterns:
-          - 'typescript-*'
-          - '@typescript/*'
+          - 'typescript'
 
       jest:
         patterns:
-          - 'jest-*'
+          - 'jest*'
           - '@jest/*'
+          - '@types/jest'
+          - 'ts-jest'
 
       actions:
         patterns:
-          - 'actions/*'
           - '@actions/*'
+
+      types:
+        patterns:
+          - '@types/*'
 
       misc:
         patterns:
@@ -35,6 +47,16 @@ updates:
   - package-ecosystem: github-actions
     directory: '/'
     schedule:
-      interval: daily
+      interval: weekly
+      day: monday
       time: '10:00'
     open-pull-requests-limit: 10
+    cooldown:
+      default-days: 5
+      semver-major-days: 15
+      semver-minor-days: 7
+      semver-patch-days: 3
+    groups:
+      actions:
+        patterns:
+          - '*'
