@@ -15,7 +15,7 @@ on:
         type: string
         default: 'v4'
   schedule:
-    - cron: 30 15 * * 0-6
+    - cron: 30 15 * * 1
 
 permissions:
   contents: write
