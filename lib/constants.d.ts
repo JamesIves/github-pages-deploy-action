@@ -41,6 +41,8 @@ export interface ActionInterface {
     repositoryPath?: string;
     /** Wipes the commit history from the deployment branch in favor of a single commit. */
     singleCommit?: boolean | null;
+    /** Enables Git LFS support. */
+    lfs?: boolean | null;
     /** Determines if the action should run in silent mode or not. */
     silent: boolean;
     /** Defines an SSH private key that can be used during deployment. This can also be set to true to use SSH deployment endpoints if you've already configured the SSH client outside of this package. */
