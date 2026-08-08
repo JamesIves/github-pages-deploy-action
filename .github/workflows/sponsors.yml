@@ -2,7 +2,7 @@ name: Publish Sponsors to README 📣
 on:
   workflow_dispatch:
   schedule:
-    - cron: 30 15 * * 0-6
+    - cron: 30 15 * * 1,4
 
 permissions:
   contents: write
