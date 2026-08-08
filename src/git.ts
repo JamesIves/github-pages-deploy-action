@@ -152,11 +152,14 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       // Silently ignore chmod failures - they are non-critical and often occur with read-only folders
     }
 
-    // Ensures that items that need to be excluded from the clean job get parsed.
-    let excludes = ''
+    /* Ensures that items in clean-exclude are protected from the --delete clean up
+       pass without also blocking them from being synced. A plain --exclude would do
+       both, since rsync treats it as an exclusion from the whole transfer rather than
+       just the deletion pass. */
+    let cleanExcludeFilters = ''
     if (action.clean && action.cleanExclude) {
       for (const item of action.cleanExclude) {
-        excludes += `--exclude ${item} `
+        cleanExcludeFilters += `--filter "P ${item}" `
       }
     }
 
@@ -176,7 +179,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
           : temporaryDeploymentDirectory
       } ${
         action.clean
-          ? `--delete ${excludes} ${
+          ? `--delete ${cleanExcludeFilters} ${
               !fs.existsSync(
                 `${action.folderPath}/${DefaultExcludedFiles.CNAME}`
               )

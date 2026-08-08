@@ -373,6 +373,38 @@ describe('git', () => {
       expect(rmRF).toHaveBeenCalledTimes(1)
     })
 
+    it('should protect clean-exclude items from deletion without blocking them from being synced', async () => {
+      Object.assign(action, {
+        hostname: 'github.com',
+        silent: false,
+        folder: 'assets',
+        folderPath: 'assets',
+        branch: 'branch',
+        token: '123',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        clean: true,
+        cleanExclude: ['cat', 'montezuma'],
+        isTest: TestFlag.NONE
+      })
+
+      await deploy(action)
+
+      const rsyncCall = (execute as jest.Mock).mock.calls.find(args =>
+        (args[0] as string).startsWith('rsync')
+      )
+
+      // A protect filter keeps the item from being deleted during the --delete
+      // pass, but unlike --exclude it does not stop the item from being synced
+      // if a newer version exists in the source folder.
+      expect(rsyncCall[0]).toContain('--filter "P cat"')
+      expect(rsyncCall[0]).toContain('--filter "P montezuma"')
+      expect(rsyncCall[0]).not.toContain('--exclude cat')
+      expect(rsyncCall[0]).not.toContain('--exclude montezuma')
+    })
+
     it('should gracefully handle target folder', async () => {
       Object.assign(action, {
         hostname: 'github.com',
