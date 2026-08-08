@@ -9,9 +9,9 @@ When contributing to this repository, please first discuss the change you wish t
 2. Ensure your change passes all of the integration tests.
 3. Make sure you update the README if you've made a change that requires documentation.
 4. When making a pull request, highlight any areas that may cause a breaking change so the maintainer can update the version number accordingly on the GitHub marketplace and package registries.
-5. Make sure you've linted and formatted your code. You can do this by running `yarn lint` and `yarn lint:format`.
-6. Fix or add any tests where applicable. You can run `yarn test` to run the suite. As this action is small in scope it's important that a high level of test coverage is maintained. All tests are written using [Jest](https://jestjs.io/).
-7. As this package is written in [TypeScript](https://www.typescriptlang.org/) please ensure all typing is accurate and the action compiles correctly by running `yarn build`.
+5. Make sure you've linted and formatted your code. You can do this by running `npm run lint` and `npm run lint:format`.
+6. Fix or add any tests where applicable. You can run `npm test` to run the suite. As this action is small in scope it's important that a high level of test coverage is maintained. All tests are written using [Jest](https://jestjs.io/).
+7. As this package is written in [TypeScript](https://www.typescriptlang.org/) please ensure all typing is accurate and the action compiles correctly by running `npm run build`.
 
 ## Deploying 🚚
 
@@ -22,7 +22,7 @@ To do this you can follow the instructions below:
 Install the project:
 
 ```
-yarn install
+npm install
 ```
 
 Comment out the following in distribution branches:
@@ -35,7 +35,7 @@ Comment out the following in distribution branches:
 Build the project:
 
 ```
-yarn build
+npm run build
 ```
 
 Commit:

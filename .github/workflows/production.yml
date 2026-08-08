@@ -18,10 +18,6 @@ jobs:
       - uses: actions/setup-node@v7.0.0
         with:
           node-version-file: '.node-version'
-          registry-url: 'https://registry.npmjs.org'
-
-      - name: Install Yarn
-        run: npm install -g yarn
 
       - name: Clobber lib
         run: rm -rf lib
@@ -32,12 +28,12 @@ jobs:
 
       - name: Build
         run: |
-          yarn install --frozen-lockfile
-          yarn build
+          npm ci
+          npm run build
 
       - name: Install Production node_modules
         run: |
-          yarn install --production --frozen-lockfile
+          npm ci --omit=dev
 
       - name: Commit and Push
         # Keep the run green if the commit fails for the lack of changes

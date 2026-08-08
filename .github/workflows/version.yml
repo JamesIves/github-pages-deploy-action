@@ -39,11 +39,8 @@ jobs:
           git config user.email "iam@jamesiv.es"
           git config user.name "James Ives"
 
-      - name: Install Yarn
-        run: npm install -g yarn
-
-      - run: yarn install --frozen-lockfile
-      - run: yarn build
+      - run: npm ci
+      - run: npm run build
       - run: git stash
       - name: Set version to match the tag
         continue-on-error: true
