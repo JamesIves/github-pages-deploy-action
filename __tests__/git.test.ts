@@ -568,6 +568,64 @@ describe('git', () => {
       expect(response).toBe(Status.SUCCESS)
     })
 
+    it('should execute commands with lfs enabled', async () => {
+      Object.assign(action, {
+        hostname: 'github.com',
+        silent: false,
+        folder: 'assets',
+        branch: 'branch',
+        token: '123',
+        repositoryName: 'JamesIves/montezuma',
+        lfs: true,
+        tag: null,
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        isTest: TestFlag.HAS_CHANGED_FILES
+      })
+
+      const response = await deploy(action)
+
+      // Includes the calls to generateWorktree (git lfs install --local) and
+      // cleanup (git lfs uninstall --local)
+      expect(execute).toHaveBeenCalledTimes(17)
+      expect(rmRF).toHaveBeenCalledTimes(1)
+      expect(response).toBe(Status.SUCCESS)
+    })
+
+    it('should fail the deploy if git lfs install fails', async () => {
+      ;(execute as jest.Mock).mockImplementation((cmd: string) => {
+        if (cmd.includes('git lfs install')) {
+          throw new Error('git-lfs: command not found')
+        }
+        return {stdout: '', stderr: ''}
+      })
+
+      Object.assign(action, {
+        hostname: 'github.com',
+        silent: false,
+        folder: 'assets',
+        branch: 'branch',
+        token: '123',
+        repositoryName: 'JamesIves/montezuma',
+        lfs: true,
+        tag: null,
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        isTest: TestFlag.HAS_CHANGED_FILES
+      })
+
+      await expect(deploy(action)).rejects.toThrow(
+        'There was an error creating the worktree: git-lfs: command not found ❌'
+      )
+
+      // Restore the default mock so this override doesn't leak into later tests.
+      ;(execute as jest.Mock).mockImplementation(() => ({stdout: '', stderr: ''}))
+    })
+
     it('should silently handle chmod failures on read-only folders', async () => {
       let chmodCallCount = 0
       ;(execute as jest.Mock).mockImplementation((cmd: string) => {
