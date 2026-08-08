@@ -11,7 +11,6 @@ on:
           - patch
           - minor
           - major
-          - prerelease
 
 jobs:
   prepare:
@@ -91,13 +90,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.PAT }}
         run: |
-          EXTRA_FLAGS=()
-          if [ "${{ inputs.bump }}" == "prerelease" ]; then
-            EXTRA_FLAGS+=(--prerelease)
-          fi
-
           gh release create "v${{ needs.prepare.outputs.next-version }}" \
             --title "v${{ needs.prepare.outputs.next-version }}" \
             --target "${{ needs.prepare.outputs.target-branch }}" \
-            --generate-notes \
-            "${EXTRA_FLAGS[@]}"
+            --generate-notes
