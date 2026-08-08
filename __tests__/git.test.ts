@@ -76,6 +76,32 @@ describe('git', () => {
       }
     })
 
+    it('should throw the outer error when a later, unprotected execute call fails', async () => {
+      ;(execute as jest.Mock)
+        .mockImplementationOnce(() => ({stdout: '', stderr: ''})) // safe.directory (inner try/catch — succeeds)
+        .mockImplementationOnce(() => {
+          throw new Error('Mocked throw')
+        }) // git config user.name (unprotected)
+
+      Object.assign(action, {
+        hostname: 'github.com',
+        silent: false,
+        repositoryPath: 'JamesIves/github-pages-deploy-action',
+        token: '123',
+        branch: 'branch',
+        folder: '.',
+        pusher: {
+          name: 'asd',
+          email: 'as@cat'
+        },
+        isTest: TestFlag.HAS_CHANGED_FILES
+      })
+
+      await expect(init(action)).rejects.toThrow(
+        'There was an error initializing the repository: Mocked throw ❌'
+      )
+    })
+
     it('should correctly continue when it cannot unset a git config value', async () => {
       Object.assign(action, {
         hostname: 'github.com',
@@ -492,6 +518,50 @@ describe('git', () => {
       expect(chmodCallCount).toBe(2)
       // Verify deployment still succeeds despite chmod failures
       expect(response).toBe(Status.SUCCESS)
+    })
+
+    describe('push rejection handling', () => {
+      afterEach(() => {
+        ;(execute as jest.Mock).mockImplementation(() => ({
+          stdout: '',
+          stderr: ''
+        }))
+      })
+
+      it('should throw for a genuinely fatal push error when isTest is falsy', async () => {
+        ;(execute as jest.Mock).mockImplementation(async (cmd: string) => {
+          if (cmd.startsWith('git status --porcelain')) {
+            return {stdout: 'M assets/file.txt', stderr: ''}
+          }
+          if (cmd.startsWith('git push --porcelain')) {
+            return {
+              stdout: '',
+              stderr:
+                "fatal: unable to access 'https://github.com/JamesIves/montezuma.git/': Could not resolve host: github.com\n"
+            }
+          }
+          return {stdout: '', stderr: ''}
+        })
+
+        Object.assign(action, {
+          hostname: 'github.com',
+          silent: false,
+          folder: 'assets',
+          branch: 'branch',
+          force: false,
+          token: '123',
+          repositoryName: 'JamesIves/montezuma',
+          pusher: {
+            name: 'asd',
+            email: 'as@cat'
+          },
+          isTest: TestFlag.NONE
+        })
+
+        await expect(deploy(action)).rejects.toThrow(
+          "The deploy step encountered an error: fatal: unable to access 'https://github.com/JamesIves/montezuma.git/': Could not resolve host: github.com\n ❌"
+        )
+      })
     })
   })
 })
