@@ -90,11 +90,7 @@ export async function generateWorktree(
       checkout.orphan = true
     }
 
-    /* Preserved across retries below. A checkout failure (e.g. a branch name collision with
-       one that already exists locally, such as the workspace's own checked out branch) doesn't
-       change whether this checkout was supposed to be an orphan - if it did, falling through to
-       a non-orphan retry would silently carry the workspace's own commit history over into what
-       should be an unrelated, empty deployment branch. */
+    // Preserved across retries so a name-collision retry doesn't drop the orphan intent.
     const isOrphan = checkout.orphan
 
     try {

@@ -71,16 +71,7 @@ describe('generateWorktree', () => {
   })
 
   it('should preserve the orphan flag through both checkout retries (#1388)', async () => {
-    // Reproduces https://github.com/JamesIves/github-pages-deploy-action/issues/1388:
-    // deploying to a branch that doesn't exist yet (branchExists: false, so the first
-    // checkout attempt is meant to be an orphan) can fail if a local branch of that
-    // name already exists for an unrelated reason - e.g. it happens to share a name
-    // with the workspace's own checked out branch, since a worktree shares the local
-    // branch namespace with the main checkout. Before this fix, falling through to the
-    // final retry dropped the orphan flag, so `git checkout -B temp-X` (with no
-    // --orphan and no commitish) would silently create the new branch at the
-    // workspace's *current* HEAD - carrying the workspace's own commit history into
-    // what should be a brand new, unrelated deployment branch.
+    // See #1388 - a name-collision retry used to silently drop the orphan flag.
     ;(execute as jest.Mock)
       .mockImplementationOnce(() => ({stdout: '', stderr: ''})) // git worktree add
       .mockImplementationOnce(() => {
