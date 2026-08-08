@@ -623,7 +623,10 @@ describe('git', () => {
       )
 
       // Restore the default mock so this override doesn't leak into later tests.
-      ;(execute as jest.Mock).mockImplementation(() => ({stdout: '', stderr: ''}))
+      ;(execute as jest.Mock).mockImplementation(() => ({
+        stdout: '',
+        stderr: ''
+      }))
     })
 
     it('should silently handle chmod failures on read-only folders', async () => {
