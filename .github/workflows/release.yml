@@ -65,7 +65,25 @@ jobs:
         run: |
           git fetch origin ${{ steps.version.outputs.target-branch }}
           git checkout ${{ steps.version.outputs.target-branch }}
-          git merge origin/dev --no-edit
+
+          if ! git merge origin/dev --no-edit; then
+            CONFLICTS=$(git diff --name-only --diff-filter=U)
+
+            # production.yml always comments out lib/node_modules in .gitignore on release
+            # branches so the build output can be committed. This makes .gitignore permanently
+            # diverge from dev, so keep the release branch's version rather than failing here.
+            if [ "$CONFLICTS" = ".gitignore" ]; then
+              echo "Resolving expected .gitignore conflict in favor of the release branch..."
+              git checkout --ours .gitignore
+              git add .gitignore
+              git commit --no-edit
+            else
+              echo "::error::Unresolved merge conflicts outside of .gitignore, manual intervention required:"
+              echo "$CONFLICTS"
+              exit 1
+            fi
+          fi
+
           git push origin ${{ steps.version.outputs.target-branch }}
 
   build:
