@@ -1,7 +1,19 @@
 name: Integration Tests 🧪
 on:
   workflow_call:
+    inputs:
+      action-ref:
+        description: 'The github-pages-deploy-action ref (tag, branch, or SHA) to validate.'
+        required: false
+        type: string
+        default: 'v4'
   workflow_dispatch:
+    inputs:
+      action-ref:
+        description: 'The github-pages-deploy-action ref (tag, branch, or SHA) to validate.'
+        required: false
+        type: string
+        default: 'v4'
   schedule:
     - cron: 30 15 * * 0-6
 
@@ -19,8 +31,16 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
+          persist-credentials: false
+
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: ./action-under-test
         with:
           git-config-name: Montezuma
           git-config-email: montezuma@jamesiv.es
@@ -41,8 +61,16 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
+          persist-credentials: false
+
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: ./action-under-test
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
           folder: integration
@@ -66,8 +94,16 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
+          persist-credentials: false
+
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: ./action-under-test
         with:
           folder: integration
           target-folder: cat/montezuma2
@@ -95,12 +131,20 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
+          persist-credentials: false
+
       - name: Install rsync
         run: |
           apt-get update && apt-get install -y rsync
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: ./action-under-test
         with:
           folder: integration
           target-folder: cat/montezuma2
@@ -124,8 +168,16 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
+          persist-credentials: false
+
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: ./action-under-test
         with:
           ssh-key: ${{ secrets.DEPLOY_KEY }}
           folder: integration
@@ -150,13 +202,21 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
+          persist-credentials: false
+
       - name: Install SSH Client
         uses: webfactory/ssh-agent@v0.10.0
         with:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: ./action-under-test
         with:
           ssh-key: true
           folder: integration
@@ -180,12 +240,20 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
+          persist-credentials: false
+
       - uses: actions/setup-node@v7.0.0
         with:
           node-version-file: '.node-version'
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: ./action-under-test
         with:
           ssh-key: ${{ secrets.DEPLOY_KEY }}
           folder: integration
@@ -195,7 +263,7 @@ jobs:
           git-config-email: montezuma@jamesiv.es
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: ./action-under-test
         with:
           ssh-key: ${{ secrets.DEPLOY_KEY }}
           folder: integration
@@ -228,8 +296,16 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
+          persist-credentials: false
+
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: ./action-under-test
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
           folder: integration
@@ -248,8 +324,16 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
+          persist-credentials: false
+
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: ./action-under-test
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
           branch: integration-test-delete-prod
@@ -260,7 +344,7 @@ jobs:
           git-config-email: montezuma@jamesiv.es
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: ./action-under-test
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
           branch: integration-test-delete-prod
@@ -288,11 +372,19 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
+          persist-credentials: false
+
       - name: Create random file
         run: echo $RANDOM > integration/1
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: ./action-under-test
         with:
           git-config-name: Montezuma
           git-config-email: montezuma@jamesiv.es
@@ -312,11 +404,19 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
+          persist-credentials: false
+
       - name: Create random file
         run: echo $RANDOM > integration/2
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: ./action-under-test
         with:
           git-config-name: Montezuma
           git-config-email: montezuma@jamesiv.es
@@ -348,13 +448,21 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Checkout Action Under Test
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: JamesIves/github-pages-deploy-action
+          ref: ${{ inputs.action-ref || 'v4' }}
+          path: action-under-test
+          persist-credentials: false
+
       - name: Echo
         working-directory: integration
         run: |
           echo "Here"
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: ./action-under-test
         with:
           folder: .
           target-folder: cat/montezuma5

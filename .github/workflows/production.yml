@@ -44,3 +44,11 @@ jobs:
           git add .
           git commit -m "Deploy Production Code for Commit ${{ github.sha }} 🚀"
           git push
+
+  validate:
+    name: Validate Release Candidate 🧪
+    needs: build
+    secrets: inherit
+    uses: ./.github/workflows/integration.yml
+    with:
+      action-ref: ${{ github.ref_name }}
