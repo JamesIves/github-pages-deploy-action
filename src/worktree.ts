@@ -167,6 +167,16 @@ export async function generateWorktree(
     } catch {
       info('Unable to set worktree temp directory as a safe directory…')
     }
+
+    if (action.lfs) {
+      // Not swallowed: a silent failure here would mean large files get committed
+      // as regular blobs and fail confusingly at push time instead of failing here.
+      await execute(
+        `git lfs install --local`,
+        `${action.workspace}/${worktreedir}`,
+        action.silent
+      )
+    }
   } catch (error) {
     throw new Error(
       `There was an error creating the worktree: ${suppressSensitiveInformation(

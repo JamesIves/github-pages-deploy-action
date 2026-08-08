@@ -435,6 +435,11 @@ jobs:
     needs: [integration-rebase-conflicts-1, integration-rebase-conflicts-2]
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
       - name: Cleanup Generated Branch
         uses: ./.github/actions/delete-branch
         with:
