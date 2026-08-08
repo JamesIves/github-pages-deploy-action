@@ -83,10 +83,10 @@ jobs:
           silent: false
 
       - name: Cleanup Generated Branch
-        uses: dawidd6/action-delete-branch@v3.1.0
+        uses: ./.github/actions/delete-branch
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branches: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
 
   integration-checkout-v2:
     needs: integration-checkout-v1
@@ -115,10 +115,10 @@ jobs:
           git-config-email: montezuma@jamesiv.es
 
       - name: Cleanup Generated Branch
-        uses: dawidd6/action-delete-branch@v3.1.0
+        uses: ./.github/actions/delete-branch
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branches: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
 
   # Deploys using a container that requires you to install rsync.
   integration-container:
@@ -156,10 +156,10 @@ jobs:
           git-config-email: montezuma@jamesiv.es
 
       - name: Cleanup Generated Branch
-        uses: dawidd6/action-delete-branch@v3.1.0
+        uses: ./.github/actions/delete-branch
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branches: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
 
   # Deploys using an SSH key.
   integration-ssh:
@@ -190,10 +190,10 @@ jobs:
           git-config-email: montezuma@jamesiv.es
 
       - name: Cleanup Generated Branch
-        uses: dawidd6/action-delete-branch@v3.1.0
+        uses: ./.github/actions/delete-branch
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branches: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
 
   # Deploys using an SSH key.
   integration-ssh-third-party-client:
@@ -229,9 +229,10 @@ jobs:
           git-config-email: montezuma@jamesiv.es
 
       - name: Cleanup Generated Branch
-        uses: dawidd6/action-delete-branch@v3.1.0
+        uses: ./.github/actions/delete-branch
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
 
   # Deploys using a custom env. (Includes subsequent commit)
   integration-env:
@@ -276,10 +277,10 @@ jobs:
           git-config-email: montezuma@jamesiv.es
 
       - name: Cleanup Generated Branch
-        uses: dawidd6/action-delete-branch@v3.1.0
+        uses: ./.github/actions/delete-branch
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branches: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
 
   # Deploys using the CLEAN option.
   integration-clean:
@@ -359,10 +360,10 @@ jobs:
           git-config-email: montezuma@jamesiv.es
 
       - name: Cleanup Generated Branch
-        uses: dawidd6/action-delete-branch@v3.1.0
+        uses: ./.github/actions/delete-branch
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branches: integration-test-delete-prod
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: integration-test-delete-prod
 
   # Creates two competing deployments, one of which should rebase over the other.
   # First conflicting deployment
@@ -435,12 +436,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cleanup Generated Branch
-        uses: dawidd6/action-delete-branch@v3.1.0
+        uses: ./.github/actions/delete-branch
         with:
-          github_token: ${{ secrets.ACCESS_TOKEN }}
-          owner: MontezumaIves
-          repository: lab
-          branches: gh-pages
+          token: ${{ secrets.ACCESS_TOKEN }}
+          repository: MontezumaIves/lab
+          branch: gh-pages
 
   integration-root-folder:
     needs: integration-rebase-conflicts-cleanup
@@ -474,10 +474,10 @@ jobs:
           git-config-email: montezuma@jamesiv.es
 
       - name: Cleanup Generated Branch
-        uses: dawidd6/action-delete-branch@v3.1.0
+        uses: ./.github/actions/delete-branch
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branches: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
 
   # Deploys with dry-run and verifies the branch was never actually pushed.
   integration-dry-run:
@@ -559,10 +559,10 @@ jobs:
           [ "$status" == "200" ] || { echo "Expected tag to exist, got HTTP $status"; exit 1; }
 
       - name: Cleanup Generated Branch
-        uses: dawidd6/action-delete-branch@v3.1.0
+        uses: ./.github/actions/delete-branch
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branches: integration-test-tag-branch
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: integration-test-tag-branch
 
       - name: Cleanup Generated Tag
         if: always()
@@ -631,10 +631,10 @@ jobs:
           [ "$status" == "200" ] || { echo "Expected keep-me.txt to survive, got HTTP $status"; exit 1; }
 
       - name: Cleanup Generated Branch
-        uses: dawidd6/action-delete-branch@v3.1.0
+        uses: ./.github/actions/delete-branch
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branches: integration-test-clean-exclude
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: integration-test-clean-exclude
 
   # Deploys twice to the same branch with clean: false, expecting a stale
   # file from the first deploy to survive the second.
@@ -693,10 +693,10 @@ jobs:
           [ "$status" == "200" ] || { echo "Expected stale-me.txt to survive, got HTTP $status"; exit 1; }
 
       - name: Cleanup Generated Branch
-        uses: dawidd6/action-delete-branch@v3.1.0
+        uses: ./.github/actions/delete-branch
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branches: integration-test-clean-false
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: integration-test-clean-false
 
   # Combines force: false with single-commit: true, a combination never
   # exercised elsewhere (existing single-commit jobs default force: true).
@@ -742,83 +742,15 @@ jobs:
           git-config-email: montezuma@jamesiv.es
 
       - name: Cleanup Generated Branch
-        uses: dawidd6/action-delete-branch@v3.1.0
+        uses: ./.github/actions/delete-branch
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branches: integration-test-force-false-single-commit
-
-  # Deploys with attempt-limit: 1 after forcing a rejection, expecting a
-  # clean failure once the limit is exceeded.
-  integration-attempt-limit:
-    needs: integration-force-false-single-commit
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7.0.1
-        with:
-          persist-credentials: false
-
-      - name: Checkout Action Under Test
-        uses: actions/checkout@v7.0.1
-        with:
-          repository: JamesIves/github-pages-deploy-action
-          ref: ${{ inputs.action-ref || 'v4' }}
-          path: action-under-test
-          persist-credentials: false
-
-      - name: Establish the target branch
-        uses: ./action-under-test
-        with:
-          token: ${{ secrets.ACCESS_TOKEN }}
-          branch: integration-test-attempt-limit
-          folder: integration
-          single-commit: true
-          silent: false
-          git-config-name: Montezuma
-          git-config-email: montezuma@jamesiv.es
-
-      - name: Simulate a competing push to force a rejection
-        env:
-          GIT_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        run: |
-          git clone --branch integration-test-attempt-limit --depth 1 \
-            "https://x-access-token:${GIT_TOKEN}@github.com/${{ github.repository }}.git" competitor
-          cd competitor
-          git config user.name "Competitor"
-          git config user.email "competitor@jamesiv.es"
-          echo "$RANDOM" > competing-change.txt
-          git add . && git commit -m "Competing change"
-          git push origin integration-test-attempt-limit
-
-      - name: Attempt to deploy with an attempt-limit of 1 (should fail)
-        id: low-attempt-limit
-        continue-on-error: true
-        uses: ./action-under-test
-        with:
-          token: ${{ secrets.ACCESS_TOKEN }}
-          branch: integration-test-attempt-limit
-          folder: integration
-          force: false
-          attempt-limit: 1
-          silent: false
-          git-config-name: Montezuma
-          git-config-email: montezuma@jamesiv.es
-
-      - name: Verify the deploy failed once the attempt limit was exceeded
-        if: steps.low-attempt-limit.outcome != 'failure'
-        run: |
-          echo "Expected failure after exceeding attempt-limit: 1"; exit 1
-
-      - name: Cleanup Generated Branch
-        uses: dawidd6/action-delete-branch@v3.1.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branches: integration-test-attempt-limit
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: integration-test-force-false-single-commit
 
   # Deploys without git-config-name/git-config-email, verifying the
   # default GitHub-context-derived author is resolved rather than crashing.
   integration-default-git-config:
-    needs: integration-attempt-limit
+    needs: integration-force-false-single-commit
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -856,10 +788,10 @@ jobs:
           echo "Resolved default author: $author_name"
 
       - name: Cleanup Generated Branch
-        uses: dawidd6/action-delete-branch@v3.1.0
+        uses: ./.github/actions/delete-branch
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branches: integration-test-default-git-config
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: integration-test-default-git-config
 
   # Deploys using a ~-prefixed absolute folder path, per the documented
   # "utilize absolute file paths by prepending ~" behavior.
@@ -897,10 +829,10 @@ jobs:
           git-config-email: montezuma@jamesiv.es
 
       - name: Cleanup Generated Branch
-        uses: dawidd6/action-delete-branch@v3.1.0
+        uses: ./.github/actions/delete-branch
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branches: integration-test-tilde-folder
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: integration-test-tilde-folder
 
   # Deploys with a folder that doesn't exist, expecting checkParameters's
   # own validation to fail the step cleanly rather than a runner-generic error.

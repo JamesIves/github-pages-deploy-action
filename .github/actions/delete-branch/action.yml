@@ -1,0 +1,24 @@
+name: 'Delete Branch'
+description: 'Deletes a branch via the GitHub API.'
+inputs:
+  branch:
+    description: 'The branch to delete.'
+    required: true
+  token:
+    description: 'The token to authenticate with. Needs write access to the target repository.'
+    required: true
+  repository:
+    description: 'The owner/repo to delete the branch from. Defaults to the current repository.'
+    required: false
+runs:
+  using: 'composite'
+  steps:
+    - name: Delete branch
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.token }}
+        REPOSITORY: ${{ inputs.repository || github.repository }}
+        BRANCH: ${{ inputs.branch }}
+      run: |
+        gh api -X DELETE "repos/${REPOSITORY}/git/refs/heads/${BRANCH}" \
+          || echo "Branch '${BRANCH}' was already deleted or never existed, continuing…"
