@@ -15,11 +15,11 @@ jobs:
     if: github.event.pull_request.merged == false
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Assign Labels 🏷️
         id: action-assign-labels
-        uses: mauroalderete/action-assign-labels@v1.5.1
+        uses: mauroalderete/action-assign-labels@671a4ca2da0f900464c58b8b5540a1e07133e915 # v1.5.1
         with:
           pull-request-number: ${{ github.event.pull_request.number }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
